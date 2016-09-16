@@ -16,8 +16,11 @@ public class Server {
 		ConsoleWindow window = new ConsoleWindow();
 		window.setVisible(true);
 
+		//Start the game
+		Game game = new Game();
+
 		//Start the game tick
-		Tick tick = new Tick(new Game());
+		Tick tick = new Tick(game);
 		tick.start();
 
 		//A list of all the connections to clients
@@ -32,7 +35,7 @@ public class Server {
 					//wait until a new client connects
 					Socket s = ss.accept();
 					//create and run a master for that client
-					Master m = new Master(s, uid++);
+					Master m = new Master(s, uid++, game);
 					connections.add(m);
 					m.start();
 				} catch (IOException e) {
