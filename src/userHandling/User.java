@@ -1,11 +1,18 @@
 package userHandling;
 
+/**
+ * A class representing a registered user.
+ *
+ * @author Aden
+ *
+ */
+
 public class User {
 
-	private int id;
-	private String username;
+	private int id; //Unique identifier of the user.
+	private String username; //Username of user.
 
-	private String hash;
+	private String hash; //Stored hash.
 
 	public User(String username, String hash) {
 		//this.id = id;
