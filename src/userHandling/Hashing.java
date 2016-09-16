@@ -26,6 +26,8 @@ public class Hashing {
 	private static final int SALT_BYTE_SIZE = 32;
 	public static final int HASH_BYTE_SIZE = 32;
 	public static final int PBKDF2_ITERATIONS = 64000;
+	
+	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
 	private Hashing() { //This should never be initialised.
 
@@ -50,13 +52,13 @@ public class Hashing {
 		password = null; //Let password get garbage collected.
 
 		return toBase64(salt) + ":" + toBase64(hash); //Convert hash and salt to one string.
-		//The colon seperates the salt and hash for password checking.
+		//The colon separates the salt and hash for password checking.
 	}
 
 	private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
 		try {
 			PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
-			SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
 			return skf.generateSecret(spec).getEncoded();
 		}
 
@@ -92,7 +94,7 @@ public class Hashing {
      */
 
     public static boolean verifyPassword(String password, String correctHash) {
-    	return verifyPassword(password.toCharArray(), correctHash);
+    	return verifyPassword(password.toCharArray(), correctHash); //Call overloaded method.
     }
 
     /**

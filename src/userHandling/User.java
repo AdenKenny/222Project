@@ -20,7 +20,7 @@ public class User {
 	}
 
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(long id) {
@@ -28,7 +28,7 @@ public class User {
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -36,11 +36,16 @@ public class User {
 	}
 
 	public String getHash() {
-		return hash;
+		return this.hash;
 	}
 
 	public void setHash(String hash) {
 		this.hash = hash;
+	}
+	
+	@Override
+	public String toString() { //This will be what is stored in the database.
+		return this.id + " " + this.username + " " + this.hash;
 	}
 
 }
