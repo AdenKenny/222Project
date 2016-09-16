@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import userHandling.Hashing;
-
 public class Client extends Thread {
 
 	private Socket socket;
