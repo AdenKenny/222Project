@@ -18,6 +18,7 @@ public class Verification {
 			User user = Register.getUser(username);
 			
 			if(Hashing.verifyPassword(password, user.getHash())) { //Correct password.
+				password = null;
 				return true;
 			}
 			
@@ -25,6 +26,7 @@ public class Verification {
 				//TODO Error message for wrong password.
 			}
 			
+			password = null;
 		}
 		
 		else { //No user registered with this username.
