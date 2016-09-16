@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Slave extends Thread {
+public class Client extends Thread {
 	
 	private Socket socket;
 	
-	private Slave() {
+	private Client() {
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
 		} catch (UnknownHostException e) {
@@ -33,7 +33,7 @@ public class Slave extends Thread {
 	}
 
 	public static void main(String[] args) {
-		new Slave();
+		new Client();
 	}
 
 }
