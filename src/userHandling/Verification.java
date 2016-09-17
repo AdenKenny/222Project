@@ -6,10 +6,10 @@ package userHandling;
  * @author Aden
  */
 
-public class Verification {
+public final class Verification {
 
 	private Verification() {
-		
+		throw new AssertionError();
 	}
 	
 	public static boolean login(String username, String password) { 
@@ -30,7 +30,7 @@ public class Verification {
 		}
 		
 		else { //No user registered with this username.
-			System.out.println("This isn't a user");//TODO Error message to server.
+			System.out.println("This isn't a user"); //TODO Error message to server.
 		}
  		
 		return false;
