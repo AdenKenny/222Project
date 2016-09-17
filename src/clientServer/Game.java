@@ -1,29 +1,47 @@
 package clientServer;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
+import userHandling.User;
 
 public class Game {
 
-	private final Map<Long, Long> connectedCharacters;
+	private final Set<User> allUsers;
+	private final Map<Long, User> connectedUsers;
 
 	public Game() {
-		connectedCharacters = new HashMap();
+		this.allUsers = new HashSet<>();
+		this.connectedUsers = new HashMap<>();
 	}
 
 	public synchronized void tick() {
 
 	}
 
-	public void registerConnection(long uid, long cid) {
-		connectedCharacters.put(uid, cid);
+	public void registerConnection(long uid, long id) {
+		for (User user : allUsers) {
+			if (user.getId() == id) {
+				connectedUsers.put(uid, user);
+			}
+		}
 	}
 
 	public byte[] toByteArray(long uid) {
 		//get the character of the user
-		long cid = connectedCharacters.get(uid);
+		User user = connectedUsers.get(uid);
 		//TODO placeholder
 		byte[] data = new byte[0];
 		return data;
+	}
+	
+	public Set<User> getConnectedUsers() {
+		return this.allUsers;
+	}
+	
+	public Set<User> getUsers() {
+		return (Set<User>) this.connectedUsers.values();
 	}
 }
