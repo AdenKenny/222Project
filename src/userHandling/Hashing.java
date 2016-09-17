@@ -16,7 +16,7 @@ import javax.xml.bind.DatatypeConverter;
  * @author Aden
  */
 
-public class Hashing {
+public final class Hashing {
 
 	/*These values can be increased for potentially more secure hashes and decreased
 	 * performance or decreased for potentially less secure hashes and increased
@@ -24,18 +24,18 @@ public class Hashing {
 	*/
 
 	private static final int SALT_BYTE_SIZE = 32;
-	public static final int HASH_BYTE_SIZE = 32;
-	public static final int PBKDF2_ITERATIONS = 64000;
+	private static final int HASH_BYTE_SIZE = 32;
+	private static final int PBKDF2_ITERATIONS = 64000;
 	
 	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
 	private Hashing() { //This should never be initialised.
-
+		throw new AssertionError();
 	}
 
 	/**
 	 * Method that takes a char array of a user's password and creates hash and salt of
-	 * the password. Uses pbfkf2 with 64000 iterations and salt and hash sizes of 32 bytes.
+	 * the password. Uses PBKDF2 with 64000 iterations and salt and hash sizes of 32 bytes.
 	 *
 	 * @param password The users password.
 	 * @return The hash.
@@ -118,7 +118,7 @@ public class Hashing {
         byte[] salt = fromBase64(params[0]); //Convert to byte arrays.
         byte[] hash = fromBase64(params[1]);
 
-        byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length); //Hash pw.
+        byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length); //Hash password.
 
         return slowEquals(hash, testHash); //Return equality of the hashes.
     }

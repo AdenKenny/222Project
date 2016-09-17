@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 public class Client extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
-
+	
 	private Socket socket;
 
 	private Client() {
@@ -29,10 +29,10 @@ public class Client extends Thread {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 
 			boolean exit = false;
-			while(!exit) {
-				//the size of the packet received
+			while (!exit) {
+				// the size of the packet received
 				int amount = input.readInt();
-				//create array and fill with received data
+				// create array and fill with received data
 				byte[] data = new byte[amount];
 				input.readFully(data);
 				Thread.sleep(BROADCAST_CLOCK);
@@ -45,5 +45,8 @@ public class Client extends Thread {
 		}
 	}
 
+	public static void main(String[] args) {
+		new Client();
+	}
 
 }

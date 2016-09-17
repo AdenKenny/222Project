@@ -14,18 +14,18 @@ import java.util.Scanner;
  * @author Aden
  */
 
-public class Register {
+public final class Register {
 
-	private static final File DB_FILE = new File("database/db.txt");
+	private static final File DB_FILE = new File("database/db.txt"); //The file representing the database.
 
-	private static final int ID_POSITION = 0; // Positions of the details in the db string.
+	private static final int ID_POSITION = 0; // Positions of the details in the database string.
 	private static final int USERNAME_POSITION = 1;
 	private static final int HASH_POSITION = 2;
 
-	private static long currentID = 0;
+	private static long currentID = 0; //The max id currently assigned.
 
 	private Register() { // This shouldn't be initialised.
-
+		throw new AssertionError();
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class Register {
 		}
 
 		finally {
-			if (scan != null) {
+			if (scan != null) { //Make sure scan isn't null.
 				scan.close();
 			}
 		}
