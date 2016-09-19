@@ -22,16 +22,16 @@ public class Game {
 	}
 
 	public void registerConnection(long uid, long id) {
-		for (User user : allUsers) {
+		for (User user : this.allUsers) {
 			if (user.getId() == id) {
-				connectedUsers.put(uid, user);
+				this.connectedUsers.put(uid, user);
 			}
 		}
 	}
 
 	public byte[] toByteArray(long uid) {
 		//get the character of the user
-		User user = connectedUsers.get(uid);
+		User user = this.connectedUsers.get(uid);
 		//TODO placeholder
 		byte[] data = new byte[0];
 		return data;

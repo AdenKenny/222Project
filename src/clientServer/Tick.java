@@ -10,12 +10,13 @@ public class Tick extends Thread {
 		this.game = game;
 	}
 	
+	@Override
 	public void run() {
-		while(1 == 1) {
+		while(true) {
 			// Loop forever			
 			try {
 				Thread.sleep(delay);
-				game.tick();
+				this.game.tick();
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}			
