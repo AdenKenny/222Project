@@ -2,38 +2,87 @@ package gameWorld;
 
 import java.util.List;
 
+import gameWorld.World.Direction;
+
 public abstract class Entity {
 	private Location location;
-	
-	private List<String> actions;
 	
 	private String name;
 	private String description;
 	
-	public Entity(Location location, List<String> actions, String name, String description) {
+	private Direction facing;
+	
+	/**
+	 * Constructs an Entity at the given Location,
+	 * with the given name and description, facing in
+	 * the given Direction.
+	 * 
+	 * @param location
+	 * @param actions
+	 * @param name
+	 * @param description
+	 * @param facing
+	 */
+	public Entity(Location location, String name, String description, Direction facing) {
 		this.location = location;
-		
-		this.actions = actions;
 		
 		this.name = name;
 		this.description = name;
+		
+		this.facing = (facing == null) ? Direction.NORTH : facing;
 	}
 	
+	/**
+	 * Returns the Location of this Entity.
+	 * 
+	 * @return	the current Location
+	 */
 	public Location location() {
 		return location;
 	}
 	
+	/**
+	 * Returns the name of this Entity.
+	 * 
+	 * @return	the name
+	 */
 	public String name() {
 		return name;
 	}
 	
+	/**
+	 * Returns the description of this Entity.
+	 * 
+	 * @return	the description
+	 */
 	public String description() {
 		return description;
 	}
 	
-	public List<String> actions() {
-		return actions;
+	/**
+	 * Returns the Direction this Entity is facing.
+	 * 
+	 * @return	the Direction
+	 */
+	public Direction facing() {
+		return facing;
 	}
 	
+	/**
+	 * Returns the actions that may be performed on this
+	 * Entity.
+	 * 
+	 * @return	the List of actions
+	 */
+	public abstract List<String> actions();
+	
+	/**
+	 * Attempts to perform the specified action on this Entity.
+	 * Will fail if the specified action cannot be found in the
+	 * List of actions that may be performed on this Entity.
+	 * 
+	 * @param action
+	 * @return	whether the action succeeded or not
+	 */
 	public abstract boolean performAction(String action);
 }

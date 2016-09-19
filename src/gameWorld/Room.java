@@ -1,12 +1,12 @@
 package gameWorld;
 
+import java.util.HashMap;
+import gameWorld.World.Direction;
+
 public class Room {
 	private Floor floor;
 	
-	private Room north;
-	private Room east;
-	private Room south;
-	private Room west;
+	private HashMap<Direction, Room> neighbours;
 	
 	private Location[][] locations;
 	
@@ -16,13 +16,20 @@ public class Room {
 	private int width;
 	private int depth;
 	
+	/**
+	 * Constructs a Room containing a grid of Locations which has
+	 * the specified width and depth.
+	 * 
+	 * @param floor
+	 * @param xPos
+	 * @param yPos
+	 * @param width
+	 * @param depth
+	 */
 	public Room(Floor floor, int xPos, int yPos, int width, int depth) {
 		this.floor = floor;
 		
-		north = null;
-		east = null;
-		south = null;
-		west = null;
+		this.neighbours = new HashMap<Direction, Room>();
 		
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -43,58 +50,79 @@ public class Room {
 		}
 	}
 	
+	/**
+	 * Returns the Floor that this Room is situated on.
+	 * 
+	 * @return	this Room's Floor
+	 */
 	public Floor floor() {
 		return floor;
 	}
 	
-	public Room north() {
-		return north;
+	/**
+	 * Returns the Room immediately adjacent to this Room in the
+	 * specified Direction.
+	 * 
+	 * @param direction
+	 * @return	the Room in the Direction specified
+	 */
+	public Room neighbour(Direction direction) {
+		return neighbours.get(direction);
 	}
 	
-	public void setNorth(Room north) {
-		this.north = north;
+	/**
+	 * Sets the neighbouring Room in the specified Direction to
+	 * neighbour.
+	 * 
+	 * @param direction
+	 * @param neighbour
+	 */
+	public void setNeighbour(Direction direction, Room neighbour) {
+		neighbours.put(direction, neighbour);
 	}
 	
-	public Room east() {
-		return east;
-	}
-	
-	public void setEast(Room east) {
-		this.east = east;
-	}
-	
-	public Room south() {
-		return south;
-	}
-	
-	public void setSouth(Room south) {
-		this.south = south;
-	}
-	
-	public Room west() {
-		return west;
-	}
-	
-	public void setWest(Room west) {
-		this.west = west;
-	}
-	
+	/**
+	 * Returns the grid of Locations as a 2D array of Locations,
+	 * with depth x width Locations.
+	 * 
+	 * @return	the Locations in this Room
+	 */
 	public Location[][] locations() {
 		return locations;
 	}
 	
+	/**
+	 * Returns the x position (that is, width-wise) of this Room on this Floor.
+	 * 
+	 * @return	the x position in the Floor grid
+	 */
 	public int xPos() {
 		return xPos;
 	}
 	
+	/**
+	 * Returns the y position (that is, depth-wise) of this Room on this Floor.
+	 * 
+	 * @return	the y position in the Floor grid
+	 */
 	public int yPos() {
 		return yPos;
 	}
 	
+	/**
+	 * Returns the width of this Room, in Locations.
+	 * 
+	 * @return	the width of this Room
+	 */
 	public int width() {
 		return width;
 	}
 	
+	/**
+	 * Returns the depth of this Room, in Locations.
+	 * 
+	 * @return	the depth of this Room
+	 */
 	public int depth() {
 		return depth;
 	}
