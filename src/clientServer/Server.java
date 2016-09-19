@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import dataStorage.CreateXML;
-import dataStorage.GetData;
+import dataStorage.DataGetter;
 
 public class Server {
 
@@ -28,7 +28,7 @@ public class Server {
 		Tick tick = new Tick(this.game);
 		tick.start();
 		
-		new CreateXML();
+		new CreateXML("base");
 
 		//A list of all the connections to clients
 		ArrayList<Master> connections = new ArrayList<>();
@@ -56,7 +56,7 @@ public class Server {
 	}
 	
 	public void saveGame() {
-		GetData d = new GetData(this.game);
+		DataGetter d = new DataGetter(this.game);
 	}
 
 	public static void main(String[] args) {
