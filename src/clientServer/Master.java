@@ -35,6 +35,19 @@ public class Master extends Thread {
 					//create array and fill with received data
 					byte[] received = new byte[amount];
 					input.readFully(received);
+
+					if (inGame) {
+						this.game.readInput(this.uid, received);
+					}
+					else {
+						if (this.game.login(this.uid, received)) {
+							inGame = true;
+							//TODO send confirmation
+						}
+						else {
+							//TODO send failure
+						}
+					}
 				}
 				if (inGame) {
 					//send game information
@@ -48,7 +61,7 @@ public class Master extends Thread {
 			}
 			this.socket.close();
 		} catch(IOException e) {
-			System.out.println(e);
+			System.out.println("User " + this.uid + " disconnected.");
 		} catch (InterruptedException e) {
 			System.out.println(e);
 		}

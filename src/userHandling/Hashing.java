@@ -26,7 +26,7 @@ public final class Hashing {
 	private static final int SALT_BYTE_SIZE = 32;
 	private static final int HASH_BYTE_SIZE = 32;
 	private static final int PBKDF2_ITERATIONS = 64000;
-	
+
 	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
 	private Hashing() { //This should never be initialised.
@@ -41,7 +41,7 @@ public final class Hashing {
 	 * @return The hash.
 	 */
 
-	static String createHash(char[] password) {
+	public static String createHash(char[] password) {
 
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_BYTE_SIZE];

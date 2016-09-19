@@ -29,6 +29,26 @@ public class Game {
 		}
 	}
 
+	public boolean login(long uid, byte[] input) {
+		String user = "";
+		String password = "";
+		int i = 0;
+		byte b;
+		while ((b = input[i++]) != 0) {
+			user += (char)b;
+		}
+		while ((b = input[i++]) != 0) {
+			password += (char)b;
+		}
+		System.out.println(user);
+		System.out.println(password);
+		return false;
+	}
+
+	public void readInput(long uid, byte[] input) {
+		//TODO
+	}
+
 	public byte[] toByteArray(long uid) {
 		//get the character of the user
 		User user = connectedUsers.get(uid);
@@ -36,11 +56,11 @@ public class Game {
 		byte[] data = new byte[0];
 		return data;
 	}
-	
+
 	public Set<User> getConnectedUsers() {
 		return this.allUsers;
 	}
-	
+
 	public Set<User> getUsers() {
 		return (Set<User>) this.connectedUsers.values();
 	}
