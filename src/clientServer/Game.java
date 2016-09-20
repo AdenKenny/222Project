@@ -1,8 +1,9 @@
 package clientServer;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import userHandling.User;
@@ -24,13 +25,13 @@ public class Game {
 	}
 
 	public void readInput(long uid, byte[] input) {
-		//TODO
+		// TODO
 	}
 
 	public byte[] toByteArray(long uid) {
-		//get the character of the user
+		// get the character of the user
 		User user = this.connectedUsers.get(uid);
-		//TODO placeholder
+		// TODO placeholder
 		byte[] data = new byte[0];
 		return data;
 	}
@@ -38,9 +39,14 @@ public class Game {
 	public boolean userOnline(User user) {
 		return this.connectedUsers.containsValue(user);
 	}
-	
+
 	public Set<User> getAllUsers() {
-		Collection<User> set = connectedUsers.values();
-		return (Set<User>) set;
+		Set<User> set = new HashSet<>();
+
+		for (Entry<Long, User> entry : this.connectedUsers.entrySet()) {
+			set.add(entry.getValue()); // Add the value of the key value pair.
+		}
+
+		return set;
 	}
-}
+}
