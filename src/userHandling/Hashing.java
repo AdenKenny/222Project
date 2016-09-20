@@ -26,7 +26,10 @@ public final class Hashing {
 	private static final int SALT_BYTE_SIZE = 32;
 	private static final int HASH_BYTE_SIZE = 32;
 	private static final int PBKDF2_ITERATIONS = 64000;
-
+	
+	private static final int SALT_POSITION = 0;
+	private static final int HASH_POSITION = 1;
+	
 	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
 	private Hashing() { //This should never be initialised.
@@ -115,8 +118,8 @@ public final class Hashing {
 
         String[] params = correctHash.split(":"); //Split the hash and salt.
 
-        byte[] salt = fromBase64(params[0]); //Convert to byte arrays.
-        byte[] hash = fromBase64(params[1]);
+        byte[] salt = fromBase64(params[SALT_POSITION]); //Convert to byte arrays.
+        byte[] hash = fromBase64(params[HASH_POSITION]);
 
         byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length); //Hash password.
 
