@@ -1,6 +1,10 @@
 package clientServer;
 
 public final class PackageCode {
+	private PackageCode() {
+		throw new AssertionError();
+	}
+	
 	public static final byte BREAK = 0;
 	public static final byte LOGIN_ATTEMPT = 1;
 	public static final byte LOGIN_RESULT = 2;
