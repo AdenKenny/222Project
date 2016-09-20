@@ -1,7 +1,5 @@
 package gameWorld.characters;
 
-import java.util.List;
-
 import gameWorld.Entity;
 import gameWorld.Location;
 import gameWorld.World.Direction;
@@ -11,12 +9,6 @@ public abstract class Character extends Entity {
 	public Character(Location location, String name, String description, Direction facing) {
 		super(location, name, description, facing);
 	}
-
-	@Override
-	public abstract List<String> actions();
-
-	@Override
-	public abstract boolean performAction(String action);
 	
 	public void move(Direction dir) {
 		location.room().move(this, dir);

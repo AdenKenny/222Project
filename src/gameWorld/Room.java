@@ -2,7 +2,6 @@ package gameWorld;
 
 import java.util.HashMap;
 import gameWorld.World.Direction;
-import gameWorld.characters.Character;
 
 public class Room {
 	private Floor floor;

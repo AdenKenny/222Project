@@ -94,4 +94,8 @@ public abstract class Entity {
 	 * @return	whether the action succeeded or not
 	 */
 	public abstract boolean performAction(String action);
+	
+	protected abstract String methodToAction(String methodName);
+	
+	protected abstract String actionToMethod(String action);
 }
