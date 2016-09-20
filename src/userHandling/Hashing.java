@@ -44,7 +44,7 @@ public final class Hashing {
 	 * @return The hash.
 	 */
 
-	static String createHash(char[] password) {
+	public static String createHash(char[] password) {
 
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_BYTE_SIZE];

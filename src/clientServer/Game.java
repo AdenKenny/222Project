@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import userHandling.User;
+import userHandling.Verification;
 
 public class Game {
 
@@ -14,6 +15,7 @@ public class Game {
 
 	public Game() {
 		this.allUsers = new HashSet<>();
+		//TODO load users from database and add to allUsers
 		this.connectedUsers = new HashMap<>();
 	}
 
@@ -21,12 +23,16 @@ public class Game {
 
 	}
 
-	public void registerConnection(long uid, long id) {
-		for (User user : this.allUsers) {
-			if (user.getId() == id) {
-				this.connectedUsers.put(uid, user);
-			}
-		}
+	public void registerConnection(long uid, User user) {
+		connectedUsers.put(uid, user);
+	}
+
+	public void addUser(User user) {
+		allUsers.add(user);
+	}
+
+	public void readInput(long uid, byte[] input) {
+		//TODO
 	}
 
 	public byte[] toByteArray(long uid) {
@@ -36,12 +42,12 @@ public class Game {
 		byte[] data = new byte[0];
 		return data;
 	}
-	
+
 	public Set<User> getConnectedUsers() {
 		return this.allUsers;
 	}
-	
+
 	public Set<User> getUsers() {
 		return (Set<User>) this.connectedUsers.values();
 	}
-}
+}

@@ -5,6 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import userHandling.Register;
+import userHandling.User;
+import userHandling.Verification;
+
 public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
@@ -13,6 +17,7 @@ public class Master extends Thread {
 	private final long uid;
 	private final Game game;
 	private boolean inGame;
+	private DataOutputStream output;
 
 	public Master(Socket socket, long uid, Game game) {
 		this.socket = socket;
@@ -25,7 +30,7 @@ public class Master extends Thread {
 		System.out.println("User " + this.uid + " connected.");
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
-			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			this.output = new DataOutputStream(socket.getOutputStream());
 
 			boolean exit = false;
 			while (!exit) {
@@ -36,22 +41,92 @@ public class Master extends Thread {
 					//create array and fill with received data
 					byte[] received = new byte[amount];
 					input.readFully(received);
+
+					if (inGame) {
+						this.game.readInput(this.uid, received);
+					}
+					else {
+						if (received[0] == PackageCode.LOGIN_ATTEMPT) {
+							String username = "";
+							String password = "";
+							int i = 0;
+							byte b;
+							while ((b = received[i++]) != PackageCode.BREAK) {
+								username += (char)b;
+							}
+							while ((b = received[i++]) < received.length) {
+								password += (char)b;
+							}
+							byte[] loginResult = new byte[2];
+							loginResult[0] = PackageCode.LOGIN_RESULT;
+							if (!Register.userExists(username)) {
+								loginResult[1] = PackageCode.LOGIN_INCORRECT_USER;
+							}
+							else {
+								User user = Verification.login(username, password);
+								if (user == null) {
+									loginResult[1] = PackageCode.LOGIN_INCORRECT_PASSWORD;
+								}
+								else {
+									this.game.registerConnection(uid, user);
+									this.inGame = true;
+									loginResult[1] = PackageCode.LOGIN_SUCCESS;
+								}
+							}
+							send(loginResult);
+						}
+						else if (received[0] == PackageCode.NEW_USER_ATTEMPT) {
+							String username = "";
+							String password = "";
+							int i = 0;
+							byte b;
+							while ((b = received[i++]) != PackageCode.BREAK) {
+								username += (char)b;
+							}
+							while ((b = received[i++]) < received.length) {
+								password += (char)b;
+							}
+							byte[] newUserResult = new byte[2];
+							newUserResult[0] = PackageCode.NEW_USER_RESULT;
+							User user = Register.createUser(username, password);
+							if (user == null) {
+								newUserResult[1] = PackageCode.NEW_USER_NAME_TAKEN;
+							}
+							else {
+								this.game.addUser(user);
+								this.game.registerConnection(uid, user);
+								this.inGame = true;
+								newUserResult[1] = PackageCode.NEW_USER_SUCCESS;
+							}
+							send(newUserResult);
+						}
+					}
 				}
 				if (inGame) {
 					//send game information
-					byte[] data = this.game.toByteArray(this.uid);
-					output.writeInt(data.length);
-					output.write(data);
-					output.flush();
+					send(this.game.toByteArray(this.uid));
 				}
 				//sleep
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 			this.socket.close();
 		} catch(IOException e) {
-			System.out.println(e);
+			System.out.println("User " + this.uid + " disconnected.");
 		} catch (InterruptedException e) {
 			System.out.println(e);
+		}
+	}
+
+	public void send(byte[] toSend) {
+		try {
+			while(this.output.size() != 0) {
+				//wait for any other sending to occur
+			}
+			this.output.writeInt(toSend.length);
+			this.output.write(toSend);
+			this.output.flush();
+		} catch (IOException e) {
+			System.out.println("Sending error");
 		}
 	}
 
