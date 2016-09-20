@@ -37,7 +37,7 @@ public class Game {
 
 	public byte[] toByteArray(long uid) {
 		//get the character of the user
-		User user = connectedUsers.get(uid);
+		User user = this.connectedUsers.get(uid);
 		//TODO placeholder
 		byte[] data = new byte[0];
 		return data;
@@ -50,4 +50,4 @@ public class Game {
 	public Set<User> getUsers() {
 		return (Set<User>) this.connectedUsers.values();
 	}
-}
+}

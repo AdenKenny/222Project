@@ -25,6 +25,7 @@ public class Master extends Thread {
 		this.game = game;
 	}
 
+	@Override
 	public void run() {
 		System.out.println("User " + this.uid + " connected.");
 		try {
