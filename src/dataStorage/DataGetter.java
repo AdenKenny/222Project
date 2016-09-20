@@ -10,7 +10,7 @@ public class DataGetter {
 	protected static Set<User> users;
 
 	public DataGetter(Game game) {
-		DataGetter.users = game.getUsers();
+		DataGetter.users = game.getAllUsers();
 	}
 
 	protected static Set<User> getUsers() {

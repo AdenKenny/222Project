@@ -1,12 +1,11 @@
 package clientServer;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import userHandling.User;
-import userHandling.Verification;
 
 public class Game {
 
@@ -21,7 +20,7 @@ public class Game {
 	}
 
 	public void registerConnection(long uid, User user) {
-		connectedUsers.put(uid, user);
+		this.connectedUsers.put(uid, user);
 	}
 
 	public void readInput(long uid, byte[] input) {
@@ -37,6 +36,11 @@ public class Game {
 	}
 
 	public boolean userOnline(User user) {
-		return connectedUsers.containsValue(user);
+		return this.connectedUsers.containsValue(user);
+	}
+	
+	public Set<User> getAllUsers() {
+		Collection<User> set = connectedUsers.values();
+		return (Set<User>) set;
 	}
 }

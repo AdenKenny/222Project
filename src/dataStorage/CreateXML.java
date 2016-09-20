@@ -30,7 +30,7 @@ public class CreateXML implements XMLInterface {
 
 	Document doc;
 
-	public CreateXML(String fileName) {
+	public CreateXML(DataGetter getter, String fileName) {
 
 		try {
 
@@ -42,7 +42,7 @@ public class CreateXML implements XMLInterface {
 
 			Element playersNode = appendNode("Players", root); // Append players node.
 
-			users.add(new User(15l, "Aden", "151231231j"));
+			users.add(new User(15l, "DSAds", "151231231j"));
 
 			for (User user : users) { // Append all users to tree.
 				String playerID = String.valueOf(user.getId());
@@ -137,7 +137,7 @@ public class CreateXML implements XMLInterface {
 			DOMSource source = new DOMSource(this.doc);
 			StreamResult result = new StreamResult(new File(fileName));
 
-			// result = new StreamResult(System.out); //Print to console.
+			// result = new StreamResult(System.out); //Print to standard out.
 
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Formating options.
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");

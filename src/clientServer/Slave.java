@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import userHandling.Hashing;
-
 public class Slave extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
@@ -47,27 +45,27 @@ public class Slave extends Thread {
 					//TODO send to thing to deal with
 				}
 				else {
-					if (data[0] == PackageCode.LOGIN_RESULT) {
-						if (data[1] == PackageCode.LOGIN_SUCCESS) {
+					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
+						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value) {
 							System.out.println("Login successful.");
 							this.inGame = true;
 						}
-						else if (data[1] == PackageCode.LOGIN_INCORRECT_USER) {
+						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_USER.value) {
 							System.out.println("Incorrect username.");
 						}
-						else if (data[1] == PackageCode.LOGIN_INCORRECT_PASSWORD) {
+						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_PASSWORD.value) {
 							System.out.println("Incorrect password.");
 						}
-						else if (data[1] == PackageCode.LOGIN_ALREADY_CONNECTED) {
+						else if (data[1] == PackageCode.Codes.LOGIN_ALREADY_CONNECTED.value) {
 							System.out.println("That character is already online.");
 						}
 					}
-					else if (data[0] == PackageCode.NEW_USER_RESULT) {
-						if (data[1] == PackageCode.NEW_USER_SUCCESS) {
+					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value) {
+						if (data[1] == PackageCode.Codes.NEW_USER_SUCCESS.value) {
 							System.out.println("Account created.");
 							this.inGame = true;
 						}
-						else if (data[1] == PackageCode.NEW_USER_NAME_TAKEN) {
+						else if (data[1] == PackageCode.Codes.NEW_USER_NAME_TAKEN.value) {
 							System.out.println("That name is unavailable.");
 						}
 					}
@@ -84,29 +82,33 @@ public class Slave extends Thread {
 
 	public void login(String username, String password) {
 		byte[] toSend = new byte[username.length() + password.length() + 2];
-		toSend[0] = PackageCode.LOGIN_ATTEMPT;
+		toSend[0] = PackageCode.Codes.LOGIN_ATTEMPT.value;
 		int i = 1;
 		for (char c : username.toCharArray()) {
-			toSend[i++] = (byte)c;
+			toSend[i++] = (byte) c;
 		}
-		toSend[i++] = PackageCode.BREAK;
+		toSend[i++] = PackageCode.Codes.BREAK.value;
 		for (char c : password.toCharArray()) {
-			toSend[i++] = (byte)c;
+			toSend[i++] = (byte) c;
 		}
 		send(toSend);
 	}
 
 	public void newUser(String username, String password) {
 		byte[] toSend = new byte[username.length() + password.length() + 2];
-		toSend[0] = PackageCode.NEW_USER_ATTEMPT;
+		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value;
 		int i = 1;
+		
 		for (char c : username.toCharArray()) {
-			toSend[i++] = (byte)c;
+			toSend[i++] = (byte) c;
 		}
-		toSend[i++] = PackageCode.BREAK;
+		
+		toSend[i++] = PackageCode.Codes.BREAK.value;
+		
 		for (char c : password.toCharArray()) {
-			toSend[i++] = (byte)c;
+			toSend[i++] = (byte) c;
 		}
+		
 		send(toSend);
 	}
 
@@ -115,10 +117,13 @@ public class Slave extends Thread {
 			while(this.output.size() != 0) {
 				//wait for any other sending to occur
 			}
+			
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 			this.output.flush();
-		} catch (IOException e) {
+		} 
+		
+		catch (IOException e) {
 			System.out.println("Sending error");
 		}
 	}

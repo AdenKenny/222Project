@@ -28,7 +28,7 @@ public class Server {
 		Tick tick = new Tick(this.game);
 		tick.start();
 		
-		new CreateXML("base");
+		new CreateXML(new DataGetter(this.game), "base");
 
 		//A list of all the connections to clients
 		ArrayList<Master> connections = new ArrayList<>();
