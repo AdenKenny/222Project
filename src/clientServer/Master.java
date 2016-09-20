@@ -13,6 +13,7 @@ public class Master extends Thread {
 	private final long uid;
 	private final Game game;
 	private boolean inGame;
+	private DataOutputStream output;
 
 	public Master(Socket socket, long uid, Game game) {
 		this.socket = socket;
@@ -24,7 +25,7 @@ public class Master extends Thread {
 		System.out.println("User " + this.uid + " connected.");
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
-			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			this.output = new DataOutputStream(socket.getOutputStream());
 
 			boolean exit = false;
 			while (!exit) {
@@ -40,21 +41,20 @@ public class Master extends Thread {
 						this.game.readInput(this.uid, received);
 					}
 					else {
+						byte[] loginResult = new byte[1];
 						if (this.game.login(this.uid, received)) {
-							inGame = true;
-							//TODO send confirmation
+							this.inGame = true;
+							loginResult[0] = 1;
 						}
 						else {
-							//TODO send failure
+							loginResult[0] = 0;
 						}
+						send(loginResult);
 					}
 				}
 				if (inGame) {
 					//send game information
-					byte[] data = this.game.toByteArray(this.uid);
-					output.writeInt(data.length);
-					output.write(data);
-					output.flush();
+					send(this.game.toByteArray(this.uid));
 				}
 				//sleep
 				Thread.sleep(BROADCAST_CLOCK);
@@ -64,6 +64,19 @@ public class Master extends Thread {
 			System.out.println("User " + this.uid + " disconnected.");
 		} catch (InterruptedException e) {
 			System.out.println(e);
+		}
+	}
+
+	public void send(byte[] toSend) {
+		try {
+			while(this.output.size() != 0) {
+				//wait for any other sending to occur
+			}
+			this.output.writeInt(toSend.length);
+			this.output.write(toSend);
+			this.output.flush();
+		} catch (IOException e) {
+			System.out.println("Sending error");
 		}
 	}
 

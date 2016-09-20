@@ -14,6 +14,7 @@ public class Slave extends Thread {
 
 	private Socket socket;
 	private DataOutputStream output;
+	private boolean inGame;
 
 	private Slave() {
 		try {
@@ -54,6 +55,18 @@ public class Slave extends Thread {
 				// create array and fill with received data
 				byte[] data = new byte[amount];
 				input.readFully(data);
+				if (this.inGame) {
+					//TODO send to thing to deal with
+				}
+				else {
+					if (data[0] == 1) {
+						System.out.println("Login successful.");
+						this.inGame = true;
+					}
+					else {
+						System.out.println("Incorrect username or password.");
+					}
+				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 			socket.close();

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import userHandling.User;
+import userHandling.Verification;
 
 public class Game {
 
@@ -14,6 +15,7 @@ public class Game {
 
 	public Game() {
 		this.allUsers = new HashSet<>();
+		//TODO load users from database and add to allUsers
 		this.connectedUsers = new HashMap<>();
 	}
 
@@ -30,19 +32,26 @@ public class Game {
 	}
 
 	public boolean login(long uid, byte[] input) {
-		String user = "";
+		String username = "";
 		String password = "";
 		int i = 0;
 		byte b;
 		while ((b = input[i++]) != 0) {
-			user += (char)b;
+			username += (char)b;
 		}
 		while ((b = input[i++]) != 0) {
 			password += (char)b;
 		}
-		System.out.println(user);
-		System.out.println(password);
-		return false;
+		if (!Verification.login(username, password)) {
+			return false;
+		}
+		for (User user : allUsers) {
+			if (user.getUsername().equals(username)) {
+				connectedUsers.put(uid, user);
+				break;
+			}
+		}
+		return true;
 	}
 
 	public void readInput(long uid, byte[] input) {
