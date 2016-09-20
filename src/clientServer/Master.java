@@ -12,6 +12,7 @@ import userHandling.Verification;
 public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
+	private static final int TIMEOUT = 10;
 
 	private final Socket socket;
 	private final long uid;
@@ -37,9 +38,12 @@ public class Master extends Thread {
 			while (!exit) {
 				//if data has not been received
 				if (input.available() == 0) {
-					
+					if (++noResponse >= TIMEOUT) {
+						System.out.println("timeout?");
+					}
 				}
 				else {
+					noResponse = 0;
 					//read the amount sent
 					int amount = input.readInt();
 					//create array and fill with received data

@@ -22,7 +22,9 @@ public abstract interface PackageCode {
 		}
 	}
 	
-/*	public static final byte BREAK = 0;
+
+	
+	/*public static final byte BREAK = 0;
 	public static final byte LOGIN_ATTEMPT = 1;
 	public static final byte LOGIN_RESULT = 2;
 	public static final byte LOGIN_SUCCESS = 3;
