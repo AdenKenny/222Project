@@ -5,12 +5,12 @@ import java.util.List;
 import gameWorld.World.Direction;
 
 public abstract class Entity {
-	private Location location;
+	protected Location location;
 	
-	private String name;
-	private String description;
+	protected String name;
+	protected String description;
 	
-	private Direction facing;
+	protected Direction facing;
 	
 	/**
 	 * Constructs an Entity at the given Location,
@@ -39,6 +39,15 @@ public abstract class Entity {
 	 */
 	public Location location() {
 		return location;
+	}
+	
+	/**
+	 * Sets this Entity's Location to location.
+	 * 
+	 * @param location
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 	/**
@@ -85,4 +94,8 @@ public abstract class Entity {
 	 * @return	whether the action succeeded or not
 	 */
 	public abstract boolean performAction(String action);
+	
+	protected abstract String methodToAction(String methodName);
+	
+	protected abstract String actionToMethod(String action);
 }
