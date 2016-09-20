@@ -26,7 +26,7 @@ import userHandling.User;
  * @author Aden
  */
 
-public class CreateXML implements XMLInterface {
+public final class CreateXML implements XMLInterface {
 
 	Document doc;
 

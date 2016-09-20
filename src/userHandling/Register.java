@@ -57,7 +57,7 @@ public final class Register {
 
 			User user = new User(++currentID, username, hash); // Create user with details including
 																// incremented ID.
-			printWriter.println(user.toString());
+			printWriter.println(user.dbString());
 
 			return user;
 		}

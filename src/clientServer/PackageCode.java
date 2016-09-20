@@ -1,6 +1,6 @@
 package clientServer;
 
-public abstract interface PackageCode {
+public interface PackageCode {
 	
 	public enum Codes {
 		BREAK((byte) 0), 
@@ -21,8 +21,6 @@ public abstract interface PackageCode {
 			this.value = value;
 		}
 	}
-	
-
 	
 	/*public static final byte BREAK = 0;
 	public static final byte LOGIN_ATTEMPT = 1;

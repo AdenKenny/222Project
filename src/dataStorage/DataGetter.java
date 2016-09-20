@@ -5,7 +5,7 @@ import java.util.Set;
 import clientServer.Game;
 import userHandling.User;
 
-public class DataGetter {
+public final class DataGetter {
 
 	protected static Set<User> users;
 

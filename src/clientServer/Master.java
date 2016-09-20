@@ -94,10 +94,10 @@ public class Master extends Thread {
 							int i = 1;
 							byte b;
 							while ((b = received[i++]) != PackageCode.Codes.BREAK.value) {
-								username += (char)b;
+								username += (char) b;
 							}
 							while ((b = received[i++]) < received.length) {
-								password += (char)b;
+								password += (char) b;
 							}
 							byte[] newUserResult = new byte[2];
 							newUserResult[0] = PackageCode.Codes.NEW_USER_RESULT.value;
