@@ -58,6 +58,9 @@ public class Slave extends Thread {
 						else if (data[1] == PackageCode.LOGIN_INCORRECT_PASSWORD) {
 							System.out.println("Incorrect password.");
 						}
+						else if (data[1] == PackageCode.LOGIN_ALREADY_CONNECTED) {
+							System.out.println("That character is already online.");
+						}
 					}
 					else if (data[0] == PackageCode.NEW_USER_RESULT) {
 						if (data[1] == PackageCode.NEW_USER_SUCCESS) {
@@ -80,8 +83,7 @@ public class Slave extends Thread {
 	}
 
 	public void login(String username, String password) {
-		password = Hashing.createHash(password.toCharArray());
-		byte[] toSend = new byte[username.length() + password.length() + 3];
+		byte[] toSend = new byte[username.length() + password.length() + 2];
 		toSend[0] = PackageCode.LOGIN_ATTEMPT;
 		int i = 1;
 		for (char c : username.toCharArray()) {
@@ -95,8 +97,7 @@ public class Slave extends Thread {
 	}
 
 	public void newUser(String username, String password) {
-		password = Hashing.createHash(password.toCharArray());
-		byte[] toSend = new byte[username.length() + password.length() + 3];
+		byte[] toSend = new byte[username.length() + password.length() + 2];
 		toSend[0] = PackageCode.NEW_USER_ATTEMPT;
 		int i = 1;
 		for (char c : username.toCharArray()) {

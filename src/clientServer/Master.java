@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import userHandling.Hashing;
 import userHandling.Register;
 import userHandling.User;
 import userHandling.Verification;
@@ -27,14 +28,18 @@ public class Master extends Thread {
 
 	public void run() {
 		System.out.println("User " + this.uid + " connected.");
+		int noResponse = 0;
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 			this.output = new DataOutputStream(socket.getOutputStream());
 
 			boolean exit = false;
 			while (!exit) {
-				//if data has been received
-				if (input.available() != 0) {
+				//if data has not been received
+				if (input.available() == 0) {
+					
+				}
+				else {
 					//read the amount sent
 					int amount = input.readInt();
 					//create array and fill with received data
@@ -48,7 +53,7 @@ public class Master extends Thread {
 						if (received[0] == PackageCode.LOGIN_ATTEMPT) {
 							String username = "";
 							String password = "";
-							int i = 0;
+							int i = 1;
 							byte b;
 							while ((b = received[i++]) != PackageCode.BREAK) {
 								username += (char)b;
@@ -67,9 +72,14 @@ public class Master extends Thread {
 									loginResult[1] = PackageCode.LOGIN_INCORRECT_PASSWORD;
 								}
 								else {
-									this.game.registerConnection(uid, user);
-									this.inGame = true;
-									loginResult[1] = PackageCode.LOGIN_SUCCESS;
+									if (this.game.userOnline(user)) {
+										loginResult[1] = PackageCode.LOGIN_ALREADY_CONNECTED;
+									}
+									else {
+										this.game.registerConnection(uid, user);
+										this.inGame = true;
+										loginResult[1] = PackageCode.LOGIN_SUCCESS;
+									}
 								}
 							}
 							send(loginResult);
@@ -77,7 +87,7 @@ public class Master extends Thread {
 						else if (received[0] == PackageCode.NEW_USER_ATTEMPT) {
 							String username = "";
 							String password = "";
-							int i = 0;
+							int i = 1;
 							byte b;
 							while ((b = received[i++]) != PackageCode.BREAK) {
 								username += (char)b;
@@ -92,7 +102,6 @@ public class Master extends Thread {
 								newUserResult[1] = PackageCode.NEW_USER_NAME_TAKEN;
 							}
 							else {
-								this.game.addUser(user);
 								this.game.registerConnection(uid, user);
 								this.inGame = true;
 								newUserResult[1] = PackageCode.NEW_USER_SUCCESS;

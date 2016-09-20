@@ -10,12 +10,9 @@ import userHandling.Verification;
 
 public class Game {
 
-	private final Set<User> allUsers;
 	private final Map<Long, User> connectedUsers;
 
 	public Game() {
-		this.allUsers = new HashSet<>();
-		//TODO load users from database and add to allUsers
 		this.connectedUsers = new HashMap<>();
 	}
 
@@ -25,10 +22,6 @@ public class Game {
 
 	public void registerConnection(long uid, User user) {
 		connectedUsers.put(uid, user);
-	}
-
-	public void addUser(User user) {
-		allUsers.add(user);
 	}
 
 	public void readInput(long uid, byte[] input) {
@@ -43,11 +36,7 @@ public class Game {
 		return data;
 	}
 
-	public Set<User> getConnectedUsers() {
-		return this.allUsers;
-	}
-
-	public Set<User> getUsers() {
-		return (Set<User>) this.connectedUsers.values();
+	public boolean userOnline(User user) {
+		return connectedUsers.containsValue(user);
 	}
 }
