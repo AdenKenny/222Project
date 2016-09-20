@@ -34,19 +34,7 @@ public class Slave extends Thread {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 
 			//TODO testing login, will be done from another class
-			String user = "Simon";
-			String password = Hashing.createHash("hunter2".toCharArray());
-			byte[] toSend = new byte[user.length() + password.length() + 2];
-			int i = 0;
-			for (char c : user.toCharArray()) {
-				toSend[i++] = (byte)c;
-			}
-			toSend[i++] = 0;
-			for (char c : password.toCharArray()) {
-				toSend[i++] = (byte)c;
-			}
-			toSend[i] = 0;
-			send(toSend);
+			login("Simon", "hunter2");
 
 			boolean exit = false;
 			while (!exit) {
@@ -59,12 +47,26 @@ public class Slave extends Thread {
 					//TODO send to thing to deal with
 				}
 				else {
-					if (data[0] == 1) {
-						System.out.println("Login successful.");
-						this.inGame = true;
+					if (data[0] == PackageCode.LOGIN_RESULT) {
+						if (data[1] == PackageCode.LOGIN_SUCCESS) {
+							System.out.println("Login successful.");
+							this.inGame = true;
+						}
+						else if (data[1] == PackageCode.LOGIN_INCORRECT_USER) {
+							System.out.println("Incorrect username.");
+						}
+						else if (data[1] == PackageCode.LOGIN_INCORRECT_PASSWORD) {
+							System.out.println("Incorrect password.");
+						}
 					}
-					else {
-						System.out.println("Incorrect username or password.");
+					else if (data[0] == PackageCode.NEW_USER_RESULT) {
+						if (data[1] == PackageCode.NEW_USER_SUCCESS) {
+							System.out.println("Account created.");
+							this.inGame = true;
+						}
+						else if (data[1] == PackageCode.NEW_USER_NAME_TAKEN) {
+							System.out.println("That name is unavailable.");
+						}
 					}
 				}
 				Thread.sleep(BROADCAST_CLOCK);
@@ -75,6 +77,36 @@ public class Slave extends Thread {
 		} catch (InterruptedException e) {
 			System.out.println(e);
 		}
+	}
+
+	public void login(String username, String password) {
+		password = Hashing.createHash(password.toCharArray());
+		byte[] toSend = new byte[username.length() + password.length() + 3];
+		toSend[0] = PackageCode.LOGIN_ATTEMPT;
+		int i = 1;
+		for (char c : username.toCharArray()) {
+			toSend[i++] = (byte)c;
+		}
+		toSend[i++] = PackageCode.BREAK;
+		for (char c : password.toCharArray()) {
+			toSend[i++] = (byte)c;
+		}
+		send(toSend);
+	}
+
+	public void newUser(String username, String password) {
+		password = Hashing.createHash(password.toCharArray());
+		byte[] toSend = new byte[username.length() + password.length() + 3];
+		toSend[0] = PackageCode.NEW_USER_ATTEMPT;
+		int i = 1;
+		for (char c : username.toCharArray()) {
+			toSend[i++] = (byte)c;
+		}
+		toSend[i++] = PackageCode.BREAK;
+		for (char c : password.toCharArray()) {
+			toSend[i++] = (byte)c;
+		}
+		send(toSend);
 	}
 
 	public void send(byte[] toSend) {

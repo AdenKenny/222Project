@@ -5,6 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import userHandling.Register;
+import userHandling.User;
+import userHandling.Verification;
+
 public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
@@ -41,15 +45,60 @@ public class Master extends Thread {
 						this.game.readInput(this.uid, received);
 					}
 					else {
-						byte[] loginResult = new byte[1];
-						if (this.game.login(this.uid, received)) {
-							this.inGame = true;
-							loginResult[0] = 1;
+						if (received[0] == PackageCode.LOGIN_ATTEMPT) {
+							String username = "";
+							String password = "";
+							int i = 0;
+							byte b;
+							while ((b = received[i++]) != PackageCode.BREAK) {
+								username += (char)b;
+							}
+							while ((b = received[i++]) < received.length) {
+								password += (char)b;
+							}
+							byte[] loginResult = new byte[2];
+							loginResult[0] = PackageCode.LOGIN_RESULT;
+							if (!Register.userExists(username)) {
+								loginResult[1] = PackageCode.LOGIN_INCORRECT_USER;
+							}
+							else {
+								User user = Verification.login(username, password);
+								if (user == null) {
+									loginResult[1] = PackageCode.LOGIN_INCORRECT_PASSWORD;
+								}
+								else {
+									this.game.registerConnection(uid, user);
+									this.inGame = true;
+									loginResult[1] = PackageCode.LOGIN_SUCCESS;
+								}
+							}
+							send(loginResult);
 						}
-						else {
-							loginResult[0] = 0;
+						else if (received[0] == PackageCode.NEW_USER_ATTEMPT) {
+							String username = "";
+							String password = "";
+							int i = 0;
+							byte b;
+							while ((b = received[i++]) != PackageCode.BREAK) {
+								username += (char)b;
+							}
+							while ((b = received[i++]) < received.length) {
+								password += (char)b;
+							}
+							byte[] newUserResult = new byte[2];
+							newUserResult[0] = PackageCode.NEW_USER_RESULT;
+							User user = Register.createUser(username, password);
+							if (user == null) {
+								newUserResult[1] = PackageCode.NEW_USER_NAME_TAKEN;
+							}
+							else {
+								this.game.addUser(user);
+								this.game.registerConnection(uid, user);
+								this.inGame = true;
+								newUserResult[1] = PackageCode.NEW_USER_SUCCESS;
+							}
+							send(newUserResult);
 						}
-						send(loginResult);
 					}
 				}
 				if (inGame) {

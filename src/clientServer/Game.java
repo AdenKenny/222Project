@@ -23,35 +23,12 @@ public class Game {
 
 	}
 
-	public void registerConnection(long uid, long id) {
-		for (User user : allUsers) {
-			if (user.getId() == id) {
-				connectedUsers.put(uid, user);
-			}
-		}
+	public void registerConnection(long uid, User user) {
+		connectedUsers.put(uid, user);
 	}
 
-	public boolean login(long uid, byte[] input) {
-		String username = "";
-		String password = "";
-		int i = 0;
-		byte b;
-		while ((b = input[i++]) != 0) {
-			username += (char)b;
-		}
-		while ((b = input[i++]) != 0) {
-			password += (char)b;
-		}
-		if (!Verification.login(username, password)) {
-			return false;
-		}
-		for (User user : allUsers) {
-			if (user.getUsername().equals(username)) {
-				connectedUsers.put(uid, user);
-				break;
-			}
-		}
-		return true;
+	public void addUser(User user) {
+		allUsers.add(user);
 	}
 
 	public void readInput(long uid, byte[] input) {

@@ -32,7 +32,7 @@ public final class Register {
 	 * Creates a User object when given a username and password in the form of two strings. Will
 	 * create the User object then add the user ID, username, and hash in the database. The User
 	 * object will be null if the username already exists in the database.
-	 * 
+	 *
 	 * @param username
 	 *            The requested username.
 	 * @param password
@@ -41,7 +41,7 @@ public final class Register {
 	 *         Returns null if username is taken.
 	 */
 
-	static User createUser(String username, String password) {
+	public static User createUser(String username, String password) {
 
 		try (FileWriter fileWriter = new FileWriter(DB_FILE, true);
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -54,7 +54,7 @@ public final class Register {
 			String hash = Hashing.createHash(password.toCharArray()); // Create hash with password.
 
 			password = null; // Let the password be garbage collected.
-			
+
 			User user = new User(++currentID, username, hash); // Create user with details including
 																// incremented ID.
 			printWriter.println(user.toString());
@@ -75,13 +75,13 @@ public final class Register {
 	/**
 	 * Checks the database to make sure their is not already a user registered with this username.
 	 * Duplicate usernames are not acceptable.
-	 * 
+	 *
 	 * @param username
 	 *            The username to check.
 	 * @return A boolean based on the existence of the username.
 	 */
 
-	static boolean userExists(String username) {
+	public static boolean userExists(String username) {
 
 		Scanner scan = null; // Scanner to read file.
 		try {
@@ -118,11 +118,11 @@ public final class Register {
 	/**
 	 * Gets a user and their details if they exist in the database. Returns null if the user
 	 * doesn't exist.
-	 * 
+	 *
 	 * @param username The username of the user we're trying to get.
 	 * @return A User object with the username that was passed to this method.
 	 */
-	
+
 	static User getUser(String username) {
 
 		Scanner scan = null; // Scanner to read file.
@@ -171,9 +171,9 @@ public final class Register {
 		/*createUser("Mark", "Testing").toString();
 		createUser("Tim", "Testing").toString();
 		createUser("Part", "SDADSaDASDs").toString();*/
-		
+
 		//System.out.println(Verification.login("Mark", "Testing"));
-		
+
 	}
 
 }
