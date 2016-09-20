@@ -67,9 +67,9 @@ public final class Register {
 		}
 
 		catch (RegistrationException e) {
+			System.out.println("A user already exists with this name"); //TODO Proper errors here.
 			return null;
 		}
-
 	}
 
 	/**
@@ -168,11 +168,10 @@ public final class Register {
 	}
 
 	public static void main(String[] args) {
-		/*createUser("Mark", "Testing").toString();
-		createUser("Tim", "Testing").toString();
-		createUser("Part", "SDADSaDASDs").toString();*/
+		/*createUser("Mark", "Testing").dbString();
+		createUser("Tim", "Testing").dbString();
 
-		//System.out.println(Verification.login("Mark", "Testing"));
+		System.out.println(Verification.login("Mark", "Testing"));*/
 
 	}
 

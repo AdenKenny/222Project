@@ -74,13 +74,7 @@ public final class User {
 	
 	public String dbString() {
 		
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(this.id);
-		builder.append(this.username);
-		builder.append(this.hash);
-		
-		return builder.toString();
+		return this.id + " " + this.username + " " + this.hash;
 	}
 	
 	/**
@@ -89,13 +83,9 @@ public final class User {
 	 */
 	
 	@Override
-	public String toString() { //This will be what is stored in the database.
+	public String toString() { 
 		
-		StringBuilder builder = new StringBuilder();
-		builder.append(this.id);
-		builder.append(this.username);
-		
-		return builder.toString();
+		return this.id + " " + this.username;
 	}
 
 	/**

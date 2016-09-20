@@ -27,8 +27,13 @@ public final class Hashing {
 	private static final int HASH_BYTE_SIZE = 32;
 	private static final int PBKDF2_ITERATIONS = 64000;
 	
-	private static final int SALT_POSITION = 0;
-	private static final int HASH_POSITION = 1;
+	public static final int HASH_SECTIONS = 5;
+    public static final int HASH_ALGORITHM_INDEX = 0;
+    public static final int ITERATION_INDEX = 1;
+    public static final int HASH_SIZE_INDEX = 2;
+    public static final int SALT_INDEX = 3;
+    public static final int PBKDF2_INDEX = 4;
+
 	
 	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
@@ -54,8 +59,10 @@ public final class Hashing {
 
 		password = null; //Let password get garbage collected.
 
-		return toBase64(salt) + ":" + toBase64(hash); //Convert hash and salt to one string.
-		//The colon separates the salt and hash for password checking.
+		String fullHash = "sha1:" + PBKDF2_ITERATIONS + ":"+ HASH_BYTE_SIZE + ":" +
+		toBase64(salt) + ":" + toBase64(hash);
+		
+		return fullHash;
 	}
 
 	private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
@@ -118,8 +125,8 @@ public final class Hashing {
 
         String[] params = correctHash.split(":"); //Split the hash and salt.
 
-        byte[] salt = fromBase64(params[SALT_POSITION]); //Convert to byte arrays.
-        byte[] hash = fromBase64(params[HASH_POSITION]);
+        byte[] salt = fromBase64(params[SALT_INDEX]); //Convert to byte arrays.
+        byte[] hash = fromBase64(params[PBKDF2_INDEX]);
 
         byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length); //Hash password.
 

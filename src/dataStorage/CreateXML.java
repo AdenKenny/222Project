@@ -68,10 +68,10 @@ public final class CreateXML implements XMLInterface {
 	public Element getRoot() throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		DocumentBuilder builder = factory.newDocumentBuilder(); // Java factories...
+		DocumentBuilder builder = factory.newDocumentBuilder();
 
 		Document doc = builder.newDocument(); // Create actual document.
-		Element root = doc.createElement("game");
+		Element root = doc.createElement("game"); //The name of the node.
 
 		this.doc = doc; // Set the root of the tree
 
@@ -112,12 +112,12 @@ public final class CreateXML implements XMLInterface {
 
 	@Override
 	public Element appendNode(String tagName, String attName, String attVal, Element root) {
-		Element element = this.doc.createElement(tagName);
-		element.setAttribute(attName, attVal);
+		Element element = this.doc.createElement(tagName); 
+		element.setAttribute(attName, attVal); //Set attribute to new node.
 
-		root.appendChild(element);
+		root.appendChild(element); //Append.
 
-		return element;
+		return element; //Return the node.
 	}
 	
 	/**

@@ -41,7 +41,7 @@ public final class Verification {
 			password = null;
 		}
 
-		return null;
+		return null; //The login failed, either wrong password or no user with the name exists.
 	}
 
 
