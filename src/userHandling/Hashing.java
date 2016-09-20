@@ -39,11 +39,8 @@ public final class Hashing {
 	}
 
 	/**
-	 * Enums represnting the position of certain elements in the hash.
+	 * Enums representing the position of certain elements in the hash.
 	 * These should not be changed or it will break existing hashes in the database.
-	 * 
-	 * @author Aden
-	 *
 	 */
 	
 	private enum Position {

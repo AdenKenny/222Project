@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import dataStorage.CreateXML;
 import dataStorage.DataGetter;
+import dataStorage.ReadXML;
 
 public class Server {
 
@@ -29,6 +30,8 @@ public class Server {
 		tick.start();
 		
 		new CreateXML(new DataGetter(this.game), "base");
+		new ReadXML("base");
+
 
 		//A list of all the connections to clients
 		ArrayList<Master> connections = new ArrayList<>();
