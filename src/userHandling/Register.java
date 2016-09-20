@@ -18,11 +18,25 @@ public final class Register {
 
 	private static final File DB_FILE = new File("database/db.txt"); //The file representing the database.
 
-	private static final int ID_POSITION = 0; // Positions of the details in the database string.
-	private static final int USERNAME_POSITION = 1;
-	private static final int HASH_POSITION = 2;
+	/**
+	 * Enums representing the position of elements in the string that is read out of
+	 * the database.
+	 */
+	
+	private enum Position {
+		
+		ID_POSITION(0),
+		USER_POSITION(1),
+		HASH_POSITION(2);
+		
+		Position(int value) {
+			this.value = value;
+		}
+		
+		final int value;
+	}
 
-	private static long currentID = 0; //The max id currently assigned.
+	private static long currentID = 0; //The max ID currently assigned.
 
 	private Register() { // This shouldn't be initialised.
 		throw new AssertionError();
@@ -93,11 +107,11 @@ public final class Register {
 
 				String[] arr = line.split(" "); // Split all
 
-				if (arr[USERNAME_POSITION].equals(username)) { // Username is already in use.
+				if (arr[Position.USER_POSITION.value].equals(username)) { // Username is already in use.
 					return true;
 				}
 
-				currentID = Long.parseLong(arr[ID_POSITION]); // Get id of last user.
+				currentID = Long.parseLong(arr[Position.ID_POSITION.value]); // Get id of last user.
 			}
 
 		}
@@ -135,12 +149,12 @@ public final class Register {
 
 				String[] arr = line.split(" "); // Split all
 
-				if (arr[USERNAME_POSITION].equals(username)) { // Username is already in use.
+				if (arr[Position.USER_POSITION.value].equals(username)) { // Username is already in use.
 
 					try {
-						long id = Long.parseLong(arr[ID_POSITION]);
+						long id = Long.parseLong(arr[Position.ID_POSITION.value]);
 
-						return new User(id, username, arr[HASH_POSITION]);
+						return new User(id, username, arr[Position.HASH_POSITION.value]);
 					}
 
 					catch (NumberFormatException e) {
@@ -149,7 +163,7 @@ public final class Register {
 
 				}
 
-				currentID = Long.parseLong(arr[ID_POSITION]); // Get id of last user.
+				currentID = Long.parseLong(arr[Position.ID_POSITION.value]); // Get id of last user.
 			}
 
 		}

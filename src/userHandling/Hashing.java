@@ -10,58 +10,86 @@ import javax.xml.bind.DatatypeConverter;
 //https://github.com/defuse/password-hashing/blob/master/PasswordStorage.java
 
 /**
- * A class to handle the hashing of a users password. Returns the hash and salt of the
- * password.
+ * A class to handle the hashing of a users password. Returns the hash and salt of the password.
  *
  * @author Aden
  */
 
 public final class Hashing {
 
-	/*These values can be increased for potentially more secure hashes and decreased
-	 * performance or decreased for potentially less secure hashes and increased
-	 * performance.
-	*/
+	/**
+	 * Enums representing the sizes of values in the hash. These values can be increased for
+	 * potentially more secure hashes and decreased performance or decreased for potentially less
+	 * secure hashes and increased performance.
+	 */
 
-	private static final int SALT_BYTE_SIZE = 32;
-	private static final int HASH_BYTE_SIZE = 32;
-	private static final int PBKDF2_ITERATIONS = 64000;
+	private enum Size {
+		SALT_BYTE_SIZE(32), //Size of the salt in bytes.
+		HASH_BYTE_SIZE(32); //Size of the hash in bytes.
+
+		int value; //This value can be changed without any problems.
+
+		Size(int value) {
+			this.value = value;
+		}
+
+		private void setValue(int value) { //Mutator method.
+			this.value = value;
+		}
+	}
+
+	/**
+	 * Enums represnting the position of certain elements in the hash.
+	 * These should not be changed or it will break existing hashes in the database.
+	 * 
+	 * @author Aden
+	 *
+	 */
 	
-	public static final int HASH_SECTIONS = 5;
-    public static final int HASH_ALGORITHM_INDEX = 0;
-    public static final int ITERATION_INDEX = 1;
-    public static final int HASH_SIZE_INDEX = 2;
-    public static final int SALT_INDEX = 3;
-    public static final int PBKDF2_INDEX = 4;
+	private enum Position {
+		HASH_SECTIONS(5), //Number of sections in the hash string.
+		HASH_ALGORITHM_INDEX(0), //Indexes of various elements in the hash string.
+		ITERATION_INDEX(1), 
+		HASH_SIZE_INDEX(2), 
+		SALT_INDEX(3), 
+		PBKDF2_INDEX(4);
 
-	
-	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
+		final int value; //Final as this should not be changed.
 
-	private Hashing() { //This should never be initialised.
+		Position(int value) {
+			this.value = value;
+		}
+	}
+
+	private static final int PBKDF2_ITERATIONS = 64000; //This can be changed.
+	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1"; //This should not.
+
+	private Hashing() { // This should never be initialised.
 		throw new AssertionError();
 	}
 
 	/**
-	 * Method that takes a char array of a user's password and creates hash and salt of
-	 * the password. Uses PBKDF2 with 64000 iterations and salt and hash sizes of 32 bytes.
+	 * Method that takes a char array of a user's password and creates hash and salt of the
+	 * password. Uses PBKDF2 with 64000 iterations and salt and hash sizes of 32 bytes.
 	 *
-	 * @param password The users password.
+	 * @param password
+	 *            The users password.
 	 * @return The hash.
 	 */
 
 	public static String createHash(char[] password) {
 
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[SALT_BYTE_SIZE];
-        random.nextBytes(salt); //Create salt.
+		SecureRandom random = new SecureRandom();
+		byte[] salt = new byte[Size.SALT_BYTE_SIZE.value];
+		random.nextBytes(salt); // Create salt.
 
-		byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
+		byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, Size.HASH_BYTE_SIZE.value);
 
-		password = null; //Let password get garbage collected.
+		password = null; // Let password get garbage collected.
 
-		String fullHash = "sha1:" + PBKDF2_ITERATIONS + ":"+ HASH_BYTE_SIZE + ":" +
-		toBase64(salt) + ":" + toBase64(hash);
-		
+		String fullHash = "sha1:" + PBKDF2_ITERATIONS + ":" + Size.HASH_BYTE_SIZE.value + ":" + toBase64(salt) + ":"
+				+ toBase64(hash);
+
 		return fullHash;
 	}
 
@@ -78,67 +106,71 @@ public final class Hashing {
 	}
 
 	/**
-	 * Slow equals rather than .equals(). .equals would stop comparing on the first wrong
-	 * character whereas this method will keep comparing even if a character is wrong.
+	 * Slow equals rather than .equals(). .equals would stop comparing on the first wrong character
+	 * whereas this method will keep comparing even if a character is wrong.
 	 *
-	 * @param a The hash from the password.
-	 * @param b The correct hash for the user.
+	 * @param a
+	 *            The hash from the password.
+	 * @param b
+	 *            The correct hash for the user.
 	 * @return Equality of hashes.
 	 */
 
-    private static boolean slowEquals(byte[] a, byte[] b) {
-        int diff = a.length ^ b.length; //Make sure hashes are same length.
-        for(int i = 0; i < a.length && i < b.length; i++) {
-            diff |= a[i] ^ b[i]; //XOR between bytes at all positions in hash.
-        }
+	private static boolean slowEquals(byte[] a, byte[] b) {
+		int diff = a.length ^ b.length; // Make sure hashes are same length.
+		for (int i = 0; i < a.length && i < b.length; i++) {
+			diff |= a[i] ^ b[i]; // XOR between bytes at all positions in hash.
+		}
 
-        return diff == 0; //Is there a difference in the hashes?
-    }
+		return diff == 0; // Is there a difference in the hashes?
+	}
 
-    /**
-     * Calls overloaded verify method with a char array rather than a string.
-     *
-     * @param password The entered password which will hashed and tested versus the correct hash.
-     * @param correctHash The correct stored hash for the user account.
-     * @return The equality of the two hashes.
-     */
+	/**
+	 * Calls overloaded verify method with a char array rather than a string.
+	 *
+	 * @param password
+	 *            The entered password which will hashed and tested versus the correct hash.
+	 * @param correctHash
+	 *            The correct stored hash for the user account.
+	 * @return The equality of the two hashes.
+	 */
 
-    public static boolean verifyPassword(String password, String correctHash) {
-    	return verifyPassword(password.toCharArray(), correctHash); //Call overloaded method.
-    }
+	public static boolean verifyPassword(String password, String correctHash) {
+		return verifyPassword(password.toCharArray(), correctHash); // Call overloaded method.
+	}
 
-    /**
-     * Takes the entered password from the user and hashes it and compares to
-     * the correct hash that is stored in the user's details.
-     *
-     * Splits password into salt and hash and then hashes the entered password
-     * using the correct hashes salt and the length of the correct hash. The two
-     * hashes are then tested for equality to check if the entered password is
-     * correct.
-     *
-     * @param password The user entered password.
-     * @param correctHash The correct hash for the user account.
-     * @return The equality of the two hashes.
-     */
+	/**
+	 * Takes the entered password from the user and hashes it and compares to the correct hash that
+	 * is stored in the user's details. Splits password into salt and hash and then hashes the
+	 * entered password using the correct hashes salt and the length of the correct hash. The two
+	 * hashes are then tested for equality to check if the entered password is correct.
+	 *
+	 * @param password
+	 *            The user entered password.
+	 * @param correctHash
+	 *            The correct hash for the user account.
+	 * @return The equality of the two hashes.
+	 */
 
-    public static boolean verifyPassword(char[] password, String correctHash) {
+	public static boolean verifyPassword(char[] password, String correctHash) {
 
-        String[] params = correctHash.split(":"); //Split the hash and salt.
+		String[] params = correctHash.split(":"); // Split the hash and salt.
 
-        byte[] salt = fromBase64(params[SALT_INDEX]); //Convert to byte arrays.
-        byte[] hash = fromBase64(params[PBKDF2_INDEX]);
+		byte[] salt = fromBase64(params[Position.SALT_INDEX.value]); // Convert to byte arrays.
+		byte[] hash = fromBase64(params[Position.PBKDF2_INDEX.value]);
 
-        byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length); //Hash password.
+		byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length); // Hash password.
 
-        return slowEquals(hash, testHash); //Return equality of the hashes.
-    }
+		return slowEquals(hash, testHash); // Return equality of the hashes.
+	}
 
-    /**
-     * Returns a String from a byte array.
-     *
-     * @param array The array which will be converted.
-     * @return The String value of the array.
-     */
+	/**
+	 * Returns a String from a byte array.
+	 *
+	 * @param array
+	 *            The array which will be converted.
+	 * @return The String value of the array.
+	 */
 
 	private static String toBase64(byte[] array) {
 		return DatatypeConverter.printBase64Binary(array);
@@ -147,7 +179,8 @@ public final class Hashing {
 	/**
 	 * Returns a byte array from a String representing a hex value.
 	 *
-	 * @param hex The hex value.
+	 * @param hex
+	 *            The hex value.
 	 * @return The byte array.
 	 */
 
