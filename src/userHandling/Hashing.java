@@ -74,7 +74,7 @@ public final class Hashing {
 	 *
 	 * @param password
 	 *            The users password.
-	 * @return The hash.
+	 * @return A string representing the hash.
 	 */
 
 	public static String createHash(char[] password) {
@@ -94,7 +94,6 @@ public final class Hashing {
 	}
 
 	private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
-
 
 			try {
 				PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);

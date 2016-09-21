@@ -4,16 +4,28 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.junit.Test;
 
+import userHandling.Hashing;
 import userHandling.Register;
 import userHandling.User;
 import userHandling.Verification;
+
+/**
+ * Tests for the userHandling package i.e. the database and user registration.
+ *
+ * @author Aden
+ */
 
 public class UserTests {
 
@@ -85,8 +97,93 @@ public class UserTests {
 	}
 
 	/**
-	 * Creates a mock user in a new database We will need to use reflection to modify
-	 * private fields in the register class as we do not want to user our actual database.
+	 * Tests to make sure Hashing.verifyPassword works correctly. The generated
+	 * hash and the next generated hash should be equal.
+	 */
+
+	@Test
+	public void testHashing() {
+
+		String hash = Hashing.createHash("abcDef12#".toCharArray());
+
+		if (!(Hashing.verifyPassword("abcDef12#", hash))) {
+			System.out.println("testHashing failed: Passwords were not equal.");
+			fail(); // Passwords were not equal?
+		}
+	}
+
+	/**
+	 * Tests to make sure the slow equals method in Hashing works correctly.
+	 */
+
+	@Test
+	public void testSlowEquals() {
+		try {
+			Class<?> hashClass = Class.forName("userHandling.Hashing");
+			Method[] methods = hashClass.getDeclaredMethods();
+
+			String testPassword = "NortheastSouthwest!";
+
+			for (Method method : methods) {
+				if (method.getName().equals("slowEquals")) {
+					String hashStr1 = Hashing.createHash(testPassword.toCharArray());
+					String hashStr2 = Hashing.createHash(testPassword.toCharArray());
+
+					String[] params1 = hashStr1.split(":");
+
+					byte[] salt1 = null;
+					byte[] hash1 = null;
+
+					for (Method from64 : methods) {
+
+						if (from64.getName().equals("fromBase64")) {
+							from64.setAccessible(true);
+
+							salt1 = (byte[]) from64.invoke(hashClass, params1[3]);
+							hash1 = (byte[]) from64.invoke(hashClass, params1[4]);
+						}
+					}
+
+					byte[] byteHash1 = null;
+
+					for (Method pbkdf2 : methods) {
+						if (pbkdf2.getName().equals("pbkdf2")) {
+							pbkdf2.setAccessible(true);
+
+							byteHash1 = (byte[]) pbkdf2.invoke(hashClass, testPassword.toCharArray(), salt1, 64000, 32);
+						}
+					}
+
+					method.setAccessible(true);
+
+					if ((boolean) method.invoke(hashClass, byteHash1, byteHash1)){
+
+					}
+
+					else {
+						System.out.println("testSlowEquals failed: hashes were not equal.");
+						fail();
+					}
+				}
+			}
+
+		}
+
+		catch (ClassNotFoundException e) {
+			fail(); // Class was not found.
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Creates a mock user in a new database We will need to use reflection to
+	 * modify private fields in the register class as we do not want to user our
+	 * actual database.
 	 *
 	 * @return The mock user created in our new mock database.
 	 */
@@ -102,19 +199,19 @@ public class UserTests {
 
 				field.setAccessible(true); // Make private field accessible.
 
-				Field modifiers = field.getClass().getDeclaredField("modifiers"); // Get
-																					// modifiers.
+				Field modifiers = field.getClass().getDeclaredField("modifiers");
 				modifiers.setAccessible(true);
-				modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL); // Not
-																					// final
-																					// field.
+				modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
 				field.set(regClass, this.file);
 
 				User user = Register.createUser("Paul", "hunter2");
 
 				return user;
-			} catch (NoSuchFieldException | SecurityException e) {
+
+			}
+
+			catch (NoSuchFieldException | SecurityException e) {
 				e.printStackTrace();
 			}
 
@@ -144,5 +241,4 @@ public class UserTests {
 			e.printStackTrace(); // Don't really care. Test still passed.
 		}
 	}
-
 }
