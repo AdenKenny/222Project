@@ -48,7 +48,12 @@ public class Slave extends Thread {
 					//TODO send to thing to deal with
 				}
 				else {
-					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
+					if (data[0] == PackageCode.Codes.PING.value) {
+						byte[] pong = new byte[1];
+						pong[0] = PackageCode.Codes.PONG.value;
+						send(pong);
+					}
+					else if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value) {
 							System.out.println("Login successful.");
 							this.inGame = true;
@@ -75,7 +80,7 @@ public class Slave extends Thread {
 				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-			socket.close();
+			this.socket.close();
 		} catch (IOException e) {
 			System.out.println("Disconnected from server.");
 		} catch (InterruptedException e) {
@@ -128,6 +133,14 @@ public class Slave extends Thread {
 
 		catch (IOException e) {
 			System.out.println("Sending error");
+		}
+	}
+
+	public void close() {
+		try {
+			this.socket.close();
+		} catch (IOException e) {
+			System.out.println(e);
 		}
 	}
 

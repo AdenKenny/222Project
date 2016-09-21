@@ -51,6 +51,7 @@ public class Master extends Thread {
 					else if (noResponse >= PING_TIMER) {
 						byte[] ping = new byte[1];
 						ping[0] = PackageCode.Codes.PING.value;
+						send(ping);
 					}
 				}
 				else {
