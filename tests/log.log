@@ -54,3 +54,31 @@
 23:57:52 - EVENT in userHandling.Register: A user with the name Paul registered.
 23:57:52 - EVENT in userHandling.Register: A user with the name Paul registered.
 23:57:52 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+09:01:30 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:01:30 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+09:01:30 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:01:30 - EVENT in userHandling.Verification: Paul logged in successfully.
+09:01:31 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:01:31 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:01:31 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+09:58:40 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:40 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+09:58:40 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:40 - EVENT in userHandling.Verification: Paul logged in successfully.
+09:58:40 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:41 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:41 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+09:58:41 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:41 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+09:58:41 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:41 - EVENT in userHandling.Verification: Paul logged in successfully.
+09:58:41 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:42 - EVENT in userHandling.Register: A user with the name Paul registered.
+09:58:42 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+10:43:22 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:43:22 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+10:43:23 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:43:23 - EVENT in userHandling.Verification: Paul logged in successfully.
+10:43:23 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:43:23 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:43:23 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul

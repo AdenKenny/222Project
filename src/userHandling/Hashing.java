@@ -108,7 +108,7 @@ public final class Hashing {
 				e.printStackTrace();
 			}
 
-			return null; //TODO Maybe return empty array?
+			return new byte[0]; //Return empty array rather than null.
 	}
 
 	/**

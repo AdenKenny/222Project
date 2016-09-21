@@ -42,7 +42,7 @@ public class Server {
 
 		try {
 			//Connect to port 5000
-			ServerSocket ss = new ServerSocket(5004);
+			ServerSocket ss = new ServerSocket(5000);
 			//loop indefinitely
 			while(true) {
 				try {

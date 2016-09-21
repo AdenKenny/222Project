@@ -47,7 +47,7 @@ public final class Verification {
 			password = null;
 		}
 
-		Logging.logEvent(Verification.class.getName(), Levels.EVENT, "An unsuccessful attempt to login from " + username);
+		Logging.logEvent(Verification.class.getName(), Levels.WARNING, "An unsuccessful attempt to login from " + username);
 
 		return null; //The login failed, either wrong password or no user with the name exists.
 	}

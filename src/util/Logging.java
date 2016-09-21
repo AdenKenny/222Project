@@ -21,15 +21,15 @@ public final class Logging {
 	/**
 	 * Enums representing the levels of events being sent to the server.
 	 *
-	 * WARNING should represent an error that we can recover from.
 	 * SEVERE should represent an error that we cannot recover from.
+	 * WARNING should represent an error that we can recover from.
 	 * EVENT should represent any other event such as user joining.
 	 * OTHER should represent miscellaneous events.
 	 */
 
 	public enum Levels {
-		WARNING(0),
-		SEVERE(1),
+		SEVERE(0),
+		WARNING(1),
 		EVENT(2),
 		OTHER(3); //Is this needed?
 
@@ -61,7 +61,13 @@ public final class Logging {
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				PrintWriter printWriter = new PrintWriter(bufferedWriter)) { //Writer setup.
 
-				printWriter.println(new LogEvent(level, className, message).out()); //Print the message to log.
+				LogEvent event = new LogEvent(level, className, message);
+
+				String eventOut = event.out();
+
+				printWriter.println(eventOut); //Print the message to log.
+
+				System.out.println(eventOut);
 		}
 
 		catch (IOException e) {
@@ -116,62 +122,15 @@ public final class Logging {
 		 * Compares a log event to another by severity. The more severe an event,
 		 * the greater the priority.
 		 *
+		 * A logging event having a compareTo value of 0 does not imply that they are equal,
+		 * it just implies that they have the same priority.
+		 *
 		 * SEVERE > WARNING > EVENT > OTHER
 		 */
 
 		@Override
 		public int compareTo(LogEvent o) {
 			return this.level.value + o.level.value;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((this.className == null) ? 0 : this.className.hashCode());
-			result = prime * result + ((this.level == null) ? 0 : this.level.hashCode());
-			result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
-			result = prime * result + ((this.timeStamp == null) ? 0 : this.timeStamp.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (getClass() != obj.getClass()) {
-				return false;
-			}
-			LogEvent other = (LogEvent) obj;
-			if (this.className == null) {
-				if (other.className != null) {
-					return false;
-				}
-			} else if (!this.className.equals(other.className)) {
-				return false;
-			}
-			if (this.level != other.level) {
-				return false;
-			}
-			if (this.message == null) {
-				if (other.message != null) {
-					return false;
-				}
-			} else if (!this.message.equals(other.message)) {
-				return false;
-			}
-			if (this.timeStamp == null) {
-				if (other.timeStamp != null) {
-					return false;
-				}
-			} else if (!this.timeStamp.equals(other.timeStamp)) {
-				return false;
-			}
-			return true;
 		}
 	}
 
