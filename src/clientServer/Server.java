@@ -34,7 +34,7 @@ public class Server {
 
 		try {
 			//Connect to port 5000
-			ServerSocket ss = new ServerSocket(5004);
+			ServerSocket ss = new ServerSocket(5000);
 			int uid = 0;
 			//loop indefinitely
 			while(true) {
@@ -60,8 +60,8 @@ public class Server {
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-				/*ConsoleWindow window = new ConsoleWindow();
-				window.setVisible(true);*/
+				ConsoleWindow window = new ConsoleWindow();
+				window.setVisible(true);
 		new Server();
 	}
 
