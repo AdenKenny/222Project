@@ -35,11 +35,17 @@ public class ItemBuilder {
 				|| saleValue == null)
 			return null;
 
-		int id = Integer.parseInt(ID);
-		Item.Type type = Item.Type.valueOf(this.type);
-		int value = Integer.parseInt(this.value);
-		int saleValue = Integer.parseInt(this.saleValue);
+		try {
+			int id = Integer.parseInt(ID);
+			Item.Type type = Item.Type.valueOf(this.type);
+			int value = Integer.parseInt(this.value);
+			int saleValue = Integer.parseInt(this.saleValue);
 
-		return new Item(id, name, type, value, saleValue);
+			return new Item(id, name, type, value, saleValue);
+		} catch (NumberFormatException e) {
+
+		}
+
+		return null;
 	}
 }
