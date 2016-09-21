@@ -29,7 +29,7 @@ public final class ReadXML implements XMLInterface {
 
 			this.doc.getDocumentElement().normalize();
 
-			System.out.println(this.doc.getDocumentElement().getNodeName());
+			//System.out.println(this.doc.getDocumentElement().getNodeName());
 
 			NodeList list = getNodes("Players"); //Node list is not iterable.
 
@@ -37,7 +37,7 @@ public final class ReadXML implements XMLInterface {
 			for(int i = 0; i < list.getLength(); i++) {
 				Node node = list.item(i);
 
-				System.out.println(node.getNodeName());
+				//System.out.println(node.getNodeName());
 			}
 
 		}

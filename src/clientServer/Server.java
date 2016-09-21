@@ -6,10 +6,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dataStorage.CreateXML;
 import dataStorage.DataGetter;
 import dataStorage.ReadXML;
+import userHandling.Register;
+import util.Logging;
 
 public class Server {
 
@@ -23,6 +27,7 @@ public class Server {
 
 		//Start the game
 		this.game = new Game();
+		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started");
 
 		//Start the game tick
 		Tick tick = new Tick(this.game);
@@ -37,7 +42,7 @@ public class Server {
 
 		try {
 			//Connect to port 5000
-			ServerSocket ss = new ServerSocket(5000);
+			ServerSocket ss = new ServerSocket(5004);
 			//loop indefinitely
 			while(true) {
 				try {
@@ -63,8 +68,8 @@ public class Server {
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-				//ConsoleWindow window = new ConsoleWindow();
-				//window.setVisible(true);
+				/*ConsoleWindow window = new ConsoleWindow();
+				window.setVisible(true);*/
 		new Server();
 	}
 

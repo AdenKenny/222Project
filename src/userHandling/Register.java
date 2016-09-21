@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import util.Logging;
+import util.Logging.Levels;
+
 /**
  * A class which handles registering a user and stores them in the database of users.
  *
@@ -71,6 +74,8 @@ public final class Register {
 			User user = new User(++currentID, username, hash); // Create user with details including
 																// incremented ID.
 			printWriter.println(user.dbString());
+
+			Logging.logEvent(Register.class.getName(), Levels.EVENT, "A user with the name " + username + " registered.");
 
 			return user;
 		}
