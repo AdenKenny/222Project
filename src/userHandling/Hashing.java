@@ -1,6 +1,8 @@
 package userHandling;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -42,13 +44,13 @@ public final class Hashing {
 	 * Enums representing the position of certain elements in the hash.
 	 * These should not be changed or it will break existing hashes in the database.
 	 */
-	
+
 	private enum Position {
 		HASH_SECTIONS(5), //Number of sections in the hash string.
 		HASH_ALGORITHM_INDEX(0), //Indexes of various elements in the hash string.
-		ITERATION_INDEX(1), 
-		HASH_SIZE_INDEX(2), 
-		SALT_INDEX(3), 
+		ITERATION_INDEX(1),
+		HASH_SIZE_INDEX(2),
+		SALT_INDEX(3),
 		PBKDF2_INDEX(4);
 
 		final int value; //Final as this should not be changed.
@@ -67,7 +69,8 @@ public final class Hashing {
 
 	/**
 	 * Method that takes a char array of a user's password and creates hash and salt of the
-	 * password. Uses PBKDF2 with 64000 iterations and salt and hash sizes of 32 bytes.
+	 * password. Uses PBKDF2 with 64000 iterations and salt and hash sizes of 32 bytes. Will
+	 * return null if the hashing fails.
 	 *
 	 * @param password
 	 *            The users password.
@@ -91,15 +94,23 @@ public final class Hashing {
 	}
 
 	private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
-		try {
-			PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
-			SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
-			return skf.generateSecret(spec).getEncoded();
-		}
 
-		catch (Exception e) {
-			throw new RuntimeErrorException(new Error("Hashing failed"));
-		}
+
+			try {
+				PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
+				SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
+				return skf.generateSecret(spec).getEncoded();
+			}
+
+			catch (InvalidKeySpecException e) {
+				e.printStackTrace();
+			}
+
+			catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+
+			return null;
 	}
 
 	/**

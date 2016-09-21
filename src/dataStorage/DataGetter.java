@@ -7,7 +7,7 @@ import userHandling.User;
 
 public final class DataGetter {
 
-	protected static Set<User> users;
+	static Set<User> users;
 
 	public DataGetter(Game game) {
 		DataGetter.users = game.getAllUsers();

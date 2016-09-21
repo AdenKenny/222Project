@@ -55,30 +55,44 @@ public class Master extends Thread {
 					}
 					else {
 						if (received[0] == PackageCode.Codes.LOGIN_ATTEMPT.value) {
-							String username = "";
-							String password = "";
 							int i = 1;
 							byte b;
+
+							StringBuilder usernameBuilder = new StringBuilder();
+
 							while ((b = received[i++]) != PackageCode.Codes.BREAK.value) {
-								username += (char)b;
+
+								usernameBuilder.append((char) b);
 							}
+
+							StringBuilder passwordBuilder = new StringBuilder();
+
 							while ((b = received[i++]) < received.length) {
-								password += (char)b;
+								passwordBuilder.append((char) b);
 							}
+
 							byte[] loginResult = new byte[2];
 							loginResult[0] = PackageCode.Codes.LOGIN_RESULT.value;
+
+							String username = usernameBuilder.toString();
+
 							if (!Register.userExists(username)) {
 								loginResult[1] = PackageCode.Codes.LOGIN_INCORRECT_USER.value;
 							}
+
 							else {
-								User user = Verification.login(username, password);
+								User user = Verification.login(username, passwordBuilder.toString());
+
 								if (user == null) {
 									loginResult[1] = PackageCode.Codes.LOGIN_INCORRECT_PASSWORD.value;
 								}
+
 								else {
+
 									if (this.game.userOnline(user)) {
 										loginResult[1] = PackageCode.Codes.LOGIN_ALREADY_CONNECTED.value;
 									}
+
 									else {
 										this.game.registerConnection(this.uid, user);
 										this.inGame = true;
@@ -86,30 +100,45 @@ public class Master extends Thread {
 									}
 								}
 							}
+
 							send(loginResult);
 						}
+
 						else if (received[0] == PackageCode.Codes.NEW_USER_ATTEMPT.value) {
 							String username = "";
 							String password = "";
 							int i = 1;
 							byte b;
+
+							StringBuilder usernameBuilder = new StringBuilder();
+
 							while ((b = received[i++]) != PackageCode.Codes.BREAK.value) {
-								username += (char) b;
+								usernameBuilder.append((char) b);
 							}
+
+							StringBuilder passwordBuilder = new StringBuilder();
+
 							while ((b = received[i++]) < received.length) {
-								password += (char) b;
+								passwordBuilder.append((char) b);
 							}
+
 							byte[] newUserResult = new byte[2];
+
 							newUserResult[0] = PackageCode.Codes.NEW_USER_RESULT.value;
-							User user = Register.createUser(username, password);
+							User user = Register.createUser(usernameBuilder.toString(), passwordBuilder.toString());
+
+							passwordBuilder = null;
+
 							if (user == null) {
 								newUserResult[1] = PackageCode.Codes.NEW_USER_NAME_TAKEN.value;
 							}
+
 							else {
 								this.game.registerConnection(this.uid, user);
 								this.inGame = true;
 								newUserResult[1] = PackageCode.Codes.NEW_USER_SUCCESS.value;
 							}
+
 							send(newUserResult);
 						}
 					}
@@ -131,6 +160,11 @@ public class Master extends Thread {
 
 	public void send(byte[] toSend) {
 		try {
+
+			if(this.output == null) {
+				//TODO Error handling.
+			}
+
 			while(this.output.size() != 0) {
 				//wait for any other sending to occur
 			}
