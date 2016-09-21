@@ -18,7 +18,7 @@ public class ConsoleWindow extends JFrame {
 
 		setSize(300, 200);
 
-	    JTextArea textArea = new JTextArea();
+	    final JTextArea textArea = new JTextArea();
 	    textArea.setEditable(false);
 
 	    //custom output stream
@@ -47,4 +47,4 @@ public class ConsoleWindow extends JFrame {
 	    //closing the window will stop the server
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-}
+}
