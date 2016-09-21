@@ -47,4 +47,4 @@ public class ConsoleWindow extends JFrame {
 	    //closing the window will stop the server
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-}
+}
