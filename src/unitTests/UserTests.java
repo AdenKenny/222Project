@@ -4,15 +4,11 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
-import java.nio.file.Path;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.junit.Test;
 
@@ -210,9 +206,8 @@ public class UserTests {
 		try {
 			Class<?> regClass = Class.forName("userHandling.Register");
 
-			Field field;
 			try {
-				field = regClass.getDeclaredField("DB_FILE");
+				Field field = regClass.getDeclaredField("DB_FILE");
 
 				field.setAccessible(true); // Make private field accessible.
 

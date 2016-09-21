@@ -1,0 +1,56 @@
+23:43:31 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:31 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:43:31 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:31 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:43:31 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:32 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:32 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:43:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:52 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:43:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:52 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:43:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:43:53 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:45:16 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:45:16 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:45:16 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:45:16 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:45:16 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:45:16 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:45:16 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:46:35 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:35 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:46:35 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:36 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:46:36 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:36 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:36 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:46:36 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:36 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:46:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:37 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:46:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:46:37 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:55:59 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:55:59 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:55:59 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:55:59 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:55:59 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:56:00 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:56:00 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:57:08 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:08 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:57:08 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:09 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:57:09 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:09 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:09 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul
+23:57:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:52 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+23:57:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:52 - EVENT in userHandling.Verification: Paul logged in successfully.
+23:57:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:52 - EVENT in userHandling.Register: A user with the name Paul registered.
+23:57:52 - EVENT in userHandling.Verification: An unsuccessful attempt to login from Paul

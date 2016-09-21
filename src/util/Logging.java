@@ -99,9 +99,6 @@ public final class Logging {
 			this.className = className;
 			this.message = message;
 			this.timeStamp = new SimpleDateFormat("HH:mm:ss") .format(Calendar.getInstance().getTime());
-
-			System.out.println(this.level.value);
-
 		}
 
 		/**

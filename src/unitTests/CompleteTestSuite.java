@@ -13,6 +13,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         unitTests.DataTests.class,
         unitTests.UserTests.class,
+        unitTests.MiscTests.class,
 })
 public class CompleteTestSuite {
 }
