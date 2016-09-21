@@ -6,7 +6,6 @@ import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.management.RuntimeErrorException;
 import javax.xml.bind.DatatypeConverter;
 
 //https://github.com/defuse/password-hashing/blob/master/PasswordStorage.java
@@ -109,7 +108,7 @@ public final class Hashing {
 				e.printStackTrace();
 			}
 
-			return null;
+			return null; //TODO Maybe return empty array?
 	}
 
 	/**

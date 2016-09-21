@@ -109,7 +109,6 @@ public final class Logging {
 
 		String out() {
 			String toLog = this.timeStamp + " - " + this.level.toString() + " in " + this.className + ": " + this.message;
-			toString();
 			return toLog;
 		}
 
@@ -123,6 +122,56 @@ public final class Logging {
 		@Override
 		public int compareTo(LogEvent o) {
 			return this.level.value + o.level.value;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((this.className == null) ? 0 : this.className.hashCode());
+			result = prime * result + ((this.level == null) ? 0 : this.level.hashCode());
+			result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
+			result = prime * result + ((this.timeStamp == null) ? 0 : this.timeStamp.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			LogEvent other = (LogEvent) obj;
+			if (this.className == null) {
+				if (other.className != null) {
+					return false;
+				}
+			} else if (!this.className.equals(other.className)) {
+				return false;
+			}
+			if (this.level != other.level) {
+				return false;
+			}
+			if (this.message == null) {
+				if (other.message != null) {
+					return false;
+				}
+			} else if (!this.message.equals(other.message)) {
+				return false;
+			}
+			if (this.timeStamp == null) {
+				if (other.timeStamp != null) {
+					return false;
+				}
+			} else if (!this.timeStamp.equals(other.timeStamp)) {
+				return false;
+			}
+			return true;
 		}
 	}
 
