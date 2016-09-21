@@ -8,6 +8,7 @@ import java.net.Socket;
 import userHandling.Register;
 import userHandling.User;
 import userHandling.Verification;
+import util.Logging;
 
 public class Master extends Thread {
 
@@ -28,13 +29,13 @@ public class Master extends Thread {
 		try {
 			this.output = new DataOutputStream(this.socket.getOutputStream());
 		} catch (IOException e) {
-			System.out.println(e);
+			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Output stream not created.");
 		}
 	}
 
 	@Override
 	public void run() {
-		System.out.println("User " + this.uid + " connected.");
+		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " connected.");
 		int noResponse = 0;
 		try {
 			DataInputStream input = new DataInputStream(this.socket.getInputStream());
@@ -181,9 +182,9 @@ public class Master extends Thread {
 			}
 			this.socket.close();
 		} catch(IOException e) {
-			System.out.println("User " + this.uid + " disconnected.");
+			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "User " + this.uid + " disconnected unexpectedly.");
 		} catch (InterruptedException e) {
-			System.out.println(e);
+			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, e.getMessage());
 		}
 	}
 
@@ -196,7 +197,7 @@ public class Master extends Thread {
 			this.output.write(toSend);
 			this.output.flush();
 		} catch (IOException e) {
-			System.out.println("Sending error");
+			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Sending error.");
 		}
 	}
 
