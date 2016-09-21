@@ -22,7 +22,7 @@ import userHandling.User;
 
 /**
  * A class for creating a .xml file.
- * 
+ *
  * @author Aden
  */
 
@@ -53,7 +53,15 @@ public final class CreateXML implements XMLInterface {
 				appendNode(username, "ID", playerID, playersNode); // Swap around ID and username?
 			}
 
-			transform("xml/" + fileName + ".xml"); // Print to file.
+			if(getter != null) { //For testing purposes.
+				transform("xml/" + fileName + ".xml"); // Print to file.
+			}
+
+			else { //Unit tests use a null dataGetter.
+				transform("tests/" + fileName + ".xml"); // Print to file.
+			}
+
+
 		}
 
 		catch (ParserConfigurationException e) {
@@ -82,7 +90,7 @@ public final class CreateXML implements XMLInterface {
 
 	/**
 	 * Appends a basic node to the tree.
-	 * 
+	 *
 	 * @param tagName
 	 *            The name of the tag.
 	 * @param root
@@ -101,7 +109,7 @@ public final class CreateXML implements XMLInterface {
 
 	/**
 	 * Appends a node with an attribute to the tree.
-	 * 
+	 *
 	 * @param tagName
 	 *            The name of the tag.
 	 * @param attName
@@ -114,14 +122,14 @@ public final class CreateXML implements XMLInterface {
 
 	@Override
 	public Element appendNode(String tagName, String attName, String attVal, Element root) {
-		Element element = this.doc.createElement(tagName); 
+		Element element = this.doc.createElement(tagName);
 		element.setAttribute(attName, attVal); //Set attribute to new node.
 
 		root.appendChild(element); //Append.
 
 		return element; //Return the node.
 	}
-	
+
 	/**
 	 * Outputs the tree to a .xml file.
 	 * @param fileName The name of the file we will be outputting to.

@@ -15,12 +15,12 @@ public final class User {
 
 	/**
 	 * Creates a user with the passed details.
-	 * 
+	 *
 	 * @param id The unique identifier of the user.
 	 * @param username The username of the user.
 	 * @param hash The generated hash for the user's password.
 	 */
-	
+
 	public User(long id, String username, String hash) {
 		this.id = id;
 		this.username = username;
@@ -29,27 +29,27 @@ public final class User {
 
 	/**
 	 * Returns the ID of the user.
-	 * 
+	 *
 	 * @return The unique identifier of the user.
 	 */
-	
+
 	public long getId() {
 		return this.id;
 	}
-	
+
 	/**
 	 * Returns the username of the user.
-	 * 
+	 *
 	 * @return The user's username.
 	 */
 
 	public String getUsername() {
 		return this.username;
 	}
-	
+
 	/**
 	 * Returns the hash of the user that was generated when the user was registered.
-	 * 
+	 *
 	 * @return The hash of the user. To check versus the entered password.
 	 */
 
@@ -59,39 +59,39 @@ public final class User {
 
 	/**
 	 * Sets the hash for the user. Should be used when the user's password is changed.
-	 * 
+	 *
 	 * @param hash The new hash. Should be generated with the 'Hashing' class in the 'userHandling' package.
 	 */
-	
+
 	public void setHash(String hash) {
 		this.hash = hash;
 	}
-	
+
 	/**
 	 * Returns a string representation of this user. The string is the user's ID, their
 	 * username, and the hash. This is what is stored in the database.
 	 */
-	
+
 	public String dbString() {
-		
+
 		return this.id + " " + this.username + " " + this.hash;
 	}
-	
+
 	/**
 	 * Returns a string representation of the user, although this method doesn't include
 	 * the hash of the user.
 	 */
-	
+
 	@Override
-	public String toString() { 
-		
+	public String toString() {
+
 		return this.id + " " + this.username;
 	}
 
 	/**
 	 * Returns the hashCode of the item.
 	 */
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -133,7 +133,7 @@ public final class User {
 		}
 		return true;
 	}
-	
-	
+
+
 
 }

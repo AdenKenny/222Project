@@ -16,9 +16,9 @@ import org.xml.sax.SAXException;
 public final class ReadXML implements XMLInterface {
 
 	Document doc;
-	
+
 	public ReadXML(String fileName) {
-				
+
 		File file = new File("xml/" + fileName + ".xml");
 
 		try {
@@ -32,14 +32,14 @@ public final class ReadXML implements XMLInterface {
 			System.out.println(this.doc.getDocumentElement().getNodeName());
 
 			NodeList list = getNodes("Players"); //Node list is not iterable.
-			
-			
+
+
 			for(int i = 0; i < list.getLength(); i++) {
 				Node node = list.item(i);
-				
+
 				System.out.println(node.getNodeName());
 			}
-			
+
 		}
 
 		catch (ParserConfigurationException e) {
@@ -54,7 +54,7 @@ public final class ReadXML implements XMLInterface {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
 	}

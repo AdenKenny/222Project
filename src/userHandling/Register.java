@@ -15,24 +15,23 @@ import java.util.Scanner;
  */
 
 public final class Register {
-
 	private static final File DB_FILE = new File("database/db.txt"); //The file representing the database.
 
 	/**
 	 * Enums representing the position of elements in the string that is read out of
 	 * the database.
 	 */
-	
+
 	private enum Position {
-		
+
 		ID_POSITION(0),
 		USER_POSITION(1),
 		HASH_POSITION(2);
-		
+
 		Position(int value) {
 			this.value = value;
 		}
-		
+
 		final int value;
 	}
 
@@ -179,6 +178,12 @@ public final class Register {
 		}
 
 		return null;
+	}
+
+	public boolean removeUser(String username) {
+				//TODO
+
+		return true;
 	}
 
 	public static void main(String[] args) {
