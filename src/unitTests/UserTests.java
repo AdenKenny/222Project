@@ -113,6 +113,23 @@ public class UserTests {
 	}
 
 	/**
+	 * Tests to make sure a user cannot register with an already taken name.
+	 */
+
+	@Test
+	public void testNoReRegister() {
+		User user = createUser();
+		user = createUser();
+
+		if(user != null) { //User should be null as failed login returns null.
+			deleteFile();
+			fail();
+		}
+
+		deleteFile(); //User was null, test passed.
+	}
+
+	/**
 	 * Tests to make sure the slow equals method in Hashing works correctly.
 	 */
 

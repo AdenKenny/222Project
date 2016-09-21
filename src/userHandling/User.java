@@ -6,7 +6,7 @@ package userHandling;
  * @author Aden
  */
 
-public final class User {
+public final class User implements Comparable<User> {
 
 	private final long id; //Unique identifier of the user.
 	private final String username; //Username of user.
@@ -89,6 +89,15 @@ public final class User {
 	}
 
 	/**
+	 * Compares users by ID.
+	 */
+
+	@Override
+	public int compareTo(User o) {
+		return (int) (this.getId() - o.getId());
+	}
+
+	/**
 	 * Returns the hashCode of the item.
 	 */
 
@@ -133,7 +142,4 @@ public final class User {
 		}
 		return true;
 	}
-
-
-
 }

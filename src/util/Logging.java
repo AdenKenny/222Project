@@ -28,10 +28,16 @@ public final class Logging {
 	 */
 
 	public enum Levels {
-		WARNING,
-		SEVERE,
-		EVENT,
-		OTHER; //Is this needed?
+		WARNING(0),
+		SEVERE(1),
+		EVENT(2),
+		OTHER(3); //Is this needed?
+
+		final int value;
+
+		Levels(int value) {
+			this.value = value;
+		}
 	}
 
 	private Logging() {
@@ -70,9 +76,9 @@ public final class Logging {
 	 * @author Aden
 	 */
 
-	class LogEvent{
+	class LogEvent implements Comparable<LogEvent> {
 
-		String level; //The level of the event.
+		Levels level; //The level of the event.
 		String className; //The class the event was registered in.
 		String message; //The message to be logged.
 		String timeStamp; //The time that the event was logged.
@@ -89,10 +95,12 @@ public final class Logging {
 
 		LogEvent(Levels levelEnum, String className, String message) {
 
-			this.level = levelEnum.toString();
+			this.level = levelEnum;
 			this.className = className;
 			this.message = message;
 			this.timeStamp = new SimpleDateFormat("HH:mm:ss") .format(Calendar.getInstance().getTime());
+
+			System.out.println(this.level.value);
 
 		}
 
@@ -103,9 +111,21 @@ public final class Logging {
 		 */
 
 		String out() {
-			String toLog = this.timeStamp + " - " + this.level + " in " + this.className + ": " + this.message;
-
+			String toLog = this.timeStamp + " - " + this.level.toString() + " in " + this.className + ": " + this.message;
+			toString();
 			return toLog;
+		}
+
+		/**
+		 * Compares a log event to another by severity. The more severe an event,
+		 * the greater the priority.
+		 *
+		 * SEVERE > WARNING > EVENT > OTHER
+		 */
+
+		@Override
+		public int compareTo(LogEvent o) {
+			return this.level.value + o.level.value;
 		}
 	}
 

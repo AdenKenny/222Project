@@ -85,7 +85,7 @@ public final class Register {
 		}
 
 		catch (RegistrationException e) {
-			System.out.println("A user already exists with this name"); //TODO Proper errors here.
+			Logging.logEvent(Register.class.getName(), Levels.WARNING, username + " was already taken for new account reg.");
 			return null;
 		}
 	}
