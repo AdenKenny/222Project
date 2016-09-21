@@ -25,13 +25,13 @@ public class Game {
 	}
 
 	public void readInput(long uid, byte[] input) {
-		//TODO
+		// TODO
 	}
 
 	public byte[] toByteArray(long uid) {
-		//get the character of the user
+		// get the character of the user
 		User user = this.connectedUsers.get(uid);
-		//TODO placeholder
+		// TODO placeholder
 		byte[] data = new byte[0];
 		
 		return data;
