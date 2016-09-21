@@ -3,6 +3,7 @@ package clientServer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -15,23 +16,25 @@ public class Slave extends Thread {
 
 	private Socket socket;
 	private DataOutputStream output;
+	private boolean connected;
 	private boolean inGame;
 
-	private Slave() {
+	public Slave() {
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
+			this.output = new DataOutputStream(socket.getOutputStream());
+			this.connected = true;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+		} catch (ConnectException e) {
+			System.out.println(e);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//TODO placeholder: will be moved to class where slave is held
-		start();
 	}
 
 	public void run() {
 		try {
-			this.output = new DataOutputStream(socket.getOutputStream());
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 
 			//TODO testing login, will be done from another class
@@ -136,16 +139,16 @@ public class Slave extends Thread {
 		}
 	}
 
+	public boolean connected() {
+		return true;
+	}
+
 	public void close() {
 		try {
 			this.socket.close();
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-	}
-
-	public static void main(String[] args) {
-		new Slave();
 	}
 
 }
