@@ -21,15 +21,15 @@ public final class Logging {
 	/**
 	 * Enums representing the levels of events being sent to the server.
 	 *
-	 * WARNING should represent an error that we can recover from.
 	 * SEVERE should represent an error that we cannot recover from.
+	 * WARNING should represent an error that we can recover from.
 	 * EVENT should represent any other event such as user joining.
 	 * OTHER should represent miscellaneous events.
 	 */
 
 	public enum Levels {
-		WARNING(0),
-		SEVERE(1),
+		SEVERE(0),
+		WARNING(1),
 		EVENT(2),
 		OTHER(3); //Is this needed?
 
@@ -61,7 +61,13 @@ public final class Logging {
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				PrintWriter printWriter = new PrintWriter(bufferedWriter)) { //Writer setup.
 
-				printWriter.println(new LogEvent(level, className, message).out()); //Print the message to log.
+				LogEvent event = new LogEvent(level, className, message);
+
+				String eventOut = event.out();
+
+				printWriter.println(eventOut); //Print the message to log.
+
+				System.out.println(eventOut);
 		}
 
 		catch (IOException e) {
@@ -109,13 +115,15 @@ public final class Logging {
 
 		String out() {
 			String toLog = this.timeStamp + " - " + this.level.toString() + " in " + this.className + ": " + this.message;
-			toString();
 			return toLog;
 		}
 
 		/**
 		 * Compares a log event to another by severity. The more severe an event,
 		 * the greater the priority.
+		 *
+		 * A logging event having a compareTo value of 0 does not imply that they are equal,
+		 * it just implies that they have the same priority.
 		 *
 		 * SEVERE > WARNING > EVENT > OTHER
 		 */
