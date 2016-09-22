@@ -1,10 +1,5 @@
 package gameWorld.characters;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import gameWorld.Location;
 import gameWorld.World.Direction;
 
@@ -110,4 +105,4 @@ public class Player extends Character {
 		xpToNextLevel = 100 + (int)(Math.pow(level-1, xpCurveFactor));
 	}
 
-}
+}
