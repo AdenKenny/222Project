@@ -84,6 +84,9 @@ public final class XMLWriter {
 				while (scan.hasNextLine()) {
 					String line = scan.nextLine();
 
+					// Skip comments prefaced with //
+					if (line.startsWith("//")) continue;
+
 					String[] arr = line.split(" ");
 
 					Element item = this.doc.createElement("item");
