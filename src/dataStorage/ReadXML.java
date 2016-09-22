@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -31,16 +32,18 @@ public final class ReadXML implements XMLInterface {
 
 			NodeList list = getNodes("item"); //Node list is not iterable.
 
-
-			for(int i = 0; i < list.getLength(); i++) {
+			for(int i = 0; i < list.getLength(); ++i) {
 				Node node = list.item(i);
 
-				NodeList rs = node.getChildNodes();
+				Element e = (Element) node; //This should be the base node of an item.
 
-				for(int k = 0; k < rs.getLength(); k++) {
+				NodeList nodeList = e.getChildNodes();
+
+				for(int k = 0; k < nodeList.getLength(); ++k) {
+					Node node2 = nodeList.item(k);
+
 
 				}
-
 			}
 
 		}

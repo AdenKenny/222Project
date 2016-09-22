@@ -88,7 +88,7 @@ public final class XMLWriter {
 
 					Element item = this.doc.createElement("item");
 
-					for (int i = 0; i < arr.length; i++) {
+					for (int i = 0; i < arr.length; ++i) {
 						Position pos = Position.getPos(i);
 
 						Element tag = doc.createElement(pos.getName());
