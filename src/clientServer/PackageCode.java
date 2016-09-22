@@ -15,7 +15,8 @@ public interface PackageCode {
 		NEW_USER_ATTEMPT((byte) 9),
 		NEW_USER_RESULT((byte) 10),
 		NEW_USER_SUCCESS((byte) 11),
-		NEW_USER_NAME_TAKEN((byte) 12);
+		NEW_USER_NAME_TAKEN((byte) 12),
+		DISCONNECT((byte) 13);
 
 		public final byte value;
 

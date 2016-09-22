@@ -27,7 +27,7 @@ public class Slave extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (ConnectException e) {
-			System.out.println(e);
+			System.out.println("Unable to connect to server.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -36,9 +36,6 @@ public class Slave extends Thread {
 	public void run() {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
-
-			//TODO testing login, will be done from another class
-			login("Simon", "hunter2");
 
 			boolean exit = false;
 			while (!exit) {
@@ -125,8 +122,14 @@ public class Slave extends Thread {
 
 	public void send(byte[] toSend) {
 		try {
+			int time = 0;
 			while(this.output.size() != 0) {
 				//wait for any other sending to occur
+				//if it is taking too long, flush the output
+				if (time++ == 10000) {
+					this.output.flush();
+					break;
+				}
 			}
 
 			this.output.writeInt(toSend.length);
@@ -140,11 +143,14 @@ public class Slave extends Thread {
 	}
 
 	public boolean connected() {
-		return true;
+		return connected;
 	}
 
 	public void close() {
 		try {
+			byte[] disconnect = new byte[1];
+			disconnect[0] = PackageCode.Codes.DISCONNECT.value;
+			send(disconnect);
 			this.socket.close();
 		} catch (IOException e) {
 			System.out.println(e);

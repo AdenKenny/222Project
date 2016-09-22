@@ -20,6 +20,7 @@ public class MainFrame extends JFrame implements ClientUI {
 	public MainFrame(){
 		super("Team 39");
 
+		this.slave = null;
 		Slave slave = new Slave();
 		if (slave.connected()) {
 			slave.start();
@@ -79,7 +80,9 @@ public class MainFrame extends JFrame implements ClientUI {
 	}
 
 	private void close() {
-
+		if (this.slave != null) {
+			this.slave.close();
+		}
         System.exit(0);
 	}
 

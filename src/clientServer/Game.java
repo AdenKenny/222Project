@@ -24,6 +24,10 @@ public class Game {
 		this.connectedUsers.put(uid, user);
 	}
 
+	public void disconnect(long uid) {
+		this.connectedUsers.remove(uid);
+	}
+
 	public void readInput(long uid, byte[] input) {
 		// TODO
 	}
@@ -33,28 +37,28 @@ public class Game {
 		User user = this.connectedUsers.get(uid);
 		// TODO placeholder
 		byte[] data = new byte[0];
-		
+
 		return data;
 	}
 
 	public boolean userOnline(User user) {
 		return this.connectedUsers.containsValue(user);
 	}
-	
+
 	/**
 	 * Returns a set of all the connected users in the game.
-	 * 
+	 *
 	 * @return A hash set of all connected users to the game.
 	 */
-	
+
 	public Set<User> getAllUsers() {
-		
+
 		Set<User> set = new HashSet<>();
-		
+
 		for(Entry<Long, User> entry : this.connectedUsers.entrySet()) {
 			set.add(entry.getValue()); //Add the value of the key value pair.
 		}
-		
+
 		return set;
 	}
 }
