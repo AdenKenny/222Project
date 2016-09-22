@@ -1,0 +1,9 @@
+<items>
+  <item>
+  	<itemID> 21 </itemID>
+  	<name> bronzeSword </name>
+  	<type> weapon </type>
+  	<value> 4 </value>
+  	<saleValue> 5 </value>
+  </item>
+</items>

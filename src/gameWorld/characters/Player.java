@@ -18,6 +18,51 @@ public class Player extends Character {
 		super(location, name, description, facing);
 	}
 
+	public void action_Inspect() {
+		// TODO: display a message to the user like
+		// 'Another adventurer, just like you.'
+	}
+
+	@Override
+	public List<String> actions() {
+		List<String> actions = new ArrayList<String>();
+
+		for (Method m : this.getClass().getMethods()) {
+			if (m.getName().startsWith("action_")) {
+				actions.add(methodToAction(m.getName()));
+			}
+		}
+
+		return actions;
+	}
+
+	@Override
+	public boolean performAction(String action) {
+		String methodName = actionToMethod(action);
+
+		for (Method m : this.getClass().getMethods()) {
+			if (m.getName().equals(methodName)) {
+				try {
+					m.invoke(this);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {}
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	protected String methodToAction(String methodName) {
+		return methodName.replaceFirst("action_", "")
+				.replace("_", " ");
+
+	}
+
+	@Override
+	protected String actionToMethod(String action) {
+		return "action_" + action.replace(" ", "_");
+	}
+
 	public int health() {
 		return health;
 	}
@@ -46,7 +91,7 @@ public class Player extends Character {
 			// allows it to work just by calling levelUp()
 			int tempXP = xp - xpToNextLevel;
 			levelUp();
-			xp = tempXP;
+			this.xp = tempXP;
 		}
 	}
 
@@ -60,4 +105,4 @@ public class Player extends Character {
 		xpToNextLevel = 100 + (int)(Math.pow(level-1, xpCurveFactor));
 	}
 
-}
+}

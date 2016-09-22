@@ -140,7 +140,6 @@ public class UserTests {
 			for (Method method : methods) {
 				if (method.getName().equals("slowEquals")) {
 					String hashStr1 = Hashing.createHash(testPassword.toCharArray());
-					String hashStr2 = Hashing.createHash(testPassword.toCharArray());
 
 					String[] params1 = hashStr1.split(":");
 
@@ -153,7 +152,6 @@ public class UserTests {
 							from64.setAccessible(true);
 
 							salt1 = (byte[]) from64.invoke(hashClass, params1[3]);
-							hash1 = (byte[]) from64.invoke(hashClass, params1[4]);
 						}
 					}
 

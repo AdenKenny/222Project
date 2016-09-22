@@ -21,15 +21,15 @@ public final class Logging {
 	/**
 	 * Enums representing the levels of events being sent to the server.
 	 *
-	 * WARNING should represent an error that we can recover from.
 	 * SEVERE should represent an error that we cannot recover from.
+	 * WARNING should represent an error that we can recover from.
 	 * EVENT should represent any other event such as user joining.
 	 * OTHER should represent miscellaneous events.
 	 */
 
 	public enum Levels {
-		WARNING(0),
-		SEVERE(1),
+		SEVERE(0),
+		WARNING(1),
 		EVENT(2),
 		OTHER(3); //Is this needed?
 
@@ -56,12 +56,18 @@ public final class Logging {
 	 * @param message A string representing the message that will be logged.
 	 */
 
-	public static void logEvent(String className, Levels level, String message) {
+	public static void logEvent(Class<?> classEvent, Levels level, String message) {
 		try (FileWriter fileWriter = new FileWriter(LOG_FILE, true);
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				PrintWriter printWriter = new PrintWriter(bufferedWriter)) { //Writer setup.
 
-				printWriter.println(new LogEvent(level, className, message).out()); //Print the message to log.
+				LogEvent event = new LogEvent(level, classEvent, message);
+
+				String eventOut = event.out();
+
+				printWriter.println(eventOut); //Print the message to log.
+
+				//System.out.println(eventOut);
 		}
 
 		catch (IOException e) {
@@ -79,9 +85,11 @@ public final class Logging {
 	class LogEvent implements Comparable<LogEvent> {
 
 		Levels level; //The level of the event.
-		String className; //The class the event was registered in.
+		Class<?> classEvent; //The class the event was registered in.
 		String message; //The message to be logged.
 		String timeStamp; //The time that the event was logged.
+
+		String className;
 
 		/**
 		 * Creates a LogEvent that can be outputed to the logging file. This LogEvent will
@@ -93,12 +101,22 @@ public final class Logging {
 		 * @param message A string of the message to be logged.
 		 */
 
-		LogEvent(Levels levelEnum, String className, String message) {
+		LogEvent(Levels levelEnum, Class<?> classEvent, String message) {
 
 			this.level = levelEnum;
-			this.className = className;
+			this.classEvent = classEvent;
 			this.message = message;
 			this.timeStamp = new SimpleDateFormat("HH:mm:ss") .format(Calendar.getInstance().getTime());
+
+			Class<?> tempClass = classEvent.getClass();
+
+			System.out.println(tempClass.getCanonicalName());
+
+			String[] test = tempClass.toString().split(" ");
+
+			//System.out.println(test[1]);
+
+			this.className = test[1];
 		}
 
 		/**
@@ -109,13 +127,15 @@ public final class Logging {
 
 		String out() {
 			String toLog = this.timeStamp + " - " + this.level.toString() + " in " + this.className + ": " + this.message;
-			toString();
 			return toLog;
 		}
 
 		/**
 		 * Compares a log event to another by severity. The more severe an event,
 		 * the greater the priority.
+		 *
+		 * A logging event having a compareTo value of 0 does not imply that they are equal,
+		 * it just implies that they have the same priority.
 		 *
 		 * SEVERE > WARNING > EVENT > OTHER
 		 */

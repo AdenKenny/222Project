@@ -1,0 +1,5 @@
+21 bronzeSword weapon 4 5
+44 steelShield shield 10 12
+64 smallHealth potion 5 10
+2 spiderLeg trash -1 12
+34 diamondRing quest 500 -1
