@@ -1,0 +1,7 @@
+16:10:50 - EVENT in userHandling.Register: A user with the name Paul registered.
+16:10:50 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+16:10:51 - EVENT in userHandling.Register: A user with the name Paul registered.
+16:10:51 - EVENT in userHandling.Verification: Paul logged in successfully.
+16:10:51 - EVENT in userHandling.Register: A user with the name Paul registered.
+16:10:51 - EVENT in userHandling.Register: A user with the name Paul registered.
+16:10:51 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul

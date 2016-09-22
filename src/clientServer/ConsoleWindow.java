@@ -12,15 +12,15 @@ import javax.swing.JTextArea;
 
 public class ConsoleWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
+
 	public ConsoleWindow() {
 		super("Server");
-		
+
 		setSize(300, 200);
-	    
-	    JTextArea textArea = new JTextArea();
+
+	    final JTextArea textArea = new JTextArea();
 	    textArea.setEditable(false);
-	
+
 	    //custom output stream
 		OutputStream out = new OutputStream() {
 			@Override
@@ -33,11 +33,11 @@ public class ConsoleWindow extends JFrame {
 	    };
 	    //create a new
 	    PrintStream printStream = new PrintStream(out);
-	     
+
 	    // re-assigns standard output stream and error output stream
 	    System.setOut(printStream);
 	    System.setErr(printStream);
-	    
+
 	    //Scrollpane that holds the output stream
 	    JScrollPane scrollPane = new JScrollPane(textArea);
 	    //lefthand border of 3 pixels
@@ -47,4 +47,4 @@ public class ConsoleWindow extends JFrame {
 	    //closing the window will stop the server
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-}
+}

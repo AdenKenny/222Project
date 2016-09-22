@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import util.Logging;
+import util.Logging.Levels;
+
 /**
  * A class which handles registering a user and stores them in the database of users.
  *
@@ -15,14 +18,27 @@ import java.util.Scanner;
  */
 
 public final class Register {
-
 	private static final File DB_FILE = new File("database/db.txt"); //The file representing the database.
 
-	private static final int ID_POSITION = 0; // Positions of the details in the database string.
-	private static final int USERNAME_POSITION = 1;
-	private static final int HASH_POSITION = 2;
+	/**
+	 * Enums representing the position of elements in the string that is read out of
+	 * the database.
+	 */
 
-	private static long currentID = 0; //The max id currently assigned.
+	private enum Position {
+
+		ID_POSITION(0),
+		USER_POSITION(1),
+		HASH_POSITION(2);
+
+		Position(int value) {
+			this.value = value;
+		}
+
+		final int value;
+	}
+
+	private static long currentID = 0; //The max ID currently assigned.
 
 	private Register() { // This shouldn't be initialised.
 		throw new AssertionError();
@@ -57,7 +73,9 @@ public final class Register {
 
 			User user = new User(++currentID, username, hash); // Create user with details including
 																// incremented ID.
-			printWriter.println(user.toString());
+			printWriter.println(user.dbString());
+
+			Logging.logEvent(Register.class.getName(), Levels.EVENT, "A user with the name " + username + " registered.");
 
 			return user;
 		}
@@ -67,9 +85,9 @@ public final class Register {
 		}
 
 		catch (RegistrationException e) {
+			Logging.logEvent(Register.class.getName(), Levels.WARNING, username + " was already taken for new account reg.");
 			return null;
 		}
-
 	}
 
 	/**
@@ -93,11 +111,11 @@ public final class Register {
 
 				String[] arr = line.split(" "); // Split all
 
-				if (arr[USERNAME_POSITION].equals(username)) { // Username is already in use.
+				if (arr[Position.USER_POSITION.value].equals(username)) { // Username is already in use.
 					return true;
 				}
 
-				currentID = Long.parseLong(arr[ID_POSITION]); // Get id of last user.
+				currentID = Long.parseLong(arr[Position.ID_POSITION.value]); // Get id of last user.
 			}
 
 		}
@@ -135,12 +153,12 @@ public final class Register {
 
 				String[] arr = line.split(" "); // Split all
 
-				if (arr[USERNAME_POSITION].equals(username)) { // Username is already in use.
+				if (arr[Position.USER_POSITION.value].equals(username)) { // Username is already in use.
 
 					try {
-						long id = Long.parseLong(arr[ID_POSITION]);
+						long id = Long.parseLong(arr[Position.ID_POSITION.value]);
 
-						return new User(id, username, arr[HASH_POSITION]);
+						return new User(id, username, arr[Position.HASH_POSITION.value]);
 					}
 
 					catch (NumberFormatException e) {
@@ -149,7 +167,7 @@ public final class Register {
 
 				}
 
-				currentID = Long.parseLong(arr[ID_POSITION]); // Get id of last user.
+				currentID = Long.parseLong(arr[Position.ID_POSITION.value]); // Get id of last user.
 			}
 
 		}
@@ -167,12 +185,17 @@ public final class Register {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		/*createUser("Mark", "Testing").toString();
-		createUser("Tim", "Testing").toString();
-		createUser("Part", "SDADSaDASDs").toString();*/
+	public boolean removeUser(String username) {
+				//TODO
 
-		//System.out.println(Verification.login("Mark", "Testing"));
+		return true;
+	}
+
+	public static void main(String[] args) {
+		/*createUser("Mark", "Testing").dbString();
+		createUser("Tim", "Testing").dbString();
+
+		System.out.println(Verification.login("Mark", "Testing"));*/
 
 	}
 
