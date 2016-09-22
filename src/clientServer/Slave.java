@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import util.Logging;
+import util.Logging.Levels;
+
 public class Slave extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
@@ -98,17 +101,17 @@ public class Slave extends Thread {
 		byte[] toSend = new byte[username.length() + password.length() + 2];
 		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value;
 		int i = 1;
-		
+
 		for (char c : username.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
-		
+
 		toSend[i++] = PackageCode.Codes.BREAK.value;
-		
+
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
-		
+
 		send(toSend);
 	}
 
@@ -117,12 +120,12 @@ public class Slave extends Thread {
 			while(this.output.size() != 0) {
 				//wait for any other sending to occur
 			}
-			
+
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 			this.output.flush();
-		} 
-		
+		}
+
 		catch (IOException e) {
 			System.out.println("Sending error");
 		}
