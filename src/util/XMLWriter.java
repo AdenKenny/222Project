@@ -2,9 +2,7 @@ package util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +17,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import dataStorage.ReadXML;
 
 /**
  * A class for creating a .xml file.
@@ -37,7 +37,7 @@ public final class XMLWriter {
 		SALE_VALUE(4, "saleValue");
 
 		final int pos;
-		String name;
+		final String name;
 
 		Position(int pos, String name) {
 			this.pos = pos;
@@ -166,5 +166,6 @@ public final class XMLWriter {
 
 	public static void main(String[] args) {
 		new XMLWriter("items");
+		new ReadXML("items");
 	}
 }
