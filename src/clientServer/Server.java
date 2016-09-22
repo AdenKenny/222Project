@@ -17,10 +17,6 @@ import util.Logging;
 
 public class Server {
 
-	private static long uid = 0;
-
-	//private Socket socket;
-
 	private Game game;
 
 	private Server() {
@@ -36,13 +32,10 @@ public class Server {
 		new CreateXML(new DataGetter(this.game), "base");
 		new ReadXML("base");
 
-
-		//A list of all the connections to clients
-		Set<Master> connections = new HashSet<>();
-
 		try {
 			//Connect to port 5000
 			ServerSocket ss = new ServerSocket(5000);
+			int uid = 0;
 			//loop indefinitely
 			while(true) {
 				try {
@@ -50,7 +43,6 @@ public class Server {
 					Socket s = ss.accept();
 					//create and run a master for that client
 					Master m = new Master(s, uid++, this.game);
-					connections.add(m);
 					m.start();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -68,9 +60,9 @@ public class Server {
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-				/*ConsoleWindow window = new ConsoleWindow();
-				window.setVisible(true);*/
+				ConsoleWindow window = new ConsoleWindow();
+				window.setVisible(true);
 		new Server();
 	}
 
-}
+}
