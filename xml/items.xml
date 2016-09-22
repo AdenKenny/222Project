@@ -3,35 +3,35 @@
   <item>
     <itemID>2</itemID>
     <name>spiderLeg</name>
-    <type>trash</type>
+    <type>TRASH</type>
     <value>-1</value>
     <saleValue>12</saleValue>
   </item>
   <item>
     <itemID>21</itemID>
     <name>bronzeSword</name>
-    <type>weapon</type>
+    <type>WEAPON</type>
     <value>4</value>
     <saleValue>5</saleValue>
   </item>
   <item>
     <itemID>34</itemID>
     <name>diamondRing</name>
-    <type>quest</type>
+    <type>QUEST</type>
     <value>500</value>
     <saleValue>-1</saleValue>
   </item>
   <item>
     <itemID>44</itemID>
     <name>steelShield</name>
-    <type>shield</type>
+    <type>SHIELD</type>
     <value>10</value>
     <saleValue>12</saleValue>
   </item>
   <item>
     <itemID>64</itemID>
     <name>smallHealth</name>
-    <type>potion</type>
+    <type>POTION</type>
     <value>5</value>
     <saleValue>10</saleValue>
   </item>

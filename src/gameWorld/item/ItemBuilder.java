@@ -1,49 +1,79 @@
 package gameWorld.item;
 
-public class ItemBuilder {
-	private String ID = null;
-	private String name = null;
-	private String type = null;
-	private String value = null;
-	private String saleValue = null;
+import util.Logging;
 
-	public void setID(String iD) {
-		ID = iD;
+public final class ItemBuilder {
+	private String buildID;
+	private String buildName;
+	private String buildType;
+	private String buildValue;
+	private String buildSaleValue;
+
+	private int ID;
+	private String name;
+	private Item.Type type;
+	private int value;
+	private int saleValue;
+
+
+	public void setID(String buildID) {
+		this.buildID = buildID;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String buildName) {
+		this.buildName = buildName;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setType(String buildType) {
+		this.buildType = buildType;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setValue(String buildValue) {
+		this.buildValue = buildValue;
 	}
 
-	public void setSaleValue(String saleValue) {
-		this.saleValue = saleValue;
+	public void setSaleValue(String buildSaleValue) {
+		this.buildSaleValue = buildSaleValue;
+	}
+
+	public int getID() {
+		return this.ID;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public Item.Type getType() {
+		return this.type;
+	}
+
+	public int getValue() {
+		return this.value;
+	}
+
+	public int getSaleValue() {
+		return this.saleValue;
 	}
 
 	public Item build() {
-		if (ID == null
-				|| name == null
-				|| type == null
-				|| value == null
-				|| saleValue == null)
+		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
+				|| this.buildSaleValue == null) {
 			return null;
-
+		}
 		try {
-			int id = Integer.parseInt(ID);
-			Item.Type type = Item.Type.valueOf(this.type);
-			int value = Integer.parseInt(this.value);
-			int saleValue = Integer.parseInt(this.saleValue);
+			this.ID = Integer.parseInt(this.buildID);
+			this.name = this.buildName;
+			this.type = Item.Type.valueOf(this.buildType);
+			this.value = Integer.parseInt(this.buildValue);
+			this.saleValue = Integer.parseInt(this.buildSaleValue);
 
-			return new Item(id, name, type, value, saleValue);
-		} catch (NumberFormatException e) {
+			return new Item(this);
+		}
 
+		catch (NumberFormatException e) {
+			Logging.logEvent(ItemBuilder.class.getName(), Logging.Levels.WARNING,
+					"Improperly formatted XML file on item loading.");
 		}
 
 		return null;

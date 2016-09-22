@@ -75,7 +75,7 @@ public final class Register {
 																// incremented ID.
 			printWriter.println(user.dbString());
 
-			Logging.logEvent(Register.class, Levels.EVENT, "A user with the name " + username + " registered.");
+			Logging.logEvent(Register.class.getName(), Levels.EVENT, "A user with the name " + username + " registered.");
 
 			return user;
 		}
@@ -85,7 +85,7 @@ public final class Register {
 		}
 
 		catch (RegistrationException e) {
-			Logging.logEvent(Register.class, Levels.WARNING, username + " was already taken for new account reg.");
+			Logging.logEvent(Register.class.getName(), Levels.WARNING, username + " was already taken for new account reg.");
 			return null;
 		}
 	}

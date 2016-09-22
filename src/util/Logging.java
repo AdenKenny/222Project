@@ -56,12 +56,12 @@ public final class Logging {
 	 * @param message A string representing the message that will be logged.
 	 */
 
-	public static void logEvent(Class<?> classEvent, Levels level, String message) {
+	public static void logEvent(String className, Levels level, String message) {
 		try (FileWriter fileWriter = new FileWriter(LOG_FILE, true);
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				PrintWriter printWriter = new PrintWriter(bufferedWriter)) { //Writer setup.
 
-				LogEvent event = new LogEvent(level, classEvent, message);
+				LogEvent event = new LogEvent(className,level, message);
 
 				String eventOut = event.out();
 
@@ -85,10 +85,8 @@ public final class Logging {
 	class LogEvent implements Comparable<LogEvent> {
 
 		Levels level; //The level of the event.
-		Class<?> classEvent; //The class the event was registered in.
 		String message; //The message to be logged.
 		String timeStamp; //The time that the event was logged.
-
 		String className;
 
 		/**
@@ -101,22 +99,12 @@ public final class Logging {
 		 * @param message A string of the message to be logged.
 		 */
 
-		LogEvent(Levels levelEnum, Class<?> classEvent, String message) {
+		LogEvent(String className, Levels levelEnum, String message) {
 
 			this.level = levelEnum;
-			this.classEvent = classEvent;
+			this.className = className;
 			this.message = message;
 			this.timeStamp = new SimpleDateFormat("HH:mm:ss") .format(Calendar.getInstance().getTime());
-
-			Class<?> tempClass = classEvent.getClass();
-
-			System.out.println(tempClass.getCanonicalName());
-
-			String[] test = tempClass.toString().split(" ");
-
-			//System.out.println(test[1]);
-
-			this.className = test[1];
 		}
 
 		/**

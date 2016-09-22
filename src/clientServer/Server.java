@@ -23,14 +23,12 @@ public class Server {
 
 		//Start the game
 		this.game = new Game();
-		Logging.logEvent(Server.class, Logging.Levels.EVENT, "The server was started");
+		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started");
 
 		//Start the game tick
 		Tick tick = new Tick(this.game);
 		tick.start();
 
-		new CreateXML(new DataGetter(this.game), "base");
-		new ReadXML("base");
 
 		try {
 			//Connect to port 5000

@@ -2,6 +2,8 @@ package dataStorage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -9,17 +11,29 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public final class ReadXML implements XMLInterface {
+import gameWorld.item.Item;
+import gameWorld.item.ItemBuilder;
+import util.Logging;
 
-	Document doc;
+public final class ReadXML { // TODO Singleton pattern?
 
-	public ReadXML(String fileName) {
+	private Document doc;
 
+	private Map<Integer, Item> mapOfItems;
+	private Map<Integer, Character> mapOfCharacters;
+
+	public ReadXML(String itemsName, String charactersName) {
+
+		this.mapOfItems = readItems(itemsName);
+		//this.mapOfCharacters = readCharacters(charactersName);
+
+	}
+
+	private Map<Integer, Item> readItems(String fileName) {
 		File file = new File("xml/" + fileName + ".xml");
 
 		try {
@@ -30,22 +44,38 @@ public final class ReadXML implements XMLInterface {
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("item"); //Node list is not iterable.
+			NodeList list = getNodes("item"); // Node list is not iterable.
 
-			for(int i = 0; i < list.getLength(); ++i) {
+			HashMap<Integer, Item> map = new HashMap<>();
+
+			for (int i = 0; i < list.getLength(); ++i) {
 				Node node = list.item(i);
 
-				Element e = (Element) node; //This should be the base node of an item.
+				Element e = (Element) node; // This should be the base node of
+											// an item.
 
-				NodeList nodeList = e.getChildNodes();
+				ItemBuilder build = new ItemBuilder(); // Build an item.
 
-				for(int k = 0; k < nodeList.getLength(); ++k) {
-					Node node2 = nodeList.item(k);
+				String itemID = e.getElementsByTagName("itemID").item(0).getTextContent();
+				build.setID(itemID); // Set the ID.
 
+				String name = e.getElementsByTagName("name").item(0).getTextContent();
+				build.setName(name); // Set the name.
 
-				}
+				String type = e.getElementsByTagName("type").item(0).getTextContent();
+				build.setType(type); // Set the type.
+
+				String value = e.getElementsByTagName("value").item(0).getTextContent();
+				build.setValue(value); // Set the value.
+
+				String saleValue = e.getElementsByTagName("saleValue").item(0).getTextContent();
+				build.setSaleValue(saleValue); // Set sale value.
+
+				Item item = build.build(); // Build the item.
+
+				map.put(item.getID(), item); // Put item in map with
+															// ID as key.
 			}
-
 		}
 
 		catch (ParserConfigurationException e) {
@@ -59,34 +89,37 @@ public final class ReadXML implements XMLInterface {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return this.mapOfItems;
+	}
+
+	private Map<Integer, Character> readCharacters(String charactersName) {
+		HashMap<Integer, Character> map = new HashMap<>();
+
+		return map;
+	}
+
+	/**
+	 * Returns a Map<Integer, Item> of the items that were loaded from XML. An
+	 * item is mapped to it's ID.
+	 *
+	 * @return A Map<Integer, Item>.
+	 */
+
+	public Map<Integer, Item> getItems() {
+
+		if (this.mapOfItems != null) {
+			return this.mapOfItems;
+		}
+
+		Logging.logEvent(ReadXML.class.getName(), Logging.Levels.SEVERE, "Failed to load items from .xml file");
+
+		return new HashMap<>(); // Error results in no items being loaded.
+
 	}
 
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
-	}
-
-	@Override
-	public Element getRoot() throws ParserConfigurationException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Element appendNode(String tagName, Element root) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Element appendNode(String tagName, String attName, String attVal, Element root) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void transform(String fileName) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

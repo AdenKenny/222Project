@@ -169,6 +169,6 @@ public final class XMLWriter {
 
 	public static void main(String[] args) {
 		new XMLWriter("items");
-		new ReadXML("items");
+		new ReadXML("items", "chars");
 	}
 }

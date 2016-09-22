@@ -1,5 +1,5 @@
-2 spiderLeg trash -1 12
-21 bronzeSword weapon 4 5
-34 diamondRing quest 500 -1
-44 steelShield shield 10 12
-64 smallHealth potion 5 10
+2 spiderLeg TRASH -1 12
+21 bronzeSword WEAPON 4 5
+34 diamondRing QUEST 500 -1
+44 steelShield SHIELD 10 12
+64 smallHealth POTION 5 10
