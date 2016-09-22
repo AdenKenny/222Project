@@ -1,0 +1,47 @@
+<item>
+	id = 12312321
+	itemID = 21
+	pos = 4, 6
+	room = 321312l
+	direction = Direction.NORTH
+</item>
+
+<item> 
+	itemID = 21
+	name = bronzeSword
+	type = weapon
+	value = 4
+	saleValue = 5
+</item>
+
+<item>
+	itemID = 13
+	name = steel shield
+	type = shield
+	value = 12
+	saleValue = 5
+</item>
+
+<item>
+	itemID = 15
+	name = smallHealth
+	type = potion
+	value = 5
+	saleValue = 1
+</item>
+
+<item>
+	itemID = 63
+	name = spiderLeg
+	type = trash
+	value = -1
+	saleValue = 12
+</item>
+
+<item>
+	itemID = 123
+	name = diamondRing
+	type = quest
+	value = 5000
+	saleValue = -1
+</item>
