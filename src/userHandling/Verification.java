@@ -39,7 +39,7 @@ public final class Verification {
 			if(Hashing.verifyPassword(password, user.getHash())) { //Correct password.
 				password = null;
 
-				Logging.logEvent(Verification.class.getName(), Levels.EVENT, username + " logged in successfully.");
+				Logging.logEvent(Verification.class, Levels.EVENT, username + " logged in successfully.");
 
 				return user;
 			}
@@ -47,7 +47,7 @@ public final class Verification {
 			password = null;
 		}
 
-		Logging.logEvent(Verification.class.getName(), Levels.WARNING, "An unsuccessful attempt to login from " + username);
+		Logging.logEvent(Verification.class, Levels.WARNING, "An unsuccessful attempt to login from " + username);
 
 		return null; //The login failed, either wrong password or no user with the name exists.
 	}

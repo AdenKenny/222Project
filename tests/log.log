@@ -82,3 +82,45 @@
 10:43:23 - EVENT in userHandling.Register: A user with the name Paul registered.
 10:43:23 - EVENT in userHandling.Register: A user with the name Paul registered.
 10:43:23 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+10:47:39 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:39 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+10:47:40 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:40 - EVENT in userHandling.Verification: Paul logged in successfully.
+10:47:40 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:40 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:40 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+10:47:54 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:54 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+10:47:55 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:55 - EVENT in userHandling.Verification: Paul logged in successfully.
+10:47:55 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:55 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:47:55 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+10:48:58 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:48:58 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+10:48:58 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:48:58 - EVENT in userHandling.Verification: Paul logged in successfully.
+10:48:59 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:48:59 - EVENT in userHandling.Register: A user with the name Paul registered.
+10:48:59 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+10:54:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:54:48 - WARNING in java.lang.Class: Paul was already taken for new account reg.
+10:54:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:54:48 - EVENT in java.lang.Class: Paul logged in successfully.
+10:54:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:54:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:54:49 - WARNING in java.lang.Class: An unsuccessful attempt to login from Paul
+10:55:12 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:55:12 - WARNING in java.lang.Class: Paul was already taken for new account reg.
+10:55:12 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:55:12 - EVENT in java.lang.Class: Paul logged in successfully.
+10:55:13 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:55:13 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:55:13 - WARNING in java.lang.Class: An unsuccessful attempt to login from Paul
+10:57:47 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:57:47 - WARNING in java.lang.Class: Paul was already taken for new account reg.
+10:57:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:57:48 - EVENT in java.lang.Class: Paul logged in successfully.
+10:57:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:57:48 - EVENT in java.lang.Class: A user with the name Paul registered.
+10:57:48 - WARNING in java.lang.Class: An unsuccessful attempt to login from Paul
