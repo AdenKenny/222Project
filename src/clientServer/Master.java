@@ -21,6 +21,7 @@ public class Master extends Thread {
 	private final Game game;
 	private boolean inGame;
 	private DataOutputStream output;
+	private int messagesReceived;
 
 	public Master(Socket socket, long uid, Game game) {
 		this.socket = socket;
@@ -67,7 +68,16 @@ public class Master extends Thread {
 					byte[] received = new byte[amount];
 					input.readFully(received);
 
+					if (received[0] == PackageCode.Codes.DISCONNECT.value) {
+						this.game.disconnect(this.uid);
+						Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " disconnected.");
+						break;
+					}
+
 					if (this.inGame) {
+						if (received[0] == PackageCode.Codes.TEXT_MESSAGE.value) {
+							textMessage(received);
+						}
 						this.game.readInput(this.uid, received);
 					}
 					else {
@@ -78,16 +88,15 @@ public class Master extends Thread {
 						else if (received[0] == PackageCode.Codes.NEW_USER_ATTEMPT.value) {
 							newUser(received);
 						}
-						else if (received[0] == PackageCode.Codes.DISCONNECT.value) {
-							this.game.disconnect(this.uid);
-							Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " disconnected.");
-							break;
-						}
 					}
 				}
 				if (this.inGame) {
 					//send game information
-					send(this.game.toByteArray(this.uid));
+					byte[][] packets = this.game.toByteArray(this.uid);
+					for (byte[] toSend : packets) {
+						send(toSend);
+					}
+					getMessages();
 				}
 				//sleep
 				Thread.sleep(BROADCAST_CLOCK);
@@ -107,6 +116,28 @@ public class Master extends Thread {
 		}
 	}
 
+	private void textMessage(byte[] received) {
+		StringBuilder message = new StringBuilder();
+		for (int i = 1; i < received.length; i++) {
+			message.append((char)received[i]);
+		}
+		this.game.textMessage(this.uid, message.toString());
+	}
+
+	private void getMessages() throws IOException {
+		String[] messages = this.game.getMessages(this.messagesReceived);
+		this.messagesReceived += messages.length;
+		for (String message : messages) {
+			byte[] toSend = new byte[message.length() + 1];
+			toSend[0] = PackageCode.Codes.TEXT_MESSAGE.value;
+			int i = 1;
+			for (char c : message.toCharArray()) {
+				toSend[i++] = (byte) c;
+			}
+			send(toSend);
+		}
+	}
+
 	private void login(byte[] received) throws IOException {
 		int i = 1;
 		byte b;
@@ -120,9 +151,9 @@ public class Master extends Thread {
 
 		StringBuilder passwordBuilder = new StringBuilder();
 		//iterate through the bytes from the break until the end
-		while ((b = received[i++]) < received.length) {
+		for (; i < received.length; i++) {
 			//convert the byte into a char and add it to the string builder
-			passwordBuilder.append((char) b);
+			passwordBuilder.append((char)received[i]);
 		}
 
 		/*

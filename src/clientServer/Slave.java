@@ -142,6 +142,16 @@ public class Slave extends Thread {
 		}
 	}
 
+	public void sendTextMessage(String message) {
+		byte[] toSend = new byte[message.length() + 1];
+		toSend[0] = PackageCode.Codes.TEXT_MESSAGE.value;
+		int i = 1;
+		for (char c : message.toCharArray()) {
+			toSend[i++] = (byte) c;
+		}
+		send(toSend);
+	}
+
 	public boolean connected() {
 		return connected;
 	}
