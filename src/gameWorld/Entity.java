@@ -84,6 +84,8 @@ public abstract class Entity {
 	 * @return	the List of actions
 	 */
 	public abstract List<String> actions();
+
+	public abstract String[]
 	
 	/**
 	 * Attempts to perform the specified action on this Entity.
