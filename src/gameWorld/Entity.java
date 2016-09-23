@@ -88,7 +88,7 @@ public abstract class Entity {
 	public List<Action> actions() {
 		return actions;
 	}
-
+	
 	/**
 	 * Attempts to perform the specified action on this Entity.
 	 * Will fail if the specified action cannot be found in the
