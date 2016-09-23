@@ -44,7 +44,7 @@ public final class ReadXML { // TODO Singleton pattern?
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("item"); // Node list is not iterable.
+			NodeList list = getNodes("item"); //Get all items.
 
 			HashMap<Integer, Item> map = new HashMap<>();
 

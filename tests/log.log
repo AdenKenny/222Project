@@ -5,3 +5,10 @@
 16:10:51 - EVENT in userHandling.Register: A user with the name Paul registered.
 16:10:51 - EVENT in userHandling.Register: A user with the name Paul registered.
 16:10:51 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+14:08:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:08:37 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+14:08:38 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:08:38 - EVENT in userHandling.Verification: Paul logged in successfully.
+14:08:38 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:08:38 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:08:38 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul

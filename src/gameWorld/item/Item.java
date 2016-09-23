@@ -29,7 +29,7 @@ public class Item {
 		return ID;
 	}
 
-	public void setID(int id) {
+	public void setID(int ID) {
 		this.ID = ID;
 	}
 

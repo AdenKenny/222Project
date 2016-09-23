@@ -15,6 +15,20 @@
     <saleValue>5</saleValue>
   </item>
   <item>
+    <itemID>22</itemID>
+    <name>ironSword</name>
+    <type>WEAPON</type>
+    <value>6</value>
+    <saleValue>7</saleValue>
+  </item>
+  <item>
+    <itemID>23</itemID>
+    <name>steelSword</name>
+    <type>WEAPON</type>
+    <value>8</value>
+    <saleValue>9</saleValue>
+  </item>
+  <item>
     <itemID>34</itemID>
     <name>diamondRing</name>
     <type>QUEST</type>
@@ -22,17 +36,52 @@
     <saleValue>-1</saleValue>
   </item>
   <item>
-    <itemID>44</itemID>
-    <name>steelShield</name>
+    <itemID>100</itemID>
+    <name>bronzeShield</name>
     <type>SHIELD</type>
-    <value>10</value>
-    <saleValue>12</saleValue>
+    <value>4</value>
+    <saleValue>9</saleValue>
   </item>
   <item>
-    <itemID>64</itemID>
+    <itemID>101</itemID>
+    <name>ironShield</name>
+    <type>SHIELD</type>
+    <value>6</value>
+    <saleValue>11</saleValue>
+  </item>
+  <item>
+    <itemID>102</itemID>
+    <name>steelShield</name>
+    <type>SHIELD</type>
+    <value>8</value>
+    <saleValue>13</saleValue>
+  </item>
+  <item>
+    <itemID>150</itemID>
     <name>smallHealth</name>
     <type>POTION</type>
     <value>5</value>
     <saleValue>10</saleValue>
+  </item>
+  <item>
+    <itemID>151</itemID>
+    <name>mediumHealth</name>
+    <type>POTION</type>
+    <value>10</value>
+    <saleValue>25</saleValue>
+  </item>
+  <item>
+    <itemID>152</itemID>
+    <name>largeHealth</name>
+    <type>POTION</type>
+    <value>15</value>
+    <saleValue>50</saleValue>
+  </item>
+  <item>
+    <itemID>153</itemID>
+    <name>giantHealth</name>
+    <type>POTION</type>
+    <value>25</value>
+    <saleValue>100</saleValue>
   </item>
 </items>
