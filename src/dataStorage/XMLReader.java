@@ -19,22 +19,32 @@ import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
 import util.Logging;
 
-public final class ReadXML { // TODO Singleton pattern?
+public final class XMLReader {
 
 	private Document doc;
 
 	private Map<Integer, Item> mapOfItems;
 	private Map<Integer, Character> mapOfCharacters;
 
-	public ReadXML(String itemsName, String charactersName) {
+	private static final XMLReader INSTANCE = new XMLReader();
+	
+	private XMLReader() {
+		this.mapOfItems = readItems();
+	}
+	
+	public static XMLReader getInstance() {
+		return INSTANCE;
+	}
+	
+	/*public ReadXML(String itemsName, String charactersName) {
 
-		this.mapOfItems = readItems(itemsName);
+		//this.mapOfItems = readItems(itemsName);
 		//this.mapOfCharacters = readCharacters(charactersName);
 
 	}
-
-	private Map<Integer, Item> readItems(String fileName) {
-		File file = new File("xml/" + fileName + ".xml");
+*/
+	private Map<Integer, Item> readItems() {
+		File file = new File("xml/" + "items" + ".xml");
 
 		try {
 
@@ -112,7 +122,7 @@ public final class ReadXML { // TODO Singleton pattern?
 			return this.mapOfItems;
 		}
 
-		Logging.logEvent(ReadXML.class.getName(), Logging.Levels.SEVERE, "Failed to load items from .xml file");
+		Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE, "Failed to load items from .xml file");
 
 		return new HashMap<>(); // Error results in no items being loaded.
 

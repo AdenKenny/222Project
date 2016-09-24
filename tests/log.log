@@ -12,3 +12,115 @@
 14:08:38 - EVENT in userHandling.Register: A user with the name Paul registered.
 14:08:38 - EVENT in userHandling.Register: A user with the name Paul registered.
 14:08:38 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:35:34 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:42:37 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:42:37 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:43:08 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:43:08 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file
+14:43:09 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:43:09 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+14:43:09 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:43:09 - EVENT in userHandling.Verification: Paul logged in successfully.
+14:43:09 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:43:09 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:43:10 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+14:47:36 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:47:36 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:47:36 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:47:36 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:47:36 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:47:37 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:47:37 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file
+14:47:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:47:37 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+14:47:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:47:37 - EVENT in userHandling.Verification: Paul logged in successfully.
+14:47:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:47:37 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:47:38 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:48:26 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:48:26 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file
+14:48:26 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:48:26 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+14:48:26 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:48:26 - EVENT in userHandling.Verification: Paul logged in successfully.
+14:48:26 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:48:27 - EVENT in userHandling.Register: A user with the name Paul registered.
+14:48:27 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:51:38 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:51:38 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file
+14:51:38 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: ironSword
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: steelSword
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: diamondRing
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: bronzeShield
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: ironShield
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: steelShield
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: smallHealth
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: mediumHealth
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: largeHealth
+14:52:03 - EVENT in util.XMLWriter: Created XML of item: giantHealth
+14:52:03 - SEVERE in dataStorage.XMLReader: Failed to load items from .xml file

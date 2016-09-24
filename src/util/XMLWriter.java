@@ -18,7 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import dataStorage.ReadXML;
+import dataStorage.XMLReader;
 
 /**
  * A class for creating a .xml file.
@@ -66,10 +66,13 @@ public final class XMLWriter {
 		}
 	}
 
-	Document doc;
-
-	public XMLWriter(String fileName) {
-
+	private Document doc;
+		
+	public XMLWriter(String fileName, String readFile) {
+		writeItems(fileName, readFile);
+	}
+	
+	public void writeItems(String fileName, String readFile) {
 		try {
 
 			Element root = getRoot(); // Create a new root.
@@ -79,7 +82,7 @@ public final class XMLWriter {
 			Scanner scan = null;
 
 			try {
-				scan = new Scanner(new File("xml/items.txt"));
+				scan = new Scanner(new File("xml/" + readFile + ".txt"));
 
 				while (scan.hasNextLine()) {
 					String line = scan.nextLine();
@@ -121,7 +124,7 @@ public final class XMLWriter {
 			Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.SEVERE, "Failed to parse in XML Writer");
 		}
 	}
-
+	
 	private Element getRoot() throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -160,8 +163,7 @@ public final class XMLWriter {
 			transformer.transform(source, result);
 		}
 
-		catch (TransformerConfigurationException e) { // TODO Add as throws
-														// clauses?
+		catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		}
 
@@ -172,7 +174,7 @@ public final class XMLWriter {
 	}
 
 	public static void main(String[] args) {
-		new XMLWriter("items");
-		new ReadXML("items", "chars");
+		new XMLWriter("items", "items");
+		XMLReader.getInstance();
 	}
 }

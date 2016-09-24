@@ -26,7 +26,7 @@ public class Item {
 	}
 
 	public int getID() {
-		return ID;
+		return this.ID;
 	}
 
 	public void setID(int ID) {
@@ -34,7 +34,7 @@ public class Item {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -42,7 +42,7 @@ public class Item {
 	}
 
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(Type type) {
@@ -50,7 +50,7 @@ public class Item {
 	}
 
 	public int getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setValue(int value) {
@@ -58,7 +58,7 @@ public class Item {
 	}
 
 	public int getSaleValue() {
-		return saleValue;
+		return this.saleValue;
 	}
 
 	public void setSaleValue(int saleValue) {

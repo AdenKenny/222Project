@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import dataStorage.CreateXML;
 import dataStorage.DataGetter;
-import dataStorage.ReadXML;
+import dataStorage.XMLReader;
 import userHandling.Register;
 import util.Logging;
 
