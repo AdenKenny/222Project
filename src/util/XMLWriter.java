@@ -18,7 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import dataStorage.ReadXML;
+import dataStorage.XMLReader;
 
 /**
  * A class for creating a .xml file.
@@ -66,10 +66,13 @@ public final class XMLWriter {
 		}
 	}
 
-	Document doc;
-
-	public XMLWriter(String fileName) {
-
+	private Document doc;
+		
+	public XMLWriter(String fileName, String readFile) {
+		writeItems(fileName, readFile);
+	}
+	
+	public void writeItems(String fileName, String readFile) {
 		try {
 
 			Element root = getRoot(); // Create a new root.
@@ -79,27 +82,31 @@ public final class XMLWriter {
 			Scanner scan = null;
 
 			try {
-				scan = new Scanner(new File("xml/items.txt"));
+				scan = new Scanner(new File("xml/" + readFile + ".txt"));
 
 				while (scan.hasNextLine()) {
 					String line = scan.nextLine();
 
 					// Skip comments prefaced with //
-					if (line.startsWith("//")) continue;
+					if (line.startsWith("//") || line.startsWith(" ")) continue;
 
-					String[] arr = line.split(" ");
+					String[] arr = line.split(" "); //Split on space
 
-					Element item = this.doc.createElement("item");
+					Element item = this.doc.createElement("item"); //Create new item.
 
-					for (int i = 0; i < arr.length; ++i) {
-						Position pos = Position.getPos(i);
+					for (int i = 0; i < arr.length; ++i) { //For the amount of words.
+						Position pos = Position.getPos(i); //Get what the field should be called.
 
-						Element tag = doc.createElement(pos.getName());
-						tag.appendChild(doc.createTextNode(arr[i]));
+						Element tag = this.doc.createElement(pos.getName()); //Create new element.
+						tag.appendChild(this.doc.createTextNode(arr[i])); //Append value to field.
 
-						item.appendChild(tag);
+						item.appendChild(tag); //Append the field to the item.
 					}
-					root.appendChild(item);
+
+						String name = item.getElementsByTagName("name").item(0).getTextContent();
+						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
+						
+						root.appendChild(item); //Append the new item to the root.
 				}
 			}
 			catch (IOException e) {
@@ -114,11 +121,11 @@ public final class XMLWriter {
 		}
 
 		catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.SEVERE, "Failed to parse in XML Writer");
 		}
 	}
-
-	public Element getRoot() throws ParserConfigurationException {
+	
+	private Element getRoot() throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -138,7 +145,7 @@ public final class XMLWriter {
 	 *            The name of the file we will be outputting to.
 	 */
 
-	public void transform(String fileName) {
+	private void transform(String fileName) {
 
 		try {
 
@@ -156,8 +163,7 @@ public final class XMLWriter {
 			transformer.transform(source, result);
 		}
 
-		catch (TransformerConfigurationException e) { // TODO Add as throws
-														// clauses?
+		catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		}
 
@@ -168,7 +174,7 @@ public final class XMLWriter {
 	}
 
 	public static void main(String[] args) {
-		new XMLWriter("items");
-		new ReadXML("items", "chars");
+		new XMLWriter("items", "items");
+		XMLReader.getInstance();
 	}
 }

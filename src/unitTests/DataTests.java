@@ -1,5 +1,7 @@
 package unitTests;
 
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -8,10 +10,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
 import dataStorage.CreateXML;
+import dataStorage.XMLReader;
+import gameWorld.item.Item;
+import util.XMLWriter;
 
 /**
  * Tests for the XML components of the project.
@@ -49,7 +56,7 @@ public class DataTests {
 		}
 
 		catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -97,6 +104,55 @@ public class DataTests {
 			fail(); // No file at all. Test fails.
 		}
 
+	}
+	
+	@Test
+	public void testWriteXML() {
+		XMLWriter xml = new XMLWriter("testing", "items");
+		
+		String testPath = "xml/testing.xml";
+		
+		File file = new File(testPath);
+		
+		Path path = file.toPath();
+		
+		if(file.isFile()) {
+			try {
+				Files.delete(path);
+			}
+			
+			catch (IOException e) {
+				fail();
+			}
+		}
+		
+		else {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testReadXML() {
+		XMLWriter xml = new XMLWriter("testing", "items");
+		
+		String testPath = "xml/testing.xml";
+		
+		XMLReader reader = XMLReader.getInstance();
+		Map<Integer, Item> map = reader.getItems();
+		
+		for(Entry<Integer, Item> e : map.entrySet()) {
+			System.out.println(e.getKey());
+		}
+		
+		assertNotSame(map.size(), 0);
+		
+		Item item = map.get("bronzeSword");
+		
+		assertNotSame(item, null);
+		
+		item = map.get("foobar");
+		
+		assertSame(item, null);
 	}
 
 }

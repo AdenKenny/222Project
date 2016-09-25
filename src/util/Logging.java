@@ -71,13 +71,15 @@ public final class Logging {
 		}
 
 		catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); //Was about to log errors with the logger in the logger...
 		}
 	}
 }
 
 	/**
 	 * A class representing an event that will be logged to the output file.
+	 *
+	 * Note: this class has a natural ordering that is inconsistent with equals.
 	 *
 	 * @author Aden
 	 */
@@ -122,15 +124,27 @@ public final class Logging {
 		 * Compares a log event to another by severity. The more severe an event,
 		 * the greater the priority.
 		 *
-		 * A logging event having a compareTo value of 0 does not imply that they are equal,
-		 * it just implies that they have the same priority.
+		 * Note: (this.compareTo(LogEvent o) == 0) does not imply that this and o are equal,
+		 * nor does it imply that (this.equals(o) == true). It only means that
+		 * (this.level.equals(o.level).
 		 *
 		 * SEVERE > WARNING > EVENT > OTHER
 		 */
 
 		@Override
 		public int compareTo(LogEvent o) {
-			return this.level.value + o.level.value;
+			
+			int result = this.level.value - o.level.value;
+			
+			if(result > 0) {
+				return -1;
+			}
+			
+			else if(result < 0) {
+				return 1;
+			}
+			
+			return 0;
 		}
 	}
 

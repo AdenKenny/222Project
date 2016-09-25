@@ -69,8 +69,6 @@ public final class Register {
 
 			String hash = Hashing.createHash(password.toCharArray()); // Create hash with password.
 
-			password = null; // Let the password be garbage collected.
-
 			User user = new User(++currentID, username, hash); // Create user with details including
 																// incremented ID.
 			printWriter.println(user.dbString());
