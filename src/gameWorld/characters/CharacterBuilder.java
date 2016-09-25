@@ -1,9 +1,16 @@
 package gameWorld.characters;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import gameWorld.item.Item;
 import util.AbstractBuilder;
+import util.Logging;
+
+/**
+ * 
+ * 
+ * @author Aden
+ */
 
 public final class CharacterBuilder implements AbstractBuilder {
 
@@ -17,7 +24,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 	private String name;
 	private Character.Type type;
 	private int value;
-	private Set<Item> setOfItems;
+	private Set<Integer> setOfItems;
 	
 	@Override
 	public void setID(String buildID) {
@@ -40,30 +47,24 @@ public final class CharacterBuilder implements AbstractBuilder {
 	}
 
 	public void setBuildItems(String buildItems) {
-		//Code to split item set.
 		
-		System.out.println(buildItems);
+		this.buildItems = buildItems.replace(",", "");
 		
-//		if (items.substring(items.length() - 1, items.length()).equals("}")) {
-//			items = items.substring(0, items.length() - 1);
-	//
-//			String[] arrItems = items.split(" ");
-//			String[] newArr = new String[arrItems.length];
-//			
-//			for(int i = 0; i < arrItems.length; i++) {
-//				String val = arrItems[i];
-//				
-//				if(val.contains(",")) {
-//					val = val.replace(",", "");
-//				}
-//									
-//				newArr[i] = val;
-//			}
-//			
-//			for(String r : newArr) {
-//				System.out.println(r);
-//			}
-//		}
+		String[] itemValues = buildItems.split(" ");
+		
+		this.setOfItems = new HashSet<>();
+		
+		try {
+			
+			for(String string : itemValues) {
+				int value = Integer.parseInt(string);
+				this.setOfItems.add(value);
+			}
+		}
+		
+		catch (NumberFormatException e){
+			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build character.");
+		}
 	}
 
 	@Override
@@ -85,22 +86,20 @@ public final class CharacterBuilder implements AbstractBuilder {
 		return this.value;
 	}
 
-	public Set<Item> getSaleValue() {
+	public Set<Integer> getSetOfItems() {
 		return this.setOfItems;
 	}
 
 	@Override
 	public CharacterModel build() {
-		
+				
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
 				|| this.buildItems == null) {
+			
+			
 			return null;
 		}
 		
-		
-		return new CharacterModel();
+		return new CharacterModel(this);
 	}
-
-	
-
 }

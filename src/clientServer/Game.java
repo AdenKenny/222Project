@@ -6,14 +6,28 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import gameWorld.characters.CharacterModel;
+import gameWorld.item.Item;
 import userHandling.User;
 
 public class Game {
 
 	private final Map<Long, User> connectedUsers;
+	private static Map<Integer, Item> mapOfItems;
+	private static Map<Integer, CharacterModel> mapOfCharacters;
 
 	public Game() {
 		this.connectedUsers = new HashMap<>();
+		
+		/*XMLReader reader = XMLReader.getInstance();
+		
+		Game.mapOfItems = reader.getItems();
+		Game.mapOfCharacters = reader.getCharacters();
+		
+		for(Entry<Integer, CharacterModel> e : mapOfCharacters.entrySet()) {
+			System.out.println(e.getValue().getName());
+		}*/
+		
 	}
 
 	public synchronized void tick() {
