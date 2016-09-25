@@ -28,13 +28,9 @@ public final class Hashing {
 		SALT_BYTE_SIZE(32), // Size of the salt in bytes.
 		HASH_BYTE_SIZE(32); // Size of the hash in bytes.
 
-		int value; // This value can be changed without any problems.
+		final int value; // This value can be changed without any problems.
 
 		Size(int value) {
-			this.value = value;
-		}
-
-		private void setValue(int value) { // Mutator method.
 			this.value = value;
 		}
 	}
@@ -49,7 +45,7 @@ public final class Hashing {
 		HASH_ALGORITHM_INDEX(0), // Indexes of various elements in the hash string.
 		ITERATION_INDEX(1), HASH_SIZE_INDEX(2), SALT_INDEX(3), PBKDF2_INDEX(4);
 
-		final int value; // Final as this should not be changed.
+		final int value; //Final as this should not be changed.
 
 		Position(int value) {
 			this.value = value;

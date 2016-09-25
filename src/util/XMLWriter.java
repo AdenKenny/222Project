@@ -30,10 +30,10 @@ public final class XMLWriter {
 
 	private enum Position {
 
-		ITEM_ID(0, "itemID"),
-		NAME(1, "name"),
-		TYPE(2, "type"),
-		VALUE(3, "value"),
+		ITEM_ID(0, "ID"), 
+		NAME(1, "name"), 
+		TYPE(2, "type"), 
+		VALUE(3, "value"), 
 		SALE_VALUE(4, "saleValue");
 
 		final int pos;
@@ -67,15 +67,16 @@ public final class XMLWriter {
 	}
 
 	private Document doc;
-		
-	public XMLWriter(String fileName, String readFile) {
-		writeItems(fileName, readFile);
+
+	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead) {
+		writeItems(itemsFile, itemsRead);
+		writeChars(charsFile, charsRead);
 	}
-	
+
 	public void writeItems(String fileName, String readFile) {
 		try {
 
-			Element root = getRoot(); // Create a new root.
+			Element root = getRoot(fileName); // Create a new root.
 
 			this.doc.appendChild(root); // Append root to tree.
 
@@ -88,28 +89,28 @@ public final class XMLWriter {
 					String line = scan.nextLine();
 
 					// Skip comments prefaced with //
-					if (line.startsWith("//") || line.startsWith(" ")) continue;
+					if (line.startsWith("//") || line.startsWith(" "))
+						continue;
 
-					String[] arr = line.split(" "); //Split on space
+					String[] arr = line.split(" "); // Split on space
 
-					Element item = this.doc.createElement("item"); //Create new item.
+					Element item = this.doc.createElement("item"); // Create new item.
 
-					for (int i = 0; i < arr.length; ++i) { //For the amount of words.
-						Position pos = Position.getPos(i); //Get what the field should be called.
+					for (int i = 0; i < arr.length; ++i) { // For the amount of words.
+						Position pos = Position.getPos(i); // Get what the field should be called.
 
-						Element tag = this.doc.createElement(pos.getName()); //Create new element.
-						tag.appendChild(this.doc.createTextNode(arr[i])); //Append value to field.
+						Element tag = this.doc.createElement(pos.getName()); // Create new element.
+						tag.appendChild(this.doc.createTextNode(arr[i])); // Append value to field.
 
-						item.appendChild(tag); //Append the field to the item.
+						item.appendChild(tag); // Append the field to the item.
 					}
 
-						String name = item.getElementsByTagName("name").item(0).getTextContent();
-						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
-						
-						root.appendChild(item); //Append the new item to the root.
+					String name = item.getElementsByTagName("name").item(0).getTextContent();
+					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
+
+					root.appendChild(item); // Append the new item to the root.
 				}
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 			}
 
 			finally {
@@ -124,14 +125,83 @@ public final class XMLWriter {
 			Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.SEVERE, "Failed to parse in XML Writer");
 		}
 	}
-	
-	private Element getRoot() throws ParserConfigurationException {
+
+	public void writeChars(String fileName, String readFile) {
+
+		try {
+
+			Element root = getRoot(fileName);
+
+			this.doc.appendChild(root); // Append root to tree.
+
+			Scanner scan = null;
+
+			try {
+
+				scan = new Scanner(new File("xml/" + readFile + ".txt"));
+
+				while (scan.hasNextLine()) {
+					String line = scan.nextLine();
+
+					String[] test = line.split("\\{"); // Split set of items from main details.
+
+					String values = test[0]; // Main values, i.e. ID, name, type, and value.
+
+					String[] details = values.split(" "); // Split the main values on space.
+
+					Element character = this.doc.createElement("character");
+
+					for (int i = 0; i < details.length; ++i) { // For the amount of words.
+						Position pos = Position.getPos(i); // Get what the field should be called.
+
+						Element tag = this.doc.createElement(pos.getName()); // Create new element.
+						tag.appendChild(this.doc.createTextNode(details[i])); // Append value to
+																				// field.
+
+						character.appendChild(tag); // Append the field to the item.
+					}
+
+					String items = test[1]; // Set of items.
+
+					items = items.substring(0, items.length() - 1); //Remove end curly brace.
+					
+					Element tag = this.doc.createElement("items"); //Create the items node.
+					tag.appendChild(this.doc.createTextNode(items)); 
+					
+					character.appendChild(tag); //Append the items to the char.
+
+					String name = character.getElementsByTagName("name").item(0).getTextContent();
+					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
+
+					root.appendChild(character); // Append the new char to the root.
+
+				}
+			}
+
+			catch (IOException e) {
+			}
+
+			finally {
+				if (scan != null) {
+					scan.close();
+				}
+			}
+			transform("xml/" + fileName + ".xml"); // Print to file.
+		}
+
+		catch (ParserConfigurationException e) {
+			Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.SEVERE, "Failed to parse in XML Writer");
+		}
+
+	}
+
+	private Element getRoot(String fileName) throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
 
 		Document doc = builder.newDocument(); // Create actual document.
-		Element root = doc.createElement("items"); //The name of the node.
+		Element root = doc.createElement(fileName); // The name of the node.
 
 		this.doc = doc; // Set the root of the tree
 
@@ -170,11 +240,10 @@ public final class XMLWriter {
 		catch (TransformerException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void main(String[] args) {
-		new XMLWriter("items", "items");
+		new XMLWriter("items", "items", "characters", "characters");
 		XMLReader.getInstance();
 	}
 }

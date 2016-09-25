@@ -1,8 +1,15 @@
 package gameWorld.item;
 
+import util.AbstractBuilder;
 import util.Logging;
 
-public final class ItemBuilder {
+/**
+ * A class to build an item.
+ * 
+ * @author Aden and Louis
+ */
+
+public final class ItemBuilder implements AbstractBuilder {
 	private String buildID;
 	private String buildName;
 	private String buildType;
@@ -15,19 +22,22 @@ public final class ItemBuilder {
 	private int value;
 	private int saleValue;
 
-
+	@Override
 	public void setID(String buildID) {
 		this.buildID = buildID;
 	}
 
+	@Override
 	public void setName(String buildName) {
 		this.buildName = buildName;
 	}
 
+	@Override
 	public void setType(String buildType) {
 		this.buildType = buildType;
 	}
 
+	@Override
 	public void setValue(String buildValue) {
 		this.buildValue = buildValue;
 	}
@@ -36,10 +46,12 @@ public final class ItemBuilder {
 		this.buildSaleValue = buildSaleValue;
 	}
 
+	@Override
 	public int getID() {
 		return this.ID;
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -48,6 +60,7 @@ public final class ItemBuilder {
 		return this.type;
 	}
 
+	@Override
 	public int getValue() {
 		return this.value;
 	}
@@ -56,6 +69,7 @@ public final class ItemBuilder {
 		return this.saleValue;
 	}
 
+	@Override
 	public Item build() {
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
 				|| this.buildSaleValue == null) {
