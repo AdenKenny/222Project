@@ -108,7 +108,7 @@ public class DataTests {
 	
 	@Test
 	public void testWriteXML() {
-		XMLWriter xml = new XMLWriter("testing", "items");
+		XMLWriter xml = new XMLWriter("testing", "items", "testing2", "chars");
 		
 		String testPath = "xml/testing.xml";
 		
@@ -133,7 +133,7 @@ public class DataTests {
 	
 	@Test
 	public void testReadXML() {
-		XMLWriter xml = new XMLWriter("testing", "items");
+		XMLWriter xml = new XMLWriter("testing", "items", "testing2", "chars");
 		
 		String testPath = "xml/testing.xml";
 		
@@ -146,7 +146,7 @@ public class DataTests {
 		
 		assertNotSame(map.size(), 0);
 		
-		Item item = map.get("bronzeSword");
+		Item item = map.get(31);
 		
 		assertNotSame(item, null);
 		

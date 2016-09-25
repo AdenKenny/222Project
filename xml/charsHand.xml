@@ -1,0 +1,9 @@
+<characters>
+	<char> 
+		<charID> 12 </charID>
+		<name> goblin </name>
+		<type> MONSTER </type>
+		<rank> 12 </rank>
+		<items> 32, 33, 45, 62 </items>
+	</char>
+</characters>

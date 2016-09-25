@@ -26,7 +26,7 @@ public final class XMLReader {
 	private Map<Integer, Item> mapOfItems;
 	private Map<Integer, Character> mapOfCharacters;
 
-	private static final XMLReader INSTANCE = new XMLReader();
+	private static final XMLReader INSTANCE = new XMLReader(); //TODO fix this.
 	
 	private XMLReader() {
 		this.mapOfItems = readItems();
@@ -66,7 +66,7 @@ public final class XMLReader {
 
 				ItemBuilder build = new ItemBuilder(); // Build an item.
 
-				String itemID = e.getElementsByTagName("itemID").item(0).getTextContent();
+				String itemID = e.getElementsByTagName("ID").item(0).getTextContent();
 				build.setID(itemID); // Set the ID.
 
 				String name = e.getElementsByTagName("name").item(0).getTextContent();

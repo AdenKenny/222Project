@@ -1,84 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <items>
   <item>
-    <itemID>2</itemID>
+    <ID>2</ID>
     <name>spiderLeg</name>
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>12</saleValue>
   </item>
   <item>
-    <itemID>21</itemID>
+    <ID>21</ID>
     <name>bronzeSword</name>
     <type>WEAPON</type>
     <value>4</value>
     <saleValue>5</saleValue>
   </item>
   <item>
-    <itemID>22</itemID>
+    <ID>22</ID>
     <name>ironSword</name>
     <type>WEAPON</type>
     <value>6</value>
     <saleValue>7</saleValue>
   </item>
   <item>
-    <itemID>23</itemID>
+    <ID>23</ID>
     <name>steelSword</name>
     <type>WEAPON</type>
     <value>8</value>
     <saleValue>9</saleValue>
   </item>
   <item>
-    <itemID>34</itemID>
+    <ID>34</ID>
     <name>diamondRing</name>
     <type>QUEST</type>
     <value>500</value>
     <saleValue>-1</saleValue>
   </item>
   <item>
-    <itemID>100</itemID>
+    <ID>35</ID>
+    <name>brassStatue</name>
+    <type>QUEST</type>
+    <value>400</value>
+    <saleValue>-1</saleValue>
+  </item>
+  <item>
+    <ID>100</ID>
     <name>bronzeShield</name>
     <type>SHIELD</type>
     <value>4</value>
     <saleValue>9</saleValue>
   </item>
   <item>
-    <itemID>101</itemID>
+    <ID>101</ID>
     <name>ironShield</name>
     <type>SHIELD</type>
     <value>6</value>
     <saleValue>11</saleValue>
   </item>
   <item>
-    <itemID>102</itemID>
+    <ID>102</ID>
     <name>steelShield</name>
     <type>SHIELD</type>
     <value>8</value>
     <saleValue>13</saleValue>
   </item>
   <item>
-    <itemID>150</itemID>
+    <ID>150</ID>
     <name>smallHealth</name>
     <type>POTION</type>
     <value>5</value>
     <saleValue>10</saleValue>
   </item>
   <item>
-    <itemID>151</itemID>
+    <ID>151</ID>
     <name>mediumHealth</name>
     <type>POTION</type>
     <value>10</value>
     <saleValue>25</saleValue>
   </item>
   <item>
-    <itemID>152</itemID>
+    <ID>152</ID>
     <name>largeHealth</name>
     <type>POTION</type>
     <value>15</value>
     <saleValue>50</saleValue>
   </item>
   <item>
-    <itemID>153</itemID>
+    <ID>153</ID>
     <name>giantHealth</name>
     <type>POTION</type>
     <value>25</value>
