@@ -48,6 +48,10 @@ public final class XMLWriter {
 			return this.name;
 		}
 
+		/*
+		 * TODO This is really bad and needs to be changed. This uses ordinility.
+		 * This is really really bad and will be changed.
+		*/
 		static Position getPos(int i) {
 			switch (i) {
 			case 0:
