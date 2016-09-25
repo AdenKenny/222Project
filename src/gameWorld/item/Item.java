@@ -1,6 +1,8 @@
 package gameWorld.item;
 
-public class Item {
+import util.Buildable;
+
+public class Item implements Buildable {
 	public enum Type {
 		WEAPON,
 		SHIELD,

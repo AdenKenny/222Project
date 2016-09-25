@@ -6,6 +6,12 @@ import gameWorld.World.Direction;
 
 public abstract class Character extends Entity {
 
+	public enum Type {
+		MONSTER, 
+		VENDOR,
+		PLAYER;
+	}
+	
 	public Character(Location location, String name, String description, Direction facing) {
 		super(location, name, description, facing);
 	}

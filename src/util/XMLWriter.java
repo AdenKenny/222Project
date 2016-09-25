@@ -30,7 +30,11 @@ public final class XMLWriter {
 
 	private enum Position {
 
-		ITEM_ID(0, "ID"), NAME(1, "name"), TYPE(2, "type"), VALUE(3, "value"), SALE_VALUE(4, "saleValue");
+		ITEM_ID(0, "ID"), 
+		NAME(1, "name"), 
+		TYPE(2, "type"), 
+		VALUE(3, "value"), 
+		SALE_VALUE(4, "saleValue");
 
 		final int pos;
 		final String name;
@@ -175,7 +179,6 @@ public final class XMLWriter {
 			}
 
 			catch (IOException e) {
-
 			}
 
 			finally {
@@ -237,11 +240,10 @@ public final class XMLWriter {
 		catch (TransformerException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void main(String[] args) {
-		new XMLWriter("items", "items", "chars", "chars");
+		new XMLWriter("items", "items", "characters", "characters");
 		XMLReader.getInstance();
 	}
 }
