@@ -34,7 +34,7 @@ public final class XMLReader {
 	private Map<Integer, Item> mapOfItems; //Map of the items.
 	private Map<Integer, CharacterModel> mapOfCharacters; //Map of the characters.
 
-	private volatile static XMLReader INSTANCE = null;
+	private static XMLReader INSTANCE = null;
 
 	private XMLReader() { //Singleton pattern.
 		this.mapOfItems = readItems(); //Get items.
@@ -49,7 +49,7 @@ public final class XMLReader {
 	 * @return A singleton of the XMLReader class.
 	 */
 
-	public static XMLReader getInstance() {
+	public static synchronized XMLReader getInstance() { //Stop multiple threads accessing.
 		
 		if(INSTANCE == null) { //Do we need to create the singleton?
 			INSTANCE = new XMLReader(); //Yes.
