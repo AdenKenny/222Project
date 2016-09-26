@@ -15,22 +15,31 @@ import javax.swing.JPanel;
 public class BottomPanel extends JPanel{
 	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
 	
-	private JPanel chatPane;
-	private JPanel statPane;
-	private JPanel inventoryPane;
+	private ChatPane chatPane;
+	private StatsPane statPane;
+	private InventoryPane inventoryPane;
 	
 	public BottomPanel() {
 		setLayout(new BorderLayout());
+		setVisible(true);
+	}
+	
+	public void initComponents(){
 		this.chatPane = new ChatPane();
+		chatPane.initComponents();
 		this.statPane = new StatsPane();
 		this.inventoryPane = new InventoryPane();
 		add(chatPane, BorderLayout.WEST);
 		add(statPane, BorderLayout.CENTER);
 		add(inventoryPane, BorderLayout.EAST);
-		chatPane.setVisible(true);
-		statPane.setVisible(true);
-		inventoryPane.setVisible(true);
+//		
+//		chatPane.setVisible(true);
+//		statPane.setVisible(true);
+//		inventoryPane.setVisible(true);
+		
+		revalidate();
 	}
+	
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
@@ -46,6 +55,6 @@ public class BottomPanel extends JPanel{
 	}
 	
 	public void addGameChat(String output){
-		((ChatPane) chatPane).addGameChat(output);
+		chatPane.addGameChat(output);
 	}
 }

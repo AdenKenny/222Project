@@ -14,6 +14,8 @@ public interface ClientUI {
 	
 	public void setFloor(int number);
 	
+	public void updateGold(int amount);
+	
 	public void displayItemOptions(String[] options);
 	
 	public void performActionOnItem(int itemId, int actionId);

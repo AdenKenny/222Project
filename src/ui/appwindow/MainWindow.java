@@ -8,9 +8,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainWindow extends JFrame implements ClientUI {
-	private JPanel infoBar;
+	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
-	private JPanel bottomPanel;
+	private BottomPanel bottomPanel;
 	
 	public MainWindow(){
 		super("RoomScape");
@@ -29,7 +29,7 @@ public class MainWindow extends JFrame implements ClientUI {
 
 			@Override
 			public void windowOpened(WindowEvent e) {
-				
+
 			}
 
 			@Override
@@ -62,18 +62,28 @@ public class MainWindow extends JFrame implements ClientUI {
 		setSize((int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100, 
 				(int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100);
 		
+
+		
+		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		setResizable(true);
+
+
+	}
+	
+	public void initComponents(){
 		//Add next level of components
 		infoBar = new InfoPane();
+		infoBar.initComponents();
 		display = new Login();
 		bottomPanel = new BottomPanel();
+		bottomPanel.initComponents();
+
 		add(infoBar, BorderLayout.PAGE_START);
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END); 
-		
-		setVisible(true);
-		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		setResizable(true);
 		addGameChat("Testing chat");
+		revalidate();
+		setVisible(true);
 	}
 
 	protected void setDisplay(JPanel display){
@@ -88,7 +98,7 @@ public class MainWindow extends JFrame implements ClientUI {
 	}
 
 	public void addGameChat(String output) {
-		((BottomPanel) bottomPanel).addGameChat(output);
+		bottomPanel.addGameChat(output);
 		
 	}
 
@@ -103,8 +113,11 @@ public class MainWindow extends JFrame implements ClientUI {
 	}
 
 	public void setFloor(int number) {
-		// TODO Auto-generated method stub
-		
+		infoBar.setFloor(number);
+	}
+	
+	public void updateGold(int amount) {
+		infoBar.updateGold(amount);	
 	}
 
 	public void displayItemOptions(String[] options) {
@@ -118,7 +131,7 @@ public class MainWindow extends JFrame implements ClientUI {
 	}
 
 	public static void main(String[] args){
-		new MainWindow();
+		new MainWindow().initComponents();
 	}
 
 }
