@@ -27,7 +27,9 @@ public class Master extends Thread {
 		this.game = game;
 		try {
 			this.output = new DataOutputStream(this.socket.getOutputStream());
-		} catch (IOException e) {
+		} 
+		
+		catch (IOException e) {
 			System.out.println(e);
 		}
 	}
@@ -47,11 +49,13 @@ public class Master extends Thread {
 					if (noResponse >= TIMEOUT) {
 						System.out.println("timeout");
 					}
+					
 					else if (noResponse >= PING_TIMER) {
 						byte[] ping = new byte[1];
 						ping[0] = PackageCode.Codes.PING.value;
 					}
 				}
+				
 				else {
 					noResponse = 0;
 					//read the amount sent
@@ -63,6 +67,7 @@ public class Master extends Thread {
 					if (this.inGame) {
 						this.game.readInput(this.uid, received);
 					}
+					
 					else {
 						if (received[0] == PackageCode.Codes.LOGIN_ATTEMPT.value) {
 							int i = 1;
@@ -120,13 +125,10 @@ public class Master extends Thread {
 									}
 								}
 							}
-							//send the login result packet to the client
-							send(loginResult);
+							send(loginResult); //Send the login result packet to the client
 						}
 
 						else if (received[0] == PackageCode.Codes.NEW_USER_ATTEMPT.value) {
-							String username = "";
-							String password = "";
 							int i = 1;
 							byte b;
 
@@ -180,9 +182,13 @@ public class Master extends Thread {
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 			this.socket.close();
-		} catch(IOException e) {
+		} 
+		
+		catch(IOException e) {
 			System.out.println("User " + this.uid + " disconnected.");
-		} catch (InterruptedException e) {
+		} 
+		
+		catch (InterruptedException e) {
 			System.out.println(e);
 		}
 	}
@@ -195,7 +201,9 @@ public class Master extends Thread {
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 			this.output.flush();
-		} catch (IOException e) {
+		} 
+		
+		catch (IOException e) {
 			System.out.println("Sending error");
 		}
 	}
