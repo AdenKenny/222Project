@@ -6,9 +6,9 @@ import util.Buildable;
 
 /**
  * A class representing the abstract concept of a character. This stores values of the character
- * such as the unique ID and the name. An actual instance of this character uses this to build 
- * itself. 
- * 
+ * such as the unique ID and the name. An actual instance of this character uses this to build
+ * itself.
+ *
  * @author Aden
  */
 
@@ -27,10 +27,11 @@ public final class CharacterModel implements Buildable {
 		this.value = builder.getValue();
 		this.setOfItems = builder.getSetOfItems();
 	}
-	
+
 	/**
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -39,6 +40,7 @@ public final class CharacterModel implements Buildable {
 	 * @param name
 	 *            the name to set
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -61,6 +63,7 @@ public final class CharacterModel implements Buildable {
 	/**
 	 * @return the value
 	 */
+	@Override
 	public int getValue() {
 		return this.value;
 	}
@@ -69,6 +72,7 @@ public final class CharacterModel implements Buildable {
 	 * @param value
 	 *            the value to set
 	 */
+	@Override
 	public void setValue(int value) {
 		this.value = value;
 	}
@@ -87,7 +91,8 @@ public final class CharacterModel implements Buildable {
 	public void setSetOfItems(Set<Integer> setOfItems) {
 		this.setOfItems = setOfItems;
 	}
-	
+
+	@Override
 	public int getID() {
 		return this.ID;
 	}
@@ -96,6 +101,7 @@ public final class CharacterModel implements Buildable {
 	 * @param ID
 	 *            the ID to set
 	 */
+	@Override
 	public void setID(int ID) {
 		this.ID = ID;
 	}
