@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import dataStorage.XMLReader;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import userHandling.User;
@@ -18,16 +19,15 @@ public class Game {
 
 	public Game() {
 		this.connectedUsers = new HashMap<>();
-		
-		/*XMLReader reader = XMLReader.getInstance();
-		
+
+/*		XMLReader reader = XMLReader.getInstance();
+
 		Game.mapOfItems = reader.getItems();
 		Game.mapOfCharacters = reader.getCharacters();
-		
+
 		for(Entry<Integer, CharacterModel> e : mapOfCharacters.entrySet()) {
 			System.out.println(e.getValue().getName());
 		}*/
-		
 	}
 
 	public synchronized void tick() {
@@ -47,28 +47,28 @@ public class Game {
 		User user = this.connectedUsers.get(uid);
 		// TODO placeholder
 		byte[] data = new byte[0];
-		
+
 		return data;
 	}
 
 	public boolean userOnline(User user) {
 		return this.connectedUsers.containsValue(user);
 	}
-	
+
 	/**
 	 * Returns a set of all the connected users in the game.
-	 * 
+	 *
 	 * @return A hash set of all connected users to the game.
 	 */
-	
+
 	public Set<User> getAllUsers() {
-		
+
 		Set<User> set = new HashSet<>();
-		
+
 		for(Entry<Long, User> entry : this.connectedUsers.entrySet()) {
 			set.add(entry.getValue()); //Add the value of the key value pair.
 		}
-		
+
 		return set;
 	}
-}
+}
