@@ -29,6 +29,7 @@ public class Slave extends Thread {
 		start();
 	}
 
+	@Override
 	public void run() {
 		try {
 			this.output = new DataOutputStream(socket.getOutputStream());

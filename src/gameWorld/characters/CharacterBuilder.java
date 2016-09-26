@@ -9,7 +9,7 @@ import util.AbstractBuilder;
 import util.Logging;
 
 /**
- *
+ * A class to build a 'CharacterModel' from input read from XML.
  *
  * @author Aden
  */
@@ -50,17 +50,17 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 	public void setBuildItems(String buildItems) {
 
-		this.buildItems = buildItems.replace(",", "");
+		this.buildItems = buildItems.replace(",", ""); //Remove commas.
 
-		String[] itemValues = buildItems.split(" ");
+		String[] itemValues = buildItems.split(" "); //Split into unique strings.
 
-		this.setOfItems = new HashSet<>();
+		this.setOfItems = new HashSet<>(); //Set to put item IDs in.
 
 		try {
 
 			for(String string : itemValues) {
 				int value = Integer.parseInt(string);
-				this.setOfItems.add(value);
+				this.setOfItems.add(value); //Add the id to the set.
 			}
 		}
 

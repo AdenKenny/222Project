@@ -1,8 +1,12 @@
 package clientServer;
 
-public interface PackageCode {
+public final class PackageCode {
 
-	public enum Codes {
+	private PackageCode() {
+		throw new AssertionError();
+	}
+
+	public static enum Codes {
 		BREAK((byte) 0),
 		PING((byte) 1),
 		PONG((byte) 2),
