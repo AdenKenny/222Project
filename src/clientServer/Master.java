@@ -30,13 +30,13 @@ public class Master extends Thread {
 		try {
 			this.output = new DataOutputStream(this.socket.getOutputStream());
 		} catch (IOException e) {
-			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Output stream not created.");
+			Logging.logEvent(Server.class, Logging.Levels.WARNING, "Output stream not created.");
 		}
 	}
 
 	@Override
 	public void run() {
-		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " connected.");
+		Logging.logEvent(Server.class, Logging.Levels.EVENT, "User " + this.uid + " connected.");
 		int noResponse = 0;
 		try {
 			DataInputStream input = new DataInputStream(this.socket.getInputStream());
@@ -49,7 +49,7 @@ public class Master extends Thread {
 					//if no response has been received for a certain time, disconnect the user
 					if (noResponse == TIMEOUT) {
 						this.game.disconnect(this.uid);
-						Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " timed out.");
+						Logging.logEvent(Server.class, Logging.Levels.EVENT, "User " + this.uid + " timed out.");
 						return;
 					}
 					//if no response has been received for a certain time, send a ping
@@ -70,7 +70,7 @@ public class Master extends Thread {
 
 					if (received[0] == PackageCode.Codes.DISCONNECT.value) {
 						this.game.disconnect(this.uid);
-						Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " disconnected.");
+						Logging.logEvent(Server.class, Logging.Levels.EVENT, "User " + this.uid + " disconnected.");
 						break;
 					}
 
@@ -103,15 +103,15 @@ public class Master extends Thread {
 			}
 		} catch(IOException e) {
 			this.game.disconnect(this.uid);
-			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " disconnected unexpectedly.");
+			Logging.logEvent(Server.class, Logging.Levels.EVENT, "User " + this.uid + " disconnected unexpectedly.");
 		} catch (InterruptedException e) {
 			this.game.disconnect(this.uid);
-			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, e.getMessage());
+			Logging.logEvent(Server.class, Logging.Levels.WARNING, e.getMessage());
 		} finally {
 			try {
 				this.socket.close();
 			} catch (IOException e) {
-				Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, e.getMessage());
+				Logging.logEvent(Server.class, Logging.Levels.WARNING, e.getMessage());
 			}
 		}
 	}
