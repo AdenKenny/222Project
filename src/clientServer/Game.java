@@ -28,7 +28,6 @@ public class Game {
 		for(Entry<Integer, CharacterModel> e : mapOfCharacters.entrySet()) {
 			System.out.println(e.getValue().getName());
 		}*/
-
 	}
 
 	public synchronized void tick() {
@@ -72,4 +71,4 @@ public class Game {
 
 		return set;
 	}
-}
+}

@@ -36,13 +36,13 @@ public final class Verification {
 			User user = Register.getUser(username);
 
 			if (Hashing.verifyPassword(password, user.getHash())) { // Correct password.
-				Logging.logEvent(Verification.class.getName(), Levels.EVENT, username + " logged in successfully.");
+				Logging.logEvent(Verification.class.getName(), Logging.Levels.EVENT, username + " logged in successfully.");
 
 				return user;
 			}
 		}
 
-		Logging.logEvent(Verification.class.getName(), Levels.WARNING,
+		Logging.logEvent(Verification.class.getName(), Logging.Levels.WARNING,
 				"An unsuccessful attempt to login from " + username);
 
 		return null; // The login failed, either wrong password or no user with the name exists.

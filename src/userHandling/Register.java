@@ -31,11 +31,11 @@ public final class Register {
 		USER_POSITION(1),
 		HASH_POSITION(2);
 
+		final int value;
+
 		Position(int value) {
 			this.value = value;
 		}
-
-		final int value;
 	}
 
 	private static long currentID = 0; //The max ID currently assigned.
@@ -73,7 +73,7 @@ public final class Register {
 																// incremented ID.
 			printWriter.println(user.dbString());
 
-			Logging.logEvent(Register.class.getName(), Levels.EVENT, "A user with the name " + username + " registered.");
+			Logging.logEvent(Register.class.getName(), Logging.Levels.EVENT, "A user with the name " + username + " registered.");
 
 			return user;
 		}
@@ -83,7 +83,7 @@ public final class Register {
 		}
 
 		catch (RegistrationException e) {
-			Logging.logEvent(Register.class.getName(), Levels.WARNING, username + " was already taken for new account reg.");
+			Logging.logEvent(Register.class.getName(), Logging.Levels.WARNING, username + " was already taken for new account reg.");
 			return null;
 		}
 	}
@@ -136,7 +136,9 @@ public final class Register {
 	 * doesn't exist.
 	 *
 	 * @param username The username of the user we're trying to get.
-	 * @return A User object with the username that was passed to this method.
+	 * @return 
+	 *			A User object with the username that was passed to this method.
+	 *			If the user does not exist null will be returned.
 	 */
 
 	static User getUser(String username) {
@@ -171,7 +173,9 @@ public final class Register {
 		}
 
 		catch (FileNotFoundException e) {
-			throw new Error("Error with database"); // Database not found.
+			Logging.logEvent(Register.class.getName(), Logging.Levels.SEVERE, "Failed to find database file.");
+
+			throw new Error("Database not found."); // Database not found. Unrecoverable.
 		}
 
 		finally {
@@ -180,24 +184,17 @@ public final class Register {
 			}
 		}
 
-		return null;
+		return null; //User not found.
 	}
 
 	public boolean removeUser(String username) {
 				//TODO
 
-		return true;
+		return false;
 	}
-
-	public static void main(String[] args) {
-		/*createUser("Mark", "Testing").dbString();
-		createUser("Tim", "Testing").dbString();
-
-		System.out.println(Verification.login("Mark", "Testing"));*/
-
-	}
-
 }
+
+//Is this needed?. Probably not.
 
 class RegistrationException extends Exception {
 	public RegistrationException() {

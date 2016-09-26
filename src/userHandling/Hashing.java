@@ -21,14 +21,16 @@ public final class Hashing {
 	/**
 	 * Enums representing the sizes of values in the hash. These values can be increased for
 	 * potentially more secure hashes and decreased performance or decreased for potentially less
-	 * secure hashes and increased performance.
+	 * secure hashes and increased performance. 
+	 *
+	 * Note: These values can be safely modified without breaking existing hashes.
 	 */
 
 	private enum Size {
 		SALT_BYTE_SIZE(32), // Size of the salt in bytes.
 		HASH_BYTE_SIZE(32); // Size of the hash in bytes.
 
-		final int value; // This value can be changed without any problems.
+		final int value;
 
 		Size(int value) {
 			this.value = value;
@@ -37,13 +39,18 @@ public final class Hashing {
 
 	/**
 	 * Enums representing the position of certain elements in the hash. These should not be changed
-	 * or it will break existing hashes in the database.
+	 * or it will break existing hashes in the database. 
+	 * 
+	 * Note: These values should not be modified as all existing hashes will break.
 	 */
 
 	private enum Position {
 		HASH_SECTIONS(5), // Number of sections in the hash string.
 		HASH_ALGORITHM_INDEX(0), // Indexes of various elements in the hash string.
-		ITERATION_INDEX(1), HASH_SIZE_INDEX(2), SALT_INDEX(3), PBKDF2_INDEX(4);
+		ITERATION_INDEX(1), 
+		HASH_SIZE_INDEX(2),
+		SALT_INDEX(3), 
+		PBKDF2_INDEX(4);
 
 		final int value; //Final as this should not be changed.
 
