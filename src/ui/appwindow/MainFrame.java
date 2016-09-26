@@ -1,10 +1,14 @@
 package ui.appwindow;
 
 import java.awt.Dimension;
+import java.io.IOException;
+import java.net.ConnectException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+
+import clientServer.Slave;
 
 public class MainFrame extends JFrame implements ClientUI {
 	private JMenuBar menuBar;
@@ -14,6 +18,7 @@ public class MainFrame extends JFrame implements ClientUI {
 
 	public MainFrame(){
 		super("Team 39");
+
 		setJMenuBar(menuBar);
 
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -64,7 +69,6 @@ public class MainFrame extends JFrame implements ClientUI {
 	@Override
 	public void performActionOnItem(int itemId, int actionId) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public static void main(String[] args){
