@@ -27,18 +27,22 @@ public class Item implements Buildable {
 		this.saleValue = builder.getSaleValue();
 	}
 
+	@Override
 	public int getID() {
 		return this.ID;
 	}
 
+	@Override
 	public void setID(int ID) {
 		this.ID = ID;
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -51,10 +55,12 @@ public class Item implements Buildable {
 		this.type = type;
 	}
 
+	@Override
 	public int getValue() {
 		return this.value;
 	}
 
+	@Override
 	public void setValue(int value) {
 		this.value = value;
 	}
@@ -66,7 +72,5 @@ public class Item implements Buildable {
 	public void setSaleValue(int saleValue) {
 		this.saleValue = saleValue;
 	}
-
-
 
 }
