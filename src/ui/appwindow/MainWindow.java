@@ -73,7 +73,7 @@ public class MainWindow extends JFrame implements ClientUI {
 		setVisible(true);
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
-		
+		addGameChat("Testing chat");
 	}
 
 	protected void setDisplay(JPanel display){
@@ -88,7 +88,7 @@ public class MainWindow extends JFrame implements ClientUI {
 	}
 
 	public void addGameChat(String output) {
-		// TODO Auto-generated method stub
+		((BottomPanel) bottomPanel).addGameChat(output);
 		
 	}
 
