@@ -77,6 +77,14 @@ public class Slave extends Thread {
 							System.out.println("That name is unavailable.");
 						}
 					}
+					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value) {
+						StringBuilder message = new StringBuilder();
+						for (int i = 1; i < data.length; i++) {
+							message.append((char)data[i]);
+						}
+						//TODO send the received message to relevant class
+						System.out.println(message.toString());
+					}
 				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
@@ -165,6 +173,10 @@ public class Slave extends Thread {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+	}
+
+	public static void main(String[] args) {
+		new Slave();
 	}
 
 }
