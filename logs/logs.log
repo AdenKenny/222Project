@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 02:06:36 - EVENT in util.XMLWriter: Created XML of item: spiderLeg
 02:06:36 - EVENT in util.XMLWriter: Created XML of item: bronzeSword
 02:06:36 - EVENT in util.XMLWriter: Created XML of item: ironSword
@@ -202,3 +203,55 @@
 02:15:34 - SEVERE in gameWorld.characters.CharacterBuilder: Failed to build character.
 02:15:34 - SEVERE in gameWorld.characters.CharacterBuilder: Failed to build character.
 02:15:34 - SEVERE in gameWorld.characters.CharacterBuilder: Failed to build character.
+=======
+09:59:32 - EVENT in clientServer.Server: The server was started
+10:00:09 - EVENT in clientServer.Server: The server was started
+10:00:54 - EVENT in clientServer.Server: The server was started
+10:01:31 - EVENT in clientServer.Server: The server was started
+11:17:45 - EVENT in clientServer.Server: The server was started
+11:18:02 - EVENT in clientServer.Server: User 0 connected.
+11:19:00 - EVENT in clientServer.Server: The server was started
+11:19:10 - EVENT in clientServer.Server: User 0 connected.
+13:02:21 - EVENT in clientServer.Server: The server was started
+13:02:26 - EVENT in clientServer.Server: User 0 connected.
+13:03:42 - EVENT in clientServer.Server: The server was started
+13:03:45 - EVENT in clientServer.Server: User 0 connected.
+13:19:09 - EVENT in clientServer.Server: The server was started
+13:19:12 - EVENT in clientServer.Server: User 0 connected.
+13:20:19 - EVENT in clientServer.Server: User 1 connected.
+13:20:37 - EVENT in clientServer.Server: User 2 connected.
+13:21:38 - EVENT in clientServer.Server: User 3 connected.
+13:22:32 - EVENT in clientServer.Server: User 4 connected.
+13:28:36 - EVENT in clientServer.Server: The server was started
+13:28:38 - EVENT in clientServer.Server: User 0 connected.
+13:29:18 - EVENT in clientServer.Server: The server was started
+13:29:23 - EVENT in clientServer.Server: User 0 connected.
+13:30:46 - EVENT in clientServer.Server: The server was started
+13:30:50 - EVENT in clientServer.Server: User 0 connected.
+13:31:55 - EVENT in clientServer.Server: The server was started
+13:31:58 - EVENT in clientServer.Server: User 0 connected.
+13:33:40 - EVENT in clientServer.Server: User 1 connected.
+13:33:55 - EVENT in clientServer.Server: The server was started
+13:34:05 - EVENT in clientServer.Server: The server was started
+13:34:08 - EVENT in clientServer.Server: User 0 connected.
+13:36:12 - EVENT in clientServer.Server: The server was started
+13:36:41 - EVENT in clientServer.Server: User 0 connected.
+13:37:49 - EVENT in clientServer.Server: User 1 connected.
+13:38:06 - WARNING in clientServer.Server: Sending error.
+13:46:19 - EVENT in clientServer.Server: The server was started
+13:46:22 - EVENT in clientServer.Server: User 0 connected.
+13:46:25 - EVENT in clientServer.Server: User 0 disconnected.
+13:48:56 - EVENT in clientServer.Server: The server was started
+13:49:00 - EVENT in clientServer.Server: User 0 connected.
+13:49:02 - EVENT in clientServer.Server: User 0 disconnected.
+13:49:14 - EVENT in clientServer.Server: User 1 connected.
+13:49:22 - WARNING in clientServer.Server: User 1 timed out.
+13:52:38 - EVENT in clientServer.Server: The server was started
+13:52:41 - EVENT in clientServer.Server: User 0 connected.
+13:52:43 - EVENT in clientServer.Server: User 0 disconnected.
+13:53:34 - EVENT in clientServer.Server: The server was started
+13:54:02 - EVENT in clientServer.Server: User 0 connected.
+13:54:04 - EVENT in clientServer.Server: User 0 disconnected.
+13:54:09 - EVENT in clientServer.Server: User 1 connected.
+13:54:15 - EVENT in clientServer.Server: User 1 disconnected unexpectedly.
+>>>>>>> Simon

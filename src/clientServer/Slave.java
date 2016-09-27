@@ -3,6 +3,7 @@ package clientServer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -15,28 +16,27 @@ public class Slave extends Thread {
 
 	private Socket socket;
 	private DataOutputStream output;
+	private boolean connected;
 	private boolean inGame;
 
-	private Slave() {
+	public Slave() {
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
+			this.output = new DataOutputStream(socket.getOutputStream());
+			this.connected = true;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+		} catch (ConnectException e) {
+			System.out.println("Unable to connect to server.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//TODO placeholder: will be moved to class where slave is held
-		start();
 	}
 
 	@Override
 	public void run() {
 		try {
-			this.output = new DataOutputStream(socket.getOutputStream());
 			DataInputStream input = new DataInputStream(socket.getInputStream());
-
-			//TODO testing login, will be done from another class
-			login("Simon", "hunter2");
 
 			boolean exit = false;
 			while (!exit) {
@@ -49,7 +49,12 @@ public class Slave extends Thread {
 					//TODO send to thing to deal with
 				}
 				else {
-					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
+					if (data[0] == PackageCode.Codes.PING.value) {
+						byte[] pong = new byte[1];
+						pong[0] = PackageCode.Codes.PONG.value;
+						send(pong);
+					}
+					else if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value) {
 							System.out.println("Login successful.");
 							this.inGame = true;
@@ -76,7 +81,7 @@ public class Slave extends Thread {
 				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-			socket.close();
+			this.socket.close();
 		} catch (IOException e) {
 			System.out.println("Disconnected from server.");
 		} catch (InterruptedException e) {
@@ -118,8 +123,14 @@ public class Slave extends Thread {
 
 	public void send(byte[] toSend) {
 		try {
+			int time = 0;
 			while(this.output.size() != 0) {
 				//wait for any other sending to occur
+				//if it is taking too long, flush the output
+				if (time++ == 10000) {
+					this.output.flush();
+					break;
+				}
 			}
 
 			this.output.writeInt(toSend.length);
@@ -132,8 +143,29 @@ public class Slave extends Thread {
 		}
 	}
 
-	public static void main(String[] args) {
-		new Slave();
+	public void sendTextMessage(String message) {
+		byte[] toSend = new byte[message.length() + 1];
+		toSend[0] = PackageCode.Codes.TEXT_MESSAGE.value;
+		int i = 1;
+		for (char c : message.toCharArray()) {
+			toSend[i++] = (byte) c;
+		}
+		send(toSend);
+	}
+
+	public boolean connected() {
+		return connected;
+	}
+
+	public void close() {
+		try {
+			byte[] disconnect = new byte[1];
+			disconnect[0] = PackageCode.Codes.DISCONNECT.value;
+			send(disconnect);
+			this.socket.close();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 }
