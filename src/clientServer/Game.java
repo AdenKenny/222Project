@@ -15,10 +15,6 @@ import userHandling.User;
 public class Game {
 
 	private final Map<Long, User> connectedUsers;
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/master
 	private static Map<Integer, Item> mapOfItems;
 	private static Map<Integer, CharacterModel> mapOfCharacters;
 	private final ArrayList<String> textMessages;
@@ -35,16 +31,6 @@ public class Game {
 		for(Entry<Integer, CharacterModel> e : mapOfCharacters.entrySet()) {
 			System.out.println(e.getValue().getName());
 		}*/
-<<<<<<< HEAD
-
-	private final ArrayList<String> textMessages;
-
-	public Game() {
-		this.connectedUsers = new HashMap<>();
-		this.textMessages = new ArrayList<>();
-
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	public synchronized void tick() {
@@ -67,10 +53,6 @@ public class Game {
 		// get the character of the user
 		User user = this.connectedUsers.get(uid);
 		// TODO placeholder
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/master
 		byte[][] data = new byte[0][0];
 
 		return data;
@@ -83,7 +65,7 @@ public class Game {
 	}
 
 	public String[] getMessages(int messagesReceived) {
-		String[] messages = new String[this.textMessages.size()];
+		String[] messages = new String[this.textMessages.size() - messagesReceived];
 		for (int i = 0; i + messagesReceived < this.textMessages.size(); i++) {
 			messages[i] = this.textMessages.get(i + messagesReceived);
 		}

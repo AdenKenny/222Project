@@ -45,16 +45,26 @@ public class Slave extends Thread {
 				// create array and fill with received data
 				byte[] data = new byte[amount];
 				input.readFully(data);
+				if (data[0] == PackageCode.Codes.PING.value) {
+					byte[] pong = new byte[1];
+					pong[0] = PackageCode.Codes.PONG.value;
+					send(pong);
+				}
 				if (this.inGame) {
-					//TODO send to thing to deal with
+					if (data[0] == PackageCode.Codes.GAME_INFORMATON.value) {
+						//TODO send to thing to deal with
+					}
+					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value) {
+						StringBuilder message = new StringBuilder();
+						for (int i = 1; i < data.length; i++) {
+							message.append((char)data[i]);
+						}
+						//TODO send the received message to relevant class
+						System.out.println(message.toString());
+					}
 				}
 				else {
-					if (data[0] == PackageCode.Codes.PING.value) {
-						byte[] pong = new byte[1];
-						pong[0] = PackageCode.Codes.PONG.value;
-						send(pong);
-					}
-					else if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
+					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value) {
 							System.out.println("Login successful.");
 							this.inGame = true;
@@ -77,14 +87,6 @@ public class Slave extends Thread {
 						else if (data[1] == PackageCode.Codes.NEW_USER_NAME_TAKEN.value) {
 							System.out.println("That name is unavailable.");
 						}
-					}
-					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value) {
-						StringBuilder message = new StringBuilder();
-						for (int i = 1; i < data.length; i++) {
-							message.append((char)data[i]);
-						}
-						//TODO send the received message to relevant class
-						System.out.println(message.toString());
 					}
 				}
 				Thread.sleep(BROADCAST_CLOCK);

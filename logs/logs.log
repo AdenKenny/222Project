@@ -262,3 +262,48 @@
 11:29:50 - EVENT in java.lang.Class: The server was started
 >>>>>>> refs/remotes/origin/master
 >>>>>>> Simon
+22:35:15 - EVENT in clientServer.Server: The server was started
+22:35:45 - EVENT in clientServer.Server: The server was started
+22:35:45 - EVENT in clientServer.Server: User 0 connected.
+22:36:32 - EVENT in clientServer.Server: The server was started
+22:36:39 - EVENT in clientServer.Server: User 0 connected.
+22:38:20 - EVENT in clientServer.Server: The server was started
+22:38:23 - EVENT in clientServer.Server: User 0 connected.
+22:43:48 - EVENT in clientServer.Server: The server was started
+22:44:02 - EVENT in clientServer.Server: User 0 connected.
+22:46:52 - EVENT in clientServer.Server: The server was started
+22:46:57 - EVENT in clientServer.Server: User 0 connected.
+22:47:21 - EVENT in clientServer.Server: User 1 connected.
+22:47:21 - EVENT in userHandling.Register: A user with the name Simon registered.
+22:47:25 - EVENT in clientServer.Server: User 1 timed out.
+22:48:29 - EVENT in clientServer.Server: User 2 connected.
+22:48:29 - WARNING in userHandling.Register: Simon was already taken for new account reg.
+22:49:06 - EVENT in clientServer.Server: The server was started
+22:49:09 - EVENT in clientServer.Server: User 0 connected.
+22:49:10 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Simon
+22:51:20 - EVENT in clientServer.Server: The server was started
+22:51:24 - EVENT in clientServer.Server: User 0 connected.
+22:51:24 - EVENT in userHandling.Register: A user with the name Simon registered.
+22:51:34 - EVENT in clientServer.Server: User 0 timed out.
+22:52:55 - EVENT in clientServer.Server: The server was started
+22:52:58 - EVENT in clientServer.Server: User 0 connected.
+22:52:58 - WARNING in userHandling.Register: Simon was already taken for new account reg.
+22:53:20 - EVENT in clientServer.Server: The server was started
+22:53:31 - EVENT in clientServer.Server: User 0 connected.
+22:53:32 - EVENT in userHandling.Register: A user with the name Simon registered.
+22:54:44 - EVENT in clientServer.Server: The server was started
+22:55:01 - EVENT in clientServer.Server: User 0 connected.
+22:55:01 - EVENT in userHandling.Verification: Simon logged in successfully.
+22:56:52 - EVENT in clientServer.Server: The server was started
+22:56:55 - EVENT in clientServer.Server: User 0 connected.
+22:56:56 - EVENT in userHandling.Verification: Simon logged in successfully.
+22:57:06 - EVENT in clientServer.Server: User 0 timed out.
+23:03:32 - EVENT in clientServer.Server: The server was started
+23:03:36 - EVENT in clientServer.Server: User 0 connected.
+23:03:37 - EVENT in userHandling.Register: A user with the name Simon registered.
+23:03:47 - EVENT in clientServer.Server: User 0 timed out.
+23:04:40 - EVENT in clientServer.Server: The server was started
+23:04:43 - EVENT in clientServer.Server: User 0 connected.
+23:04:43 - WARNING in userHandling.Register: Simon was already taken for new account reg.
+23:05:01 - EVENT in clientServer.Server: User 1 connected.
+23:05:01 - EVENT in userHandling.Verification: Simon logged in successfully.

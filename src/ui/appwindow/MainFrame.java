@@ -11,12 +11,6 @@ public class MainFrame extends JFrame implements ClientUI {
 	private JPanel infoBar;
 	private JPanel graphics;
 	private JPanel bottomPanel;
-<<<<<<< HEAD
-
-	private Slave slave;
-
-=======
->>>>>>> refs/remotes/origin/master
 
 	public MainFrame(){
 		super("Team 39");
@@ -31,11 +25,7 @@ public class MainFrame extends JFrame implements ClientUI {
 
 	@Override
 	public void addChat(String text) {}
-
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/master
+	
 	@Override
 	public void sendChat(String input) {
 		// TODO Auto-generated method stub
@@ -75,17 +65,6 @@ public class MainFrame extends JFrame implements ClientUI {
 	@Override
 	public void performActionOnItem(int itemId, int actionId) {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-
-	}
-
-	private void close() {
-		if (this.slave != null) {
-			this.slave.close();
-		}
-        System.exit(0);
-=======
->>>>>>> refs/remotes/origin/master
 	}
 
 	public static void main(String[] args){
