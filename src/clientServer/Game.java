@@ -37,18 +37,37 @@ public class Game {
 
 	}
 
+	/**
+	 * associate the id of a Master with the user logged in on that connection
+	 * @param uid
+	 * @param user
+	 */
 	public void registerConnection(long uid, User user) {
 		this.connectedUsers.put(uid, user);
 	}
 
+	/**
+	 * a connection has stopped, so remove the user from connected users
+	 * @param uid
+	 */
 	public void disconnect(long uid) {
 		this.connectedUsers.remove(uid);
 	}
 
+	/**
+	 * parse actions made by a player
+	 * @param uid
+	 * @param input
+	 */
 	public void readInput(long uid, byte[] input) {
 		// TODO
 	}
 
+	/**
+	 * get a game state to send to the player
+	 * @param uid
+	 * @return
+	 */
 	public byte[][] toByteArray(long uid) {
 		// get the character of the user
 		User user = this.connectedUsers.get(uid);
@@ -58,12 +77,22 @@ public class Game {
 		return data;
 	}
 
+	/**
+	 * add a message sent by a user to the list of sent messages
+	 * @param uid
+	 * @param message
+	 */
 	public void textMessage(long uid, String message) {
 		//add the users name to the start of the text message
 		message = this.connectedUsers.get(uid).getUsername() + ": " + message;
 		textMessages.add(message);
 	}
 
+	/**
+	 * send all unreceived messages to a user
+	 * @param messagesReceived
+	 * @return
+	 */
 	public String[] getMessages(int messagesReceived) {
 		String[] messages = new String[this.textMessages.size() - messagesReceived];
 		for (int i = 0; i + messagesReceived < this.textMessages.size(); i++) {
