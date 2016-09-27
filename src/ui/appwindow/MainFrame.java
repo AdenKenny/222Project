@@ -11,39 +11,31 @@ public class MainFrame extends JFrame implements ClientUI {
 	private JPanel infoBar;
 	private JPanel graphics;
 	private JPanel bottomPanel;
+<<<<<<< HEAD
 
 	private Slave slave;
 
+=======
+>>>>>>> refs/remotes/origin/master
 
 	public MainFrame(){
 		super("Team 39");
-
-		this.slave = null;
-		Slave slave = new Slave();
-		if (slave.connected()) {
-			slave.start();
-			this.slave = slave;
-		}
 
 		setJMenuBar(menuBar);
 
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		setVisible(true);
-
-		addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        close();
-		    }
-		});
 	}
 
 
 	@Override
 	public void addChat(String text) {}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 	@Override
 	public void sendChat(String input) {
 		// TODO Auto-generated method stub
@@ -83,6 +75,7 @@ public class MainFrame extends JFrame implements ClientUI {
 	@Override
 	public void performActionOnItem(int itemId, int actionId) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 
 	}
 
@@ -91,6 +84,8 @@ public class MainFrame extends JFrame implements ClientUI {
 			this.slave.close();
 		}
         System.exit(0);
+=======
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public static void main(String[] args){

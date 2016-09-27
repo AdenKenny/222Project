@@ -19,7 +19,7 @@ public class Server {
 
 	private Game game;
 
-	private Server() {
+	public Server() {
 
 		//Start the game
 		this.game = new Game();

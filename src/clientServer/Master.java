@@ -29,7 +29,10 @@ public class Master extends Thread {
 		this.game = game;
 		try {
 			this.output = new DataOutputStream(this.socket.getOutputStream());
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 		} catch (IOException e) {
 			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Output stream not created.");
 		}
@@ -53,6 +56,7 @@ public class Master extends Thread {
 						Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " timed out.");
 						return;
 					}
+<<<<<<< HEAD
 
 					
 					else if (noResponse >= PING_TIMER) {
@@ -60,12 +64,16 @@ public class Master extends Thread {
 					//if no response has been received for a certain time, send a ping
 					if (noResponse == PING_TIMER) {
 
+=======
+					//if no response has been received for a certain time, send a ping
+					if (noResponse == PING_TIMER) {
+>>>>>>> refs/remotes/origin/master
 						byte[] ping = new byte[1];
 						ping[0] = PackageCode.Codes.PING.value;
 						send(ping);
 					}
 				}
-				
+
 				else {
 					//reset timeout, as data has been received
 					noResponse = 0;
@@ -87,9 +95,10 @@ public class Master extends Thread {
 						}
 						this.game.readInput(this.uid, received);
 					}
-					
+
 					else {
 						if (received[0] == PackageCode.Codes.LOGIN_ATTEMPT.value) {
+<<<<<<< HEAD
 
 							int i = 1;
 							byte b;
@@ -195,6 +204,10 @@ public class Master extends Thread {
 							login(received);
 						}
 
+=======
+							login(received);
+						}
+>>>>>>> refs/remotes/origin/master
 						else if (received[0] == PackageCode.Codes.NEW_USER_ATTEMPT.value) {
 							newUser(received);
 						}
@@ -211,6 +224,7 @@ public class Master extends Thread {
 				//sleep
 				Thread.sleep(BROADCAST_CLOCK);
 			}
+<<<<<<< HEAD
 
 			this.socket.close();
 		} }
@@ -223,6 +237,9 @@ public class Master extends Thread {
 			System.out.println(e);
 
 		/*} catch(IOException e) {
+=======
+		} catch(IOException e) {
+>>>>>>> refs/remotes/origin/master
 			this.game.disconnect(this.uid);
 			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " disconnected unexpectedly.");
 		} catch (InterruptedException e) {*/
@@ -234,7 +251,10 @@ public class Master extends Thread {
 			} catch (IOException e) {
 				Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, e.getMessage());
 			}
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 		}
 	}
 
@@ -374,8 +394,11 @@ public class Master extends Thread {
 				this.output.flush();
 				break;
 			}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> refs/remotes/origin/master
 		}
 		this.output.writeInt(toSend.length);
 		this.output.write(toSend);

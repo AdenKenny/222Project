@@ -254,4 +254,11 @@
 13:54:04 - EVENT in clientServer.Server: User 0 disconnected.
 13:54:09 - EVENT in clientServer.Server: User 1 connected.
 13:54:15 - EVENT in clientServer.Server: User 1 disconnected unexpectedly.
+<<<<<<< HEAD
+=======
+11:21:50 - EVENT in java.lang.Class: The server was started
+11:29:22 - EVENT in java.lang.Class: The server was started
+11:29:40 - EVENT in java.lang.Class: The server was started
+11:29:50 - EVENT in java.lang.Class: The server was started
+>>>>>>> refs/remotes/origin/master
 >>>>>>> Simon

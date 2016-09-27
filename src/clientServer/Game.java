@@ -15,12 +15,17 @@ import userHandling.User;
 public class Game {
 
 	private final Map<Long, User> connectedUsers;
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 	private static Map<Integer, Item> mapOfItems;
 	private static Map<Integer, CharacterModel> mapOfCharacters;
+	private final ArrayList<String> textMessages;
 
 	public Game() {
 		this.connectedUsers = new HashMap<>();
+		this.textMessages = new ArrayList<>();
 
 /*		XMLReader reader = XMLReader.getInstance();
 
@@ -30,6 +35,7 @@ public class Game {
 		for(Entry<Integer, CharacterModel> e : mapOfCharacters.entrySet()) {
 			System.out.println(e.getValue().getName());
 		}*/
+<<<<<<< HEAD
 
 	private final ArrayList<String> textMessages;
 
@@ -37,6 +43,8 @@ public class Game {
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 
+=======
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public synchronized void tick() {
@@ -59,7 +67,10 @@ public class Game {
 		// get the character of the user
 		User user = this.connectedUsers.get(uid);
 		// TODO placeholder
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 		byte[][] data = new byte[0][0];
 
 		return data;
