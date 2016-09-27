@@ -65,7 +65,6 @@ public final class Logging {
 
 			printWriter.println(eventOut); // Print the message to log.
 
-			System.out.println(eventOut);
 		}
 
 		catch (IOException e) {
@@ -163,45 +162,45 @@ class LogEvent implements Comparable<LogEvent> {
 		if (obj == null) {
 			return false;
 		}
-		
+
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		
+
 		LogEvent other = (LogEvent) obj;
 		if (this.className == null) {
 			if (other.className != null) {
 				return false;
 			}
-		} 
-		
+		}
+
 		else if (!this.className.equals(other.className)) {
 			return false;
 		}
 		if (this.level != other.level) {
 			return false;
 		}
-		
+
 		if (this.message == null) {
 			if (other.message != null) {
 				return false;
 			}
 		}
-		
+
 		else if (!this.message.equals(other.message)) {
 			return false;
 		}
-		
+
 		if (this.timeStamp == null) {
 			if (other.timeStamp != null) {
 				return false;
 			}
-		} 
-		
+		}
+
 		else if (!this.timeStamp.equals(other.timeStamp)) {
 			return false;
 		}
-		
+
 		return true;
 	}
 }

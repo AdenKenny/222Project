@@ -30,10 +30,10 @@ public final class XMLWriter {
 
 	private enum Position {
 
-		ITEM_ID(0, "ID"), 
-		NAME(1, "name"), 
-		TYPE(2, "type"), 
-		VALUE(3, "value"), 
+		ITEM_ID(0, "ID"),
+		NAME(1, "name"),
+		TYPE(2, "type"),
+		VALUE(3, "value"),
 		SALE_VALUE(4, "saleValue");
 
 		final int pos;
@@ -168,10 +168,10 @@ public final class XMLWriter {
 					String items = test[1]; // Set of items.
 
 					items = items.substring(0, items.length() - 1); //Remove end curly brace.
-					
+
 					Element tag = this.doc.createElement("items"); //Create the items node.
-					tag.appendChild(this.doc.createTextNode(items)); 
-					
+					tag.appendChild(this.doc.createTextNode(items));
+
 					character.appendChild(tag); //Append the items to the char.
 
 					String name = character.getElementsByTagName("name").item(0).getTextContent();
@@ -214,7 +214,7 @@ public final class XMLWriter {
 
 	/**
 	 * Outputs the tree to a .xml file.
-	 *
+	 *itemID
 	 * @param fileName
 	 *            The name of the file we will be outputting to.
 	 */

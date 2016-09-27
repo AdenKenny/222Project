@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<items>
+<testing>
   <item>
     <ID>000</ID>
     <name>woodenTrainingSword</name>
@@ -792,4 +792,4 @@
     <value>-1</value>
     <saleValue>4</saleValue>
   </item>
-</items>
+</testing>
