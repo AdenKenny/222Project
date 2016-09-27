@@ -25,6 +25,7 @@ public class BottomPanel extends JPanel{
 	}
 	
 	public void initComponents(){
+		System.out.println("BottomPanel " + getWidth() );
 		this.chatPane = new ChatPane();
 		chatPane.initComponents();
 		this.statPane = new StatsPane();

@@ -1,13 +1,10 @@
 package ui.appwindow;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SpringLayout;
 
@@ -21,21 +18,24 @@ public class ChatPane extends JPanel{
 	public ChatPane(){
 		layout = new SpringLayout();
 		setLayout(layout);
+		setVisible(true);
 	}
 	
 	public void initComponents(){
-		System.out.println(getWidth());
+		System.out.println("ChatPane " +getWidth());
 		
 		this.textArea = new JTextPane();
 		this.scroll = new JScrollPane(textArea);
-		calculateLayoutConstraints();
+		layout.putConstraint(SpringLayout.WEST, scroll, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, scroll, 5, SpringLayout.NORTH, this);
 		textArea.setEditable(false);
 		textArea.setBounds( 0, 0, 200, 200 );
-		textArea.setPreferredSize(new Dimension(getWidth()-20, getHeight()-50));
+		//scroll.setBounds(5, 5, getWidth()-20, getHeight()-50);
+		scroll.setPreferredSize(new Dimension(200, 200));
 		textArea.setText("Welcome to RoomScape!\n\n\n");
 		add(scroll);
 		scroll.setVisible(true);
-		textArea.setBackground(Color.LIGHT_GRAY);
+		textArea.setBackground(Color.WHITE);
 		textArea.setVisible(true);
 		revalidate();
 	}
@@ -46,15 +46,9 @@ public class ChatPane extends JPanel{
 		g.fillRect(0,0,getWidth(),getHeight());
 
 		if(scroll!=null ){
-			calculateLayoutConstraints();
 			textArea.repaint();
 			scroll.repaint();
 		}
-	}
-	
-	private void calculateLayoutConstraints() {
-		layout.putConstraint(SpringLayout.WEST, scroll, 5, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, scroll, 5, SpringLayout.NORTH, this);	
 	}
 
 	/*
@@ -71,6 +65,6 @@ public class ChatPane extends JPanel{
 	}
 	
 	public void addGameChat(String output){
-		textArea.setText("output");
+		textArea.setText(output);
 	}
 }

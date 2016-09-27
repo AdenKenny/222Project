@@ -84,6 +84,7 @@ public class MainWindow extends JFrame implements ClientUI {
 		addGameChat("Testing chat");
 		revalidate();
 		setVisible(true);
+		repaint();
 	}
 
 	protected void setDisplay(JPanel display){
