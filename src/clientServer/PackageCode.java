@@ -22,7 +22,8 @@ public final class PackageCode {
 		NEW_USER_NAME_TAKEN((byte) 12),
 		DISCONNECT((byte) 13),
 		TEXT_MESSAGE((byte) 14),
-		GAME_INFORMATON((byte) 15);
+		GAME_INFORMATON((byte) 15),
+		USER_INPUT((byte) 16);
 
 		public final byte value;
 

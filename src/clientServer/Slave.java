@@ -163,6 +163,13 @@ public class Slave extends Thread {
 		send(toSend);
 	}
 
+	public void sendUserInput(byte input) {
+		byte[] toSend = new byte[2];
+		toSend[0] = PackageCode.Codes.USER_INPUT.value;
+		toSend[1] = input;
+		send(toSend);
+	}
+
 	public boolean connected() {
 		return connected;
 	}

@@ -59,7 +59,7 @@ public class Game {
 	 * @param uid
 	 * @param input
 	 */
-	public void readInput(long uid, byte[] input) {
+	public void readInput(long uid, byte input) {
 		// TODO
 	}
 
