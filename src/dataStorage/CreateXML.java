@@ -16,17 +16,17 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element; //TODO Is this allowed?
+import org.w3c.dom.Element;
 
 import userHandling.User;
 
 /**
  * A class for creating a .xml file.
- * 
+ *
  * @author Aden
  */
 
-public class CreateXML implements XMLInterface {
+public final class CreateXML implements XMLInterface {
 
 	Document doc;
 
@@ -42,7 +42,9 @@ public class CreateXML implements XMLInterface {
 
 			Element playersNode = appendNode("Players", root); // Append players node.
 
-			users.add(new User(15l, "DSAds", "151231231j"));
+			users.add(new User(15l, "Mike", "151231231j"));
+			users.add(new User(12l, "Charlie", "32132fdsadsa"));
+			users.add(new User(53l, "Jones", "dsaduisailods"));
 
 			for (User user : users) { // Append all users to tree.
 				String playerID = String.valueOf(user.getId());
@@ -51,7 +53,15 @@ public class CreateXML implements XMLInterface {
 				appendNode(username, "ID", playerID, playersNode); // Swap around ID and username?
 			}
 
-			transform("xml/" + fileName + ".xml"); // Print to file.
+			if(getter != null) { //For testing purposes.
+				transform("xml/" + fileName + ".xml"); // Print to file.
+			}
+
+			else { //Unit tests use a null dataGetter.
+				transform("tests/" + fileName + ".xml"); // Print to file.
+			}
+
+
 		}
 
 		catch (ParserConfigurationException e) {
@@ -68,10 +78,10 @@ public class CreateXML implements XMLInterface {
 	public Element getRoot() throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		DocumentBuilder builder = factory.newDocumentBuilder(); // Java factories...
+		DocumentBuilder builder = factory.newDocumentBuilder();
 
 		Document doc = builder.newDocument(); // Create actual document.
-		Element root = doc.createElement("game");
+		Element root = doc.createElement("game"); //The name of the node.
 
 		this.doc = doc; // Set the root of the tree
 
@@ -80,7 +90,7 @@ public class CreateXML implements XMLInterface {
 
 	/**
 	 * Appends a basic node to the tree.
-	 * 
+	 *
 	 * @param tagName
 	 *            The name of the tag.
 	 * @param root
@@ -99,7 +109,7 @@ public class CreateXML implements XMLInterface {
 
 	/**
 	 * Appends a node with an attribute to the tree.
-	 * 
+	 *
 	 * @param tagName
 	 *            The name of the tag.
 	 * @param attName
@@ -113,13 +123,13 @@ public class CreateXML implements XMLInterface {
 	@Override
 	public Element appendNode(String tagName, String attName, String attVal, Element root) {
 		Element element = this.doc.createElement(tagName);
-		element.setAttribute(attName, attVal);
+		element.setAttribute(attName, attVal); //Set attribute to new node.
 
-		root.appendChild(element);
+		root.appendChild(element); //Append.
 
-		return element;
+		return element; //Return the node.
 	}
-	
+
 	/**
 	 * Outputs the tree to a .xml file.
 	 * @param fileName The name of the file we will be outputting to.
@@ -137,7 +147,7 @@ public class CreateXML implements XMLInterface {
 			DOMSource source = new DOMSource(this.doc);
 			StreamResult result = new StreamResult(new File(fileName));
 
-			// result = new StreamResult(System.out); //Print to standard out.
+			//result = new StreamResult(System.out); //Print to standard out.
 
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Formating options.
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");

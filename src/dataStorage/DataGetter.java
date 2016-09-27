@@ -5,9 +5,9 @@ import java.util.Set;
 import clientServer.Game;
 import userHandling.User;
 
-public class DataGetter {
+public final class DataGetter {
 
-	protected static Set<User> users;
+	static Set<User> users;
 
 	public DataGetter(Game game) {
 		DataGetter.users = game.getAllUsers();

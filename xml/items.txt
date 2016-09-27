@@ -1,0 +1,12 @@
+2 spiderLeg TRASH -1 12
+21 bronzeSword WEAPON 4 5
+22 ironSword WEAPON 6 7
+23 steelSword WEAPON 8 9
+34 diamondRing QUEST 500 -1
+100 bronzeShield SHIELD 4 9
+101 ironShield SHIELD 6 11
+102 steelShield SHIELD 8 13
+150 smallHealth POTION 5 10
+151 mediumHealth POTION 10 25
+152 largeHealth POTION 15 50
+153 giantHealth POTION 25 100
