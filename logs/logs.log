@@ -2003,3 +2003,9 @@
 02:34:14 - EVENT in clientServer.Server: The server was started
 02:35:01 - EVENT in clientServer.Server: The server was started
 >>>>>>> ba4b40641d102c45b98e9deb4c61bfab01273652
+02:59:49 - EVENT in clientServer.Server: The server was started
+02:59:54 - EVENT in clientServer.Server: User 0 connected.
+02:59:58 - EVENT in userHandling.Verification: Simon logged in successfully.
+03:02:44 - EVENT in clientServer.Server: The server was started
+03:02:47 - EVENT in clientServer.Server: User 0 connected.
+03:02:55 - EVENT in userHandling.Verification: Simon logged in successfully.

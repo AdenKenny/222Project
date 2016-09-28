@@ -266,7 +266,9 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void move(Direction dir) {
-		this.room.move(this, dir);
+		if (this.room != null) {
+			this.room.move(this, dir);
+		}
 	}
 
 	public void turn(Direction dir) {

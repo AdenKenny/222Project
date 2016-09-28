@@ -96,7 +96,8 @@ public class Slave extends Thread {
 			}
 			this.socket.close();
 		} catch (IOException e) {
-			System.out.println("Disconnected from server.");
+			this.frame.threadedMessage("Disconnected from server.");
+			this.connected = false;
 		} catch (InterruptedException e) {
 			System.out.println(e);
 		}

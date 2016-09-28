@@ -126,7 +126,7 @@ public class Frame extends JFrame implements KeyListener {
 		this.repaint();
 	}
 
-	private void threadedMessage(String text) {
+	public void threadedMessage(String text) {
 		new Thread() {
 			@Override
 			public void run() {
