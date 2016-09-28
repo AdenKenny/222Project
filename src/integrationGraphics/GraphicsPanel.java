@@ -62,6 +62,10 @@ public class GraphicsPanel extends JPanel {
 		Room room = game.getRoom();
 		Character player = game.getPlayer(username);
 
+		if (room == null || player == null) {
+			return;
+		}
+
 
 		Color foreground = g.getColor();
 

@@ -116,6 +116,8 @@ public class Frame extends JFrame {
 		this.game = this.slave.getGame();
 		//TODO create game world display
 		this.add(new GraphicsPanel(this.slave.getGame(), this.slave.getUsername()));
+		this.pack();
+		this.repaint();
 	}
 
 	private void threadedMessage(String text) {

@@ -68,7 +68,7 @@ public class ServerSideGame implements Game {
 	public void registerConnection(long uid, User user) {
 		this.connectedUsers.put(uid, user);
 		this.roomDetails.put(uid, false);
-		players.put(user.getUsername(), new Character(user.getUsername()));
+		//players.put(user.getUsername(), new Character(user.getUsername()));
 	}
 
 	/**
@@ -98,26 +98,24 @@ public class ServerSideGame implements Game {
 		// get the character of the user
 		Character player = players.get(this.connectedUsers.get(uid).getUsername());
 		Room room = player.room();
-		Set<Sendable> sendables;
 		if (room == null) {
-			sendables = new HashSet<>();
+			return new byte[0][];
 		}
-		else {
-			sendables = room.getSendables();
-		}
-		boolean newlyEntered = this.roomDetails.get(uid);
+		Set<Sendable> sendables = room.getSendables();
+		boolean newlyEntered = !this.roomDetails.get(uid);
 		int extra = newlyEntered ? 2 : 1;
 		byte[][] data = new byte[sendables.size() + extra][];
-		data[0] = new byte[3];
-		data[0][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value();
-		data[0][1] = (byte)player.xPos();
-		data[0][2] = (byte)player.yPos();
+		int pos = extra - 1;
+		data[pos] = new byte[3];
+		data[pos][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value();
+		data[pos][1] = (byte)player.xPos();
+		data[pos][2] = (byte)player.yPos();
 		int i = extra;
 		if (newlyEntered) {
-			data[1] = new byte[3];
-			data[1][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
-			data[1][1] = (byte)room.width();
-			data[1][2] = (byte)room.depth();
+			data[0] = new byte[3];
+			data[0][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
+			data[0][1] = (byte)room.width();
+			data[0][2] = (byte)room.depth();
 			for (Sendable s : sendables) {
 				data[i++] = s.onEntry();
 			}
