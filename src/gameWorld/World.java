@@ -26,14 +26,14 @@ public class World {
 		private boolean relative;
 
 		private Direction(boolean isRelative) {
-			relative = isRelative;
+			this.relative = isRelative;
 		}
 
 		public byte value() {
 			return (byte)ordinal();
 		}
 		public boolean isRelative() {
-			return relative;
+			return this.relative;
 		}
 	}
 
@@ -41,8 +41,8 @@ public class World {
 	private int currentFloor;
 
 	public World() {
-		floors = new ArrayList<Floor>();
-		currentFloor = 0;
+		this.floors = new ArrayList<Floor>();
+		this.currentFloor = 0;
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class World {
 	 * @param floor	A new Floor
 	 */
 	public void addFloor(Floor floor) {
-		floors.add(floor);
+		this.floors.add(floor);
 	}
 
 	/**
@@ -60,13 +60,13 @@ public class World {
 	 * @return	the current Floor
 	 */
 	public Floor getCurrentFloor() {
-		return floors.get(currentFloor);
+		return this.floors.get(this.currentFloor);
 	}
 
 	/**
 	 * Moves the game to the next Floor.
 	 */
 	public void goUpFloor() {
-		++currentFloor;
+		++this.currentFloor;
 	}
 }

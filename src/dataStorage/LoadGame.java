@@ -15,8 +15,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import clientServer.ServerSideGame;
+import gameWorld.Floor;
+import gameWorld.Room;
 import gameWorld.characters.Character;
 import gameWorld.characters.PlayerBuilder;
+import gameWorld.rooms.RoomBuilder;
 
 public final class LoadGame {
 
@@ -25,16 +29,98 @@ public final class LoadGame {
 	private Set<Character> setOfCharacters;
 
 	public LoadGame() {
-		this.setOfCharacters = readGame();
+		this.setOfCharacters = readPlayers();
+		readRooms();
+	}
 
+	public Set<Character> getPlayers() {
+		return this.setOfCharacters;
+	}
 
+	private synchronized void readRooms() {
+		File file = new File("xml/world.xml");
 
-		for(Character c : setOfCharacters) {
-			System.out.println(c.getName());
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = factory.newDocumentBuilder();
+			this.doc = docBuilder.parse(file);
+
+			this.doc.getDocumentElement().normalize();
+
+			NodeList list = getNodes("floor"); // Get all characters.
+
+			for (int i = 0, len = list.getLength(); i < len; ++i) {
+				Node node = list.item(i);
+
+				Element e = (Element) node;
+
+				String level = e.getElementsByTagName("level").item(0).getTextContent();
+
+				String width = e.getElementsByTagName("width").item(0).getTextContent();
+
+				String depth = e.getElementsByTagName("depth").item(0).getTextContent();
+
+				Floor floor = new Floor(level, width, depth);
+				ServerSideGame.world.addFloor(floor);
+
+				NodeList children = node.getChildNodes();
+
+				for (int j = 0, length = children.getLength(); j < length; ++j) {
+
+					if (children.item(i).getNodeType() == Node.ELEMENT_NODE) {
+						Element child = (Element) children.item(i);
+
+						RoomBuilder build = new RoomBuilder(floor);
+
+						String playerSpawn = child.getElementsByTagName("playerSpawn").item(0).getTextContent();
+						build.setBuildPlayerSpawn(playerSpawn);
+
+						String npcSpawn = child.getElementsByTagName("npcSpawn").item(0).getTextContent();
+						build.setBuildNpcSpawn(npcSpawn);
+
+						String xPos = child.getElementsByTagName("xPos").item(0).getTextContent();
+						build.setBuildXPos(xPos);
+
+						String yPos = child.getElementsByTagName("yPos").item(0).getTextContent();
+						build.setBuildYPos(yPos);
+
+						String modelID = child.getElementsByTagName("modelID").item(0).getTextContent();
+						build.setBuildModelID(modelID);
+
+						String roomWidth = child.getElementsByTagName("width").item(0).getTextContent();
+						build.setBuildWidth(width);
+
+						String roomDepth = child.getElementsByTagName("depth").item(0).getTextContent();
+						build.setBuildDepth(depth);
+
+						String roomLevel = child.getElementsByTagName("level").item(0).getTextContent();
+						build.setLevel(roomLevel);
+
+						Room room = build.build();
+
+						floor.addRoom(room, room.xPos(), room.yPos());
+					}
+
+				}
+
+				floor.setupNeighbours();
+			}
+		}
+
+		catch (IOException e) {
+
+		}
+
+		catch (SAXException e) {
+			e.printStackTrace();
+		}
+
+		catch (ParserConfigurationException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private Set<Character> readGame() {
+	private synchronized Set<Character> readPlayers() {
 		File file = new File("xml/game.xml");
 
 		try {
@@ -48,7 +134,9 @@ public final class LoadGame {
 
 			Set<Character> set = new HashSet<>();
 
-			for(int i = 0, len = list.getLength(); i < len; ++i) { //NodeList not iterable.
+			for (int i = 0, len = list.getLength(); i < len; ++i) { // NodeList
+																	// not
+																	// iterable.
 				Node node = list.item(i);
 
 				Element e = (Element) node;
@@ -90,7 +178,7 @@ public final class LoadGame {
 			return set;
 		}
 
-		catch(IOException e) {
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -101,7 +189,7 @@ public final class LoadGame {
 		catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		return new HashSet<>(); //Empty set as failed.
+		return new HashSet<>(); // Empty set as failed.
 	}
 
 	private NodeList getNodes(String tagName) {

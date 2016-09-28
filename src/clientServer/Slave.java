@@ -14,7 +14,7 @@ public class Slave extends Thread {
 	private Socket socket;
 	private DataOutputStream output;
 	private boolean connected;
-	private boolean inGame;
+	private ClientSideGame game;
 
 	public Slave() {
 		try {
@@ -47,15 +47,18 @@ public class Slave extends Thread {
 					pong[0] = PackageCode.Codes.PONG.value();
 					send(pong);
 				}
-				if (this.inGame) {
+				if (this.game != null) {
 					if (data[0] == PackageCode.Codes.GAME_POSITION_UPDATE.value()) {
-						//TODO send to thing to deal with
+						this.game.updatePosition(data);
 					}
-					else if (data[0] == PackageCode.Codes.GAME_ROOM_UPDATE.value()) {
-						//TODO send to thing to deal with
+					else if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
+						this.game.newRoom(data);
 					}
-					else if (data[0] == PackageCode.Codes.GAME_ROOM_ENTRY.value()) {
-						//TODO send to thing to deal with
+					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_UPDATE.value()) {
+						this.game.updateSendable(data);
+					}
+					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_CREATE.value()) {
+						this.game.addSendable(data);
 					}
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
@@ -70,7 +73,7 @@ public class Slave extends Thread {
 					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
 							System.out.println("Login successful.");
-							this.inGame = true;
+							startGame();
 						}
 						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_USER.value()) {
 							System.out.println("Incorrect username.");
@@ -85,7 +88,7 @@ public class Slave extends Thread {
 					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.NEW_USER_SUCCESS.value()) {
 							System.out.println("Account created.");
-							this.inGame = true;
+							startGame();
 						}
 						else if (data[1] == PackageCode.Codes.NEW_USER_NAME_TAKEN.value()) {
 							System.out.println("That name is unavailable.");
@@ -171,6 +174,11 @@ public class Slave extends Thread {
 		toSend[0] = PackageCode.Codes.USER_INPUT.value();
 		toSend[1] = input;
 		send(toSend);
+	}
+
+	private void startGame() {
+		this.game = new ClientSideGame();
+		new Tick(this.game).start();
 	}
 
 	public boolean connected() {

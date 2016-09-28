@@ -6,11 +6,12 @@
 		<room>
 			<playerSpawn> true </playerSpawn>
 			<npcSpawn> false </npcSpawn>
-			<modelID> </modelID>
+			<modelID> -1 </modelID>
 			<xPos> 0 </xPos>
 			<yPos> 0 </yPos>
 			<width> 9 </width>
 			<depth> 9 </depth>
+			<level> -1 </level>
 		</room>
 		<room>
 			<playerSpawn> false </playerSpawn>
@@ -20,6 +21,7 @@
 			<yPos> 1 </yPos>
 			<width> 9 </width>
 			<depth> 9 </depth>
+			<level> -1 </level>
 		</room>
 		<room>
 			<playerSpawn> false </playerSpawn>
@@ -29,6 +31,7 @@
 			<yPos> 2 </yPos>
 			<width> 9 </width>
 			<depth> 9 </depth>
+			<level> -1 </level>
 		</room>
 	</floor>
 </world>

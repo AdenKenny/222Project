@@ -450,7 +450,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		switch (type) {
 		case MONSTER:
 			bytes = new byte[28];
-			bytes[0] = PackageCode.Codes.GAME_ROOM_ENTRY.value();
+			bytes[0] = PackageCode.Codes.GAME_SENDABLE_CREATE.value();
 			bytes[1] = Sendable.Types.MONSTER.value();
 			bytes[2] = isAlive ? (byte) 1 : 0;
 			bytes[3] = facing.value();
@@ -461,7 +461,7 @@ public class Character extends Entity implements Buildable, Sendable {
 			return bytes;
 		case VENDOR:
 			bytes = new byte[19];
-			bytes[0] = PackageCode.Codes.GAME_ROOM_ENTRY.value();
+			bytes[0] = PackageCode.Codes.GAME_SENDABLE_CREATE.value();
 			bytes[1] = Sendable.Types.VENDOR.value();
 			bytes[2] = facing.value();
 			i = 3;
@@ -471,7 +471,7 @@ public class Character extends Entity implements Buildable, Sendable {
 			return bytes;
 		case PLAYER:
 			bytes = new byte[24+name.length()];
-			bytes[0] = PackageCode.Codes.GAME_ROOM_ENTRY.value();
+			bytes[0] = PackageCode.Codes.GAME_SENDABLE_CREATE.value();
 			bytes[1] = Sendable.Types.PLAYER.value();
 			bytes[2] = isAlive ? (byte) 1 : 0;
 			bytes[3] = facing.value();
@@ -490,34 +490,19 @@ public class Character extends Entity implements Buildable, Sendable {
 
 	@Override
 	public byte[] roomUpdate() {
-		byte[] bytes;
-		int i;
-
-		switch (type) {
-		case MONSTER:
-			bytes = new byte[20];
-			bytes[0] = PackageCode.Codes.GAME_ROOM_UPDATE.value();
-			bytes[1] = Sendable.Types.MONSTER.value();
-			bytes[2] = isAlive ? (byte) 1 : 0;
-			bytes[3] = facing.value();
-			i = 4;
-			for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
-				bytes[i++] = b;
-			}
-			return bytes;
-		case PLAYER:
-			bytes = new byte[24];
-			bytes[0] = PackageCode.Codes.GAME_ROOM_UPDATE.value();
-			bytes[1] = Sendable.Types.PLAYER.value();
-			bytes[2] = isAlive ? (byte) 1 : 0;
-			bytes[3] = facing.value();
-			i = 4;
-			for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
-				bytes[i++] = b;
-			}
-			return bytes;
+		if (type.equals(Type.VENDOR)) {
+			return null;
 		}
-		return null;
+
+		byte[] bytes = new byte[23];
+		bytes[0] = PackageCode.Codes.GAME_SENDABLE_UPDATE.value();
+		bytes[1] = isAlive ? (byte) 1 : 0;
+		bytes[2] = facing.value();
+		int i = 3;
+		for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
+			bytes[i++] = b;
+		}
+		return bytes;
 	}
 
 	@Override

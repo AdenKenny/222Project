@@ -49,7 +49,6 @@ public class Room {
 
 	public Room(Floor floor, RoomBuilder builder) {
 		this.floor = floor;
-		floor.addRoom(this, builder.getxPos(), builder.getyPos());
 
 		this.ID = Entity.getNewID();
 
