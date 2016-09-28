@@ -12,6 +12,7 @@ import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
+import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
 
 public class ServerSideGame {
@@ -25,6 +26,8 @@ public class ServerSideGame {
 
 	private final Map<Long, User> connectedUsers;
 	private final ArrayList<String> textMessages;
+	
+	private World world;
 
 	public ServerSideGame() {
 		this.connectedUsers = new HashMap<>();
@@ -38,7 +41,9 @@ public class ServerSideGame {
 	}
 
 	public synchronized void tick() {
-
+		for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
+			spawn.tick();
+		}
 	}
 
 	/**

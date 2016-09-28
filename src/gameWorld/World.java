@@ -57,4 +57,11 @@ public class World {
 	public Floor getCurrentFloor() {
 		return floors.get(currentFloor);
 	}
+
+	/**
+	 * Moves the game to the next Floor.
+	 */
+	public void goUpFloor() {
+		++currentFloor;
+	}
 }
