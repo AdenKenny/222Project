@@ -2,7 +2,7 @@ package gameWorld.characters;
 
 import java.util.List;
 
-import gameWorld.Location;
+import gameWorld.Room;
 import gameWorld.World.Direction;
 
 public class Player extends Character {
@@ -16,8 +16,8 @@ public class Player extends Character {
 	private int xp = 0;
 	private int xpToNextLevel = baseXP;
 
-	public Player(Location location, String name, String description, Direction facing) {
-		super(location, name, description, facing);
+	public Player(Room room, int x, int y, String name, String description, Direction facing) {
+		super(room, x, y, description, facing, 0, null);
 	}
 
 	public int health() {
