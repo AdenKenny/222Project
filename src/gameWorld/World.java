@@ -45,8 +45,13 @@ public class World {
 		currentFloor = 0;
 	}
 
-	public void addFloor() {
-
+	/**
+	 * Adds another Floor to this World.
+	 *
+	 * @param floor	A new Floor
+	 */
+	public void addFloor(Floor floor) {
+		floors.add(floor);
 	}
 
 	/**
@@ -64,4 +69,4 @@ public class World {
 	public void goUpFloor() {
 		++currentFloor;
 	}
-}
+}

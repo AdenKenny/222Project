@@ -2,6 +2,7 @@ package gameWorld;
 
 import java.util.HashMap;
 import gameWorld.World.Direction;
+import gameWorld.rooms.RoomBuilder;
 
 public class Room {
 
@@ -44,6 +45,23 @@ public class Room {
 		this.depth = depth;
 
 		this.entities = new Entity[depth][width];
+	}
+
+	public Room(Floor floor, RoomBuilder builder) {
+		this.floor = floor;
+		floor.addRoom(this, builder.getxPos(), builder.getyPos());
+
+		this.ID = Entity.getNewID();
+
+		this.neighbours = new HashMap<Direction, Room>();
+
+		this.xPos = builder.getxPos();
+		this.yPos = builder.getyPos();
+
+		this.width = builder.getWidth();
+		this.depth = builder.getDepth();
+
+		this.entities = new Entity[this.depth][this.width];
 	}
 
 	/**

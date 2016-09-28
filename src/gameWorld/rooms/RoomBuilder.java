@@ -1,5 +1,6 @@
 package gameWorld.rooms;
 
+import gameWorld.Floor;
 import gameWorld.Room;
 
 public final class RoomBuilder {
@@ -20,6 +21,12 @@ public final class RoomBuilder {
 	private int width;
 	private int depth;
 
+	private Floor floor;
+
+	public RoomBuilder(Floor floor) {
+		this.floor = floor;
+	}
+
 	public void setBuildPlayerSpawn(String buildPlayerSpawn) {
 		this.buildPlayerSpawn = buildPlayerSpawn;
 	}
@@ -28,8 +35,8 @@ public final class RoomBuilder {
 		this.buildNpcSpawn = buildNpcSpawn;
 	}
 
-	public void setBuildModelID(String buildModelID) {
-		this.buildModelID = buildModelID;
+	public void setBuildModelID(String modelID) {
+		this.buildModelID = modelID;
 	}
 
 	public void setBuildXPos(String buildXPos) {
@@ -56,7 +63,7 @@ public final class RoomBuilder {
 		return this.npcSpawn;
 	}
 
-	public int getModelID() {
+	public int modelID() {
 		return this.modelID;
 	}
 
@@ -92,12 +99,12 @@ public final class RoomBuilder {
 			this.width = Integer.parseInt(this.buildWidth);
 			this.depth = Integer.parseInt(this.buildDepth);
 
-			if (this.playerSpawn) {
-				//return new PlayerSpawn(this);
-			} else if (this.npcSpawn) {
+			if (playerSpawn) {
+				return new PlayerSpawn(floor, this);
+			} else if (npcSpawn) {
 				// TODO: make NPCSpawn class
 			} else {
-				//return new Room(this);
+				return new Room(floor, this);
 			}
 
 		}

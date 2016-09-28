@@ -18,9 +18,11 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 		floor.addSpawnRoom(this);
 	}
 
-/*	public PlayerSpawn(RoomBuilder roomBuilder) {
-		super()
-	}*/
+	public PlayerSpawn(Floor floor, RoomBuilder builder) {
+		super(floor, builder);
+		players = ServerSideGame.getAllPlayers();
+		floor.addSpawnRoom(this);
+	}
 
 	@Override
 	public void tick() {
