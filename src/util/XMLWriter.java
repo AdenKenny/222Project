@@ -30,7 +30,7 @@ public final class XMLWriter {
 
 	private enum Position {
 
-		ITEM_ID(0, "ID"),
+		ID(0, "ID"),
 		NAME(1, "name"),
 		TYPE(2, "type"),
 		VALUE(3, "value"),
@@ -50,12 +50,13 @@ public final class XMLWriter {
 
 		/*
 		 * TODO This is really bad and needs to be changed. This uses ordinility.
-		 * This is really really bad and will be changed.
+		 * This is really really bad and will be changed. //First noted on 21/9/16.
+		 * Seen again 28/9/16.
 		*/
 		static Position getPos(int i) {
 			switch (i) {
 			case 0:
-				return Position.ITEM_ID;
+				return Position.ID;
 			case 1:
 				return Position.NAME;
 			case 2:

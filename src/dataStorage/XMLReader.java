@@ -19,10 +19,13 @@ import gameWorld.characters.CharacterBuilder;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
+import util.AbstractBuilder;
+import util.Buildable;
 import util.Logging;
 
 /**
- * A class for reading XML input into the game, mainly regarding loading hardcoded items into the game.
+ * A class for reading XML input into the game, mainly regarding loading
+ * hardcoded items into the game.
  *
  * @author Aden
  */
@@ -31,37 +34,40 @@ public final class XMLReader {
 
 	private Document doc;
 
-	private Map<Integer, Item> mapOfItems; //Map of the items.
-	private Map<Integer, CharacterModel> mapOfCharacters; //Map of the characters.
+	private Map<Integer, Item> mapOfItems; // Map of the items.
+	private Map<Integer, CharacterModel> mapOfCharacters; // Map of the
+															// characters.
 
 	private static XMLReader INSTANCE = null;
 
-	private XMLReader() { //Singleton pattern.
+	private XMLReader() { // Singleton pattern.
 
-		this.mapOfItems = readItems(); //Get items.
+		this.mapOfItems = readItems(); // Get items.
 		this.mapOfCharacters = readCharacters();
 	}
 
 	/**
-	 * Returns the instance of this (XMLReader) class. There can only be one as this class is a
-	 * singleton. If the class has not already been created a new one will be created and after that
-	 * this method will only return that single instance of the parent class.
+	 * Returns the instance of this (XMLReader) class. There can only be one as
+	 * this class is a singleton. If the class has not already been created a
+	 * new one will be created and after that this method will only return that
+	 * single instance of the parent class.
 	 *
 	 * @return A singleton of the XMLReader class.
 	 */
 
-	public static synchronized XMLReader getInstance() { //Stop multiple threads accessing.
-
-		if(INSTANCE == null) { //Do we need to create the singleton?
-			INSTANCE = new XMLReader(); //Yes.
+	public static synchronized XMLReader getInstance() { // Stop multiple
+															// threads
+															// accessing.
+		if (INSTANCE == null) { // Do we need to create the singleton?
+			INSTANCE = new XMLReader(); // Yes.
 		}
 
-		return INSTANCE; //Already exists.
+		return INSTANCE; // Already exists.
 	}
 
 	/**
-	 * Returns a HashMap<Integer, Item> with the items loaded in from XML mapped to their
-	 * unique ID that was gotten from the file.
+	 * Returns a HashMap<Integer, Item> with the items loaded in from XML mapped
+	 * to their unique ID that was gotten from the file.
 	 *
 	 * @return A map of <Integer, Item> representing the items loaded in.
 	 */
@@ -132,10 +138,11 @@ public final class XMLReader {
 	}
 
 	/**
-	 * Returns a HashMap<Integer, CharacterModel> with the characters loaded in from XML mapped
-	 * to their unique ID that was also got from the file.
+	 * Returns a HashMap<Integer, CharacterModel> with the characters loaded in
+	 * from XML mapped to their unique ID that was also got from the file.
 	 *
-	 * @return A map of <Integer, CharacterModel> representing all the characters loaded in.
+	 * @return A map of <Integer, CharacterModel> representing all the
+	 *         characters loaded in.
 	 */
 
 	private Map<Integer, CharacterModel> readCharacters() {
@@ -160,7 +167,8 @@ public final class XMLReader {
 				Element e = (Element) node; // This should be the base node of
 											// an item.
 
-				CharacterBuilder build = new CharacterBuilder(); // Build an item.
+				CharacterBuilder build = new CharacterBuilder(); // Build an
+																	// item.
 
 				String itemID = e.getElementsByTagName("ID").item(0).getTextContent();
 				build.setID(itemID); // Set the ID.
@@ -180,10 +188,11 @@ public final class XMLReader {
 				String description = e.getElementsByTagName("description").item(0).getTextContent();
 				build.setDescription(description);
 
-				CharacterModel character = build.build(); // Build the character.
+				CharacterModel character = build.build(); // Build the
+															// character.
 
 				map.put(character.getID(), character); // Put char in map with
-												// ID as key.
+				// ID as key.
 			}
 
 			return map;
@@ -205,8 +214,8 @@ public final class XMLReader {
 	}
 
 	/**
-	 * Returns a Map<Integer, Item> of the items that were loaded from XML. An item is mapped to
-	 * ID.
+	 * Returns a Map<Integer, Item> of the items that were loaded from XML. An
+	 * item is mapped to ID.
 	 *
 	 * @return A Map<Integer, Item>.
 	 */
@@ -224,15 +233,16 @@ public final class XMLReader {
 	}
 
 	/**
-	 * Returns a Map<Integer, Character of the characters that were loaded from XML. A character is mapped to
-	 * ID.
+	 * Returns a Map<Integer, Character of the characters that were loaded from
+	 * XML. A character is mapped to ID.
 	 *
 	 * @return A Map<Integer, Character>.
 	 */
 
 	public Map<Integer, CharacterModel> getCharacters() {
 
-		if(this.mapOfCharacters.size() > 0) { //Check to make sure we actually have correct XML.
+		if (this.mapOfCharacters.size() > 0) { // Check to make sure we actually
+												// have correct XML.
 			return this.mapOfCharacters;
 		}
 
@@ -244,12 +254,63 @@ public final class XMLReader {
 	/**
 	 * Gets all the nodes with the specified name in the tree structure.
 	 *
-	 * @param tagName A String representing the name of that we want to search for nodes with.
+	 * @param tagName
+	 *            A String representing the name of that we want to search for
+	 *            nodes with.
 	 *
-	 * @return A NodeList representing all the nodes. Note: NodeList doesn't implement 'Iterable'.
+	 * @return A NodeList representing all the nodes. Note: NodeList doesn't
+	 *         implement 'Iterable'.
 	 */
 
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
+	}
+
+	//TODO Implement this after integration day.
+	private static final class posEnums {
+		private enum Position {
+			ID(0, "ID"),
+			NAME(1, "name"),
+			TYPE(2, "type"),
+			VALUE(3, "value"),
+			SALE_VALUE(4, "saleValue"),
+			DESCRIPTION(5, "description");
+
+			private final int pos;
+			private final String name;
+
+			Position(int pos, String name) {
+				this.pos = pos;
+				this.name = name;
+			}
+
+			public int getPos() {
+				return this.pos;
+			}
+
+			public String getName() {
+				return this.name;
+			}
+
+			static Position getPos(int i) {
+				switch (i) {
+				case 0:
+					return Position.ID;
+				case 1:
+					return Position.NAME;
+				case 2:
+					return Position.TYPE;
+				case 3:
+					return Position.VALUE;
+				case 4:
+					return Position.SALE_VALUE;
+				case 5:
+					return Position.DESCRIPTION;
+				default:
+					return null;
+				}
+			}
+
+		}
 	}
 }
