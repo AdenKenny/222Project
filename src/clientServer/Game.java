@@ -8,9 +8,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.XMLReader;
+import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
+import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
 
 public class Game {
@@ -23,9 +25,13 @@ public class Game {
 	private final Map<Long, User> connectedUsers;
 	private final ArrayList<String> textMessages;
 
+	private World world;
+
 	public Game() {
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
+
+		//world = new World()
 
 		/*	TODO: remove if the Game still works
 		XMLReader reader = XMLReader.getInstance();
@@ -36,7 +42,9 @@ public class Game {
 	}
 
 	public synchronized void tick() {
-
+		for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
+			spawn.tick();
+		}
 	}
 
 	/**
