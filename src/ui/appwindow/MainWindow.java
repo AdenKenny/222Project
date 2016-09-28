@@ -10,9 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Graphics.GraphicsPanel;
+import clientServer.ClientSideGame;
+import clientServer.Slave;
 import gameWorld.Entity;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
+	private Slave slave;
+	private ClientSideGame game;
 	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
@@ -67,11 +71,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setSize((int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100,
 				(int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100);
 
-
-
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
-
 
 	}
 
@@ -171,9 +172,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public static void main(String[] args){
-	//TODO: init client
+		//TODO: init client
+
 		MainWindow main = new MainWindow();
 		main.initComponents();
+		Slave slave = new Slave(main);
 
 	}
 
