@@ -95,10 +95,10 @@ public final class LoadGame {
 						build.setBuildModelID(modelID);
 
 						String roomWidth = child.getElementsByTagName("width").item(0).getTextContent();
-						build.setBuildWidth(width);
+						build.setBuildWidth(roomWidth);
 
 						String roomDepth = child.getElementsByTagName("depth").item(0).getTextContent();
-						build.setBuildDepth(depth);
+						build.setBuildDepth(roomDepth);
 
 						String roomLevel = child.getElementsByTagName("level").item(0).getTextContent();
 						build.setLevel(roomLevel);

@@ -111,6 +111,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.name = builder.getName();
 		this.level = builder.getValue();
 		this.items = builder.getItems();
+		this.type = Character.Type.PLAYER;
 		this.equips = new ArrayList<Item>();
 		for (int i : builder.getEquips()) {
 			this.equips.add(ServerSideGame.mapOfItems.get(i));
@@ -137,14 +138,11 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void respawn(Room room, int x, int y, Direction facing) {
-		System.out.println(room);
 		this.room = room;
-		System.out.println(this.room);
 		this.xPos = x;
 		this.yPos = y;
 		this.facing = facing;
 		this.isAlive = true;
-		System.out.println(room());
 	}
 
 	private void addActions() {

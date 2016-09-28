@@ -197,7 +197,7 @@ public class Master extends Thread {
 					//associate this connection with that user
 					this.game.registerConnection(this.uid, user);
 					this.inGame = true;
-					loginResult[1] = PackageCode.Codes.LOGIN_SUCCESS.value();
+					loginResult[1] = PackageCode.Codes.LOGIN_SUCCESS.value(); //TODO Move to register success.
 					ServerSideGame.getAllPlayers().put(user.getUsername(), new Character(user.getUsername()));
 				}
 			}

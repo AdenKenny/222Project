@@ -6,9 +6,8 @@ public interface Sendable {
 
 	public static enum Types {
 		MONSTER(),
-		PLAYER(),
 		VENDOR(),
-		;
+		PLAYER();
 
 		public byte value() {
 			return (byte) ordinal();
