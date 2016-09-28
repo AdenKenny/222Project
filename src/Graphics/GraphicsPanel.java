@@ -41,7 +41,12 @@ public class GraphicsPanel extends JPanel {
     private Character viewer;
     private Room room;
 
-    public GraphicsPanel(Character inViewer, Room initRoom){
+    /**
+     * Create a new GraphicsPanel that displays from inViewer's
+     * @param inViewer
+     * @param initRoom
+     */
+	public GraphicsPanel(Character inViewer, Room initRoom){
         super();
         viewer = inViewer;
         room = initRoom;
@@ -60,6 +65,7 @@ public class GraphicsPanel extends JPanel {
         //Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
+
         int[] viewerLocation = locateEntityInRoom(player, room);
         for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta){
             for (int absSideDelta = viewWidth;absSideDelta > 0; --absSideDelta){
@@ -68,6 +74,14 @@ public class GraphicsPanel extends JPanel {
                 //Render left
                 renderEntity(player.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta, room, graphics);
             }
+        }
+    }
+
+    private void renderCeiling(Graphics graphics){
+        try {
+            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("ceiling"));
+            graphics.drawImage(0, 0, getHeight() / 2, getWidth());
+        } catch (IOException ioe){
         }
     }
 
@@ -112,7 +126,7 @@ public class GraphicsPanel extends JPanel {
         Location[][] locations = room.locations();
         // Check if location is in the room.
         if (location[0] < 0 || location[0] >= locations.length || location[1] < 0 || location[1] >= locations[0].length){
-            return locations[location[0]][location[1]].entity();
+            return locations[location[0]][location[1];
         } else {
             return null;
         }
