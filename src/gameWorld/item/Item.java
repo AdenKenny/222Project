@@ -36,6 +36,8 @@ public class Item implements Buildable {
 		this.type = builder.getType();
 		this.value = builder.getValue();
 		this.saleValue = builder.getSaleValue();
+		this.description = builder.getDescription();
+
 		this.actions = new ArrayList<Action>();
 		addActions();
 	}
@@ -46,6 +48,8 @@ public class Item implements Buildable {
 		this.type = item.getType();
 		this.value = item.getValue();
 		this.saleValue = item.getSaleValue();
+		this.description = item.getDescription();
+
 		this.actions = new ArrayList<Action>();
 		addActions();
 	}
