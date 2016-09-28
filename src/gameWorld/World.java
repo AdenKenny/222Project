@@ -22,94 +22,78 @@ public class World {
 		BACK(true),
 		LEFT(true),
 		RIGHT(true);
-		
+
 		private boolean relative;
-		
+
 		private Direction(boolean isRelative) {
-			relative = isRelative;
+			this.relative = isRelative;
 		}
-		
+
+		public byte value() {
+			return (byte)ordinal();
+		}
+
 		public boolean isRelative() {
-			return relative;
+			return this.relative;
+		}
+
+		public Direction getLeft() {
+			if (this.equals(NORTH)) {
+				return WEST;
+			} else if (this.equals(EAST)) {
+				return NORTH;
+			} else if (this.equals(SOUTH)) {
+				return EAST;
+			} else if (this.equals(WEST)) {
+				return SOUTH;
+			}
+			return null;
+		}
+
+		public Direction getRight() {
+			if (this.equals(NORTH)) {
+				return EAST;
+			} else if (this.equals(EAST)) {
+				return SOUTH;
+			} else if (this.equals(SOUTH)) {
+				return WEST;
+			} else if (this.equals(WEST)) {
+				return NORTH;
+			}
+			return null;
 		}
 	}
-	
+
 	private ArrayList<Floor> floors;
-	
-	private Random rng = new Random(System.currentTimeMillis());
-	
-	/**
-	 * Constructs a World with the specified number of Floors,
-	 * with each Floor being a random width and depth (each between 10 and 15),
-	 * and each Floor having random Room width and depth (between 8 and 10).
-	 * 
-	 * @param numFloors
-	 */
-	public World(int numFloors) {
-		floors = new ArrayList<Floor>();
-		
-		for (int level = 0; level < numFloors; level++) {
-			floors.add(new Floor(
-					(level == 0)? null : floors.get(level-1),
-					level,
-					rng.nextInt(6) + 10,	// 10 - 15
-					rng.nextInt(6) + 10,
-					rng.nextInt(3) + 8,		// 8 - 10
-					rng.nextInt(3) + 8));
-			
-			if (level > 0) floors.get(level-1).setNextFloor(floors.get(level));
-		}
+	private int currentFloor;
+
+	public World() {
+		this.floors = new ArrayList<Floor>();
+		this.currentFloor = 0;
 	}
-	
+
 	/**
-	 * Constructs a World with the specified number of Floors,
-	 * with each Floor being the specified width and depth,
-	 * but each Floor having a random Room width and depth (between 8 and 10).
-	 * 
-	 * @param numFloors
-	 * @param floorWidth
-	 * @param floorDepth
+	 * Adds another Floor to this World.
+	 *
+	 * @param floor	A new Floor
 	 */
-	public World (int numFloors, int floorWidth, int floorDepth) {
-		floors = new ArrayList<Floor>();
-		
-		for (int level = 0; level < numFloors; level++) {
-			floors.add(new Floor(
-					(level == 0)? null : floors.get(level-1),
-					level,
-					floorWidth,
-					floorDepth,
-					rng.nextInt(3) + 8,		// 8 - 10
-					rng.nextInt(3) + 8));
-			
-			if (level > 0) floors.get(level-1).setNextFloor(floors.get(level));
-		}
+	public void addFloor(Floor floor) {
+		this.floors.add(floor);
 	}
-	
+
 	/**
-	 * Constructs a World with the specified number of Floors,
-	 * with each Floor being the specified width (floorWidth) and depth (floorDepth),
-	 * and each Room being the specified width (roomWidth) and depth (roomDepth).
-	 * 
-	 * @param numFloors
-	 * @param floorWidth
-	 * @param floorDepth
-	 * @param roomWidth
-	 * @param roomDepth
+	 * Returns the Floor that the Players are currently on.
+	 *
+	 * @return	the current Floor
 	 */
-	public World(int numFloors, int floorWidth, int floorDepth, int roomWidth, int roomDepth) {
-		floors = new ArrayList<Floor>();
-		
-		for (int level = 0; level < numFloors; level++) {
-			floors.add(new Floor(
-					(level == 0)? null : floors.get(level-1),
-					level,
-					floorWidth,
-					floorDepth,
-					roomWidth,
-					roomDepth));
-			
-			if (level > 0) floors.get(level-1).setNextFloor(floors.get(level));
-		}
+	public Floor getCurrentFloor() {
+		return this.floors.get(this.currentFloor);
 	}
-}
+
+	/**
+	 * Moves the game to the next Floor.
+	 */
+	public void goUpFloor() {
+		++this.currentFloor;
+	}
+}

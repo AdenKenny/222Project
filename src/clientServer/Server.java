@@ -3,36 +3,30 @@ package clientServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import dataStorage.CreateXML;
-import dataStorage.DataGetter;
-import dataStorage.XMLReader;
-import userHandling.Register;
 import util.Logging;
 
 public class Server {
 
-	private Game game;
+	private ServerSideGame game;
+	private Tick tick;
 
-	private Server() {
+	public Server() {
 
 		//Start the game
-		this.game = new Game();
+		this.game = new ServerSideGame();
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started");
 
 		//Start the game tick
-		Tick tick = new Tick(this.game);
-		tick.start();
+		this.tick = new Tick(this.game);
 
+	}
 
-		try {
-			//Connect to port 5000
-			ServerSocket ss = new ServerSocket(5000);
+	public void run() {
+		this.tick.start();
+
+		//Connect to port 5000
+		try(ServerSocket ss = new ServerSocket(5000)) {
 			int uid = 0;
 			//loop indefinitely
 			while(true) {
@@ -52,15 +46,9 @@ public class Server {
 		}
 	}
 
-	public void saveGame() {
-		new DataGetter(this.game);
-	}
-
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-				ConsoleWindow window = new ConsoleWindow();
-				window.setVisible(true);
-		new Server();
+		ConsoleWindow window = new ConsoleWindow();
 	}
 
 }
