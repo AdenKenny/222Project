@@ -63,7 +63,7 @@ public final class RoomBuilder {
 		return this.npcSpawn;
 	}
 
-	public int modelID() {
+	public int getmodelID() {
 		return this.modelID;
 	}
 

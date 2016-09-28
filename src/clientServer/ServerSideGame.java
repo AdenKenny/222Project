@@ -17,9 +17,9 @@ import userHandling.User;
 public class ServerSideGame {
 
 	private static Map<String, Character> players = new HashMap<String, Character>();
-	private static XMLReader reader = XMLReader.getInstance();
-	private static Map<Integer, Item> mapOfItems = reader.getItems();
-	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
+	private static final XMLReader reader = XMLReader.getInstance();
+	public static final Map<Integer, Item> mapOfItems = reader.getItems();
+	public static final Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
 	public static final World world = new World();
 
