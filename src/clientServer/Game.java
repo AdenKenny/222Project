@@ -15,21 +15,24 @@ import userHandling.User;
 
 public class Game {
 
+	private static Map<String, Character> players = new HashMap<String, Character>();
+	private static XMLReader reader = XMLReader.getInstance();
+	private static Map<Integer, Item> mapOfItems = reader.getItems();
+	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
+
 	private final Map<Long, User> connectedUsers;
-	private static Map<String, Character> players;
-	private static Map<Integer, Item> mapOfItems;
-	private static Map<Integer, CharacterModel> mapOfCharacters;
 	private final ArrayList<String> textMessages;
 
 	public Game() {
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 
+		/*	TODO: remove if the Game still works
 		XMLReader reader = XMLReader.getInstance();
 
 		Game.mapOfItems = reader.getItems();
 		Game.mapOfCharacters = reader.getCharacters();
-		if (players == null) players = new HashMap<String, Character>();
+		if (players == null) players = new HashMap<String, Character>();*/
 	}
 
 	public synchronized void tick() {
