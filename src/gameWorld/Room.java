@@ -13,6 +13,8 @@ public class Room {
 
 	protected HashMap<Direction, Room> neighbours;
 
+	protected Set<Integer> toRemove;
+
 	protected Entity[][] entities;
 
 	protected int xPos;
@@ -47,6 +49,8 @@ public class Room {
 		this.width = width;
 		this.depth = depth;
 
+		this.toRemove = new HashSet<>();
+
 		this.entities = new Entity[depth][width];
 	}
 
@@ -62,6 +66,8 @@ public class Room {
 
 		this.width = builder.getWidth();
 		this.depth = builder.getDepth();
+
+		this.toRemove = new HashSet<>();
 
 		this.entities = new Entity[this.depth][this.width];
 	}
@@ -117,6 +123,10 @@ public class Room {
 			}
 		}
 		return sendables;
+	}
+
+	public Set<Integer> toRemove() {
+		return this.toRemove;
 	}
 
 	/**

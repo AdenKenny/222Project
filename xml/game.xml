@@ -3,7 +3,7 @@
   <players>
     <player>
       <username>Aden</username>
-      <UID>6</UID>
+      <UID>7</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
@@ -14,7 +14,7 @@
     </player>
     <player>
       <username>Simon</username>
-      <UID>7</UID>
+      <UID>6</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>

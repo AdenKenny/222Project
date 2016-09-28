@@ -217,7 +217,6 @@ public class GraphicsPanel extends JPanel {
 
 	public static void moveRoom() {
 		spawn = !spawn;
-		System.out.println("skin switched");
 	}
 
 	public void clear() {
