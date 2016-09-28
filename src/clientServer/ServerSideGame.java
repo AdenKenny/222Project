@@ -143,6 +143,16 @@ public class ServerSideGame implements Game {
 		return data;
 	}
 
+	public synchronized byte[] getSendable(long uid, int id) {
+		Set<Sendable> sendables = players.get(this.connectedUsers.get(uid).getUsername()).room().getSendables();
+		for (Sendable s : sendables) {
+			if (s instanceof Character && ((Character)s).getID() == id) {
+				return s.onEntry();
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * add a message sent by a user to the list of sent messages
 	 * @param uid

@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Set;
 
 import IDGUI.Frame;
+import gameWorld.Sendable;
 
 public class Slave extends Thread {
 
@@ -73,6 +75,19 @@ public class Slave extends Thread {
 						}
 						//TODO send the received message to relevant class
 						System.out.println(message.toString());
+					}
+					Set<Integer> unknown = game.getUnknown();
+					if (unknown.size() != 0) {
+						for (int id : unknown) {
+							byte[] toSend = new byte[5];
+							toSend[0] = PackageCode.Codes.GAME_SENDABLE_REQUEST.value();
+							int i = 1;
+							for (byte b : Sendable.intToBytes(id)) {
+								toSend[i++] = b;
+							}
+							send(toSend);
+						}
+						unknown.clear();
 					}
 				}
 				else {
