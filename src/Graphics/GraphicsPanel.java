@@ -1,7 +1,6 @@
 package Graphics;
 
 import gameWorld.Entity;
-import gameWorld.Location;
 import gameWorld.Room;
 import gameWorld.World;
 import gameWorld.characters.Character;
@@ -9,17 +8,21 @@ import gameWorld.characters.Character;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 /**
  * Created by kiwij on 22-Sep-16.
  */
-public class GraphicsPanel extends JPanel {
+public class GraphicsPanel extends JPanel implements MouseListener {
 
-    // The number of squares the player can see to either side.
+    // The number of squares the character can see to either side.
     private static final int viewWidth = 10;
-    // The number of squares the player can see ahead of them.
+    // The number of squares the character can see ahead of them.
     private static final int viewDistance = 10;
+
+    private GraphicsClickListener clickListener;
 
     public enum Side {
         Front,
@@ -39,22 +42,66 @@ public class GraphicsPanel extends JPanel {
     int squarePixelHeight;
     int squarePixelWidth;
 
-    private Player viewer;
+    private Character viewer;
     private Room room;
 
     /**
-     * Create a new GraphicsPanel that displays from inViewer's
+     * Create a new GraphicsPanel that displays the given room from the perspective of the
      * @param inViewer
      * @param initRoom
      */
-    public GraphicsPanel(Player inViewer, Room initRoom){
+    public GraphicsPanel(Character inViewer, Room initRoom){
         super();
         viewer = inViewer;
         room = initRoom;
+        addMouseListener(this);
     }
 
     public void setRoom(Room newRoom){
         room = newRoom;
+    }
+
+    /**
+     * Set the object that the GraphicsPanel will notify if there is a click.
+     * @param input
+     */
+    public void setGraphicsClickListener(GraphicsClickListener input){
+        clickListener = input;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent event){
+        int x = event.getX();
+        int y = event.getY();
+        Entity entity = calculateClickedEntity(y, x);
+        clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
+    }
+
+    private Entity calculateClickedEntity(int y, int x){
+        // Calculate the upper most bound of all rendered items
+        int yOrigin = getHeight() / 2 - squarePixelHeight;
+        // If click was above the maximum location, then then it cannot be a click on an entity.
+        if (y < yOrigin){
+            return null;
+        } else {
+            int adjustedClickY = y - yOrigin;
+            int forwardDelta = adjustedClickY / squarePixelHeight;
+            // Convert from absolute to relative.
+            int sideDelta = (x / squarePixelWidth) - viewDistance;
+            // Find the entity at the calculated location.
+            Entity result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+                    sideDelta, forwardDelta));
+            //If the result was null, check the square behind where there was a click, as there may be something behind this.
+            if (result == null){
+                forwardDelta += 1;
+                //Check that the target object is in view.
+                if (forwardDelta < viewDistance){
+                    result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+                            sideDelta, forwardDelta));
+                }
+            }
+            return result;
+        }
     }
 
     @Override
@@ -62,26 +109,38 @@ public class GraphicsPanel extends JPanel {
         render(viewer, room, graphics);
     }
 
-    private void render(Player player, Room room, Graphics graphics){
+    private void render(Character character, Room room, Graphics graphics){
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
-
-        int[] viewerLocation = locateEntityInRoom(player, room);
-        for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta){
-            for (int absSideDelta = viewWidth;absSideDelta > 0; --absSideDelta){
-                //Render right
-                renderEntity(player.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta, room, graphics);
-                //Render left
-                renderEntity(player.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta, room, graphics);
+        renderCeiling(graphics);
+        renderFloor(graphics);
+        int[] viewerLocation = locateEntityInRoom(character, room);
+        // If player is found, render.
+        if (viewerLocation[0] >= 0) {
+            for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta) {
+                for (int absSideDelta = viewWidth; absSideDelta > 0; --absSideDelta) {
+                    //Render right
+                    renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta, room, graphics);
+                    //Render left
+                    renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta, room, graphics);
+                }
             }
         }
     }
 
     private void renderCeiling(Graphics graphics){
         try {
-            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("ceiling"));
-            graphics.drawImage(0, 0, getHeight() / 2, getWidth());
+            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/ceiling.png"));
+            graphics.drawImage(image, 0, 0, getHeight() / 2, getWidth(), null);
+        } catch (IOException ioe){
+        }
+    }
+
+    private void renderFloor(Graphics graphics){
+        try {
+            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/floor.png"));
+            graphics.drawImage(image, 0, getHeight() / 2, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
     }
@@ -90,6 +149,7 @@ public class GraphicsPanel extends JPanel {
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         Entity entity = getEntityAtLocation(room, absoluteTarget);
         if (entity != null) {
+            System.out.println(entity.name());
             int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
             Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
             graphics.drawImage(loadImage(entity.name(), side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
@@ -105,7 +165,7 @@ public class GraphicsPanel extends JPanel {
     }
 
     private String resolveImageName(String name, Side side){
-        return String.format("%s/%s", name, resolveSideComponent(side));
+        return String.format("resources/graphics/%s/%s.png", name, resolveSideComponent(side));
     }
 
     private String resolveSideComponent(Side side){
@@ -124,12 +184,12 @@ public class GraphicsPanel extends JPanel {
     }
 
     private Entity getEntityAtLocation(Room room, int[] location){
-        Location[][] locations = room.locations();
+        Entity[][] locations = room.entities();
         // Check if location is in the room.
         if (location[0] < 0 || location[0] >= locations.length || location[1] < 0 || location[1] >= locations[0].length){
-            return locations[location[0]][location[1];
-        } else {
             return null;
+        } else {
+            return locations[location[0]][location[1]];
         }
     }
 
@@ -141,10 +201,10 @@ public class GraphicsPanel extends JPanel {
      * @return {y, x}
      */
     private int[] locateEntityInRoom(Entity entity, Room room){
-        Location[][] locations = room.locations();
+        Entity[][] locations = room.entities();
         for (int y = 0; y < locations.length; ++y){
             for (int x = 0; x < locations.length; ++x){
-                if (locations[y][x].entity() == entity) {
+                if (locations[y][x] == entity) {
                     return new int[] {y, x};
                 }
             }
@@ -387,6 +447,28 @@ public class GraphicsPanel extends JPanel {
                 break;
         }
         return Side.Front;
+    }
+
+    // These methods are required for the MouseListener interface, but do not do anything.
+
+    @Override
+    public void mousePressed(MouseEvent event){
+        // Do nothing
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent event){
+        // Do nothing
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        // Do nothing
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        // Do nothing
     }
 
 }
