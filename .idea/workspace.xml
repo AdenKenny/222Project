@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="152ce9ee-bec9-453d-aefe-ae92a6c1dfb7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/assets/sprites/floor/floor.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/assets/sprites/wall/wall.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GraphicsPanel.java" afterPath="$PROJECT_DIR$/src/Graphics/GraphicsPanel.java" />
     </list>
     <ignored path="RoomScape.iws" />
@@ -29,14 +26,18 @@
       <file leaf-file-name="GraphicsPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Graphics/GraphicsPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="100" column="46" selection-start-line="100" selection-start-column="46" selection-end-line="100" selection-end-column="46" />
+            <state relative-caret-position="489">
+              <caret line="399" column="0" selection-start-line="399" selection-start-column="0" selection-end-line="399" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1209#1210#0" expanded="true" />
                 <element signature="e#1239#1240#0" expanded="true" />
                 <element signature="e#1297#1298#0" expanded="true" />
                 <element signature="e#1343#1344#0" expanded="true" />
+                <element signature="e#8566#8567#0" expanded="true" />
+                <element signature="e#8625#8626#0" expanded="true" />
+                <marker date="1475096974000" expanded="false" signature="8683:8693" ph=" { " />
+                <marker date="1475096974000" expanded="false" signature="8739:8745" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -676,6 +677,10 @@
             <element signature="e#1239#1240#0" expanded="true" />
             <element signature="e#1297#1298#0" expanded="true" />
             <element signature="e#1343#1344#0" expanded="true" />
+            <element signature="e#8566#8567#0" expanded="true" />
+            <element signature="e#8625#8626#0" expanded="true" />
+            <marker date="1475096974000" expanded="false" signature="8683:8693" ph=" { " />
+            <marker date="1475096974000" expanded="false" signature="8739:8745" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -737,6 +742,10 @@
             <element signature="e#1239#1240#0" expanded="true" />
             <element signature="e#1297#1298#0" expanded="true" />
             <element signature="e#1343#1344#0" expanded="true" />
+            <element signature="e#8566#8567#0" expanded="true" />
+            <element signature="e#8625#8626#0" expanded="true" />
+            <marker date="1475096974000" expanded="false" signature="8683:8693" ph=" { " />
+            <marker date="1475096974000" expanded="false" signature="8739:8745" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -954,14 +963,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/GraphicsPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="100" column="46" selection-start-line="100" selection-start-column="46" selection-end-line="100" selection-end-column="46" />
+        <state relative-caret-position="489">
+          <caret line="399" column="0" selection-start-line="399" selection-start-column="0" selection-end-line="399" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1209#1210#0" expanded="true" />
             <element signature="e#1239#1240#0" expanded="true" />
             <element signature="e#1297#1298#0" expanded="true" />
             <element signature="e#1343#1344#0" expanded="true" />
+            <element signature="e#8566#8567#0" expanded="true" />
+            <element signature="e#8625#8626#0" expanded="true" />
+            <marker date="1475096974000" expanded="false" signature="8683:8693" ph=" { " />
+            <marker date="1475096974000" expanded="false" signature="8739:8745" ph=" }" />
           </folding>
         </state>
       </provider>

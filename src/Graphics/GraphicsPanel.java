@@ -263,7 +263,7 @@ public class GraphicsPanel extends JPanel {
     private int[] sumDelta(int[] a, int[] b){
         return new int[] {a[0] + b[0], a[1] + b[1]};
     }
-    
+
     private int[] applyDelta(int[] delta, int y, int x){
         return new int[] {y + delta[0], x + delta[1]};
     }
