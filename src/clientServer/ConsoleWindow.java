@@ -1,17 +1,22 @@
 package clientServer;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import dataStorage.SaveGame;
+import gameWorld.characters.Character;
+
 public class ConsoleWindow extends JFrame {
-	private static final long serialVersionUID = 1L;
 
 	public ConsoleWindow() {
 		super("Server");
@@ -44,7 +49,25 @@ public class ConsoleWindow extends JFrame {
 	    scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
 	    add(scrollPane);
 
+	    setVisible(true);
+
 	    //closing the window will stop the server
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+
+	        	SaveGame saver = new SaveGame();
+
+	        	Map<String, Character> map = ServerSideGame.getAllPlayers();
+
+	        	for (Character player : ServerSideGame.getAllPlayers().values()) {
+	        		saver.savePlayer(player);
+	        	}
+	        	saver.saveFile();
+	            System.exit(0);
+	        }
+	    });
+
+	    new Server().run();
 	}
 }

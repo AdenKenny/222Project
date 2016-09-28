@@ -33,7 +33,7 @@ public final class SaveGame {
 	private Element monsters;
 	private Element vendors;
 
-	private SaveGame() {
+	public SaveGame() {
 		this.file = new File("xml/game.xml");
 
 		try {
@@ -55,18 +55,9 @@ public final class SaveGame {
 			Logging.logEvent(SaveGame.class.getName(), Logging.Levels.SEVERE, "Could not save game");
 		}
 
-		Character player = new Character("Aden");
+	}
 
-		List<Integer> temp = new ArrayList<>();
-
-		temp.add(1);
-		temp.add(2);
-		temp.add(51);
-
-		player.setItems(temp);
-
-		savePlayer(player);
-
+	public void saveFile() {
 		transform("xml/game.xml");
 	}
 
@@ -131,6 +122,10 @@ public final class SaveGame {
 
 		String buildOut = builder.toString();
 
+		if(buildOut.length() == 0) {
+			return "-1";
+		}
+
 		return buildOut.substring(0, buildOut.length() - 2);
 
 	}
@@ -149,7 +144,7 @@ public final class SaveGame {
 			return buildOut.substring(0, buildOut.length() - 2);
 		}
 
-		return builder.toString();
+		return "-1";
 	}
 
 	private Element createNode(String nodeName, String nodeValue) {
