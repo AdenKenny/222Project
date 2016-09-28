@@ -4,15 +4,35 @@ import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 
+import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World;
 import gameWorld.characters.Character;
 
-public class ClientSideGame extends Thread {
+public class ClientSideGame extends Thread implements Game {
 	private Set<Sendable> sendables;
+	private Room room;
 
 	public ClientSideGame() {
 		this.sendables = new HashSet<>();
+	}
+
+	public synchronized void tick() {
+
+	}
+
+	public void updatePosition(byte[] received) {
+		/*
+		 * TODO set character position
+		 * x = received[1]
+		 * y = received[2]
+		 */
+	}
+
+	public void newRoom(byte[] received) {
+		/*
+		 * TODO this.room = new room of width = received[1] and height = received[2]
+		 */
 	}
 
 	public void addSendable(byte[] received) {
@@ -53,7 +73,19 @@ public class ClientSideGame extends Thread {
 	}
 
 	public void updateSendable(byte[] received) {
-
+		/*
+		 * TODO
+		 * Sendable toUpdate = room.getSendable(bytesToInt(received, 3));
+		 * if (toUpdate instanceof Character) {
+		 * 		Character c = (Character) toUpdate;
+		 * 		c.setAlive(received[1] == 1);
+		 * 		c.setFacing(received[2]);
+		 * 		c.setHealth(bytesToInt(received, 7));
+		 * 		c.setLevel(bytesToInt(received, 11));
+		 * 		c.setX(bytesToInt(received, 15));
+		 * 		c.setY(bytesToInt(received, 19));
+		 * }
+		 */
 	}
 
 	public int bytesToInt(byte[] bytes, int start) {
