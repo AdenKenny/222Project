@@ -115,6 +115,7 @@ public class GraphicsPanel extends JPanel {
 			colTarget = entities[0].length;
 			rowChange = 1;
 			colChange = 1;
+			break;
 		case EAST:
 			row = 0;
 			colVal = entities[0].length-1;
@@ -122,6 +123,7 @@ public class GraphicsPanel extends JPanel {
 			colTarget = -1;
 			rowChange = 1;
 			colChange = -1;
+			break;
 		case SOUTH:
 			row = entities.length-1;
 			colVal = entities[0].length-1;
@@ -129,6 +131,7 @@ public class GraphicsPanel extends JPanel {
 			colTarget = -1;
 			rowChange = -1;
 			colChange = -1;
+			break;
 		default:
 			row = entities.length-1;
 			colVal = 0;
@@ -136,6 +139,7 @@ public class GraphicsPanel extends JPanel {
 			colTarget = entities[0].length;
 			rowChange = -1;
 			colChange = 1;
+			break;
 		}
 
 		for (; row != rowTarget; row += rowChange) {
@@ -169,21 +173,24 @@ public class GraphicsPanel extends JPanel {
 
 						switch (player.facing()) {
 						case NORTH:
-							xScale = col;
-							yScale = row;
+							xScale = col+1;
+							yScale = row+1;
+							break;
 						case EAST:
-							xScale = row;
+							xScale = row+1;
 							yScale = entities[0].length - col;
+							break;
 						case SOUTH:
 							xScale = entities[0].length - col;
 							yScale = entities.length - row;
+							break;
 						default:
 							xScale = entities.length - row;
-							yScale = col;
+							yScale = col+1;
 						}
 
-						double rowWidth = 700 + 300 * (2.0 * yScale - 1) / 18;
-						int x = (int)((1000-rowWidth)/2 + rowWidth * (2.0 * xScale - 1) / 18);
+						double rowWidth = 700 + 300 * ((2.0 * yScale - 1) / 18);
+						int x = (int)((1000-rowWidth)/2 + rowWidth * ((2.0 * xScale - 1) / 18));
 						int y = 500 + (int) (150 * (2.0 * yScale - 1) / 18);
 
 						g.drawImage(img, x - IMG_WIDTH/2, y - IMG_HEIGHT, IMG_WIDTH, IMG_HEIGHT, null);
