@@ -9,8 +9,9 @@ import gameWorld.Entity;
 import gameWorld.Room;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
+import util.Buildable;
 
-public class Character extends Entity {
+public class Character extends Entity implements Buildable {
 
 	public enum Type {
 		MONSTER(45),
@@ -99,6 +100,14 @@ public class Character extends Entity {
 		setFields();
 		addActions();
 	}
+
+	public Character(PlayerBuilder builder) {
+		super(null, -1, -1, builder.getName(), "A player, just like you!", null);
+
+		this.items = builder.getItems();
+	}
+	//TODO constructor.
+	//username, UID, type, items, health, 0, gold, level, equips.
 
 	public Character(String username) {
 		super(null, -1, -1, username, "A player, just like you!", null);
@@ -415,6 +424,26 @@ public class Character extends Entity {
 
 	public List<Item> getEquips() {
 		return this.equips;
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
+	public int getID() {
+		return this.ID;
+	}
+
+	@Override
+	public int getValue() {
+		return this.level;
+	}
+
+	@Override
+	public String getDescription() {
+		return this.description;
 	}
 
 }

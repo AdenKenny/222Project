@@ -161,7 +161,7 @@ public final class XMLReader {
 
 			HashMap<Integer, CharacterModel> map = new HashMap<>();
 
-			for (int i = 0; i < list.getLength(); ++i) {
+			for (int i = 0, len = list.getLength(); i < len; ++i) {
 				Node node = list.item(i);
 
 				Element e = (Element) node; // This should be the base node of
