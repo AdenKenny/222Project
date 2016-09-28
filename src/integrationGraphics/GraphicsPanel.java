@@ -218,10 +218,4 @@ public class GraphicsPanel extends JPanel {
 		//
 		repaint();
 	}
-
-	public static void main(String[] args) {
-		Slave slave = new Slave();
-		Frame frame = new Frame(slave);
-		frame.add(new GraphicsPanel(slave.getGame(), slave.getUsername()));
-	}
 }

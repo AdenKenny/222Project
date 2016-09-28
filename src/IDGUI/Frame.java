@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
+import integrationGraphics.GraphicsPanel;
 import IDGUI.MenuBar;
 
 public class Frame extends JFrame {
@@ -114,6 +115,7 @@ public class Frame extends JFrame {
 	private void enterGame() {
 		this.game = this.slave.getGame();
 		//TODO create game world display
+		this.add(new GraphicsPanel(this.slave.getGame(), this.slave.getUsername()));
 	}
 
 	private void threadedMessage(String text) {
