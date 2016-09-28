@@ -4,9 +4,9 @@ public class Tick extends Thread {
 	
 	private static final int delay = 500;
 	
-	private final Game game;
+	private final ServerSideGame game;
 
-	public Tick(Game game) {
+	public Tick(ServerSideGame game) {
 		this.game = game;
 	}
 	

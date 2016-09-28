@@ -3,10 +3,12 @@ package gameWorld.characters;
 import java.util.ArrayList;
 import java.util.List;
 
-import clientServer.Game;
+import clientServer.ServerSideGame;
+import clientServer.PackageCode;
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.Room;
+import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
 import util.Buildable;
@@ -38,7 +40,7 @@ public class Character extends Entity implements Buildable {
 	 * 		into account the amount of xp already earned this level
 	 */
 
-	/* Constants for Player levelling calculations */
+	/* Constants for Player leveling calculations */
 	// xpForLevel = BASE_XP + (level-1)^XP_FACTOR
 	private int baseXP;
 	private static final double XP_FACTOR = 2.20779;
@@ -119,11 +121,19 @@ public class Character extends Entity implements Buildable {
 		this.rank = -1;
 		this.level = 1;
 		this.xp = 0;
-		this.isAlive = true;
+		this.isAlive = false;
 		this.equips = new ArrayList<Item>();
 
 		setFields();
 		addActions();
+	}
+
+	public void respawn(Room room, int x, int y, Direction facing) {
+		this.room = room;
+		this.xPos = x;
+		this.yPos = y;
+		this.facing = facing;
+		this.isAlive = true;
 	}
 
 	private void addActions() {
@@ -424,6 +434,81 @@ public class Character extends Entity implements Buildable {
 
 	public List<Item> getEquips() {
 		return this.equips;
+	}
+	public byte[] onEntry() {
+		byte[] bytes;
+		int i;
+
+		switch (type) {
+		case MONSTER:
+			bytes = new byte[28];
+			bytes[0] = PackageCode.Codes.GAME_ROOM_ENTRY.value();
+			bytes[1] = Sendable.Types.MONSTER.value();
+			bytes[2] = isAlive ? (byte) 1 : 0;
+			bytes[3] = facing.value();
+			i = 4;
+			for (byte b : intsToBytes(modelID, ID, health, level, xPos, yPos)) {
+				bytes[i++] = b;
+			}
+			return bytes;
+		case VENDOR:
+			bytes = new byte[19];
+			bytes[0] = PackageCode.Codes.GAME_ROOM_ENTRY.value();
+			bytes[1] = Sendable.Types.VENDOR.value();
+			bytes[2] = facing.value();
+			i = 3;
+			for (byte b : intsToBytes(modelID, ID, xPos, yPos)) {
+				bytes[i++] = b;
+			}
+			return bytes;
+		case PLAYER:
+			bytes = new byte[24+name.length()];
+			bytes[0] = PackageCode.Codes.GAME_ROOM_ENTRY.value();
+			bytes[1] = Sendable.Types.PLAYER.value();
+			bytes[2] = isAlive ? (byte) 1 : 0;
+			bytes[3] = facing.value();
+			i = 4;
+			for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
+				bytes[i++] = b;
+			}
+			for (char c : name.toCharArray()) {
+				bytes[i++] = (byte) c;
+			}
+			return bytes;
+		}
+
+		return null;
+	}
+
+	public byte[] roomUpdate() {
+		byte[] bytes;
+		int i;
+
+		switch (type) {
+		case MONSTER:
+			bytes = new byte[20];
+			bytes[0] = PackageCode.Codes.GAME_ROOM_UPDATE.value();
+			bytes[1] = Sendable.Types.MONSTER.value();
+			bytes[2] = isAlive ? (byte) 1 : 0;
+			bytes[3] = facing.value();
+			i = 4;
+			for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
+				bytes[i++] = b;
+			}
+			return bytes;
+		case PLAYER:
+			bytes = new byte[24];
+			bytes[0] = PackageCode.Codes.GAME_ROOM_UPDATE.value();
+			bytes[1] = Sendable.Types.PLAYER.value();
+			bytes[2] = isAlive ? (byte) 1 : 0;
+			bytes[3] = facing.value();
+			i = 4;
+			for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
+				bytes[i++] = b;
+			}
+			return bytes;
+		}
+		return null;
 	}
 
 	@Override

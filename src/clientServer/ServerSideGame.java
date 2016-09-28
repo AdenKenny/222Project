@@ -13,23 +13,25 @@ import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import userHandling.User;
 
-public class Game {
+public class ServerSideGame {
+
+	private static Map<String, Character> players = new HashMap<String, Character>();
+	private static XMLReader reader = XMLReader.getInstance();
+	private static Map<Integer, Item> mapOfItems = reader.getItems();
+	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
 	private final Map<Long, User> connectedUsers;
-	private static Map<String, Character> players;
-	private static Map<Integer, Item> mapOfItems;
-	private static Map<Integer, CharacterModel> mapOfCharacters;
 	private final ArrayList<String> textMessages;
 
-	public Game() {
+	public ServerSideGame() {
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 
+		/*	TODO: remove if the Game still works
 		XMLReader reader = XMLReader.getInstance();
-
-		Game.mapOfItems = reader.getItems();
-		Game.mapOfCharacters = reader.getCharacters();
-		if (players == null) players = new HashMap<String, Character>();
+		ServerSideGame.mapOfItems = reader.getItems();
+		ServerSideGame.mapOfCharacters = reader.getCharacters();
+		*/
 	}
 
 	public synchronized void tick() {
@@ -75,8 +77,8 @@ public class Game {
 		User user = this.connectedUsers.get(uid);
 		//TODO check if returning room enter or room update
 		//TODO get room of player
-		/*Set<Entity> entities = room.getEntities();
-		 *byte[][] data = new byte[entities.size() + 1][];
+		/*Set<Sendable> sendables = room.getSendables();
+		 *byte[][] data = new byte[sendables.size() + 1][];
 		 *
 		 *data[0] = new byte[5];
 		 *data[0][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value;
@@ -89,14 +91,14 @@ public class Game {
 		 */
 		if (true /*newlyEntered*/) {
 			/*
-			 *for (Entity e : entities) {
-			 *		data[i++] = e.onEntry();
+			 *for (Sendable s : sendables) {
+			 *		data[i++] = s.onEntry();
 			 *}
 			 */
 		}
 		else {
-			/*for (Entity e : entities) {
-			 *		data[i++] = e.roomUpdate();
+			/*for (Sendable s : sendabless) {
+			 *		data[i++] = s.roomUpdate();
 			 *}
 			 */
 		}

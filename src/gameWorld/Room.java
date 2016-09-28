@@ -4,19 +4,20 @@ import java.util.HashMap;
 import gameWorld.World.Direction;
 
 public class Room {
-	private Floor floor;
 
-	private HashMap<Direction, Room> neighbours;
+	protected Floor floor;
 
-	private Entity[][] entities;
+	protected HashMap<Direction, Room> neighbours;
 
-	private int xPos;
-	private int yPos;
+	protected Entity[][] entities;
 
-	private int ID;
+	protected int xPos;
+	protected int yPos;
 
-	private int width;
-	private int depth;
+	protected int ID;
+
+	protected int width;
+	protected int depth;
 
 	/**
 	 * Constructs a Room containing a grid of Locations which has
@@ -34,7 +35,7 @@ public class Room {
 
 		this.floor = floor;
 
-		this.neighbours = new HashMap<>();
+		this.neighbours = new HashMap<Direction, Room>();
 
 		this.xPos = xPos;
 		this.yPos = yPos;
