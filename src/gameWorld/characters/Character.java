@@ -104,9 +104,16 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public Character(PlayerBuilder builder) {
-		super(null, -1, -1, builder.getName(), "A player, just like you!", null);
+		super(null, -1, -1, builder.getName(), builder.getDescription(), null);
 
+		this.ID = builder.getID();
+		this.name = builder.getName();
+		this.level = builder.getValue();
 		this.items = builder.getItems();
+		this.equips = new ArrayList<Item>();
+		for (int i : builder.getEquips()) {
+			this.equips.add(ServerSideGame.mapOfItems.get(i));
+		}
 	}
 	//TODO constructor.
 	//username, UID, type, items, health, 0, gold, level, equips.
