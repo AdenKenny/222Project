@@ -53,9 +53,7 @@ public class Server {
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-				ConsoleWindow window = new ConsoleWindow();
-				window.setVisible(true);
-		new Server().run();
+		ConsoleWindow window = new ConsoleWindow();
 	}
 
 }
