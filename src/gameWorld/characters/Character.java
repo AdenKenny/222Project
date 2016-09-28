@@ -12,6 +12,7 @@ import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
+import gameWorld.rooms.NPCSpawn;
 import util.Buildable;
 
 public class Character extends Entity implements Buildable, Sendable {
