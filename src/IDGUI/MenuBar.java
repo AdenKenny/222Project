@@ -33,21 +33,38 @@ public class MenuBar extends JFrame {
 
 		JMenu gameMenu = new JMenu("Game");
 
+		MenuItemListener menuItemListener = new MenuItemListener();
+
 		JMenuItem login = new JMenuItem("Login"); //The buttons on the menu.
 		login.setActionCommand("Login");
+		login.addActionListener(menuItemListener);
 
 		JMenuItem createAccount = new JMenuItem("Create Account");
 		createAccount.setActionCommand("Create Account");
-
-		MenuItemListener menuItemListener = new MenuItemListener();
-
-		login.addActionListener(menuItemListener); //Adds the custom listener to the buttons.
 		createAccount.addActionListener(menuItemListener);
+
+		JMenu connection = new JMenu("Connection");
+
+		JMenuItem reconnect = new JMenuItem("Reconnect"); //The buttons on the menu.
+		reconnect.setActionCommand("Reconnect");
+		reconnect.addActionListener(menuItemListener);
+
+		JMenu testing = new JMenu("Testing");
+
+		JMenuItem mock = new JMenuItem("Mock Login"); //The buttons on the menu.
+		mock.setActionCommand("Mock Login");
+		mock.addActionListener(menuItemListener);
 
 		gameMenu.add(login); //Adds the menu items to the menus.
 		gameMenu.add(createAccount);
 
+		connection.add(reconnect);
+
+		testing.add(mock);
+
 		this.menuBar.add(gameMenu); //Add the menu to the menu bar.
+		this.menuBar.add(connection);
+		this.menuBar.add(testing);
 
 	}
 
@@ -84,6 +101,14 @@ public class MenuBar extends JFrame {
 
 			else if(action.equals("Create Account")) {
 				MenuBar.this.frame.newUser();
+			}
+
+			else if(action.equals("Reconnect")) {
+				MenuBar.this.frame.reconnect();
+			}
+
+			else if(action.equals("Mock Login")) {
+				MenuBar.this.frame.mockLogin();
 			}
 		}
 	}

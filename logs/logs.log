@@ -1942,3 +1942,45 @@
 23:02:58 - EVENT in clientServer.Server: The server was started
 23:04:06 - EVENT in clientServer.Server: The server was started
 23:05:44 - EVENT in clientServer.Server: The server was started
+00:22:12 - EVENT in clientServer.Server: The server was started
+00:22:14 - EVENT in clientServer.Server: User 0 connected.
+00:22:24 - EVENT in clientServer.Server: User 0 timed out.
+00:23:14 - EVENT in clientServer.Server: The server was started
+00:24:09 - EVENT in clientServer.Server: The server was started
+00:24:11 - EVENT in clientServer.Server: User 0 connected.
+00:24:21 - EVENT in clientServer.Server: User 0 timed out.
+00:25:15 - EVENT in clientServer.Server: The server was started
+00:25:17 - EVENT in clientServer.Server: User 0 connected.
+00:25:37 - EVENT in userHandling.Verification: Simon logged in successfully.
+00:29:43 - EVENT in clientServer.Server: The server was started
+00:29:46 - EVENT in clientServer.Server: User 0 connected.
+00:29:57 - EVENT in userHandling.Verification: Simon logged in successfully.
+00:37:17 - EVENT in clientServer.Server: The server was started
+00:37:23 - EVENT in clientServer.Server: User 0 connected.
+00:39:06 - EVENT in clientServer.Server: User 1 connected.
+00:40:37 - EVENT in clientServer.Server: The server was started
+00:40:43 - EVENT in clientServer.Server: User 0 connected.
+00:40:51 - EVENT in userHandling.Verification: Simon logged in successfully.
+00:43:52 - EVENT in clientServer.Server: The server was started
+00:52:10 - EVENT in clientServer.Server: The server was started
+00:52:14 - EVENT in clientServer.Server: User 0 connected.
+00:54:15 - EVENT in clientServer.Server: The server was started
+00:54:17 - EVENT in clientServer.Server: User 0 connected.
+00:54:22 - EVENT in userHandling.Verification: Simon logged in successfully.
+00:54:24 - EVENT in clientServer.Server: User 1 connected.
+00:54:28 - EVENT in clientServer.Server: User 2 connected.
+00:54:29 - EVENT in userHandling.Verification: Simon logged in successfully.
+00:55:50 - EVENT in clientServer.Server: User 3 connected.
+00:56:01 - EVENT in userHandling.Verification: Simon logged in successfully.
+01:00:14 - EVENT in clientServer.Server: User 4 connected.
+01:00:20 - EVENT in userHandling.Verification: Simon logged in successfully.
+01:00:56 - EVENT in clientServer.Server: User 5 connected.
+01:00:59 - EVENT in userHandling.Verification: Simon logged in successfully.
+01:19:28 - EVENT in clientServer.Server: User 6 connected.
+01:19:32 - EVENT in userHandling.Verification: Simon logged in successfully.
+01:24:04 - EVENT in clientServer.Server: User 7 connected.
+01:24:07 - EVENT in userHandling.Verification: Simon logged in successfully.
+01:25:47 - EVENT in clientServer.Server: User 8 connected.
+01:25:50 - EVENT in userHandling.Verification: Simon logged in successfully.
+01:26:47 - EVENT in clientServer.Server: User 9 connected.
+01:26:50 - EVENT in userHandling.Verification: Simon logged in successfully.

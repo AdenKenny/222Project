@@ -7,6 +7,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import IDGUI.Frame;
+
 public class Slave extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
@@ -15,8 +17,10 @@ public class Slave extends Thread {
 	private DataOutputStream output;
 	private boolean connected;
 	private ClientSideGame game;
+	private Frame frame;
 
-	public Slave() {
+	public Slave(Frame frame) {
+		this.frame = frame;
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
 			this.output = new DataOutputStream(socket.getOutputStream());
@@ -32,6 +36,9 @@ public class Slave extends Thread {
 
 	@Override
 	public void run() {
+		if (!this.connected) {
+			return;
+		}
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 
@@ -72,27 +79,15 @@ public class Slave extends Thread {
 				else {
 					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
-							System.out.println("Login successful.");
 							startGame();
 						}
-						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_USER.value()) {
-							System.out.println("Incorrect username.");
-						}
-						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_PASSWORD.value()) {
-							System.out.println("Incorrect password.");
-						}
-						else if (data[1] == PackageCode.Codes.LOGIN_ALREADY_CONNECTED.value()) {
-							System.out.println("That character is already online.");
-						}
+						this.frame.accountResult(data[1]);
 					}
 					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.NEW_USER_SUCCESS.value()) {
-							System.out.println("Account created.");
 							startGame();
 						}
-						else if (data[1] == PackageCode.Codes.NEW_USER_NAME_TAKEN.value()) {
-							System.out.println("That name is unavailable.");
-						}
+						this.frame.accountResult(data[1]);
 					}
 				}
 				Thread.sleep(BROADCAST_CLOCK);
@@ -106,6 +101,10 @@ public class Slave extends Thread {
 	}
 
 	public void login(String username, String password) {
+		if (!this.connected) {
+			System.out.println("Unable to connect to server.");
+			return;
+		}
 		byte[] toSend = new byte[username.length() + password.length() + 2];
 		toSend[0] = PackageCode.Codes.LOGIN_ATTEMPT.value();
 		int i = 1;
@@ -120,6 +119,10 @@ public class Slave extends Thread {
 	}
 
 	public void newUser(String username, String password) {
+		if (!this.connected) {
+			System.out.println("Unable to connect to server.");
+			return;
+		}
 		byte[] toSend = new byte[username.length() + password.length() + 2];
 		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value();
 		int i = 1;
@@ -181,8 +184,16 @@ public class Slave extends Thread {
 		new Tick(this.game).start();
 	}
 
+	public ClientSideGame getGame() {
+		return this.game;
+	}
+
 	public boolean connected() {
 		return connected;
+	}
+
+	public boolean inGame() {
+		return this.game != null;
 	}
 
 	public void close() {
@@ -197,7 +208,7 @@ public class Slave extends Thread {
 	}
 
 	public static void main(String[] args) {
-		new Slave();
+		new Slave(null);
 	}
 
 }

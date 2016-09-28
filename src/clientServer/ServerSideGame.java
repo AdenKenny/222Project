@@ -50,7 +50,7 @@ public class ServerSideGame implements Game {
 
 	@Override
 	public synchronized void tick() {
-		System.out.println(world.getCurrentFloor().getSpawns());
+		//System.out.println(world.getCurrentFloor().getSpawns());
 		if (world.getCurrentFloor().getSpawns() != null) {
 			for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
 				spawn.tick();
@@ -98,7 +98,13 @@ public class ServerSideGame implements Game {
 		// get the character of the user
 		Character player = players.get(this.connectedUsers.get(uid).getUsername());
 		Room room = player.room();
-		Set<Sendable> sendables = room.getSendables();
+		Set<Sendable> sendables;
+		if (room == null) {
+			sendables = new HashSet<>();
+		}
+		else {
+			sendables = room.getSendables();
+		}
 		boolean newlyEntered = this.roomDetails.get(uid);
 		int extra = newlyEntered ? 2 : 1;
 		byte[][] data = new byte[sendables.size() + extra][];
