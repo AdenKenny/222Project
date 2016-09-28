@@ -1,10 +1,9 @@
 package Graphics;
 
 import gameWorld.Entity;
-import gameWorld.Location;
 import gameWorld.Room;
 import gameWorld.World;
-import gameWorld.characters.Player;
+import gameWorld.characters.Character;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,9 +15,9 @@ import java.io.IOException;
  */
 public class GraphicsPanel extends JPanel {
 
-    // The number of squares the player can see to either side.
+    // The number of squares the character can see to either side.
     private static final int viewWidth = 10;
-    // The number of squares the player can see ahead of them.
+    // The number of squares the character can see ahead of them.
     private static final int viewDistance = 10;
 
     public enum Side {
@@ -39,7 +38,7 @@ public class GraphicsPanel extends JPanel {
     int squarePixelHeight;
     int squarePixelWidth;
 
-    private Player viewer;
+    private Character viewer;
     private Room room;
 
     /**
@@ -47,7 +46,7 @@ public class GraphicsPanel extends JPanel {
      * @param inViewer
      * @param initRoom
      */
-    public GraphicsPanel(Player inViewer, Room initRoom){
+    public GraphicsPanel(Character inViewer, Room initRoom){
         super();
         viewer = inViewer;
         room = initRoom;
@@ -62,26 +61,35 @@ public class GraphicsPanel extends JPanel {
         render(viewer, room, graphics);
     }
 
-    private void render(Player player, Room room, Graphics graphics){
+    private void render(Character character, Room room, Graphics graphics){
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
-
-        int[] viewerLocation = locateEntityInRoom(player, room);
+        renderCeiling(graphics);
+        renderFloor(graphics);
+        int[] viewerLocation = locateEntityInRoom(character, room);
         for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta){
             for (int absSideDelta = viewWidth;absSideDelta > 0; --absSideDelta){
                 //Render right
-                renderEntity(player.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta, room, graphics);
+                renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta, room, graphics);
                 //Render left
-                renderEntity(player.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta, room, graphics);
+                renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta, room, graphics);
             }
         }
     }
 
     private void renderCeiling(Graphics graphics){
         try {
-            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("ceiling"));
-            graphics.drawImage(0, 0, getHeight() / 2, getWidth());
+            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/ceiling.png"));
+            graphics.drawImage(image, 0, 0, getHeight() / 2, getWidth(), null);
+        } catch (IOException ioe){
+        }
+    }
+
+    private void renderFloor(Graphics graphics){
+        try {
+            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/floor.png"));
+            graphics.drawImage(image, 0, getHeight() / 2, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
     }
@@ -90,6 +98,7 @@ public class GraphicsPanel extends JPanel {
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         Entity entity = getEntityAtLocation(room, absoluteTarget);
         if (entity != null) {
+            System.out.println(entity.name());
             int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
             Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
             graphics.drawImage(loadImage(entity.name(), side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
@@ -105,7 +114,7 @@ public class GraphicsPanel extends JPanel {
     }
 
     private String resolveImageName(String name, Side side){
-        return String.format("%s/%s", name, resolveSideComponent(side));
+        return String.format("resources/graphics/%s/%s.png", name, resolveSideComponent(side));
     }
 
     private String resolveSideComponent(Side side){
@@ -124,10 +133,10 @@ public class GraphicsPanel extends JPanel {
     }
 
     private Entity getEntityAtLocation(Room room, int[] location){
-        Location[][] locations = room.locations();
+        Entity[][] locations = room.entities();
         // Check if location is in the room.
         if (location[0] < 0 || location[0] >= locations.length || location[1] < 0 || location[1] >= locations[0].length){
-            return locations[location[0]][location[1];
+            return locations[location[0]][location[1]];
         } else {
             return null;
         }
@@ -141,10 +150,10 @@ public class GraphicsPanel extends JPanel {
      * @return {y, x}
      */
     private int[] locateEntityInRoom(Entity entity, Room room){
-        Location[][] locations = room.locations();
+        Entity[][] locations = room.entities();
         for (int y = 0; y < locations.length; ++y){
             for (int x = 0; x < locations.length; ++x){
-                if (locations[y][x].entity() == entity) {
+                if (locations[y][x] == entity) {
                     return new int[] {y, x};
                 }
             }
