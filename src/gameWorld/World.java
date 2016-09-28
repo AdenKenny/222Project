@@ -32,8 +32,35 @@ public class World {
 		public byte value() {
 			return (byte)ordinal();
 		}
+
 		public boolean isRelative() {
 			return this.relative;
+		}
+
+		public Direction getLeft() {
+			if (this.equals(NORTH)) {
+				return WEST;
+			} else if (this.equals(EAST)) {
+				return NORTH;
+			} else if (this.equals(SOUTH)) {
+				return EAST;
+			} else if (this.equals(WEST)) {
+				return SOUTH;
+			}
+			return null;
+		}
+
+		public Direction getRight() {
+			if (this.equals(NORTH)) {
+				return EAST;
+			} else if (this.equals(EAST)) {
+				return SOUTH;
+			} else if (this.equals(SOUTH)) {
+				return WEST;
+			} else if (this.equals(WEST)) {
+				return NORTH;
+			}
+			return null;
 		}
 	}
 

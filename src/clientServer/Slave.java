@@ -211,6 +211,10 @@ public class Slave extends Thread {
 		}
 	}
 
+	public ClientSideGame getGame() {
+		return this.game;
+	}
+
 	public static void main(String[] args) {
 		new Slave();
 	}
