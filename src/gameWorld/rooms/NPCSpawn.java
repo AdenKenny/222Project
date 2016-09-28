@@ -30,7 +30,7 @@ public class NPCSpawn extends Room implements SpawnRoom {
 	@Override
 	public void tick() {
 
-		System.out.println(npc.isAlive());
+		//System.out.println(npc.isAlive());
 
 		if (!npc.isAlive()) {
 			if (deathTime == -1) {
