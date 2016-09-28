@@ -24,7 +24,8 @@ public class Item implements Buildable {
 	private Type type;
 	private int value;
 	private int saleValue;
-	
+	private String description;
+
 	private Character holder;
 	// TODO: private Container container;
 	private List<Action> actions;
@@ -38,7 +39,7 @@ public class Item implements Buildable {
 		this.actions = new ArrayList<Action>();
 		addActions();
 	}
-	
+
 	public Item(Item item) {
 		this.ID = item.getID();
 		this.name = item.getName();
@@ -64,14 +65,14 @@ public class Item implements Buildable {
 		default:
 			break;
 		}
-		
+
 		actions.add(new Action() {
 			public String name() { return "Pick up";}
 			public void perform(Character caller) {
 				tryPickUp(caller);
 			}
 		});
-		
+
 		if (holder != null) {
 			actions.add(new Action() {
 				public String name() { return "Sell";}
@@ -87,22 +88,22 @@ public class Item implements Buildable {
 				}
 			});
 		}
-		
+
 	}
-	
+
 	public void tryEquip(Character equipper) {
 		if (equipper.equals(holder)) {
 			holder.equip(this);
 		}
 	}
-	
+
 	public void tryPickUp(Character pickerUpperer) {
 		if (holder == null) {
 			pickerUpperer.pickUp(this);
 			holder = pickerUpperer;
 		}
 	}
-	
+
 	public void trySell(Character seller) {
 		if (seller.equals(holder)) {
 			Entity[][] entities = holder.room().entities();
@@ -118,7 +119,7 @@ public class Item implements Buildable {
 			}
 		}
 	}
-	
+
 	public void tryBuy(Character buyer) {
 		if (holder == null) {
 			Entity[][] entities = buyer.room().entities();
