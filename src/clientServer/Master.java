@@ -234,8 +234,6 @@ public class Master extends Thread {
 		//create a user
 		User user = Register.createUser(usernameBuilder.toString(), passwordBuilder.toString());
 
-		passwordBuilder = null;
-
 		//if the username is taken
 		if (user == null) {
 			newUserResult[1] = PackageCode.Codes.NEW_USER_NAME_TAKEN.value();

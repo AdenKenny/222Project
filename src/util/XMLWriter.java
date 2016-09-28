@@ -78,6 +78,7 @@ public final class XMLWriter {
 		writeChars(charsFile, charsRead);
 	}
 
+
 	public void writeItems(String fileName, String readFile) {
 		try {
 
