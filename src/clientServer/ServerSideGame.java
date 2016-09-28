@@ -21,7 +21,7 @@ public class ServerSideGame {
 	private static Map<Integer, Item> mapOfItems = reader.getItems();
 	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
-	//private static World world =
+	public static final World world = new World();
 
 	private final Map<Long, User> connectedUsers;
 	private final ArrayList<String> textMessages;
