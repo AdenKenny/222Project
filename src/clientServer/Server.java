@@ -20,7 +20,7 @@ public class Server {
 		//Start the game tick
 		Tick tick = new Tick(this.game);
 		tick.start();
-		
+
 		//Connect to port 5000
 		try(ServerSocket ss = new ServerSocket(5000)) {
 			int uid = 0;

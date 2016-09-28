@@ -12,6 +12,7 @@ public final class RoomBuilder {
 	private String buildYPos;
 	private String buildWidth;
 	private String buildDepth;
+	private String buildLevel;
 
 	private boolean playerSpawn;
 	private boolean npcSpawn;
@@ -20,6 +21,7 @@ public final class RoomBuilder {
 	private int yPos;
 	private int width;
 	private int depth;
+	private int level;
 
 	private Floor floor;
 
@@ -55,6 +57,10 @@ public final class RoomBuilder {
 		this.buildDepth = buildDepth;
 	}
 
+	public void setLevel(String buildLevel) {
+		this.buildLevel = buildLevel;
+	}
+
 	public boolean isPlayerSpawn() {
 		return this.playerSpawn;
 	}
@@ -83,10 +89,14 @@ public final class RoomBuilder {
 		return this.depth;
 	}
 
+	public int getLevel() {
+		return this.level;
+	}
+
 	public Room build() {
 
 		if(this.buildPlayerSpawn == null || this.buildNpcSpawn == null || this.buildModelID == null || this.buildXPos == null
-				|| this.buildYPos == null || this.buildWidth == null || this.buildDepth == null){
+				|| this.buildYPos == null || this.buildWidth == null || this.buildDepth == null || this.buildLevel == null){
 			return null;
 		}
 
@@ -98,13 +108,14 @@ public final class RoomBuilder {
 			this.yPos = Integer.parseInt(this.buildYPos);
 			this.width = Integer.parseInt(this.buildWidth);
 			this.depth = Integer.parseInt(this.buildDepth);
+			this.level = Integer.parseInt(this.buildLevel);
 
-			if (playerSpawn) {
-				return new PlayerSpawn(floor, this);
-			} else if (npcSpawn) {
+			if (this.playerSpawn) {
+				return new PlayerSpawn(this.floor, this);
+			} else if (this.npcSpawn) {
 				// TODO: make NPCSpawn class
 			} else {
-				return new Room(floor, this);
+				return new Room(this.floor, this);
 			}
 
 		}

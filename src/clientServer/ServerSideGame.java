@@ -33,6 +33,7 @@ public class ServerSideGame implements Game {
 
 		for(Character c : loader.getPlayers()) {
 			players.put(c.getName(), c); //Loads players into game.
+			System.out.println(c.getName());
 		}
 
 		this.connectedUsers = new HashMap<>();
@@ -45,6 +46,7 @@ public class ServerSideGame implements Game {
 		*/
 	}
 
+	@Override
 	public synchronized void tick() {
 		for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
 			spawn.tick();

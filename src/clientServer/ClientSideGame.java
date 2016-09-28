@@ -17,6 +17,7 @@ public class ClientSideGame extends Thread implements Game {
 		this.sendables = new HashSet<>();
 	}
 
+	@Override
 	public synchronized void tick() {
 
 	}
