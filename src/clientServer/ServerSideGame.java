@@ -18,8 +18,8 @@ public class ServerSideGame {
 
 	private static Map<String, Character> players = new HashMap<String, Character>();
 	private static XMLReader reader = XMLReader.getInstance();
-	private static Map<Integer, Item> mapOfItems = reader.getItems();
-	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
+	public final static Map<Integer, Item> mapOfItems = reader.getItems();
+	public final static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
 	//private static World world =
 
