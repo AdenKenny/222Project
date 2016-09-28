@@ -136,6 +136,9 @@ public class ServerSideGame implements Game {
 			data[0][1] = (byte)room.width();
 			data[0][2] = (byte)room.depth();
 			for (Sendable s : sendables) {
+				if (s instanceof Character) {
+					System.out.println(((Character)s).getType());
+				}
 				data[i++] = s.onEntry();
 			}
 		}
