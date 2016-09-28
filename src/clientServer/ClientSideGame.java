@@ -26,16 +26,29 @@ public class ClientSideGame extends Thread {
 			int level = bytesToInt(received, 16);
 			int xPos = bytesToInt(received, 20);
 			int yPos = bytesToInt(received, 24);
+			//TODO create character
 		}
 		else if (type.equals(Character.Type.VENDOR)) {
 			World.Direction facing = World.Direction.values()[received[2]];
-			/*modelID, ID, xPos, yPos*/
+			int modelId = bytesToInt(received, 3);
+			int ID = bytesToInt(received, 7);
+			int xPos = bytesToInt(received, 11);
+			int yPos = bytesToInt(received, 15);
+			//TODO create character
 		}
 		else if (type.equals(Character.Type.PLAYER)) {
 			boolean isAlive = (received[2] == 1);
 			World.Direction facing = World.Direction.values()[received[3]];
-			/*ID, health, level, xPos, yPos*/
-			//String builder
+			int ID = bytesToInt(received, 4);
+			int health = bytesToInt(received, 8);
+			int level = bytesToInt(received, 12);
+			int xPos = bytesToInt(received, 16);
+			int yPos = bytesToInt(received, 20);
+			StringBuilder name = new StringBuilder();
+			for (int i = 24; i < received.length; i++) {
+				name.append((char) received[i]);
+			}
+			//TODO create character
 		}
 	}
 
