@@ -7,9 +7,9 @@ import gameWorld.characters.Character;
 
 public abstract class Entity {
 	private static int IDCount = 0;
-	
+
 	protected int ID;
-	
+
 	protected Room room;
 	protected int xPos;
 	protected int yPos;
@@ -34,7 +34,7 @@ public abstract class Entity {
 	 */
 	public Entity(Room room, int xPos, int yPos, String name, String description, Direction facing) {
 		this.ID = IDCount++;
-		
+
 		this.room = room;
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -95,10 +95,10 @@ public abstract class Entity {
 	public Direction facing() {
 		return facing;
 	}
-	
+
 	/**
 	 * Returns the unique ID of this Entity.
-	 * 
+	 *
 	 * @return	a unique ID
 	 */
 	public int ID() {
@@ -124,7 +124,7 @@ public abstract class Entity {
 	 * @return	whether the action succeeded or not
 	 */
 	public boolean performAction(String action, Character caller) {
-		
+
 		for (Action a : actions) {
 			if (a.name().equals(action)) {
 				a.perform(caller);
