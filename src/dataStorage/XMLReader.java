@@ -37,7 +37,6 @@ public final class XMLReader {
 	private Map<Integer, Item> mapOfItems; // Map of the items.
 	private Map<Integer, CharacterModel> mapOfCharacters; // Map of the
 															// characters.
-
 	private static XMLReader INSTANCE = null;
 
 	private XMLReader() { // Singleton pattern.

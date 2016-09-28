@@ -18,6 +18,11 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 		floor.addSpawnRoom(this);
 	}
 
+	public PlayerSpawn(RoomBuilder roomBuilder) {
+		super()
+	}
+
+	@Override
 	public void tick() {
 		for (Character player : players.values()) {
 			if (!player.isAlive()) {

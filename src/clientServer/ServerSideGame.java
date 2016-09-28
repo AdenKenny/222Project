@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.XMLReader;
+import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
@@ -19,6 +20,8 @@ public class ServerSideGame {
 	private static XMLReader reader = XMLReader.getInstance();
 	private static Map<Integer, Item> mapOfItems = reader.getItems();
 	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
+
+	//private static World world =
 
 	private final Map<Long, User> connectedUsers;
 	private final ArrayList<String> textMessages;

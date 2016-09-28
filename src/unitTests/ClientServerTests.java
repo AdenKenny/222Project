@@ -27,7 +27,9 @@ public class ClientServerTests {
 	@Test
 	public void intToBytesToInt() {
 		Sendable basic = new Sendable() {
+			@Override
 			public byte[] onEntry() {return null;}
+			@Override
 			public byte[] roomUpdate() {return null;}
 		};
 		int num = 70000;

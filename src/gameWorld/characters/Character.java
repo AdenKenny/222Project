@@ -13,7 +13,7 @@ import gameWorld.World.Direction;
 import gameWorld.item.Item;
 import util.Buildable;
 
-public class Character extends Entity implements Buildable {
+public class Character extends Entity implements Buildable, Sendable {
 
 	public enum Type {
 		MONSTER(45),
@@ -435,6 +435,7 @@ public class Character extends Entity implements Buildable {
 	public List<Item> getEquips() {
 		return this.equips;
 	}
+	@Override
 	public byte[] onEntry() {
 		byte[] bytes;
 		int i;
@@ -480,6 +481,7 @@ public class Character extends Entity implements Buildable {
 		return null;
 	}
 
+	@Override
 	public byte[] roomUpdate() {
 		byte[] bytes;
 		int i;
