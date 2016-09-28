@@ -13,21 +13,21 @@ import gameWorld.item.Item;
 public class Character extends Entity {
 
 	public enum Type {
-		MONSTER(45), 
+		MONSTER(45),
 		VENDOR(-1),
 		PLAYER(100);
-		
+
 		private int baseXP;
-		
+
 		private Type(int baseXP) {
 			this.baseXP = baseXP;
 		}
-		
+
 		public int getBaseXP() {
-			return baseXP;
+			return this.baseXP;
 		}
 	}
-	
+
 	/*
 	 * All Characters have names, items
 	 * Vendors and Monsters have ranks and modelIDs
@@ -36,7 +36,7 @@ public class Character extends Entity {
 	 * Players also have a value for xp to next level, which does not take
 	 * 		into account the amount of xp already earned this level
 	 */
-	
+
 	/* Constants for Player levelling calculations */
 	// xpForLevel = BASE_XP + (level-1)^XP_FACTOR
 	private int baseXP;
@@ -49,120 +49,124 @@ public class Character extends Entity {
 	private static final double DAMAGE_FACTOR = 1.974;
 	// scale factor for Monster and Vendor ranks
 	private static final double RANK_SCALE_FACTOR = 0.3;
-	
+
 	// Would prefer not to have this hard-coded, but for now this is simplest
 	private static final int ATTACK_SPEED = 1000; // ms
-	
+
 	/* Fields for all characters */
-	private Type type;
+	private Type type; //?
 	private List<Integer> items;
-	
+
 	/* Fields for NPCs */
 	private int rank;
 	private int modelID;
-	
+
 	/* Fields for combat characters (Players, Monsters) */
 	private int health;
-	private int maxHealth;
-	private int damage;
+	private int maxHealth; //*
+	private int damage; //*
 	private int xp;
 	private int gold;
-	private boolean isAlive;
-	private long attackTimer = 0;
-	
+	private boolean isAlive; //*
+	private long attackTimer = 0; //*
+
 	// extra fields for Players
 	private int level;
-	private int xpForLevel;
-	
+	private int xpForLevel; //*
+
 	private List<Item> equips;
-	
+
 	/*public Character(Room room, int xPos, int yPos,
 			String name, String description, Direction facing) {
 		super(room, xPos, yPos, name, description, facing);
 	}*/
-	
+
 	public Character(Room room, int xPos, int yPos,
 			String description, Direction facing, int level,
 			CharacterModel model) {
 		super(room, xPos, yPos, model.getName(), description, facing);
-		
+
 		this.modelID = model.getID();
-		this.items = new ArrayList<Integer>(model.getSetOfItems());
+		this.items = new ArrayList<>(model.getSetOfItems());
 		this.type = model.getType();
-		this.baseXP = type.getBaseXP();
+		this.baseXP = this.type.getBaseXP();
 		this.rank = model.getValue();
 		this.level = level;
 		this.xp = 0;
 		this.isAlive = true;
-		this.equips = new ArrayList<Item>();
-		
+		this.equips = new ArrayList<>();
+
 		setFields();
 		addActions();
 	}
-	
+
 	private void addActions() {
-		if (type.equals(Type.VENDOR))
-			actions.add(new Action() {
+		if (this.type.equals(Type.VENDOR))
+			this.actions.add(new Action() {
+				@Override
 				public String name() { return "Trade";}
+				@Override
 				public void perform(Character caller) {
 					// TODO UI.showTradeDialog(); or something
 				}
 			});
-		
-		if (type.equals(Type.MONSTER))
-			actions.add(new Action() {
+
+		if (this.type.equals(Type.MONSTER))
+			this.actions.add(new Action() {
+				@Override
 				public String name() { return "Attack";}
+				@Override
 				public void perform(Character caller) {
 					tryAttack(caller);
 				}
 			});
 	}
-	
+
 	private void setFields() {
-		if (items == null) items = new ArrayList<Integer>();
-		
-		if (type.equals(Type.VENDOR)) {
-			maxHealth = -1;
-			health = -1;
-			damage = -1;
-			xp = -1;
-			gold = -1;
-			level = -1;
-			xpForLevel = -1;
-		} else if (type.equals(Type.PLAYER)) {
-			rank = -1;
-			maxHealth = (int) Math.pow(BASE_HEALTH, 1+HEALTH_FACTOR*((level-1)/100));
-			health = maxHealth;
-			damage = (int) Math.pow(BASE_DAMAGE, 1+DAMAGE_FACTOR*((level-1)/100));
-			gold = 0;
-			xpForLevel = baseXP + (int) Math.pow(level-1, XP_FACTOR);
-		} else if (type.equals(Type.MONSTER)) {
-			maxHealth = (int) (Math.pow(BASE_HEALTH, 1+1*((level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(rank-1))));
-			health = maxHealth;
-			damage = (int) (Math.pow(BASE_DAMAGE, 1+1*((level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(rank-1))));
-			gold = (int) (Math.pow(2, 1+1*((level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(rank-1))));
-			xp = (int) (Math.pow(baseXP, 1+1*((level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(rank-1))));
+		if (this.items == null) this.items = new ArrayList<>();
+
+		if (this.type.equals(Type.VENDOR)) {
+			this.maxHealth = -1;
+			this.health = -1;
+			this.damage = -1;
+			this.xp = -1;
+			this.gold = -1;
+			this.level = -1;
+			this.xpForLevel = -1;
+		} else if (this.type.equals(Type.PLAYER)) {
+			this.rank = -1;
+			this.maxHealth = (int) Math.pow(BASE_HEALTH, 1+HEALTH_FACTOR*((this.level-1)/100));
+			this.health = this.maxHealth;
+			this.damage = (int) Math.pow(BASE_DAMAGE, 1+DAMAGE_FACTOR*((this.level-1)/100));
+			this.gold = 0;
+			this.xpForLevel = this.baseXP + (int) Math.pow(this.level-1, XP_FACTOR);
+		} else if (this.type.equals(Type.MONSTER)) {
+			this.maxHealth = (int) (Math.pow(BASE_HEALTH, 1+1*((this.level-1)/100))
+					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
+			this.health = this.maxHealth;
+			this.damage = (int) (Math.pow(BASE_DAMAGE, 1+1*((this.level-1)/100))
+					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
+			this.gold = (int) (Math.pow(2, 1+1*((this.level-1)/100))
+					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
+			this.xp = (int) (Math.pow(this.baseXP, 1+1*((this.level-1)/100))
+					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
 		}
 	}
-	
+
 	public void tryAttack(Character attacker) {
-		if (attacker.room().equals(room)) {
-			if (attacker.xPos() == xPos-1 || attacker.xPos() == xPos+1
-					|| attacker.yPos() == yPos-1 || attacker.yPos() == yPos+1) {
+		if (attacker.room().equals(this.room)) {
+			if (attacker.xPos() == this.xPos-1 || attacker.xPos() == this.xPos+1
+					|| attacker.yPos() == this.yPos-1 || attacker.yPos() == this.yPos+1) {
 				if (System.currentTimeMillis() > attacker.attackTimer+ATTACK_SPEED)
 					applyAttack(attacker);
 			}
 		}
 	}
-	
+
 	private void applyAttack(Character attacker) {
 		int attack = attacker.getAttack();	// max ~1000
 		int defense = 0;	// max 350
-		for (Item item : equips) {
+		for (Item item : this.equips) {
 			switch (item.getType()) {
 			case ARMOR:
 			case SHIELD:
@@ -172,64 +176,64 @@ public class Character extends Entity {
 				break;
 			}
 		}
-		
+
 		int damageDone = attack - defense;
-		setHealth(health-damageDone);
+		setHealth(this.health-damageDone);
 		attacker.startAttackTimer();
 	}
-	
+
 	public void startAttackTimer() {
-		attackTimer = System.currentTimeMillis();
+		this.attackTimer = System.currentTimeMillis();
 	}
-	
+
 	public long getAttackTimer() {
-		return attackTimer;
+		return this.attackTimer;
 	}
-	
+
 	public void equip(Item item) {
-		for (Integer id : items) {
+		for (Integer id : this.items) {
 			if (id == item.getID()) {
-				items.remove(id);
-				equips.add(new Item(item));
+				this.items.remove(id);
+				this.equips.add(new Item(item));
 			}
 		}
 	}
-	
+
 	public void pickUp(Item item) {
-		items.add(item.getID());
+		this.items.add(item.getID());
 	}
-	
+
 	public void sellItem(Item item, int value) {
-		for (Integer id : items) {
+		for (Integer id : this.items) {
 			if (id == item.getID()) {
-				items.remove(id);
-				gold += value;
+				this.items.remove(id);
+				this.gold += value;
 			}
 		}
 	}
-	
+
 	public void buyItem(Item item, int value) {
-		items.add(item.getID());
-		gold -= value;
+		this.items.add(item.getID());
+		this.gold -= value;
 	}
 
 	public void move(Direction dir) {
-		room.move(this, dir);
+		this.room.move(this, dir);
 	}
 
 	public void turn(Direction dir) {
 		switch (dir) {
 		case NORTH:
-			facing = Direction.NORTH;
+			this.facing = Direction.NORTH;
 			break;
 		case EAST:
-			facing = Direction.EAST;
+			this.facing = Direction.EAST;
 			break;
 		case SOUTH:
-			facing = Direction.SOUTH;
+			this.facing = Direction.SOUTH;
 			break;
 		case WEST:
-			facing = Direction.WEST;
+			this.facing = Direction.WEST;
 			break;
 		case LEFT:
 			turnLeft();
@@ -243,18 +247,18 @@ public class Character extends Entity {
 	}
 
 	private void turnLeft() {
-		switch (facing) {
+		switch (this.facing) {
 		case NORTH:
-			facing = Direction.WEST;
+			this.facing = Direction.WEST;
 			break;
 		case EAST:
-			facing = Direction.NORTH;
+			this.facing = Direction.NORTH;
 			break;
 		case SOUTH:
-			facing = Direction.EAST;
+			this.facing = Direction.EAST;
 			break;
 		case WEST:
-			facing = Direction.SOUTH;
+			this.facing = Direction.SOUTH;
 			break;
 		default:
 			break;
@@ -262,18 +266,18 @@ public class Character extends Entity {
 	}
 
 	private void turnRight() {
-		switch (facing) {
+		switch (this.facing) {
 		case NORTH:
-			facing = Direction.EAST;
+			this.facing = Direction.EAST;
 			break;
 		case EAST:
-			facing = Direction.SOUTH;
+			this.facing = Direction.SOUTH;
 			break;
 		case SOUTH:
-			facing = Direction.WEST;
+			this.facing = Direction.WEST;
 			break;
 		case WEST:
-			facing = Direction.NORTH;
+			this.facing = Direction.NORTH;
 			break;
 		default:
 			break;
@@ -281,7 +285,7 @@ public class Character extends Entity {
 	}
 
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(Type type) {
@@ -289,7 +293,7 @@ public class Character extends Entity {
 	}
 
 	public List<Integer> getItems() {
-		return items;
+		return this.items;
 	}
 
 	public void setItems(List<Integer> items) {
@@ -297,38 +301,38 @@ public class Character extends Entity {
 	}
 
 	public int getRank() {
-		return rank;
+		return this.rank;
 	}
 
 	public int getModelID() {
-		return modelID;
+		return this.modelID;
 	}
 
 	public int getHealth() {
-		return health;
+		return this.health;
 	}
 
 	public void setHealth(int health) {
 		this.health = health;
-		if (health > maxHealth)
-			health = maxHealth;
+		if (health > this.maxHealth)
+			health = this.maxHealth;
 		if (health < 0) {
-			isAlive = false;
+			this.isAlive = false;
 			// TODO: die();
 		}
 	}
 
 	public int getMaxHealth() {
-		return maxHealth;
+		return this.maxHealth;
 	}
 
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
-	
+
 	public int getAttack() {
-		int attack = damage;
-		for (Item item : equips) {
+		int attack = this.damage;
+		for (Item item : this.equips) {
 			if (item.getType().equals(Item.Type.WEAPON)) {
 				attack += item.getValue();
 			}
@@ -337,7 +341,7 @@ public class Character extends Entity {
 	}
 
 	public int getDamage() {
-		return damage;
+		return this.damage;
 	}
 
 	public void setDamage(int damage) {
@@ -345,20 +349,20 @@ public class Character extends Entity {
 	}
 
 	public int getXp() {
-		return xp;
+		return this.xp;
 	}
 
 	public void setXp(int xp) {
 		this.xp = xp;
-		if (xp > xpForLevel) {
-			++level;
-			xp -= xpForLevel;
+		if (xp > this.xpForLevel) {
+			++this.level;
+			xp -= this.xpForLevel;
 			setFields();
 		}
 	}
 
 	public int getGold() {
-		return gold;
+		return this.gold;
 	}
 
 	public void setGold(int gold) {
@@ -368,7 +372,7 @@ public class Character extends Entity {
 	}
 
 	public int getLevel() {
-		return level;
+		return this.level;
 	}
 
 	public void setLevel(int level) {
@@ -376,7 +380,7 @@ public class Character extends Entity {
 	}
 
 	public int getXpForLevel() {
-		return xpForLevel;
+		return this.xpForLevel;
 	}
 
 	public void setXpForLevel(int xpForLevel) {
@@ -384,11 +388,15 @@ public class Character extends Entity {
 	}
 
 	public boolean isAlive() {
-		return isAlive;
+		return this.isAlive;
 	}
 
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+	}
+
+	public List<Item> getEquips() {
+		return this.equips;
 	}
 
 }

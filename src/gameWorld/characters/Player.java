@@ -20,18 +20,22 @@ public class Player extends Character {
 		super(room, x, y, description, facing, 0, null);
 	}
 
+	@Override
 	public int getHealth() {
 		return this.health;
 	}
 
+	@Override
 	public void setHealth(int health) {
 		this.health = health;
 	}
 
+	@Override
 	public int getDamage() {
 		return this.damage;
 	}
 
+	@Override
 	public int getLevel() {
 		return this.level;
 	}
