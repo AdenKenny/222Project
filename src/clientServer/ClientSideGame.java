@@ -15,12 +15,14 @@ import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
 
 public class ClientSideGame extends Thread implements Game {
-	private Map<Integer, Sendable> sendables;
+	private final Map<Integer, Sendable> sendables;
+	private final Set<Integer> unknownIds;
 	private Room room;
 	private Character player;
 
 	public ClientSideGame() {
 		this.sendables = new HashMap<>();
+		this.unknownIds = new HashSet<>();
 	}
 
 	@Override
@@ -40,12 +42,12 @@ public class ClientSideGame extends Thread implements Game {
 		if (type.equals(Character.Type.MONSTER)) {
 			boolean isAlive = (received[2] == 1);
 			World.Direction facing = World.Direction.values()[received[3]];
-			int modelId = bytesToInt(received, 4);
-			int ID = bytesToInt(received, 8);
-			int health = bytesToInt(received, 12);
-			int level = bytesToInt(received, 16);
-			int xPos = bytesToInt(received, 20);
-			int yPos = bytesToInt(received, 24);
+			int modelId = Sendable.bytesToInt(received, 4);
+			int ID = Sendable.bytesToInt(received, 8);
+			int health = Sendable.bytesToInt(received, 12);
+			int level = Sendable.bytesToInt(received, 16);
+			int xPos = Sendable.bytesToInt(received, 20);
+			int yPos = Sendable.bytesToInt(received, 24);
 			CharacterModel model = mapOfCharacters.get(modelId);
 			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, level, model);
 			toAdd.setAlive(isAlive);
@@ -55,10 +57,10 @@ public class ClientSideGame extends Thread implements Game {
 		}
 		else if (type.equals(Character.Type.VENDOR)) {
 			World.Direction facing = World.Direction.values()[received[2]];
-			int modelId = bytesToInt(received, 3);
-			int ID = bytesToInt(received, 7);
-			int xPos = bytesToInt(received, 11);
-			int yPos = bytesToInt(received, 15);
+			int modelId = Sendable.bytesToInt(received, 3);
+			int ID = Sendable.bytesToInt(received, 7);
+			int xPos = Sendable.bytesToInt(received, 11);
+			int yPos = Sendable.bytesToInt(received, 15);
 			CharacterModel model = mapOfCharacters.get(modelId);
 			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, -1, model);
 			sendables.put(ID, toAdd);
@@ -67,11 +69,11 @@ public class ClientSideGame extends Thread implements Game {
 		else if (type.equals(Character.Type.PLAYER)) {
 			boolean isAlive = (received[2] == 1);
 			Direction facing = Direction.values()[received[3]];
-			int ID = bytesToInt(received, 4);
-			int health = bytesToInt(received, 8);
-			int level = bytesToInt(received, 12);
-			int xPos = bytesToInt(received, 16);
-			int yPos = bytesToInt(received, 20);
+			int ID = Sendable.bytesToInt(received, 4);
+			int health = Sendable.bytesToInt(received, 8);
+			int level = Sendable.bytesToInt(received, 12);
+			int xPos = Sendable.bytesToInt(received, 16);
+			int yPos = Sendable.bytesToInt(received, 20);
 			StringBuilder name = new StringBuilder();
 			for (int i = 24; i < received.length; i++) {
 				name.append((char) received[i]);
@@ -89,7 +91,11 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public void updateSendable(byte[] received) {
-		Sendable toUpdate = sendables.get(bytesToInt(received, 3));
+		int id = Sendable.bytesToInt(received, 3);
+		Sendable toUpdate = sendables.get(id);
+		if (toUpdate == null) {
+			this.unknownIds.add(id);
+		}
 		if (toUpdate instanceof Character) {
 			Character c = (Character) toUpdate;
 			Entity[][] entities = room.entities();
@@ -97,22 +103,14 @@ public class ClientSideGame extends Thread implements Game {
 			entities[c.yPos()][c.xPos()] = null;
 			c.setAlive(received[1] == 1);
 			c.setFacing(Direction.values()[received[2]]);
-			c.setHealth(bytesToInt(received, 7));
-			c.setLevel(bytesToInt(received, 11));
-			c.setXPos(bytesToInt(received, 15));
-			c.setYPos(bytesToInt(received, 19));
+			c.setHealth(Sendable.bytesToInt(received, 7));
+			c.setLevel(Sendable.bytesToInt(received, 11));
+			c.setXPos(Sendable.bytesToInt(received, 15));
+			c.setYPos(Sendable.bytesToInt(received, 19));
 
 			entities[c.yPos()][c.xPos()] = c;
 		}
 
-	}
-
-	public int bytesToInt(byte[] bytes, int start) {
-		byte[] bs = new byte[4];
-		for (int i = 0; i < 4; i++) {
-			bs[i] = bytes[start + i];
-		}
-		return ByteBuffer.wrap(bs).getInt();
 	}
 
 	public Room getRoom() {
@@ -134,5 +132,9 @@ public class ClientSideGame extends Thread implements Game {
 			}
 		}
 		return null;
+	}
+
+	public Set<Integer> getUnknown() {
+		return this.unknownIds;
 	}
 }

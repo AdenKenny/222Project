@@ -27,8 +27,8 @@ public class ClientServerTests {
 	@Test
 	public void intToBytesToInt() {
 		int num = 70000;
-		byte[] bytes = Sendable.intToByte(num);
-		int back = new ClientSideGame().bytesToInt(bytes, 0);
+		byte[] bytes = Sendable.intToBytes(num);
+		int back = Sendable.bytesToInt(bytes, 0);
 		assertEquals(num, back);
 	}
 

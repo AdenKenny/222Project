@@ -9,12 +9,12 @@ import userHandling.Register;
 import userHandling.User;
 import userHandling.Verification;
 import util.Logging;
-
+import gameWorld.Sendable;
 import gameWorld.characters.Character;
 
 public class Master extends Thread {
 
-	private static final int BROADCAST_CLOCK = 50;
+	private static final int BROADCAST_CLOCK = 200;
 	private static final int PING_TIMER = 1000;
 	private static final int TIMEOUT = 2000;
 
@@ -80,6 +80,12 @@ public class Master extends Thread {
 					if (this.inGame) {
 						if (received[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 							textMessage(received);
+						}
+						else if (received[0] == PackageCode.Codes.GAME_SENDABLE_REQUEST.value()) {
+							byte[] toSend = this.game.getSendable(uid, Sendable.bytesToInt(received, 1));
+							if (toSend != null) {
+								send(toSend);
+							}
 						}
 						else if (received[0] >= PackageCode.Codes.KEY_PRESS_W.value() && received[0] <= PackageCode.Codes.KEY_PRESS_E.value()) {
 							this.game.keyPress(this.uid, received[0]);
