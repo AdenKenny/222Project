@@ -15,7 +15,7 @@ public class MainFrame extends JFrame implements ClientUI {
 	public MainFrame(){
 		super("Team 39");
 
-		setJMenuBar(menuBar);
+		//setJMenuBar(menuBar); //This will throw a null pointer. Needs to be initialised.
 
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
@@ -25,7 +25,7 @@ public class MainFrame extends JFrame implements ClientUI {
 
 	@Override
 	public void addChat(String text) {}
-	
+
 	@Override
 	public void sendChat(String input) {
 		// TODO Auto-generated method stub

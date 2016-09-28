@@ -54,7 +54,8 @@ public final class SaveGame {
 		catch (ParserConfigurationException e) {
 			Logging.logEvent(SaveGame.class.getName(), Logging.Levels.SEVERE, "Could not save game");
 		}
-		//savePlayer();
+
+		savePlayer(new Character("testing"));
 	}
 
 	public void savePlayer(Character player) {

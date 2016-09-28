@@ -189,6 +189,7 @@ public class Character extends Entity {
 			case SHIELD:
 			case HELMET:
 				defense += item.getValue();
+				break;
 			default:
 				break;
 			}
@@ -371,9 +372,9 @@ public class Character extends Entity {
 
 	public void setXp(int xp) {
 		this.xp = xp;
-		if (xp > this.xpForLevel) {
+		if (this.xp > this.xpForLevel) {
 			++this.level;
-			xp -= this.xpForLevel;
+			this.xp -= this.xpForLevel;
 			setFields();
 		}
 	}

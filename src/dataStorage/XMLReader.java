@@ -267,7 +267,7 @@ public final class XMLReader {
 	}
 
 	//TODO Implement this after integration day.
-	private static final class posEnums {
+	private static final class PosEnums {
 		private enum Position {
 			ID(0, "ID"),
 			NAME(1, "name"),
