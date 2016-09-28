@@ -1,13 +1,15 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class MainWindow extends JFrame implements ClientUI {
+public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
@@ -81,21 +83,24 @@ public class MainWindow extends JFrame implements ClientUI {
 		add(infoBar, BorderLayout.PAGE_START);
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END); 
-		addGameChat("Testing chat");
+		addGameChat("Testing game chat");
+		addChat("Text from another player");
+		addGameChat("Gone?");
 		revalidate();
 		setVisible(true);
 		repaint();
 	}
 
 	protected void setDisplay(JPanel display){
-		
+		this.display = display;
 	}
 
-	public void addChat(String text) {}
+	public void addChat(String text) {
+		bottomPanel.addChat(text);
+	}
 	
 	public void sendChat(String input) {
-		// TODO Auto-generated method stub
-		
+		//TODO: send input to server for broadcast
 	}
 
 	public void addGameChat(String output) {
@@ -131,6 +136,24 @@ public class MainWindow extends JFrame implements ClientUI {
 		
 	}
 
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public static void main(String[] args){
 		new MainWindow().initComponents();
 	}

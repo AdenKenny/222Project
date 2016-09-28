@@ -33,11 +33,6 @@ public class BottomPanel extends JPanel{
 		add(chatPane, BorderLayout.WEST);
 		add(statPane, BorderLayout.CENTER);
 		add(inventoryPane, BorderLayout.EAST);
-//		
-//		chatPane.setVisible(true);
-//		statPane.setVisible(true);
-//		inventoryPane.setVisible(true);
-		
 		revalidate();
 	}
 	
@@ -57,5 +52,10 @@ public class BottomPanel extends JPanel{
 	
 	public void addGameChat(String output){
 		chatPane.addGameChat(output);
+	}
+
+	public void addChat(String text) {
+		chatPane.addChat(text);
+		
 	}
 }

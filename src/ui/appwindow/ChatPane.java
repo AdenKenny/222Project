@@ -7,6 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.SpringLayout;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class ChatPane extends JPanel{
 	public static float WIDTH_RATIO = 0.3f;
@@ -32,7 +36,7 @@ public class ChatPane extends JPanel{
 		textArea.setBounds( 0, 0, 200, 200 );
 		//scroll.setBounds(5, 5, getWidth()-20, getHeight()-50);
 		scroll.setPreferredSize(new Dimension(200, 200));
-		textArea.setText("Welcome to RoomScape!\n\n\n");
+		textArea.setText("Welcome to RoomScape!\n");
 		add(scroll);
 		scroll.setVisible(true);
 		textArea.setBackground(Color.WHITE);
@@ -65,6 +69,26 @@ public class ChatPane extends JPanel{
 	}
 	
 	public void addGameChat(String output){
-		textArea.setText(output);
+		StyledDocument current = textArea.getStyledDocument();
+		SimpleAttributeSet style = new SimpleAttributeSet();
+		StyleConstants.setItalic(style, true);
+		try{
+			textArea.getStyledDocument().insertString(current.getLength(), "\n"+output, style);
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+	}
+
+	public void addChat(String text) {
+		StyledDocument current = textArea.getStyledDocument();
+		SimpleAttributeSet style = new SimpleAttributeSet();
+		StyleConstants.setForeground(style, Color.RED);
+		try{
+			textArea.getStyledDocument().insertString(current.getLength(), "\n"+text, style);
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
 	}
 }
