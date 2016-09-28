@@ -73,7 +73,6 @@ public class Character extends Entity implements Buildable, Sendable {
 	private int gold;
 	private boolean isAlive;
 	private long attackTimer = 0;
-	private Room room;
 
 	// extra fields for Players
 	private int level;
@@ -112,6 +111,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.name = builder.getName();
 		this.level = builder.getValue();
 		this.items = builder.getItems();
+		this.type = Character.Type.PLAYER;
 		this.equips = new ArrayList<Item>();
 		for (int i : builder.getEquips()) {
 			this.equips.add(ServerSideGame.mapOfItems.get(i));
@@ -138,9 +138,7 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void respawn(Room room, int x, int y, Direction facing) {
-		System.out.println(room);
 		this.room = room;
-		System.out.println(this.room);
 		this.xPos = x;
 		this.yPos = y;
 		this.facing = facing;
@@ -266,7 +264,9 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void move(Direction dir) {
-		this.room.move(this, dir);
+		if (this.room != null) {
+			this.room.move(this, dir);
+		}
 	}
 
 	public void turn(Direction dir) {
@@ -294,7 +294,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 	}
 
-	private void turnLeft() {
+	public void turnLeft() {
 		switch (this.facing) {
 		case NORTH:
 			this.facing = Direction.WEST;
@@ -313,7 +313,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 	}
 
-	private void turnRight() {
+	public void turnRight() {
 		switch (this.facing) {
 		case NORTH:
 			this.facing = Direction.EAST;

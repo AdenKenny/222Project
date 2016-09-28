@@ -160,7 +160,7 @@ public class Room {
 	}
 
 	public boolean move(Entity entity, Direction dir) {
-		if (entity == null || dir == null) return false;
+		if (entity == null || entity.room() == null || dir == null) return false;
 		if (!entity.room().equals(this)) return false;
 
 		int changeX = 0;

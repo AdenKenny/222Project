@@ -6,16 +6,15 @@ public interface Sendable {
 
 	public static enum Types {
 		MONSTER(),
-		PLAYER(),
 		VENDOR(),
-		;
+		PLAYER();
 
 		public byte value() {
 			return (byte) ordinal();
 		}
 	}
 
-	default byte[] intToByte(int i) {
+	static byte[] intToByte(int i) {
 		return ByteBuffer.allocate(4).putInt(i).array();
 	}
 

@@ -42,6 +42,7 @@ public class MessageDialog extends JDialog implements ActionListener {
 	    setVisible(true);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 	    setVisible(false);
 	    dispose();

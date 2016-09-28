@@ -27,7 +27,6 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 	@Override
 	public void tick() {
 		for (Character player : players.values()) {
-			System.out.println(player.room());
 			if (!player.isAlive()) {
 				int x = width/2, y = depth/2;
 				World.Direction facing = World.Direction.NORTH;

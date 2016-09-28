@@ -13,12 +13,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.junit.Test;
 
 import dataStorage.CreateXML;
+import dataStorage.LoadGame;
 import dataStorage.XMLReader;
 import gameWorld.characters.CharacterModel;
+import gameWorld.characters.Character;
 import gameWorld.item.Item;
 import util.XMLWriter;
 
@@ -131,6 +134,18 @@ public class DataTests {
 		else {
 			fail();
 		}
+	}
+
+	@Test
+	public void testPlayersLoad() {
+		LoadGame loader = new LoadGame();
+
+		Set<Character> set = loader.getPlayers();
+
+		for(Character c : set) {
+
+		}
+
 	}
 
 	@Test

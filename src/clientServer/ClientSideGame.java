@@ -40,6 +40,7 @@ public class ClientSideGame extends Thread implements Game {
 
 	public void addSendable(byte[] received) {
 		Character.Type type = Character.Type.values()[received[1]];
+
 		if (type.equals(Character.Type.MONSTER)) {
 			boolean isAlive = (received[2] == 1);
 			World.Direction facing = World.Direction.values()[received[3]];
