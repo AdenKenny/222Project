@@ -15,7 +15,7 @@ import gameWorld.item.Item;
 import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
 
-public class ServerSideGame {
+public class ServerSideGame implements Game {
 
 	private static Map<String, Character> players = new HashMap<String, Character>();
 	private static XMLReader reader = XMLReader.getInstance();
@@ -86,19 +86,22 @@ public class ServerSideGame {
 		//TODO check if returning room enter or room update
 		//TODO get room of player
 		/*Set<Sendable> sendables = room.getSendables();
-		 *byte[][] data = new byte[sendables.size() + 1][];
+		 *int extra = newlyEntered ? 2 : 1;
+		 *byte[][] data = new byte[sendables.size() + extra][];
 		 *
-		 *data[0] = new byte[5];
+		 *data[0] = new byte[3];
 		 *data[0][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value;
-		 *data[0][1] = player room x
-		 *data[0][1] = player room y
 		 *data[0][1] = player tile x
-		 *data[0][1] = player tile y
+		 *data[0][2] = player tile y
 		 *
-		 *int i = 1;
+		 *int i = extra;
 		 */
 		if (true /*newlyEntered*/) {
 			/*
+			 *data[1] = new byte[3];
+			 *data[1][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
+			 *data[1][1] = room.getWidth();
+			 *data[1][2] = room.getHeight();
 			 *for (Sendable s : sendables) {
 			 *		data[i++] = s.onEntry();
 			 *}
