@@ -10,6 +10,8 @@ import java.util.Set;
 import dataStorage.LoadGame;
 import dataStorage.XMLReader;
 import gameWorld.Floor;
+import gameWorld.Room;
+import gameWorld.Sendable;
 import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
@@ -19,14 +21,13 @@ import userHandling.User;
 
 public class ServerSideGame implements Game {
 
+
 	private static Map<String, Character> players = new HashMap<String, Character>();
-	private static final XMLReader reader = XMLReader.getInstance();
-	public static final Map<Integer, Item> mapOfItems = reader.getItems();
-	public static final Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
 	public static final World world = new World();
 
 	private final Map<Long, User> connectedUsers;
+	private final Map<Long, Boolean> roomDetails;
 	private final ArrayList<String> textMessages;
 
 	public ServerSideGame() {
@@ -37,6 +38,7 @@ public class ServerSideGame implements Game {
 		}
 
 		this.connectedUsers = new HashMap<>();
+		this.roomDetails = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 
 		/*	TODO: remove if the Game still works
@@ -65,6 +67,7 @@ public class ServerSideGame implements Game {
 	 */
 	public void registerConnection(long uid, User user) {
 		this.connectedUsers.put(uid, user);
+		this.roomDetails.put(uid, false);
 		players.put(user.getUsername(), new Character(user.getUsername()));
 	}
 
@@ -74,6 +77,7 @@ public class ServerSideGame implements Game {
 	 */
 	public void disconnect(long uid) {
 		this.connectedUsers.remove(uid);
+		this.roomDetails.remove(uid);
 	}
 
 	/**
@@ -81,7 +85,7 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 * @param input
 	 */
-	public void readInput(long uid, byte input) {
+	public void readInput(long uid, byte[] input) {
 		// TODO
 	}
 
@@ -92,39 +96,32 @@ public class ServerSideGame implements Game {
 	 */
 	public byte[][] toByteArray(long uid) {
 		// get the character of the user
-		User user = this.connectedUsers.get(uid);
-		//TODO check if returning room enter or room update
-		//TODO get room of player
-		/*Set<Sendable> sendables = room.getSendables();
-		 *int extra = newlyEntered ? 2 : 1;
-		 *byte[][] data = new byte[sendables.size() + extra][];
-		 *
-		 *data[0] = new byte[3];
-		 *data[0][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value;
-		 *data[0][1] = player tile x
-		 *data[0][2] = player tile y
-		 *
-		 *int i = extra;
-		 */
-		if (true /*newlyEntered*/) {
-			/*
-			 *data[1] = new byte[3];
-			 *data[1][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
-			 *data[1][1] = room.getWidth();
-			 *data[1][2] = room.getHeight();
-			 *for (Sendable s : sendables) {
-			 *		data[i++] = s.onEntry();
-			 *}
-			 */
+		Character player = players.get(this.connectedUsers.get(uid).getUsername());
+		Room room = player.room();
+		Set<Sendable> sendables = room.getSendables();
+		boolean newlyEntered = this.roomDetails.get(uid);
+		int extra = newlyEntered ? 2 : 1;
+		byte[][] data = new byte[sendables.size() + extra][];
+		data[0] = new byte[3];
+		data[0][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value();
+		data[0][1] = (byte)player.xPos();
+		data[0][2] = (byte)player.yPos();
+		int i = extra;
+		if (newlyEntered) {
+			data[1] = new byte[3];
+			data[1][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
+			data[1][1] = (byte)room.width();
+			data[1][2] = (byte)room.depth();
+			for (Sendable s : sendables) {
+				data[i++] = s.onEntry();
+			}
 		}
 		else {
-			/*for (Sendable s : sendabless) {
-			 *		data[i++] = s.roomUpdate();
-			 *}
-			 */
+			for (Sendable s : sendables) {
+				data[i++] = s.roomUpdate();
+			}
 		}
-		//return data;
-		return null; //TODO
+		return data;
 	}
 
 	/**

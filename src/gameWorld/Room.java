@@ -1,6 +1,9 @@
 package gameWorld;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import gameWorld.World.Direction;
 import gameWorld.rooms.RoomBuilder;
 
@@ -102,6 +105,18 @@ public class Room {
 	 */
 	public Entity[][] entities() {
 		return this.entities;
+	}
+
+	public Set<Sendable> getSendables() {
+		Set<Sendable> sendables = new HashSet<Sendable>();
+		for (Entity[] es : entities) {
+			for (Entity e : es) {
+				if (e instanceof Sendable) {
+					sendables.add((Sendable) e);
+				}
+			}
+		}
+		return sendables;
 	}
 
 	/**
