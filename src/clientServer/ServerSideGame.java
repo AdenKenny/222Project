@@ -74,6 +74,8 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 */
 	public void disconnect(long uid) {
+		Character player = players.get(this.connectedUsers.get(uid).getUsername());
+		player.room().entities()[player.xPos()][player.yPos()] = null;;
 		this.connectedUsers.remove(uid);
 		this.roomDetails.remove(uid);
 	}

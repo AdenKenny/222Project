@@ -269,8 +269,6 @@ public class Room {
 			return false;
 		}
 
-		//Location target = locations[targetY][targetX];
-
 		if (this.entities[targetY][targetX] == null) {
 			// target location is free, so can move there
 			this.entities[targetY][targetX] = entity;
