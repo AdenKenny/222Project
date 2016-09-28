@@ -30,7 +30,7 @@ public class Frame extends JFrame implements KeyListener {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		setPreferredSize(new Dimension(1000, 680));
+		setPreferredSize(new Dimension(1000, 800));
 		setLayout(new BorderLayout());
 		pack();
 		setResizable(false);
@@ -121,7 +121,6 @@ public class Frame extends JFrame implements KeyListener {
 
 	private void enterGame() {
 		this.game = this.slave.getGame();
-		//TODO create game world display
 		GraphicsPanel gfx = new GraphicsPanel(this.slave.getGame(), this.slave.getUsername());
 		this.add(gfx);
 		new FrameRate(gfx).start();

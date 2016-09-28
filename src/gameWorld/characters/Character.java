@@ -464,7 +464,7 @@ public class Character extends Entity implements Buildable, Sendable {
 			bytes[2] = isAlive ? (byte) 1 : 0;
 			bytes[3] = facing.value();
 			i = 4;
-			for (byte b : intsToBytes(modelID, ID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(modelID, ID, health, level, xPos, yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
@@ -474,7 +474,7 @@ public class Character extends Entity implements Buildable, Sendable {
 			bytes[1] = Sendable.Types.VENDOR.value();
 			bytes[2] = facing.value();
 			i = 3;
-			for (byte b : intsToBytes(modelID, ID, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(modelID, ID, xPos, yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
@@ -485,7 +485,7 @@ public class Character extends Entity implements Buildable, Sendable {
 			bytes[2] = isAlive ? (byte) 1 : 0;
 			bytes[3] = facing.value();
 			i = 4;
-			for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(ID, health, level, xPos, yPos)) {
 				bytes[i++] = b;
 			}
 			for (char c : name.toCharArray()) {
@@ -508,7 +508,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		bytes[1] = isAlive ? (byte) 1 : 0;
 		bytes[2] = facing.value();
 		int i = 3;
-		for (byte b : intsToBytes(ID, health, level, xPos, yPos)) {
+		for (byte b : Sendable.intsToBytes(ID, health, level, xPos, yPos)) {
 			bytes[i++] = b;
 		}
 		return bytes;

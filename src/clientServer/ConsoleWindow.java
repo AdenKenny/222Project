@@ -58,8 +58,6 @@ public class ConsoleWindow extends JFrame {
 
 	        	SaveGame saver = new SaveGame();
 
-	        	Map<String, Character> map = ServerSideGame.getAllPlayers();
-
 	        	for (Character player : ServerSideGame.getAllPlayers().values()) {
 	        		saver.savePlayer(player);
 	        	}

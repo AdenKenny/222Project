@@ -14,22 +14,30 @@ public interface Sendable {
 		}
 	}
 
-	static byte[] intToByte(int i) {
+	static byte[] intToBytes(int i) {
 		return ByteBuffer.allocate(4).putInt(i).array();
 	}
 
-	default byte[] intsToBytes(int... is) {
+	static byte[] intsToBytes(int... is) {
 		byte[] bytes = new byte[is.length*4];
 
 		int count = 0;
 
 		for (int i = 0; i < is.length; i++) {
-			for (byte b : intToByte(is[i])) {
+			for (byte b : intToBytes(is[i])) {
 				bytes[count++] = b;
 			}
 		}
 
 		return bytes;
+	}
+
+	static int bytesToInt(byte[] bytes, int start) {
+		byte[] bs = new byte[4];
+		for (int i = 0; i < 4; i++) {
+			bs[i] = bytes[start + i];
+		}
+		return ByteBuffer.wrap(bs).getInt();
 	}
 
 	/**

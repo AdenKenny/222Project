@@ -12,12 +12,10 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.junit.Test;
 
-import dataStorage.CreateXML;
 import dataStorage.LoadGame;
 import dataStorage.XMLReader;
 import gameWorld.characters.CharacterModel;
@@ -78,9 +76,9 @@ public class DataTests {
 		}
 	}
 
-	/**
+/*	*//**
 	 * Test to make sure the CreateXML path actually creates a file.
-	 */
+	 *//*
 
 	@Test
 	public void testCreateBasicXML() {
@@ -109,7 +107,7 @@ public class DataTests {
 			fail(); // No file at all. Test fails.
 		}
 
-	}
+	}*/
 
 	@Test
 	public void testWriteXML() {
