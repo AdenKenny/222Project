@@ -91,12 +91,17 @@ public class ClientSideGame extends Thread implements Game {
 		Sendable toUpdate = sendables.get(bytesToInt(received, 3));
 		if (toUpdate instanceof Character) {
 			Character c = (Character) toUpdate;
+			Entity[][] entities = room.entities();
+
+			entities[c.yPos()][c.xPos()] = null;
 			c.setAlive(received[1] == 1);
 			c.setFacing(Direction.values()[received[2]]);
 			c.setHealth(bytesToInt(received, 7));
 			c.setLevel(bytesToInt(received, 11));
 			c.setXPos(bytesToInt(received, 15));
 			c.setYPos(bytesToInt(received, 19));
+
+			entities[c.yPos()][c.xPos()] = c;
 		}
 
 	}
