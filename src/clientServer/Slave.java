@@ -7,9 +7,6 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import util.Logging;
-import util.Logging.Levels;
-
 public class Slave extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
