@@ -128,6 +128,7 @@ public class ServerSideGame implements Game {
 		data[pos][2] = (byte)player.yPos();
 		int i = extra;
 		if (newlyEntered) {
+			this.roomDetails.put(uid, true);
 			data[0] = new byte[3];
 			data[0][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
 			data[0][1] = (byte)room.width();

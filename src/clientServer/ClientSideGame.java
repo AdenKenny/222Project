@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import gameWorld.Entity;
 import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World;
@@ -121,12 +122,14 @@ public class ClientSideGame extends Thread implements Game {
 	public Character getPlayer(String name) {
 		if (room == null) return null;
 
-		System.out.println("Nonnull room");
-
-		for (int i = 0; i < room.depth(); ++i) {
-			for (int j = 0; j < room.width(); ++j) {
-				if (room.entities()[i][j].name().equals(name)) {
-					return (Character) room.entities()[i][j];
+		Entity[][] entities = room.entities();
+		int depth = room.depth();
+		int width = room.width();
+		for (int i = 0; i < depth; ++i) {
+			for (int j = 0; j < width; ++j) {
+				if (entities[i][j] != null
+						&& entities[i][j].name().equals(name)) {
+					return (Character) entities[i][j];
 				}
 			}
 		}

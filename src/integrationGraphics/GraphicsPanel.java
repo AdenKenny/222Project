@@ -155,10 +155,12 @@ public class GraphicsPanel extends JPanel {
 					} else if (entities[row][col].facing().equals(player.facing().getRight())) {
 						dir = "right";
 					} else {
-						dir = "back";
+						dir = "front";
 					}
 
 					File sprite = new File(path + name + "/" + dir + ".png");
+
+					System.out.println(sprite);
 
 					try {
 						InputStream in = getClass().getResourceAsStream(path + name + "/" + dir + ".png");
@@ -186,7 +188,7 @@ public class GraphicsPanel extends JPanel {
 						int x = (int)((1000-rowWidth)/2 + rowWidth * (2.0 * xScale - 1) / 18);
 						int y = 500 + (int) (150 * (2.0 * yScale - 1) / 18);
 
-						g.drawImage(img, x, y, IMG_WIDTH, IMG_HEIGHT, null);
+						g.drawImage(img, x - IMG_WIDTH/2, y - IMG_HEIGHT, IMG_WIDTH, IMG_HEIGHT, null);
 					} catch (IOException e) {
 						System.out.println("Sprite reading failed");
 					}
@@ -194,28 +196,7 @@ public class GraphicsPanel extends JPanel {
 			}
 		}
 
-		//  Custom code to paint all the Rectangles from the List
 
-		/*Color foreground = g.getColor();
-
-		g.setColor( Color.BLACK );
-		g.drawString("Add a rectangle by doing mouse press, drag and release!", 40, 15);
-
-		for (DrawingArea.ColoredRectangle cr : coloredRectangles)
-		{
-			g.setColor( cr.getForeground() );
-			Rectangle r = cr.getRectangle();
-			g.drawRect(r.x, r.y, r.width, r.height);
-		}
-
-		//  Paint the Rectangle as the mouse is being dragged
-
-		if (shape != null)
-		{
-			Graphics2D g2d = (Graphics2D)g;
-			g2d.setColor( foreground );
-			g2d.draw( shape );
-		}*/
 	}
 
 	public void clear() {
