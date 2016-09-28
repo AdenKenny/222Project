@@ -69,15 +69,13 @@ public final class LoadGame {
 
 				NodeList children = getNodes("room");
 
-
 				for (int j = 0, length = children.getLength(); j < length; ++j) {
 
-					Node n = children.item(i);
-					String test = n.getTextContent();
 
 
-					if (children.item(i).getNodeType() == Node.ELEMENT_NODE) {
-						Element child = (Element) children.item(i);
+
+					if (children.item(j).getNodeType() == Node.ELEMENT_NODE) {
+						Element child = (Element) children.item(j);
 
 						RoomBuilder build = new RoomBuilder(floor);
 

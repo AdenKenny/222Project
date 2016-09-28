@@ -95,8 +95,10 @@ public final class RoomBuilder {
 
 	public Room build() {
 
-		if(this.buildPlayerSpawn == null || this.buildNpcSpawn == null || this.buildModelID == null || this.buildXPos == null
-				|| this.buildYPos == null || this.buildWidth == null || this.buildDepth == null || this.buildLevel == null){
+		if (this.buildPlayerSpawn == null || this.buildNpcSpawn == null || this.buildModelID == null
+				|| this.buildXPos == null || this.buildYPos == null || this.buildWidth == null
+				|| this.buildDepth == null || this.buildLevel == null) {
+
 			return null;
 		}
 
@@ -112,14 +114,16 @@ public final class RoomBuilder {
 
 			if (this.playerSpawn) {
 				return new PlayerSpawn(this.floor, this);
-			} else if (this.npcSpawn) {
-				return new NPCSpawn(this.floor, this);
-			} else {
-				return new Room(this.floor, this);
 			}
 
-		}
+			else if (this.npcSpawn) {
+				return new NPCSpawn(this.floor, this);
+			}
 
+			else {
+				return new Room(this.floor, this);
+			}
+		}
 		catch (NumberFormatException e) {
 
 		}

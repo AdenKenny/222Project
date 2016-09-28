@@ -34,7 +34,6 @@ public class ServerSideGame implements Game {
 
 		for(Character c : loader.getPlayers()) {
 			players.put(c.getName(), c); //Loads players into game.
-			System.out.println(c.getName());
 		}
 
 		this.connectedUsers = new HashMap<>();

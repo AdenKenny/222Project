@@ -27,6 +27,7 @@ public class NPCSpawn extends Room implements SpawnRoom {
 		floor.addSpawnRoom(this);
 	}
 
+	@Override
 	public void tick() {
 		if (!npc.isAlive()) {
 			if (deathTime == -1) {
