@@ -20,9 +20,9 @@ import userHandling.User;
 public class ServerSideGame implements Game {
 
 	private static Map<String, Character> players = new HashMap<String, Character>();
-	private static XMLReader reader = XMLReader.getInstance();
-	public final static Map<Integer, Item> mapOfItems = reader.getItems();
-	public final static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
+	private static final XMLReader reader = XMLReader.getInstance();
+	public static final Map<Integer, Item> mapOfItems = reader.getItems();
+	public static final Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
 	public static final World world = new World();
 

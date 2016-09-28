@@ -219,10 +219,40 @@ public class Room {
 		int targetX = entity.xPos() + changeX;
 		int targetY = entity.yPos() + changeY;
 
-		// check we're not leaving the room
-		// TODO: allow moving from room to room
-		if (targetX < 0 || targetX >= this.width || targetY < 0 || targetY >= this.depth)
+		if (targetX < 0) {
+			Room targetRoom = this.neighbours.get(Direction.WEST);
+			if (targetRoom != null) {
+				if (targetRoom.entities[yPos][targetRoom.width-1] == null) {
+					targetRoom.entities[yPos][targetRoom.width-1] = entity;
+				}
+			}
 			return false;
+		} else if (targetX >= this.width) {
+			Room targetRoom = this.neighbours.get(Direction.EAST);
+			if (targetRoom != null) {
+				if (targetRoom.entities[yPos][0] == null) {
+					targetRoom.entities[yPos][0] = entity;
+				}
+			}
+			return false;
+		} else if (targetY < 0) {
+			Room targetRoom = this.neighbours.get(Direction.NORTH);
+			if (targetRoom != null) {
+				if (targetRoom.entities[targetRoom.depth-1][xPos] == null) {
+					targetRoom.entities[targetRoom.depth-1][xPos] = entity;
+				}
+			}
+			return false;
+		} else if (targetY >= this.depth){
+			Room targetRoom = this.neighbours.get(Direction.SOUTH);
+			if (targetRoom != null) {
+				if (targetRoom.entities[0][xPos] == null) {
+					targetRoom.entities[0][xPos] = entity;
+					return true;
+				}
+			}
+			return false;
+		}
 
 		//Location target = locations[targetY][targetX];
 
