@@ -147,20 +147,8 @@ public class Slave extends Thread {
 
 	public synchronized void send(byte[] toSend) {
 		try {
-			int time = 0;
-			while(this.output.size() != 0) {
-				//wait for any other sending to occur
-				//if it is taking too long, flush the output
-				if (time++ == 10000) {
-					this.output.flush();
-					break;
-				}
-			}
-
-
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
-
 		}
 
 		catch (IOException e) {
