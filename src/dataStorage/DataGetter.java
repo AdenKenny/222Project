@@ -2,14 +2,14 @@ package dataStorage;
 
 import java.util.Set;
 
-import clientServer.Game;
+import clientServer.ServerSideGame;
 import userHandling.User;
 
 public final class DataGetter {
 
 	static Set<User> users;
 
-	public DataGetter(Game game) {
+	public DataGetter(ServerSideGame game) {
 		DataGetter.users = game.getAllUsers();
 	}
 

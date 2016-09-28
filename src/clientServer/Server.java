@@ -9,12 +9,12 @@ import util.Logging;
 
 public class Server {
 
-	private Game game;
+	private ServerSideGame game;
 
 	public Server() {
 
 		//Start the game
-		this.game = new Game();
+		this.game = new ServerSideGame();
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started");
 
 		//Start the game tick

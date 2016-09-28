@@ -29,6 +29,9 @@ public class World {
 			relative = isRelative;
 		}
 
+		public byte value() {
+			return (byte)ordinal();
+		}
 		public boolean isRelative() {
 			return relative;
 		}
