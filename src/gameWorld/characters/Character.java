@@ -7,6 +7,7 @@ import clientServer.ServerSideGame;
 import clientServer.PackageCode;
 import gameWorld.Action;
 import gameWorld.Entity;
+import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
@@ -72,7 +73,6 @@ public class Character extends Entity implements Buildable, Sendable {
 	private int gold;
 	private boolean isAlive;
 	private long attackTimer = 0;
-	private Room room;
 
 	// extra fields for Players
 	private int level;
@@ -137,11 +137,14 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void respawn(Room room, int x, int y, Direction facing) {
+		System.out.println(room);
 		this.room = room;
+		System.out.println(this.room);
 		this.xPos = x;
 		this.yPos = y;
 		this.facing = facing;
 		this.isAlive = true;
+		System.out.println(room());
 	}
 
 	private void addActions() {

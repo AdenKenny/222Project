@@ -113,4 +113,22 @@ public class ClientSideGame extends Thread implements Game {
 		return ByteBuffer.wrap(bs).getInt();
 	}
 
+	public Room getRoom() {
+		return room;
+	}
+
+	public Character getPlayer(String name) {
+		if (room == null) return null;
+
+		System.out.println("Nonnull room");
+
+		for (int i = 0; i < room.depth(); ++i) {
+			for (int j = 0; j < room.width(); ++j) {
+				if (room.entities()[i][j].name().equals(name)) {
+					return (Character) room.entities()[i][j];
+				}
+			}
+		}
+		return null;
+	}
 }

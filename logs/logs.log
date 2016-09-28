@@ -1984,6 +1984,7 @@
 01:25:50 - EVENT in userHandling.Verification: Simon logged in successfully.
 01:26:47 - EVENT in clientServer.Server: User 9 connected.
 01:26:50 - EVENT in userHandling.Verification: Simon logged in successfully.
+<<<<<<< HEAD
 02:39:54 - EVENT in clientServer.Server: The server was started
 02:39:56 - EVENT in clientServer.Server: User 0 connected.
 02:45:27 - EVENT in userHandling.Verification: Simon logged in successfully.
@@ -1993,3 +1994,12 @@
 02:54:03 - EVENT in clientServer.Server: The server was started
 02:54:06 - EVENT in clientServer.Server: User 0 connected.
 02:54:12 - EVENT in userHandling.Verification: Simon logged in successfully.
+=======
+02:32:44 - EVENT in clientServer.Server: The server was started
+02:33:05 - EVENT in clientServer.Server: The server was started
+02:33:08 - EVENT in clientServer.Server: The server was started
+02:33:11 - EVENT in clientServer.Server: The server was started
+02:33:30 - EVENT in clientServer.Server: The server was started
+02:34:14 - EVENT in clientServer.Server: The server was started
+02:35:01 - EVENT in clientServer.Server: The server was started
+>>>>>>> ba4b40641d102c45b98e9deb4c61bfab01273652

@@ -14,6 +14,7 @@ import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
 import gameWorld.Sendable;
+import integrationGraphics.GraphicsPanel;
 import IDGUI.MenuBar;
 
 public class Frame extends JFrame implements KeyListener {
@@ -120,6 +121,9 @@ public class Frame extends JFrame implements KeyListener {
 	private void enterGame() {
 		this.game = this.slave.getGame();
 		//TODO create game world display
+		this.add(new GraphicsPanel(this.slave.getGame(), this.slave.getUsername()));
+		this.pack();
+		this.repaint();
 	}
 
 	private void threadedMessage(String text) {

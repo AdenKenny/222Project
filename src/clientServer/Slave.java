@@ -19,6 +19,8 @@ public class Slave extends Thread {
 	private ClientSideGame game;
 	private Frame frame;
 
+	private String username;
+
 	public Slave(Frame frame) {
 		this.frame = frame;
 		try {
@@ -115,6 +117,9 @@ public class Slave extends Thread {
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
+
+		this.username = username;
+
 		send(toSend);
 	}
 
@@ -136,6 +141,8 @@ public class Slave extends Thread {
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
+
+		this.username = username;
 
 		send(toSend);
 	}
@@ -203,6 +210,14 @@ public class Slave extends Thread {
 			this.socket.close();
 		} catch (IOException e) {
 			System.out.println(e);
+		}
+	}
+
+	public String getUsername() {
+		if (this.game == null) {
+			return null;
+		} else {
+			return this.username;
 		}
 	}
 

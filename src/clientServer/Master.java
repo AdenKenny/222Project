@@ -10,6 +10,8 @@ import userHandling.User;
 import userHandling.Verification;
 import util.Logging;
 
+import gameWorld.characters.Character;
+
 public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 5;
@@ -196,6 +198,7 @@ public class Master extends Thread {
 					this.game.registerConnection(this.uid, user);
 					this.inGame = true;
 					loginResult[1] = PackageCode.Codes.LOGIN_SUCCESS.value();
+					ServerSideGame.getAllPlayers().put(user.getUsername(), new Character(user.getUsername()));
 				}
 			}
 		}
