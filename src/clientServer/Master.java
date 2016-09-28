@@ -80,7 +80,7 @@ public class Master extends Thread {
 							textMessage(received);
 						}
 						else if (received[0] == PackageCode.Codes.USER_INPUT.value()) {
-							this.game.readInput(this.uid, received[1]);
+							this.game.readInput(this.uid, received);
 						}
 					}
 
