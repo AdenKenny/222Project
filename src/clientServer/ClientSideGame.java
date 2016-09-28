@@ -17,8 +17,7 @@ import gameWorld.characters.CharacterModel;
 public class ClientSideGame extends Thread implements Game {
 	private Map<Integer, Sendable> sendables;
 	private Room room;
-	private int xPos;
-	private int yPos;
+	private Character player;
 
 	public ClientSideGame() {
 		this.sendables = new HashMap<>();
@@ -27,11 +26,6 @@ public class ClientSideGame extends Thread implements Game {
 	@Override
 	public synchronized void tick() {
 
-	}
-
-	public void updatePosition(byte[] received) {
-		this.xPos = received[1];
-		this.yPos = received[2];
 	}
 
 	public void newRoom(byte[] received) {

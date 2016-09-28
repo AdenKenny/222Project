@@ -264,6 +264,7 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void move(Direction dir) {
+		System.out.println(dir.toString());
 		if (this.room != null) {
 			this.room.move(this, dir);
 		}
@@ -295,6 +296,7 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void turnLeft() {
+		System.out.println("left");
 		switch (this.facing) {
 		case NORTH:
 			this.facing = Direction.WEST;
@@ -314,6 +316,7 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	public void turnRight() {
+		System.out.println("right");
 		switch (this.facing) {
 		case NORTH:
 			this.facing = Direction.EAST;

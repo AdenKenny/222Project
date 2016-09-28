@@ -75,6 +75,7 @@ public class ServerSideGame implements Game {
 	public void disconnect(long uid) {
 		this.connectedUsers.remove(uid);
 		this.roomDetails.remove(uid);
+		players.remove(this.connectedUsers.get(uid).getUsername());
 	}
 
 	/**
@@ -110,7 +111,7 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 * @return
 	 */
-	public byte[][] toByteArray(long uid) {
+	public synchronized byte[][] toByteArray(long uid) {
 		// get the character of the user
 		Character player = players.get(this.connectedUsers.get(uid).getUsername());
 		Room room = player.room();
@@ -119,13 +120,8 @@ public class ServerSideGame implements Game {
 		}
 		Set<Sendable> sendables = room.getSendables();
 		boolean newlyEntered = !this.roomDetails.get(uid);
-		int extra = newlyEntered ? 2 : 1;
+		int extra = newlyEntered ? 1 : 0;
 		byte[][] data = new byte[sendables.size() + extra][];
-		int pos = extra - 1;
-		data[pos] = new byte[3];
-		data[pos][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value();
-		data[pos][1] = (byte)player.xPos();
-		data[pos][2] = (byte)player.yPos();
 		int i = extra;
 		if (newlyEntered) {
 			this.roomDetails.put(uid, true);

@@ -25,7 +25,7 @@ public class Slave extends Thread {
 		this.frame = frame;
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
-			this.output = new DataOutputStream(socket.getOutputStream());
+			this.output = new DataOutputStream(this.socket.getOutputStream());
 			this.connected = true;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -42,7 +42,7 @@ public class Slave extends Thread {
 			return;
 		}
 		try {
-			DataInputStream input = new DataInputStream(socket.getInputStream());
+			DataInputStream input = new DataInputStream(this.socket.getInputStream());
 
 			boolean exit = false;
 			while (!exit) {
@@ -57,10 +57,7 @@ public class Slave extends Thread {
 					send(pong);
 				}
 				if (this.game != null) {
-					if (data[0] == PackageCode.Codes.GAME_POSITION_UPDATE.value()) {
-						this.game.updatePosition(data);
-					}
-					else if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
+					if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
 						this.game.newRoom(data);
 					}
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_UPDATE.value()) {
@@ -148,25 +145,29 @@ public class Slave extends Thread {
 		send(toSend);
 	}
 
-	public void send(byte[] toSend) {
+	public synchronized void send(byte[] toSend) {
 		try {
-			int time = 0;
-			while(this.output.size() != 0) {
+			//int time = 0;
+		/*	while(this.output.size() != 0) {
 				//wait for any other sending to occur
 				//if it is taking too long, flush the output
 				if (time++ == 10000) {
 					this.output.flush();
 					break;
 				}
-			}
+			}*/
+
 
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 			this.output.flush();
+
+			System.out.println(this.output.size());
 		}
 
 		catch (IOException e) {
 			System.out.println("Sending error");
+			e.printStackTrace();
 		}
 	}
 
@@ -196,7 +197,7 @@ public class Slave extends Thread {
 	}
 
 	public boolean connected() {
-		return connected;
+		return this.connected;
 	}
 
 	public boolean inGame() {
