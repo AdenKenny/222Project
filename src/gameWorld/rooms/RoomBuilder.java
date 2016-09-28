@@ -11,7 +11,6 @@ public final class RoomBuilder {
 	private String buildYPos;
 	private String buildWidth;
 	private String buildDepth;
-	private String buildFloor;
 
 	private boolean playerSpawn;
 	private boolean npcSpawn;
@@ -20,7 +19,6 @@ public final class RoomBuilder {
 	private int yPos;
 	private int width;
 	private int depth;
-	private int floor;
 
 	public void setBuildPlayerSpawn(String buildPlayerSpawn) {
 		this.buildPlayerSpawn = buildPlayerSpawn;
@@ -94,12 +92,12 @@ public final class RoomBuilder {
 			this.width = Integer.parseInt(this.buildWidth);
 			this.depth = Integer.parseInt(this.buildDepth);
 
-			if (playerSpawn) {
-				return new PlayerSpawn(this);
-			} else if (npcSpawn) {
+			if (this.playerSpawn) {
+				//return new PlayerSpawn(this);
+			} else if (this.npcSpawn) {
 				// TODO: make NPCSpawn class
 			} else {
-				return new Room(this);
+				//return new Room(this);
 			}
 
 		}

@@ -106,10 +106,11 @@ public final class PlayerBuilder implements AbstractBuilder {
 	}
 
 	@Override
-	public Buildable build() {
+	public Character build() {
 
 		if (this.buildUsername == null || this.buildID == null || this.buildType == null || this.buildItems == null
 				|| this.buildXp == null || this.buildGold == null || this.buildLevel == null || this.buildEquips == null) {
+
 			return null;
 		}
 

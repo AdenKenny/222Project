@@ -18,9 +18,9 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 		floor.addSpawnRoom(this);
 	}
 
-	public PlayerSpawn(RoomBuilder roomBuilder) {
+/*	public PlayerSpawn(RoomBuilder roomBuilder) {
 		super()
-	}
+	}*/
 
 	@Override
 	public void tick() {
