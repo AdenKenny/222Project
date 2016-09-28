@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.XMLReader;
+import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import userHandling.User;
@@ -15,6 +16,7 @@ import userHandling.User;
 public class Game {
 
 	private final Map<Long, User> connectedUsers;
+	private static Map<String, Character> players;
 	private static Map<Integer, Item> mapOfItems;
 	private static Map<Integer, CharacterModel> mapOfCharacters;
 	private final ArrayList<String> textMessages;
@@ -27,6 +29,7 @@ public class Game {
 
 		Game.mapOfItems = reader.getItems();
 		Game.mapOfCharacters = reader.getCharacters();
+		if (players == null) players = new HashMap<String, Character>();
 	}
 
 	public synchronized void tick() {
@@ -34,12 +37,15 @@ public class Game {
 	}
 
 	/**
-	 * associate the id of a Master with the user logged in on that connection
+	 * associate the id of a Master with the user logged in on that connection,
+	 * and associate the name of the user with their character
+	 *
 	 * @param uid
 	 * @param user
 	 */
 	public void registerConnection(long uid, User user) {
 		this.connectedUsers.put(uid, user);
+		players.put(user.getUsername(), new Character(user.getUsername()));
 	}
 
 	/**
@@ -141,5 +147,15 @@ public class Game {
 		}
 
 		return set;
+	}
+
+	/**
+	 * Returns a Map of all the Users' names to their respective
+	 * player Character.
+	 *
+	 * @return	a Map of Usernames to Characters
+	 */
+	public static Map<String, Character> getAllPlayers() {
+		return players;
 	}
 }

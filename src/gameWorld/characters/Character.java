@@ -13,21 +13,21 @@ import gameWorld.item.Item;
 public class Character extends Entity {
 
 	public enum Type {
-		MONSTER(45), 
+		MONSTER(45),
 		VENDOR(-1),
 		PLAYER(100);
-		
+
 		private int baseXP;
-		
+
 		private Type(int baseXP) {
 			this.baseXP = baseXP;
 		}
-		
+
 		public int getBaseXP() {
 			return baseXP;
 		}
 	}
-	
+
 	/*
 	 * All Characters have names, items
 	 * Vendors and Monsters have ranks and modelIDs
@@ -36,7 +36,7 @@ public class Character extends Entity {
 	 * Players also have a value for xp to next level, which does not take
 	 * 		into account the amount of xp already earned this level
 	 */
-	
+
 	/* Constants for Player levelling calculations */
 	// xpForLevel = BASE_XP + (level-1)^XP_FACTOR
 	private int baseXP;
@@ -49,18 +49,18 @@ public class Character extends Entity {
 	private static final double DAMAGE_FACTOR = 1.974;
 	// scale factor for Monster and Vendor ranks
 	private static final double RANK_SCALE_FACTOR = 0.3;
-	
+
 	// Would prefer not to have this hard-coded, but for now this is simplest
 	private static final int ATTACK_SPEED = 1000; // ms
-	
+
 	/* Fields for all characters */
 	private Type type;
 	private List<Integer> items;
-	
+
 	/* Fields for NPCs */
 	private int rank;
 	private int modelID;
-	
+
 	/* Fields for combat characters (Players, Monsters) */
 	private int health;
 	private int maxHealth;
@@ -69,23 +69,23 @@ public class Character extends Entity {
 	private int gold;
 	private boolean isAlive;
 	private long attackTimer = 0;
-	
+
 	// extra fields for Players
 	private int level;
 	private int xpForLevel;
-	
+
 	private List<Item> equips;
-	
+
 	/*public Character(Room room, int xPos, int yPos,
 			String name, String description, Direction facing) {
 		super(room, xPos, yPos, name, description, facing);
 	}*/
-	
+
 	public Character(Room room, int xPos, int yPos,
 			String description, Direction facing, int level,
 			CharacterModel model) {
 		super(room, xPos, yPos, model.getName(), description, facing);
-		
+
 		this.modelID = model.getID();
 		this.items = new ArrayList<Integer>(model.getSetOfItems());
 		this.type = model.getType();
@@ -95,11 +95,28 @@ public class Character extends Entity {
 		this.xp = 0;
 		this.isAlive = true;
 		this.equips = new ArrayList<Item>();
-		
+
 		setFields();
 		addActions();
 	}
-	
+
+	public Character(String username) {
+		super(null, -1, -1, username, "A player, just like you!", null);
+
+		this.modelID = -1;
+		this.items = new ArrayList<Integer>();
+		this.type = Type.PLAYER;
+		this.baseXP = type.getBaseXP();
+		this.rank = -1;
+		this.level = 1;
+		this.xp = 0;
+		this.isAlive = true;
+		this.equips = new ArrayList<Item>();
+
+		setFields();
+		addActions();
+	}
+
 	private void addActions() {
 		if (type.equals(Type.VENDOR))
 			actions.add(new Action() {
@@ -108,7 +125,7 @@ public class Character extends Entity {
 					// TODO UI.showTradeDialog(); or something
 				}
 			});
-		
+
 		if (type.equals(Type.MONSTER))
 			actions.add(new Action() {
 				public String name() { return "Attack";}
@@ -117,10 +134,10 @@ public class Character extends Entity {
 				}
 			});
 	}
-	
+
 	private void setFields() {
 		if (items == null) items = new ArrayList<Integer>();
-		
+
 		if (type.equals(Type.VENDOR)) {
 			maxHealth = -1;
 			health = -1;
@@ -148,7 +165,7 @@ public class Character extends Entity {
 					*(0.45*(1+RANK_SCALE_FACTOR*(rank-1))));
 		}
 	}
-	
+
 	public void tryAttack(Character attacker) {
 		if (attacker.room().equals(room)) {
 			if (attacker.xPos() == xPos-1 || attacker.xPos() == xPos+1
@@ -158,7 +175,7 @@ public class Character extends Entity {
 			}
 		}
 	}
-	
+
 	private void applyAttack(Character attacker) {
 		int attack = attacker.getAttack();	// max ~1000
 		int defense = 0;	// max 350
@@ -172,20 +189,20 @@ public class Character extends Entity {
 				break;
 			}
 		}
-		
+
 		int damageDone = attack - defense;
 		setHealth(health-damageDone);
 		attacker.startAttackTimer();
 	}
-	
+
 	public void startAttackTimer() {
 		attackTimer = System.currentTimeMillis();
 	}
-	
+
 	public long getAttackTimer() {
 		return attackTimer;
 	}
-	
+
 	public void equip(Item item) {
 		for (Integer id : items) {
 			if (id == item.getID()) {
@@ -194,11 +211,11 @@ public class Character extends Entity {
 			}
 		}
 	}
-	
+
 	public void pickUp(Item item) {
 		items.add(item.getID());
 	}
-	
+
 	public void sellItem(Item item, int value) {
 		for (Integer id : items) {
 			if (id == item.getID()) {
@@ -207,7 +224,7 @@ public class Character extends Entity {
 			}
 		}
 	}
-	
+
 	public void buyItem(Item item, int value) {
 		items.add(item.getID());
 		gold -= value;
@@ -325,7 +342,7 @@ public class Character extends Entity {
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
-	
+
 	public int getAttack() {
 		int attack = damage;
 		for (Item item : equips) {
