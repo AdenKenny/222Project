@@ -2,17 +2,22 @@ package IDGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.w3c.dom.events.MouseEvent;
+
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
+import gameWorld.Sendable;
 import integrationGraphics.GraphicsPanel;
 import IDGUI.MenuBar;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements KeyListener {
 
 	private Slave slave;
 	private ClientSideGame game;
@@ -20,6 +25,7 @@ public class Frame extends JFrame {
 	public Frame() {
 		super("RoomScape");
 		reconnect();
+		addKeyListener(this);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -122,6 +128,7 @@ public class Frame extends JFrame {
 
 	private void threadedMessage(String text) {
 		new Thread() {
+			@Override
 			public void run() {
 				new MessageDialog(Frame.this, text);
 			}
@@ -130,5 +137,45 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		new Frame();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		//Not used.
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int code = e.getKeyCode();
+
+		if (code == KeyEvent.VK_W) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_W.value());
+		}
+
+		else if (code == KeyEvent.VK_A) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_A.value());
+		}
+
+		else if (code == KeyEvent.VK_S) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_S.value());
+		}
+
+		else if (code == KeyEvent.VK_D) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_D.value());
+		}
+
+		else if (code == KeyEvent.VK_Q) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_Q.value());
+		}
+
+		else if (code == KeyEvent.VK_E) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		//Not used.
 	}
 }

@@ -292,7 +292,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 	}
 
-	private void turnLeft() {
+	public void turnLeft() {
 		switch (this.facing) {
 		case NORTH:
 			this.facing = Direction.WEST;
@@ -311,7 +311,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 	}
 
-	private void turnRight() {
+	public void turnRight() {
 		switch (this.facing) {
 		case NORTH:
 			this.facing = Direction.EAST;

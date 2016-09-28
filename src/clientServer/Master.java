@@ -81,8 +81,8 @@ public class Master extends Thread {
 						if (received[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 							textMessage(received);
 						}
-						else if (received[0] == PackageCode.Codes.USER_INPUT.value()) {
-							this.game.readInput(this.uid, received);
+						else if (received[0] >= PackageCode.Codes.KEY_PRESS_W.value() && received[0] <= PackageCode.Codes.KEY_PRESS_E.value()) {
+							this.game.keyPress(this.uid, received[0]);
 						}
 					}
 
