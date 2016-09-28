@@ -14,7 +14,7 @@ import gameWorld.characters.Character;
 
 public class Master extends Thread {
 
-	private static final int BROADCAST_CLOCK = 5;
+	private static final int BROADCAST_CLOCK = 50;
 	private static final int PING_TIMER = 1000;
 	private static final int TIMEOUT = 2000;
 

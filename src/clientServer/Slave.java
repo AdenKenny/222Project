@@ -163,6 +163,7 @@ public class Slave extends Thread {
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 			this.output.flush();
+			System.out.println(this.output.size());
 		}
 
 		catch (IOException e) {
