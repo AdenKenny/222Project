@@ -13,7 +13,7 @@ import gameWorld.World.Direction;
 import gameWorld.item.Item;
 import util.Buildable;
 
-public class Character extends Entity implements Buildable {
+public class Character extends Entity implements Buildable, Sendable {
 
 	public enum Type {
 		MONSTER(45),
