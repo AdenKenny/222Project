@@ -1,26 +1,41 @@
 package clientServer;
 
-public interface PackageCode {
+public final class PackageCode {
 
-	public enum Codes {
-		BREAK((byte) 0),
-		PING((byte) 1),
-		PONG((byte) 2),
-		LOGIN_ATTEMPT((byte) 3),
-		LOGIN_RESULT((byte) 4),
-		LOGIN_SUCCESS((byte) 5),
-		LOGIN_INCORRECT_USER((byte) 6),
-		LOGIN_INCORRECT_PASSWORD((byte) 7),
-		LOGIN_ALREADY_CONNECTED((byte) 8),
-		NEW_USER_ATTEMPT((byte) 9),
-		NEW_USER_RESULT((byte) 10),
-		NEW_USER_SUCCESS((byte) 11),
-		NEW_USER_NAME_TAKEN((byte) 12);
+	private PackageCode() {
+		throw new AssertionError();
+	}
 
-		public final byte value;
+	public static enum Codes {
+		BREAK,
+		PING,
+		PONG,
+		LOGIN_ATTEMPT,
+		LOGIN_RESULT,
+		LOGIN_SUCCESS,
+		LOGIN_INCORRECT_USER,
+		LOGIN_INCORRECT_PASSWORD,
+		LOGIN_ALREADY_CONNECTED,
+		NEW_USER_ATTEMPT,
+		NEW_USER_RESULT,
+		NEW_USER_SUCCESS,
+		NEW_USER_NAME_TAKEN,
+		DISCONNECT,
+		TEXT_MESSAGE,
+		GAME_SENDABLE_UPDATE,
+		GAME_SENDABLE_CREATE,
+		GAME_SENDABLE_REMOVE,
+		GAME_SENDABLE_REQUEST,
+		GAME_NEW_ROOM,
+		KEY_PRESS_W,
+		KEY_PRESS_A,
+		KEY_PRESS_S,
+		KEY_PRESS_D,
+		KEY_PRESS_Q,
+		KEY_PRESS_E;
 
-		Codes(byte value) {
-			this.value = value;
+		public byte value() {
+			return (byte) ordinal();
 		}
 	}
 }
