@@ -97,7 +97,9 @@ public class Master extends Thread {
 					//send game information
 					byte[][] packets = this.game.toByteArray(this.uid);
 					for (byte[] toSend : packets) {
-						send(toSend);
+						if (toSend != null) {
+							send(toSend);
+						}
 					}
 					getMessages();
 				}
