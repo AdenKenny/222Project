@@ -161,7 +161,7 @@ public final class XMLReader {
 
 			HashMap<Integer, CharacterModel> map = new HashMap<>();
 
-			for (int i = 0; i < list.getLength(); ++i) {
+			for (int i = 0, len = list.getLength(); i < len; ++i) {
 				Node node = list.item(i);
 
 				Element e = (Element) node; // This should be the base node of
@@ -267,7 +267,7 @@ public final class XMLReader {
 	}
 
 	//TODO Implement this after integration day.
-	private static final class posEnums {
+	private static final class PosEnums {
 		private enum Position {
 			ID(0, "ID"),
 			NAME(1, "name"),

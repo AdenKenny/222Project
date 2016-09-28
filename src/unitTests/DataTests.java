@@ -1,5 +1,6 @@
 package unitTests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
@@ -17,6 +18,7 @@ import org.junit.Test;
 
 import dataStorage.CreateXML;
 import dataStorage.XMLReader;
+import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import util.XMLWriter;
 
@@ -139,20 +141,27 @@ public class DataTests {
 
 		XMLReader reader = XMLReader.getInstance();
 		Map<Integer, Item> map = reader.getItems();
-
-		for(Entry<Integer, Item> e : map.entrySet()) {
-			System.out.println(e.getKey());
-		}
+		Map<Integer, CharacterModel> map2 = reader.getCharacters();
 
 		assertNotSame(map.size(), 0);
+		assertNotSame(map2.size(), 0);
 
 		Item item = map.get(31);
-
 		assertNotSame(item, null);
 
-		item = map.get(12);
+		assertEquals(item, item.clone());
 
+		item = map.get(5000);
 		assertSame(item, null);
+
+
+		CharacterModel character = map2.get(1000);
+
+		assertNotSame(character, null);
+
+		character = map2.get(12000);
+
+		assertSame(character, null);
 	}
 
 }

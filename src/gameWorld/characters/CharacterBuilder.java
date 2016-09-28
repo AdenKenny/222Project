@@ -54,7 +54,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 		this.buildItems = buildItems.replace(",", ""); //Remove commas.
 
-		String[] itemValues = buildItems.split(" "); //Split into unique strings.
+		String[] itemValues = this.buildItems.split(" "); //Split into unique strings.
 
 		this.setOfItems = new HashSet<>(); //Set to put item IDs in.
 
@@ -69,7 +69,6 @@ public final class CharacterBuilder implements AbstractBuilder {
 		catch (NumberFormatException e){
 			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build character.");
 		}
-
 	}
 
 	@Override

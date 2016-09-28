@@ -40,7 +40,8 @@ public class Player extends Character {
 		return this.level;
 	}
 
-	public int GetXp() {
+	@Override
+	public int getXp() {
 		return this.xp;
 	}
 

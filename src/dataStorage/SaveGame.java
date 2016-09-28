@@ -1,6 +1,7 @@
 package dataStorage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -48,19 +49,32 @@ public final class SaveGame {
 			this.vendors = this.doc.createElement("vendors");
 			this.root.appendChild(this.vendors);
 
-			transform("xml/game.xml");
 		}
 
 		catch (ParserConfigurationException e) {
 			Logging.logEvent(SaveGame.class.getName(), Logging.Levels.SEVERE, "Could not save game");
 		}
-		//savePlayer();
+
+		Character player = new Character("Aden");
+
+		List<Integer> temp = new ArrayList<>();
+
+		temp.add(1);
+		temp.add(2);
+		temp.add(51);
+
+		player.setItems(temp);
+
+		savePlayer(player);
+
+		transform("xml/game.xml");
 	}
 
 	public void savePlayer(Character player) {
 
 		Element playerTag = this.doc.createElement("player");
 
+		playerTag.appendChild(createNode("username", player.name()));
 		playerTag.appendChild(createNode("UID", player.ID() + ""));
 		playerTag.appendChild(createNode("type", player.getType().toString()));
 		playerTag.appendChild(createNode("items", convertToString(player.getItems())));
@@ -112,9 +126,13 @@ public final class SaveGame {
 
 		for(Integer i : list) {
 			builder.append(i);
+			builder.append(", ");
 		}
 
-		return builder.toString();
+		String buildOut = builder.toString();
+
+		return buildOut.substring(0, buildOut.length() - 2);
+
 	}
 
 	private static String itemToString(List<Item> list) {
@@ -122,6 +140,13 @@ public final class SaveGame {
 
 		for(Item i : list) {
 			builder.append(i.getID());
+			builder.append(", ");
+		}
+
+		String buildOut = builder.toString();
+
+		if(buildOut.length() > 0) {
+			return buildOut.substring(0, buildOut.length() - 2);
 		}
 
 		return builder.toString();

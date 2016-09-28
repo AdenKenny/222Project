@@ -65,6 +65,7 @@ public class Item implements Buildable, Cloneable {
 					tryEquip(caller);
 				}
 			});
+			break;
 		default:
 			break;
 		}
