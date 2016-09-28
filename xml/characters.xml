@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<characters>
+  <character>
+    <ID>1000</ID>
+    <name>goblin</name>
+    <type>MONSTER</type>
+    <value>12</value>
+    <items>32, 15, 51, 52</items>
+    <description>A small green creature</description>
+  </character>
+  <character>
+    <ID>1001</ID>
+    <name>spider</name>
+    <type>MONSTER</type>
+    <value>4</value>
+    <items>2, 50, 23</items>
+    <description>An eight legged creature</description>
+  </character>
+  <character>
+    <ID>2000</ID>
+    <name>smith</name>
+    <type>VENDOR</type>
+    <value>15</value>
+    <items>22, 23, 21</items>
+    <description>A dude who smiths stuff</description>
+  </character>
+</characters>
