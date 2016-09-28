@@ -51,7 +51,13 @@ public class Slave extends Thread {
 					send(pong);
 				}
 				if (this.inGame) {
-					if (data[0] == PackageCode.Codes.GAME_INFORMATON.value) {
+					if (data[0] == PackageCode.Codes.GAME_POSITION_UPDATE.value) {
+						//TODO send to thing to deal with
+					}
+					else if (data[0] == PackageCode.Codes.GAME_ROOM_UPDATE.value) {
+						//TODO send to thing to deal with
+					}
+					else if (data[0] == PackageCode.Codes.GAME_ROOM_ENTRY.value) {
 						//TODO send to thing to deal with
 					}
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value) {
@@ -160,6 +166,13 @@ public class Slave extends Thread {
 		for (char c : message.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
+		send(toSend);
+	}
+
+	public void sendUserInput(byte input) {
+		byte[] toSend = new byte[2];
+		toSend[0] = PackageCode.Codes.USER_INPUT.value;
+		toSend[1] = input;
 		send(toSend);
 	}
 
