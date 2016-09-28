@@ -21,42 +21,42 @@
 // steel		+50		+100
 // diamond		+75		+150
 //
-000 woodenTrainingSword WEAPON 2 1
-001 woodenBat WEAPON 3 2
-002 woodenPole WEAPON 3 1
-003 bronzeDagger WEAPON 7 10
-004 bronzeShortSword WEAPON 10 17
-005 bronzeLongSword WEAPON 15 28
-006 bronzeSabre WEAPON 20 39
-007 bronzeClaymore WEAPON 23 44
-008 bronzeHatchet WEAPON 12 21
-009 bronzeWarAxe WEAPON 18 33
-010 bronzeGlaive WEAPON 25 50
-011 ironDagger WEAPON 32 60
-012 ironShortSword WEAPON 35 67
-013 ironLongSword WEAPON 40 78
-014 ironSabre WEAPON 45 89
-015 ironClaymore WEAPON 48 94
-016 ironHatchet WEAPON 37 71
-017 ironWarAxe WEAPON 43 83
-018 ironGlaive WEAPON 50 100
-019 steelDagger WEAPON 57 110
-020 steelShortSword WEAPON 60 117
-021 steelLongSword WEAPON 65 128
-022 steelSabre WEAPON 70 139
-023 steelClaymore WEAPON 73 144
-024 steelHatchet WEAPON 62 121
-025 steelWarAxe WEAPON 68 133
-026 steelGlaive WEAPON 75 150
-027 diamondDagger WEAPON 82 160
-028 diamondShortSword WEAPON 85 167
-029 diamonLongSword WEAPON 90 178
-030 diamondSabre WEAPON 95 189
-031 diamondClaymore WEAPON 98 194
-032 diamondHatchet WEAPON 87 171
-033 diamondWarAxe WEAPON 93 183
-034 diamondGlaive WEAPON 100 200
-035 steelBat WEAPON 55 99
+000 woodenTrainingSword WEAPON 2 1 (lorem ipsum)
+001 woodenBat WEAPON 3 2 (lorem ipsum)
+002 woodenPole WEAPON 3 1 (lorem ipsum)
+003 bronzeDagger WEAPON 7 10 (lorem ipsum)
+004 bronzeShortSword WEAPON 10 15 (lorem ipsum)
+005 bronzeLongSword WEAPON 15 28 (lorem ipsum)
+006 bronzeSabre WEAPON 20 39 (lorem ipsum)
+007 bronzeClaymore WEAPON 23 44 (lorem ipsum)
+008 bronzeHatchet WEAPON 12 21 (lorem ipsum)
+009 bronzeWarAxe WEAPON 18 33 (lorem ipsum)
+010 bronzeGlaive WEAPON 25 50 (lorem ipsum)
+011 ironDagger WEAPON 32 60 (lorem ipsum)
+012 ironShortSword WEAPON 35 67 (lorem ipsum)
+013 ironLongSword WEAPON 40 78 (lorem ipsum)
+014 ironSabre WEAPON 45 89 (lorem ipsum)
+015 ironClaymore WEAPON 48 94 (lorem ipsum)
+016 ironHatchet WEAPON 37 71 (lorem ipsum)
+017 ironWarAxe WEAPON 43 83 (lorem ipsum)
+018 ironGlaive WEAPON 50 100 (lorem ipsum)
+019 steelDagger WEAPON 57 110 (lorem ipsum)
+020 steelShortSword WEAPON 60 117 (lorem ipsum)
+021 steelLongSword WEAPON 65 128 (lorem ipsum)
+022 steelSabre WEAPON 70 139 (lorem ipsum)
+023 steelClaymore WEAPON 73 144(lorem ipsum)
+024 steelHatchet WEAPON 62 121 (lorem ipsum)
+025 steelWarAxe WEAPON 68 133 (lorem ipsum)
+026 steelGlaive WEAPON 75 150 (lorem ipsum)
+027 diamondDagger WEAPON 82 160 (lorem ipsum)
+028 diamondShortSword WEAPON 85 167 (lorem ipsum)
+029 diamonLongSword WEAPON 90 178 (lorem ipsum)
+030 diamondSabre WEAPON 95 189 (lorem ipsum)
+031 diamondClaymore WEAPON 98 194 (lorem ipsum)
+032 diamondHatchet WEAPON 87 171 (lorem ipsum)
+033 diamondWarAxe WEAPON 93 183 (lorem ipsum)
+034 diamondGlaive WEAPON 100 200 (lorem ipsum)
+035 steelBat WEAPON 55 99 (lorem ipsum)
 //
 // **********************
 // * 200 - 299: Shields *
@@ -76,26 +76,26 @@
 // steel			+60			+132
 // mithril			+80			+176
 //
-200 woodPotLid SHIELD 5 6
-201 woodBuckler SHIELD 11 13
-202 woodRoundShield SHIELD 14 17
-203 woodKiteShield SHIELD 20 24
-204 bronzePotLid SHIELD 25 50
-206 bronzeBuckler SHIELD 31 57
-207 bronzeRoundShield SHIELD 34 61
-208 bronzeKiteShield SHIELD 40 68
-209 ironPotLid SHIELD 45 94
-210 ironBuckler SHIELD 51 101
-211 ironRoundShield SHIELD 54 105
-212 ironKiteShield SHIELD 60 112
-213 steelPotLid SHIELD 65 138
-214 steelBuckler SHIELD 71 145
-215 steelRoundShield SHIELD 74 149
-216 steelKiteShield SHIELD 80 156
-217 mithrilPotLid SHIELD 85 182
-218 mithrilBuckler SHIELD 91 189
-219 mithrilRoundShield SHIELD 94 193
-220 mithrilKiteShield SHIELD 100 200
+200 woodPotLid SHIELD 5 6 (lorem ipsum)
+201 woodBuckler SHIELD 11 13 (lorem ipsum)
+202 woodRoundShield SHIELD 14 17 (lorem ipsum)
+203 woodKiteShield SHIELD 20 24 (lorem ipsum)
+204 bronzePotLid SHIELD 25 50 (lorem ipsum)
+206 bronzeBuckler SHIELD 31 57 (lorem ipsum)
+207 bronzeRoundShield SHIELD 34 61 (lorem ipsum)
+208 bronzeKiteShield SHIELD 40 68 (lorem ipsum)
+209 ironPotLid SHIELD 45 94 (lorem ipsum)
+210 ironBuckler SHIELD 51 101 (lorem ipsum)
+211 ironRoundShield SHIELD 54 105 (lorem ipsum)
+212 ironKiteShield SHIELD 60 112 (lorem ipsum)
+213 steelPotLid SHIELD 65 138 (lorem ipsum)
+214 steelBuckler SHIELD 71 145 (lorem ipsum)
+215 steelRoundShield SHIELD 74 149 (lorem ipsum)
+216 steelKiteShield SHIELD 80 156 (lorem ipsum)
+217 mithrilPotLid SHIELD 85 182 (lorem ipsum)
+218 mithrilBuckler SHIELD 91 189 (lorem ipsum)
+219 mithrilRoundShield SHIELD 94 193 (lorem ipsum)
+220 mithrilKiteShield SHIELD 100 200 (lorem ipsum)
 //
 // **********************
 // * 300 - 399: Helmets *
@@ -114,23 +114,23 @@
 // steel			+54			+118
 // mithril			+81			+177
 //
-300 leatherHood HELMET 3 5
-301 bronzeCookingPot HELMET 6 8
-302 bronzeKegelhelm HELMET 10 13
-303 bronzeBurgonet HELMET 16 19
-304 bronzeGreatHelm HELMET 19 23
-305 ironCookingPot HELMET 33 67
-306 ironKegelhelm HELMET 37 72
-307 ironBurgonet HELMET 43 78
-308 ironGreatHelm HELMET 46 82
-309 steelCookingPot HELMET 60 126
-310 steelKegelhelm HELMET 64 131
-311 steelBurgonet HELMET 70 137
-312 steelGreatHelm HELMET 73 141
-313 mithrilCookingPot HELMET 87 185
-314 mithrilKegelhelm HELMET 91 190
-315 mithrilBurgonet HELMET 97 196
-316 mithrilGreatHelm HELMET 100 200
+300 leatherHood HELMET 3 5 (lorem ipsum)
+301 bronzeCookingPot HELMET 6 8 (lorem ipsum)
+302 bronzeKegelhelm HELMET 10 13 (lorem ipsum)
+303 bronzeBurgonet HELMET 16 19 (lorem ipsum)
+304 bronzeGreatHelm HELMET 19 23 (lorem ipsum)
+305 ironCookingPot HELMET 33 67 (lorem ipsum)
+306 ironKegelhelm HELMET 37 72 (lorem ipsum)
+307 ironBurgonet HELMET 43 78 (lorem ipsum)
+308 ironGreatHelm HELMET 46 82 (lorem ipsum)
+309 steelCookingPot HELMET 60 126 (lorem ipsum)
+310 steelKegelhelm HELMET 64 131 (lorem ipsum)
+311 steelBurgonet HELMET 70 137 (lorem ipsum)
+312 steelGreatHelm HELMET 73 141 (lorem ipsum)
+313 mithrilCookingPot HELMET 87 185 (lorem ipsum)
+314 mithrilKegelhelm HELMET 91 190 (lorem ipsum)
+315 mithrilBurgonet HELMET 97 196 (lorem ipsum)
+316 mithrilGreatHelm HELMET 100 200 (lorem ipsum)
 //
 // **********************
 // * 400 - 599: Armour *
@@ -150,63 +150,63 @@
 // steel			+ 75		+180
 // mithril			+100		+240
 //
-400 leatherLeggings ARMOR 10 13 A pair of leggings made of leather.
-401 leatherGloves ARMOR 15 19
-402 leatherVest ARMOR 25 28
-403 fullLeatherArmour ARMOR 50 60
-404 bronzeGreaves ARMOR 35 73
-405 bronzeGauntlets ARMOR 40 79
-406 bronzeChestplate ARMOR 50 88
-408 fullBronzeArmour ARMOR 75 120
-404 ironGreaves ARMOR 60 133
-405 ironGauntlets ARMOR 65 139
-406 ironChestplate ARMOR 75 148
-408 fullIronArmour ARMOR 100 180
-404 steelGreaves ARMOR 85 193
-405 steelGauntlets ARMOR 90 199
-406 steelChestplate ARMOR 100 208
-408 fullSteelArmour ARMOR 125 240
-404 mithrilGreaves ARMOR 110 253
-405 mithrilGauntlets ARMOR 115 259
-406 mithrilChestplate ARMOR 125 268
-408 fullMithrilArmour ARMOR 150 300
+400 leatherLeggings ARMOR 10 13 (lorem ipsum)
+401 leatherGloves ARMOR 15 19 (lorem ipsum)
+402 leatherVest ARMOR 25 28 (lorem ipsum)
+403 fullLeatherArmour ARMOR 50 60 (lorem ipsum)
+404 bronzeGreaves ARMOR 35 73 (lorem ipsum)
+405 bronzeGauntlets ARMOR 40 79 (lorem ipsum)
+406 bronzeChestplate ARMOR 50 88 (lorem ipsum)
+408 fullBronzeArmour ARMOR 75 120 (lorem ipsum)
+404 ironGreaves ARMOR 60 133 (lorem ipsum)
+405 ironGauntlets ARMOR 65 139 (lorem ipsum)
+406 ironChestplate ARMOR 75 148 (lorem ipsum)
+408 fullIronArmour ARMOR 100 180 (lorem ipsum)
+404 steelGreaves ARMOR 85 193 (lorem ipsum)
+405 steelGauntlets ARMOR 90 199 (lorem ipsum)
+406 steelChestplate ARMOR 100 208 (lorem ipsum)
+408 fullSteelArmour ARMOR 125 240 (lorem ipsum)
+404 mithrilGreaves ARMOR 110 253 (lorem ipsum)
+405 mithrilGauntlets ARMOR 115 259 (lorem ipsum)
+406 mithrilChestplate ARMOR 125 268 (lorem ipsum)
+408 fullMithrilArmour ARMOR 150 300 (lorem ipsum)
 //
 // **********************
 // * 600 - 649: Potions *
 // **********************
 //
-600 tinyHealthPotion POTION 25 35
-600 smallHealthPotion POTION 50 67
-601 mediumHealthPotion POTION 100 130
-602 largeHealthPotion POTION 150 187
-603 giantHealthPotion POTION 250 300
+600 tinyHealthPotion POTION 25 35 (lorem ipsum)
+600 smallHealthPotion POTION 50 67 (lorem ipsum)
+601 mediumHealthPotion POTION 100 130 (lorem ipsum)
+602 largeHealthPotion POTION 150 187 (lorem ipsum)
+603 giantHealthPotion POTION 250 300 (lorem ipsum)
 //
 // **************************
 // * 650 - 699: Quest Items *
 // **************************
 //
-650 diamondRing QUEST -1 -1
-651 agateStatue QUEST -1 -1
-652 phoenixFeather QUEST -1 -1
+650 diamondRing QUEST -1 -1 (lorem ipsum)
+651 agateStatue QUEST -1 -1 (lorem ipsum)
+652 phoenixFeather QUEST -1 -1 (lorem ipsum)
 // ... continue/redo when we have quests planned
 //
 // ********************
 // * 700 - 999: Trash *
 // ********************
 //
-700 redPowder TRASH -1 1
-701 bluePowder TRASH -1 1
-702 greenPowder TRASH -1 1
-703 whitePowder TRASH -1 1
-704 blackPowder TRASH -1 1
-705 yellowPowder TRASH -1 1
-706 spiderLeg TRASH -1 2
-707 spiderWeb TRASH -1 2
-708 goblinBones TRASH -1 3
-709 yellowMushroom TRASH -1 4
-710 redMushroom TRASH -1 4
-711 blueMushroom TRASH -1 4
-712 greenMushroom TRASH -1 4
-713 whiteMushroom TRASH -1 4
-714 blackMushroom TRASH -1 4
+700 redPowder TRASH -1 1 (lorem ipsum)
+701 bluePowder TRASH -1 1 (lorem ipsum)
+702 greenPowder TRASH -1 1 (lorem ipsum)
+703 whitePowder TRASH -1 1 (lorem ipsum)
+704 blackPowder TRASH -1 1 (lorem ipsum)
+705 yellowPowder TRASH -1 1 (lorem ipsum)
+706 spiderLeg TRASH -1 2 (lorem ipsum)
+707 spiderWeb TRASH -1 2 (lorem ipsum)
+708 goblinBones TRASH -1 3 (lorem ipsum)
+709 yellowMushroom TRASH -1 4 (lorem ipsum)
+710 redMushroom TRASH -1 4 (lorem ipsum)
+711 blueMushroom TRASH -1 4 (lorem ipsum)
+712 greenMushroom TRASH -1 4 (lorem ipsum)
+713 whiteMushroom TRASH -1 4 (lorem ipsum)
+714 blackMushroom TRASH -1 4 (lorem ipsum)
 // ... continue when we have more monsters planned

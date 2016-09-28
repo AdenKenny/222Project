@@ -96,7 +96,11 @@ public final class XMLWriter {
 					if (line.startsWith("//") || line.startsWith(" "))
 						continue;
 
-					String[] arr = line.split(" "); // Split on space
+					String[] temp = line.split("\\(");
+
+					String values = temp[0];
+
+					String[] arr = values.split(" "); // Split on space
 
 					Element item = this.doc.createElement("item"); // Create new item.
 
@@ -108,6 +112,13 @@ public final class XMLWriter {
 
 						item.appendChild(tag); // Append the field to the item.
 					}
+
+					String description = temp[1].substring(0, temp[1].length() - 1);
+
+					Element desc = this.doc.createElement("description");
+					desc.appendChild(this.doc.createTextNode(description));
+
+					item.appendChild(desc);
 
 					String name = item.getElementsByTagName("name").item(0).getTextContent();
 					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
@@ -165,14 +176,26 @@ public final class XMLWriter {
 						character.appendChild(tag); // Append the field to the item.
 					}
 
-					String items = test[1]; // Set of items.
+					String other = test[1]; // Set of items.
 
-					items = items.substring(0, items.length() - 1); //Remove end curly brace.
+					String[] tmp = other.split("\\(");
+
+					String items = tmp[0];
+
+					items = items.substring(0, items.length() - 2); //Remove end curly brace.
 
 					Element tag = this.doc.createElement("items"); //Create the items node.
 					tag.appendChild(this.doc.createTextNode(items));
 
 					character.appendChild(tag); //Append the items to the char.
+
+					Element description = this.doc.createElement("description");
+
+					String desc = tmp[1].substring(0, tmp[1].length() - 1);
+
+					description.appendChild(this.doc.createTextNode(desc));
+
+					character.appendChild(description);
 
 					String name = character.getElementsByTagName("name").item(0).getTextContent();
 					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);

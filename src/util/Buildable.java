@@ -12,14 +12,10 @@ public interface Buildable {
 
 	String getName();
 
-	void setName(String name);
-
 	int getID();
-
-	void setID(int ID);
 
 	int getValue();
 
-	void setValue(int value);
+	String getDescription();
 
 }

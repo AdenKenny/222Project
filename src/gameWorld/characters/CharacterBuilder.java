@@ -21,12 +21,14 @@ public final class CharacterBuilder implements AbstractBuilder {
 	private String buildType;
 	private String buildValue;
 	private String buildItems;
+	private String buildDescription;
 
 	private int ID;
 	private String name;
 	private Character.Type type;
 	private int value;
 	private Set<Integer> setOfItems;
+	private String description;
 
 	@Override
 	public void setID(String buildID) {
@@ -93,10 +95,22 @@ public final class CharacterBuilder implements AbstractBuilder {
 	}
 
 	@Override
+	public void setDescription(String description) {
+		this.buildDescription = description;
+	}
+
+	@Override
+	public String getDescription() {
+		return this.description;
+	}
+
+	@Override
 	public CharacterModel build() {
 
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
-				|| this.buildItems == null) {
+				|| this.buildItems == null || this.buildDescription == null) {
+			return null;
+		}
 
 
 			try {
@@ -105,6 +119,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 				this.type = Character.Type.valueOf(this.buildType);
 				this.value = Integer.parseInt(this.buildValue);
 				setBuildItems(this.buildItems);
+				this.description = this.buildDescription;
 
 				return new CharacterModel(this);
 			}
@@ -114,8 +129,10 @@ public final class CharacterBuilder implements AbstractBuilder {
 						"Improperly formatted XML file on item loading.");
 
 			}
-		}
+
 
 		return null;
 	}
+
+
 }

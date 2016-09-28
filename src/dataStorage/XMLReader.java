@@ -37,6 +37,7 @@ public final class XMLReader {
 	private static XMLReader INSTANCE = null;
 
 	private XMLReader() { //Singleton pattern.
+
 		this.mapOfItems = readItems(); //Get items.
 		this.mapOfCharacters = readCharacters();
 	}
@@ -100,12 +101,11 @@ public final class XMLReader {
 				String value = e.getElementsByTagName("value").item(0).getTextContent();
 				build.setValue(value); // Set the value.
 
-				if(e.getElementsByTagName("saleValue").item(0) == null) {
-					System.out.println(name);
-				}
-
 				String saleValue = e.getElementsByTagName("saleValue").item(0).getTextContent();
 				build.setSaleValue(saleValue); // Set sale value.
+
+				String description = e.getElementsByTagName("description").item(0).getTextContent();
+				build.setDescription(description);
 
 				Item item = build.build(); // Build the item.
 
@@ -113,7 +113,7 @@ public final class XMLReader {
 												// ID as key.
 			}
 
-			return this.mapOfItems;
+			return map;
 		}
 
 		catch (ParserConfigurationException e) {
@@ -177,11 +177,16 @@ public final class XMLReader {
 				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
 				build.setBuildItems(buildItems); // Set items.
 
+				String description = e.getElementsByTagName("description").item(0).getTextContent();
+				build.setDescription(description);
+
 				CharacterModel character = build.build(); // Build the character.
 
 				map.put(character.getID(), character); // Put char in map with
 												// ID as key.
 			}
+
+			return map;
 		}
 
 		catch (ParserConfigurationException e) {

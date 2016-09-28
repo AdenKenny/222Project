@@ -19,6 +19,7 @@ public final class CharacterModel implements Buildable {
 	private Character.Type type;
 	private int value;
 	private Set<Integer> setOfItems;
+	private String description;
 
 	public CharacterModel(CharacterBuilder builder) {
 		this.ID = builder.getID();
@@ -26,6 +27,7 @@ public final class CharacterModel implements Buildable {
 		this.type = builder.getType();
 		this.value = builder.getValue();
 		this.setOfItems = builder.getSetOfItems();
+		this.description = builder.getDescription();
 	}
 
 	/**
@@ -37,27 +39,10 @@ public final class CharacterModel implements Buildable {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
-	 */
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the type
 	 */
 	public Character.Type getType() {
 		return this.type;
-	}
-
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(Character.Type type) {
-		this.type = type;
 	}
 
 	/**
@@ -69,27 +54,10 @@ public final class CharacterModel implements Buildable {
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
-	 */
-	@Override
-	public void setValue(int value) {
-		this.value = value;
-	}
-
-	/**
 	 * @return the setOfItems
 	 */
 	public Set<Integer> getSetOfItems() {
 		return this.setOfItems;
-	}
-
-	/**
-	 * @param setOfItems
-	 *            the setOfItems to set
-	 */
-	public void setSetOfItems(Set<Integer> setOfItems) {
-		this.setOfItems = setOfItems;
 	}
 
 	@Override
@@ -97,13 +65,9 @@ public final class CharacterModel implements Buildable {
 		return this.ID;
 	}
 
-	/**
-	 * @param ID
-	 *            the ID to set
-	 */
 	@Override
-	public void setID(int ID) {
-		this.ID = ID;
+	public String getDescription() {
+		return this.description;
 	}
 
 }

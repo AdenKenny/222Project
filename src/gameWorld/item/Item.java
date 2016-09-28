@@ -18,6 +18,7 @@ public class Item implements Buildable {
 	private Type type;
 	private int value;
 	private int saleValue;
+	private String description;
 
 	public Item(ItemBuilder builder) {
 		this.ID = builder.getID();
@@ -25,6 +26,7 @@ public class Item implements Buildable {
 		this.type = builder.getType();
 		this.value = builder.getValue();
 		this.saleValue = builder.getSaleValue();
+		this.description = builder.getDescription();
 	}
 
 	@Override
@@ -33,26 +35,12 @@ public class Item implements Buildable {
 	}
 
 	@Override
-	public void setID(int ID) {
-		this.ID = ID;
-	}
-
-	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Type getType() {
 		return this.type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
 	}
 
 	@Override
@@ -60,17 +48,13 @@ public class Item implements Buildable {
 		return this.value;
 	}
 
-	@Override
-	public void setValue(int value) {
-		this.value = value;
-	}
-
 	public int getSaleValue() {
 		return this.saleValue;
 	}
 
-	public void setSaleValue(int saleValue) {
-		this.saleValue = saleValue;
+	@Override
+	public String getDescription() {
+		return this.description;
 	}
 
 }

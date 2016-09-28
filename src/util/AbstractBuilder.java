@@ -94,5 +94,9 @@ public interface AbstractBuilder {
 	 *         implement 'Buildable'.
 	 */
 
+	void setDescription(String description);
+
+	String getDescription();
+
 	Buildable build();
 }
