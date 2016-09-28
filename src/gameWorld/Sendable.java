@@ -15,7 +15,7 @@ public interface Sendable {
 		}
 	}
 
-	default byte[] intToByte(int i) {
+	static byte[] intToByte(int i) {
 		return ByteBuffer.allocate(4).putInt(i).array();
 	}
 

@@ -26,14 +26,8 @@ public class ClientServerTests {
 
 	@Test
 	public void intToBytesToInt() {
-		Sendable basic = new Sendable() {
-			@Override
-			public byte[] onEntry() {return null;}
-			@Override
-			public byte[] roomUpdate() {return null;}
-		};
 		int num = 70000;
-		byte[] bytes = basic.intToByte(num);
+		byte[] bytes = Sendable.intToByte(num);
 		int back = new ClientSideGame().bytesToInt(bytes, 0);
 		assertEquals(num, back);
 	}

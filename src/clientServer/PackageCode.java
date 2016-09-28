@@ -26,7 +26,12 @@ public final class PackageCode {
 		GAME_SENDABLE_CREATE,
 		GAME_NEW_ROOM,
 		GAME_POSITION_UPDATE,
-		USER_INPUT;
+		KEY_PRESS_W,
+		KEY_PRESS_A,
+		KEY_PRESS_S,
+		KEY_PRESS_D,
+		KEY_PRESS_Q,
+		KEY_PRESS_E;
 
 		public byte value() {
 			return (byte) ordinal();

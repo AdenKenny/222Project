@@ -112,4 +112,5 @@ public class ClientSideGame extends Thread implements Game {
 		}
 		return ByteBuffer.wrap(bs).getInt();
 	}
+
 }

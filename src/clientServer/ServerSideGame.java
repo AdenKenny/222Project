@@ -8,14 +8,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.LoadGame;
-import dataStorage.XMLReader;
-import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World;
+import gameWorld.World.Direction;
 import gameWorld.characters.Character;
-import gameWorld.characters.CharacterModel;
-import gameWorld.item.Item;
 import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
 
@@ -85,8 +82,27 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 * @param input
 	 */
-	public void readInput(long uid, byte[] input) {
-		// TODO
+	public void keyPress(long uid, byte input) {
+		//TODO check for timing restriction
+		Character p = players.get(connectedUsers.get(uid).getUsername());
+		if (input == PackageCode.Codes.KEY_PRESS_W.value()) {
+			p.move(Direction.FORWARD);
+		}
+		else if (input == PackageCode.Codes.KEY_PRESS_A.value()) {
+			p.move(Direction.LEFT);
+		}
+		else if (input == PackageCode.Codes.KEY_PRESS_S.value()) {
+			p.move(Direction.BACK);
+		}
+		else if (input == PackageCode.Codes.KEY_PRESS_D.value()) {
+			p.move(Direction.RIGHT);
+		}
+		else if (input == PackageCode.Codes.KEY_PRESS_Q.value()) {
+			p.turnLeft();
+		}
+		else if (input == PackageCode.Codes.KEY_PRESS_E.value()) {
+			p.turnRight();
+		}
 	}
 
 	/**
