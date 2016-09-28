@@ -15,7 +15,7 @@ public class ClientServerTests {
 	 */
 	@Test
 	public void textMessage() {
-		Slave slave = new Slave();
+		Slave slave = new Slave(null);
 		slave.start();
 		slave.login("Simon", "hunter2");
 		slave.sendTextMessage("1");
