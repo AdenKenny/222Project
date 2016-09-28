@@ -6,7 +6,7 @@
 		<room>
 			<playerSpawn> true </playerSpawn>
 			<npcSpawn> false </npcSpawn>
-			<modelID> </modelID>
+			<modelID> -1 </modelID>
 			<xPos> 0 </xPos>
 			<yPos> 0 </yPos>
 			<width> 9 </width>

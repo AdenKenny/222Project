@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import dataStorage.LoadGame;
 import dataStorage.XMLReader;
 import gameWorld.World;
 import gameWorld.characters.Character;
@@ -26,10 +27,14 @@ public class ServerSideGame {
 
 	private final Map<Long, User> connectedUsers;
 	private final ArrayList<String> textMessages;
-	
-	private World world;
 
 	public ServerSideGame() {
+		LoadGame loader = new LoadGame();
+
+		for(Character c : loader.getPlayers()) {
+			players.put(c.getName(), c); //Loads players into game.
+		}
+
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 

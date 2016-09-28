@@ -134,7 +134,10 @@ public final class PlayerBuilder implements AbstractBuilder {
 			}
 
 			return new Character(this);
-		} catch (NumberFormatException e) {
+
+		}
+
+		catch (NumberFormatException e) {
 			Logging.logEvent(PlayerBuilder.class.getName(), Logging.Levels.WARNING,
 					"Improperly formatted XML file on player loading.");
 

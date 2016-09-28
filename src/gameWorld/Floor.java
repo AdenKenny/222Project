@@ -53,6 +53,18 @@ public class Floor {
 		this.rooms = new Room[depth][width];
 	}
 
+	public Floor(String level, String width, String depth) {
+		try {
+			this.level = Integer.parseInt(level);
+			this.width = Integer.parseInt(width);
+			this.depth = Integer.parseInt(depth);
+
+			this.spawns = new HashSet<SpawnRoom>();
+
+			this.rooms = new Room[this.depth][this.width];
+		} catch (NumberFormatException e) {}
+	}
+
 	/**
 	 * Sets the neighbouring Rooms for every Room on this Floor.
 	 */
