@@ -1,12 +1,17 @@
 package gameWorld;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import gameWorld.World.Direction;
+import gameWorld.rooms.SpawnRoom;
 
 public class Floor {
 	private Floor previousFloor;
 	private Floor nextFloor;
 
 	private Room[][] rooms;
+	private Set<SpawnRoom> spawns;
 
 	private int width;
 	private int depth;
@@ -32,6 +37,8 @@ public class Floor {
 
 		this.width = width;
 		this.depth = depth;
+
+		this.spawns = new HashSet<SpawnRoom>();
 
 		setupRooms(roomWidth, roomDepth);
 	}
@@ -118,6 +125,25 @@ public class Floor {
 	 */
 	public int level() {
 		return level;
+	}
+
+	/**
+	 * Adds a SpawnRoom to this Floor's Set of SpawnRooms,
+	 * so that they can have tick called on them.
+	 *
+	 * @param spawn
+	 */
+	public void addSpawnRoom(SpawnRoom spawn) {
+		spawns.add(spawn);
+	}
+
+	/**
+	 * Returns the Set of SpawnRooms on this Floor.
+	 *
+	 * @return	this Floor's SpawnRooms
+	 */
+	public Set<SpawnRoom> getSpawns() {
+		return spawns;
 	}
 
 }

@@ -110,11 +110,19 @@ public class Character extends Entity {
 		this.rank = -1;
 		this.level = 1;
 		this.xp = 0;
-		this.isAlive = true;
+		this.isAlive = false;
 		this.equips = new ArrayList<Item>();
 
 		setFields();
 		addActions();
+	}
+
+	public void respawn(Room room, int x, int y, Direction facing) {
+		this.room = room;
+		this.xPos = x;
+		this.yPos = y;
+		this.facing = facing;
+		this.isAlive = true;
 	}
 
 	private void addActions() {
