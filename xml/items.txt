@@ -1,4 +1,4 @@
-// itemID name type value saleValue
+// itemID name type value saleValue description
 // ================================
 // **********************
 // * 000 - 199: Weapons *

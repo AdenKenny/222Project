@@ -4,6 +4,7 @@ import java.util.HashMap;
 import gameWorld.World.Direction;
 
 public class Room {
+
 	protected Floor floor;
 
 	protected HashMap<Direction, Room> neighbours;
@@ -12,6 +13,8 @@ public class Room {
 
 	protected int xPos;
 	protected int yPos;
+
+	protected int ID;
 
 	protected int width;
 	protected int depth;
@@ -27,6 +30,9 @@ public class Room {
 	 * @param depth
 	 */
 	public Room(Floor floor, int xPos, int yPos, int width, int depth) {
+
+		this.ID = Entity.getNewID();
+
 		this.floor = floor;
 
 		this.neighbours = new HashMap<Direction, Room>();
@@ -46,7 +52,7 @@ public class Room {
 	 * @return	this Room's Floor
 	 */
 	public Floor floor() {
-		return floor;
+		return this.floor;
 	}
 
 	/**
@@ -57,7 +63,7 @@ public class Room {
 	 * @return	the Room in the Direction specified
 	 */
 	public Room neighbour(Direction direction) {
-		return neighbours.get(direction);
+		return this.neighbours.get(direction);
 	}
 
 	/**
@@ -68,7 +74,7 @@ public class Room {
 	 * @param neighbour
 	 */
 	public void setNeighbour(Direction direction, Room neighbour) {
-		neighbours.put(direction, neighbour);
+		this.neighbours.put(direction, neighbour);
 	}
 
 	/**
@@ -78,7 +84,7 @@ public class Room {
 	 * @return	the Entities in this Room
 	 */
 	public Entity[][] entities() {
-		return entities;
+		return this.entities;
 	}
 
 	/**
@@ -87,7 +93,7 @@ public class Room {
 	 * @return	the x position in the Floor grid
 	 */
 	public int xPos() {
-		return xPos;
+		return this.xPos;
 	}
 
 	/**
@@ -96,7 +102,7 @@ public class Room {
 	 * @return	the y position in the Floor grid
 	 */
 	public int yPos() {
-		return yPos;
+		return this.yPos;
 	}
 
 	/**
@@ -105,7 +111,11 @@ public class Room {
 	 * @return	the width of this Room
 	 */
 	public int width() {
-		return width;
+		return this.width;
+	}
+
+	public int getID() {
+		return this.ID;
 	}
 
 	/**
@@ -114,7 +124,7 @@ public class Room {
 	 * @return	the depth of this Room
 	 */
 	public int depth() {
-		return depth;
+		return this.depth;
 	}
 
 	public boolean move(Entity entity, Direction dir) {
@@ -194,15 +204,15 @@ public class Room {
 
 		// check we're not leaving the room
 		// TODO: allow moving from room to room
-		if (targetX < 0 || targetX >= width || targetY < 0 || targetY >= depth)
+		if (targetX < 0 || targetX >= this.width || targetY < 0 || targetY >= this.depth)
 			return false;
 
 		//Location target = locations[targetY][targetX];
 
-		if (entities[targetY][targetX] == null) {
+		if (this.entities[targetY][targetX] == null) {
 			// target location is free, so can move there
-			entities[targetY][targetX] = entity;
-			entities[entity.yPos()][entity.xPos()] = null;
+			this.entities[targetY][targetX] = entity;
+			this.entities[entity.yPos()][entity.xPos()] = null;
 			entity.setXPos(targetX);
 			entity.setYPos(targetY);
 			return true;
