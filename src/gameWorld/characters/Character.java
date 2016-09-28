@@ -73,7 +73,6 @@ public class Character extends Entity implements Buildable, Sendable {
 	private int gold;
 	private boolean isAlive;
 	private long attackTimer = 0;
-	private Room room;
 
 	// extra fields for Players
 	private int level;
@@ -145,6 +144,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.yPos = y;
 		this.facing = facing;
 		this.isAlive = true;
+		System.out.println(room());
 	}
 
 	private void addActions() {
