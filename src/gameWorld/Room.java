@@ -8,7 +8,7 @@ public class Room {
 	
 	private HashMap<Direction, Room> neighbours;
 	
-	private Location[][] locations;
+	private Entity[][] entities;
 	
 	private int xPos;
 	private int yPos;
@@ -37,17 +37,7 @@ public class Room {
 		this.width = width;
 		this.depth = depth;
 		
-		setupLocations();
-	}
-	
-	private void setupLocations() {
-		locations = new Location[depth][width];
-		
-		for (int row = 0; row < depth; row++) {
-			for (int col = 0; col < width; col++) {
-				locations[row][col] = new Location(this, row, col);
-			}
-		}
+		this.entities = new Entity[depth][width];
 	}
 	
 	/**
@@ -82,13 +72,13 @@ public class Room {
 	}
 	
 	/**
-	 * Returns the grid of Locations as a 2D array of Locations,
-	 * with depth x width Locations.
+	 * Returns the grid of Entities as a 2D array of Entities,
+	 * with depth x width Entities.
 	 * 
-	 * @return	the Locations in this Room
+	 * @return	the Entities in this Room
 	 */
-	public Location[][] locations() {
-		return locations;
+	public Entity[][] entities() {
+		return entities;
 	}
 	
 	/**
@@ -129,9 +119,7 @@ public class Room {
 	
 	public boolean move(Entity entity, Direction dir) {
 		if (entity == null || dir == null) return false;
-		if (!entity.location().room().equals(this)) return false;
-		
-		Location loc = entity.location();
+		if (!entity.room().equals(this)) return false;
 		
 		int changeX = 0;
 		int changeY = 0;
@@ -201,21 +189,22 @@ public class Room {
 			}
 		}
 		
-		int targetX = loc.xPos() + changeX;
-		int targetY = loc.yPos() + changeY;
+		int targetX = entity.xPos() + changeX;
+		int targetY = entity.yPos() + changeY;
 		
 		// check we're not leaving the room
 		// TODO: allow moving from room to room
 		if (targetX < 0 || targetX >= width || targetY < 0 || targetY >= depth)
 			return false;
 		
-		Location target = locations[targetY][targetX];
+		//Location target = locations[targetY][targetX];
 		
-		if (target.entity() == null) {
+		if (entities[targetY][targetX] == null) {
 			// target location is free, so can move there
-			target.setEntity(entity);
-			loc.setEntity(null);
-			entity.setLocation(target);
+			entities[targetY][targetX] = entity;
+			entities[entity.yPos()][entity.xPos()] = null;
+			entity.setXPos(targetX);
+			entity.setYPos(targetY);
 			return true;
 		}
 		

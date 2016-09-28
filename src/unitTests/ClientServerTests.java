@@ -5,6 +5,9 @@ import clientServer.Slave;
 
 public class ClientServerTests {
 
+	/**
+	 * Requires a server to be running.
+	 */
 	@Test
 	public void textMessage() {
 		Slave slave = new Slave();

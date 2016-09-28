@@ -3,9 +3,16 @@ package gameWorld;
 import java.util.List;
 
 import gameWorld.World.Direction;
+import gameWorld.characters.Character;
 
 public abstract class Entity {
-	protected Location location;
+	private static int IDCount = 0;
+	
+	protected int ID;
+	
+	protected Room room;
+	protected int xPos;
+	protected int yPos;
 
 	protected String name;
 	protected String description;
@@ -25,8 +32,12 @@ public abstract class Entity {
 	 * @param description
 	 * @param facing
 	 */
-	public Entity(Location location, String name, String description, Direction facing) {
-		this.location = location;
+	public Entity(Room room, int xPos, int yPos, String name, String description, Direction facing) {
+		this.ID = IDCount++;
+		
+		this.room = room;
+		this.xPos = xPos;
+		this.yPos = yPos;
 
 		this.name = name;
 		this.description = name;
@@ -34,22 +45,28 @@ public abstract class Entity {
 		this.facing = (facing == null) ? Direction.NORTH : facing;
 	}
 
-	/**
-	 * Returns the Location of this Entity.
-	 *
-	 * @return	the current Location
-	 */
-	public Location location() {
-		return location;
+	public Room room() {
+		return room;
 	}
 
-	/**
-	 * Sets this Entity's Location to location.
-	 *
-	 * @param location
-	 */
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public int xPos() {
+		return xPos;
+	}
+
+	public void setXPos(int xPos) {
+		this.xPos = xPos;
+	}
+
+	public int yPos() {
+		return yPos;
+	}
+
+	public void setYPos(int yPos) {
+		this.yPos = yPos;
 	}
 
 	/**
@@ -78,6 +95,15 @@ public abstract class Entity {
 	public Direction facing() {
 		return facing;
 	}
+	
+	/**
+	 * Returns the unique ID of this Entity.
+	 * 
+	 * @return	a unique ID
+	 */
+	public int ID() {
+		return ID;
+	}
 
 	/**
 	 * Returns the actions that may be performed on this
@@ -97,10 +123,11 @@ public abstract class Entity {
 	 * @param action
 	 * @return	whether the action succeeded or not
 	 */
-	public boolean performAction(String action) {
+	public boolean performAction(String action, Character caller) {
+		
 		for (Action a : actions) {
 			if (a.name().equals(action)) {
-				a.perform();
+				a.perform(caller);
 				return true;
 			}
 		}
