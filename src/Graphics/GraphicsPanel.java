@@ -1,10 +1,9 @@
 package Graphics;
 
 import gameWorld.Entity;
-import gameWorld.Location;
 import gameWorld.Room;
 import gameWorld.World;
-import gameWorld.characters.Player;
+import gameWorld.characters.Character;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -39,10 +38,10 @@ public class GraphicsPanel extends JPanel {
     int squarePixelHeight;
     int squarePixelWidth;
 
-    private Player viewer;
+    private Character viewer;
     private Room room;
 
-    public GraphicsPanel(Player inViewer, Room initRoom){
+    public GraphicsPanel(Character inViewer, Room initRoom){
         super();
         viewer = inViewer;
         room = initRoom;
@@ -57,7 +56,7 @@ public class GraphicsPanel extends JPanel {
         render(viewer, room, graphics);
     }
 
-    private void render(Player player, Room room, Graphics graphics){
+    private void render(Character player, Room room, Graphics graphics){
         //Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
@@ -127,10 +126,10 @@ public class GraphicsPanel extends JPanel {
      * @return {y, x}
      */
     private int[] locateEntityInRoom(Entity entity, Room room){
-        Location[][] locations = room.locations();
-        for (int y = 0; y < locations.length; ++y){
-            for (int x = 0; x < locations.length; ++x){
-                if (locations[y][x].entity() == entity) {
+        Entity[][] entities = room.entities();
+        for (int y = 0; y < entities.length; ++y){
+            for (int x = 0; x < entities.length; ++x){
+                if (entities[y][x].equals(entity)) {
                     return new int[] {y, x};
                 }
             }
@@ -240,7 +239,7 @@ public class GraphicsPanel extends JPanel {
     private int[] sumDelta(int[] a, int[] b){
         return new int[] {a[0] + b[0], a[1] + b[1]};
     }
-    
+
     private int[] applyDelta(int[] delta, int y, int x){
         return new int[] {y + delta[0], x + delta[1]};
     }
