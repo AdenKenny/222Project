@@ -150,26 +150,26 @@
 // steel			+ 75		+180
 // mithril			+100		+240
 //
-400 leatherLeggings 10 13
-401 leatherGloves 15 19
-402 leatherVest 25 28
-403 fullLeatherArmour 50 60
-404 bronzeGreaves 35 73
-405 bronzeGauntlets 40 79
-406 bronzeChestplate 50 88
-408 fullBronzeArmour 75 120
-404 ironGreaves 60 133
-405 ironGauntlets 65 139
-406 ironChestplate 75 148
-408 fullIronArmour 100 180
-404 steelGreaves 85 193
-405 steelGauntlets 90 199
-406 steelChestplate 100 208
-408 fullSteelArmour 125 240
-404 mithrilGreaves 110 253
-405 mithrilGauntlets 115 259
-406 mithrilChestplate 125 268
-408 fullMithrilArmour 150 300
+400 leatherLeggings ARMOR 10 13 A pair of leggings made of leather.
+401 leatherGloves ARMOR 15 19
+402 leatherVest ARMOR 25 28
+403 fullLeatherArmour ARMOR 50 60
+404 bronzeGreaves ARMOR 35 73
+405 bronzeGauntlets ARMOR 40 79
+406 bronzeChestplate ARMOR 50 88
+408 fullBronzeArmour ARMOR 75 120
+404 ironGreaves ARMOR 60 133
+405 ironGauntlets ARMOR 65 139
+406 ironChestplate ARMOR 75 148
+408 fullIronArmour ARMOR 100 180
+404 steelGreaves ARMOR 85 193
+405 steelGauntlets ARMOR 90 199
+406 steelChestplate ARMOR 100 208
+408 fullSteelArmour ARMOR 125 240
+404 mithrilGreaves ARMOR 110 253
+405 mithrilGauntlets ARMOR 115 259
+406 mithrilChestplate ARMOR 125 268
+408 fullMithrilArmour ARMOR 150 300
 //
 // **********************
 // * 600 - 649: Potions *
