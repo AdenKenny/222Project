@@ -171,9 +171,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public static void main(String[] args){
+	//TODO: init client
 		MainWindow main = new MainWindow();
 		main.initComponents();
-		main.setDisplay(new GraphicsPanel());
+
 	}
 
 }

@@ -20,5 +20,4 @@ public interface ClientUI {
 
 	public void performActionOnItem(int itemId, int actionId);
 
-
 }
