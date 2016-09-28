@@ -19,56 +19,94 @@ import org.w3c.dom.Element;
 
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
+import util.Logging;
 
 public final class SaveGame {
 
 	private Document doc;
 	private File file;
 
+	private Element root;
+
 	private Element players;
 	private Element monsters;
+	private Element vendors;
 
 	private SaveGame() {
 		this.file = new File("xml/game.xml");
 
-		//savePlayer();
-
-	}
-
-	public void savePlayer(Character player) {
 		try {
-			Element root = getRoot("game");
+			this.root = getRoot("game");
+			this.doc.appendChild(this.root); // Append root to tree.
 
-			this.doc.appendChild(root); // Append root to tree.
+			this.players = this.doc.createElement("players");
+			this.root.appendChild(this.players);
 
-			Element playerTag = this.doc.createElement("player");
+			this.monsters = this.doc.createElement("monsters");
+			this.root.appendChild(this.monsters);
 
-			playerTag.appendChild(createNode("UID", player.ID() + ""));
-			playerTag.appendChild(createNode("type", player.getType().toString()));
-			playerTag.appendChild(createNode("items", convertToString(player.getItems())));
-
-			playerTag.appendChild(createNode("health", player.getHealth() + ""));
-			playerTag.appendChild(createNode("xp", player.getXp() + ""));
-			playerTag.appendChild(createNode("gold", player.getGold() + ""));
-
-			playerTag.appendChild(createNode("level", player.getLevel() + ""));
-			playerTag.appendChild(createNode("equips", itemToString(player.getEquips())));
-
-			root.appendChild(playerTag);
+			this.vendors = this.doc.createElement("vendors");
+			this.root.appendChild(this.vendors);
 
 			transform("xml/game.xml");
 		}
 
 		catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			Logging.logEvent(SaveGame.class.getName(), Logging.Levels.SEVERE, "Could not save game");
 		}
+		//savePlayer();
 	}
 
-	public void saveMonster() {
+	public void savePlayer(Character player) {
 
+		Element playerTag = this.doc.createElement("player");
+
+		playerTag.appendChild(createNode("UID", player.ID() + ""));
+		playerTag.appendChild(createNode("type", player.getType().toString()));
+		playerTag.appendChild(createNode("items", convertToString(player.getItems())));
+		//playerTag.appendChild(createNode("room", player.getRoomID()+ ""));
+
+		playerTag.appendChild(createNode("health", player.getHealth() + ""));
+		playerTag.appendChild(createNode("xp", player.getXp() + ""));
+		playerTag.appendChild(createNode("gold", player.getGold() + ""));
+
+		playerTag.appendChild(createNode("level", player.getLevel() + ""));
+		playerTag.appendChild(createNode("equips", itemToString(player.getEquips())));
+
+		this.players.appendChild(playerTag);
 	}
 
-	private String convertToString(List<Integer> list) {
+	public void saveMonster(Character monster) {
+		Element monsterTag = this.doc.createElement("monster");
+
+		monsterTag.appendChild(createNode("UID", monster.ID() + ""));
+		monsterTag.appendChild(createNode("type", monster.getType().toString()));
+		monsterTag.appendChild(createNode("items", convertToString(monster.getItems())));
+		//monsterTag.appendChild(createNode("room", monster.getRoomID()+ ""));
+
+		monsterTag.appendChild(createNode("rank", monster.getRank() + ""));
+		monsterTag.appendChild(createNode("modelID", monster.getModelID() + ""));
+
+		monsterTag.appendChild(createNode("health", monster.getHealth() + ""));
+		monsterTag.appendChild(createNode("xp", monster.getXp() + ""));
+		monsterTag.appendChild(createNode("gold", monster.getGold() + ""));
+
+
+		this.monsters.appendChild(monsterTag);
+	}
+
+	public void saveVendor(Character vendor) {
+		Element vendorTag = this.doc.createElement("vendor");
+
+		vendorTag.appendChild(createNode("UID", vendor.ID() + ""));
+		vendorTag.appendChild(createNode("type", vendor.getType().toString()));
+		vendorTag.appendChild(createNode("items", convertToString(vendor.getItems())));
+		//vendorTag.appendChild(createNode("room", vendor.getRoomID()+ ""));
+
+		this.vendors.appendChild(vendorTag);
+	}
+
+	private static String convertToString(List<Integer> list) {
 
 		StringBuilder builder = new StringBuilder();
 
@@ -79,7 +117,7 @@ public final class SaveGame {
 		return builder.toString();
 	}
 
-	private String itemToString(List<Item> list) {
+	private static String itemToString(List<Item> list) {
 		StringBuilder builder = new StringBuilder();
 
 		for(Item i : list) {
