@@ -88,6 +88,7 @@ public class ServerSideGame implements Game {
 	public void keyPress(long uid, byte input) {
 		//TODO check for timing restriction
 		Character p = players.get(connectedUsers.get(uid).getUsername());
+		Room old = p.room();
 		if (input == PackageCode.Codes.KEY_PRESS_W.value()) {
 			p.move(Direction.FORWARD);
 		}
@@ -105,6 +106,9 @@ public class ServerSideGame implements Game {
 		}
 		else if (input == PackageCode.Codes.KEY_PRESS_E.value()) {
 			p.turnRight();
+		}
+		if (!p.room().equals(old)) {
+			this.roomDetails.put(uid, false);
 		}
 	}
 

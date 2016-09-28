@@ -239,6 +239,10 @@ public class Room {
 			if (targetRoom != null) {
 				if (targetRoom.entities[yPos][targetRoom.width-1] == null) {
 					targetRoom.entities[yPos][targetRoom.width-1] = entity;
+					entities[entity.yPos()][entity.xPos()] = null;
+					entity.setRoom(targetRoom);
+					entity.setXPos(targetRoom.width-1);
+					return true;
 				}
 			}
 			return false;
@@ -247,6 +251,10 @@ public class Room {
 			if (targetRoom != null) {
 				if (targetRoom.entities[yPos][0] == null) {
 					targetRoom.entities[yPos][0] = entity;
+					entities[entity.yPos()][entity.xPos()] = null;
+					entity.setRoom(targetRoom);
+					entity.setXPos(0);
+					return true;
 				}
 			}
 			return false;
@@ -255,6 +263,10 @@ public class Room {
 			if (targetRoom != null) {
 				if (targetRoom.entities[targetRoom.depth-1][xPos] == null) {
 					targetRoom.entities[targetRoom.depth-1][xPos] = entity;
+					entities[entity.yPos()][entity.xPos()] = null;
+					entity.setRoom(targetRoom);
+					entity.setYPos(targetRoom.depth-1);
+					return true;
 				}
 			}
 			return false;
@@ -263,6 +275,9 @@ public class Room {
 			if (targetRoom != null) {
 				if (targetRoom.entities[0][xPos] == null) {
 					targetRoom.entities[0][xPos] = entity;
+					entities[entity.yPos()][entity.xPos()] = null;
+					entity.setRoom(targetRoom);
+					entity.setYPos(0);
 					return true;
 				}
 			}

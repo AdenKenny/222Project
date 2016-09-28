@@ -32,7 +32,10 @@ public class GraphicsPanel extends JPanel {
 	private static final String path = "assets/sprites/";
 
 	private Map<Direction, Color> wallColors;
+	private Map<Direction, Color> spawnColors;
 	private Color floorColor;
+
+	private static boolean spawn;
 
 	private ClientSideGame game;
 	private String username;
@@ -41,11 +44,20 @@ public class GraphicsPanel extends JPanel {
 		this.game = game;
 		this.username = username;
 
+		this.spawn = true;
+
 		wallColors = new HashMap<Direction, Color>();
 		wallColors.put(Direction.NORTH, Color.GREEN.darker());
 		wallColors.put(Direction.SOUTH, Color.BLUE.darker());
 		wallColors.put(Direction.EAST, Color.RED.darker());
 		wallColors.put(Direction.WEST, Color.YELLOW.darker());
+
+		spawnColors = new HashMap<Direction, Color>();
+		spawnColors.put(Direction.NORTH, Color.ORANGE);
+		spawnColors.put(Direction.WEST, Color.ORANGE.brighter());
+		spawnColors.put(Direction.EAST, Color.ORANGE.darker());
+		spawnColors.put(Direction.SOUTH, Color.CYAN);
+
 		floorColor = Color.GRAY.darker();
 	}
 
@@ -68,14 +80,13 @@ public class GraphicsPanel extends JPanel {
 			return;
 		}
 
-
 		g.setColor(floorColor);
 		int[] xs = {0, 150, 850, 1000};
 		int[] ys = {650, 500, 500, 650};
 		g.fillPolygon(xs, ys, 4);
 
 		// front wall
-		g.setColor(wallColors.get(player.facing()));
+		g.setColor((spawn) ? spawnColors.get(player.facing()) : wallColors.get(player.facing()));
 		xs = new int[] {150, 150, 850, 850};
 		ys = new int[] {0, 500, 500, 0};
 		g.fillPolygon(xs, ys, 4);
@@ -84,13 +95,13 @@ public class GraphicsPanel extends JPanel {
 		Direction right = player.facing().getRight();
 
 		// left wall
-		g.setColor(wallColors.get(left));
+		g.setColor((spawn) ? spawnColors.get(left) : wallColors.get(left));
 		xs = new int[] {0, 0, 150, 150};
 		ys = new int[] {0, 650, 500, 0};
 		g.fillPolygon(xs, ys, 4);
 
 		// right wall
-		g.setColor(wallColors.get(right));
+		g.setColor((spawn) ? spawnColors.get(right) : wallColors.get(right));
 		xs = new int[] {850, 850, 1000, 1000};
 		ys = new int[] {0, 500, 650, 0};
 		g.fillPolygon(xs, ys, 4);
@@ -202,6 +213,11 @@ public class GraphicsPanel extends JPanel {
 		}
 
 
+	}
+
+	public static void moveRoom() {
+		spawn = !spawn;
+		System.out.println("skin switched");
 	}
 
 	public void clear() {

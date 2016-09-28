@@ -31,6 +31,7 @@ public class ClientSideGame extends Thread implements Game {
 	public void newRoom(byte[] received) {
 		sendables.clear();
 		this.room = new Room(null, -1, -1, received[1], received[2]);
+		integrationGraphics.GraphicsPanel.moveRoom();
 	}
 
 	public void addSendable(byte[] received) {
