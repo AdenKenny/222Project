@@ -2,7 +2,7 @@ package gameWorld.rooms;
 
 import java.util.Map;
 
-import clientServer.Game;
+import clientServer.ServerSideGame;
 import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.World;
@@ -14,7 +14,7 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 
 	public PlayerSpawn(Floor floor, int xPos, int yPos, int width, int depth) {
 		super(floor, xPos, yPos, width, depth);
-		players = Game.getAllPlayers();
+		players = ServerSideGame.getAllPlayers();
 		floor.addSpawnRoom(this);
 	}
 
