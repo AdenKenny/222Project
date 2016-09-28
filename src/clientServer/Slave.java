@@ -68,6 +68,9 @@ public class Slave extends Thread {
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_CREATE.value()) {
 						this.game.addSendable(data);
 					}
+					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_REMOVE.value()) {
+						this.game.removeSendable(data);
+					}
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
 						for (int i = 1; i < data.length; i++) {

@@ -1,6 +1,5 @@
 package clientServer;
 
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setAlive(isAlive);
 			toAdd.setHealth(health);
 			sendables.put(ID, toAdd);
-			this.room.entities()[xPos][yPos] = toAdd;
+			this.room.entities()[yPos][xPos] = toAdd;
 		}
 		else if (type.equals(Character.Type.VENDOR)) {
 			World.Direction facing = World.Direction.values()[received[2]];
@@ -64,7 +63,7 @@ public class ClientSideGame extends Thread implements Game {
 			CharacterModel model = mapOfCharacters.get(modelId);
 			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, -1, model);
 			sendables.put(ID, toAdd);
-			this.room.entities()[xPos][yPos] = toAdd;
+			this.room.entities()[yPos][xPos] = toAdd;
 		}
 		else if (type.equals(Character.Type.PLAYER)) {
 			boolean isAlive = (received[2] == 1);
@@ -86,7 +85,7 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setXPos(xPos);
 			toAdd.setYPos(yPos);
 			sendables.put(ID, toAdd);
-			this.room.entities()[xPos][yPos] = toAdd;
+			this.room.entities()[yPos][xPos] = toAdd;
 		}
 	}
 
@@ -111,6 +110,25 @@ public class ClientSideGame extends Thread implements Game {
 			entities[c.yPos()][c.xPos()] = c;
 		}
 
+	}
+
+	public void removeSendable(byte[] received) {
+		int id = Sendable.bytesToInt(received, 1);
+		Sendable toRemove = null;
+		Set<Sendable> sendables = this.room.getSendables();
+		for (Sendable s : sendables) {
+			if (s instanceof Character) {
+				Character c = (Character)s;
+				if (c.getID() == id) {
+					toRemove = s;
+					room.entities()[c.yPos()][c.xPos()] = null;
+					break;
+				}
+			}
+		}
+		if (toRemove != null) {
+			sendables.remove(toRemove);
+		}
 	}
 
 	public Room getRoom() {

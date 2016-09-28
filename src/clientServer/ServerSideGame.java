@@ -75,7 +75,7 @@ public class ServerSideGame implements Game {
 	 */
 	public void disconnect(long uid) {
 		Character player = players.get(this.connectedUsers.get(uid).getUsername());
-		player.room().entities()[player.xPos()][player.yPos()] = null;;
+		player.room().entities()[player.yPos()][player.xPos()] = null;;
 		this.connectedUsers.remove(uid);
 		this.roomDetails.remove(uid);
 	}
@@ -107,7 +107,11 @@ public class ServerSideGame implements Game {
 		else if (input == PackageCode.Codes.KEY_PRESS_E.value()) {
 			p.turnRight();
 		}
-		if (!p.room().equals(old)) {
+		Room r = p.room();
+		if (!r.equals(old)) {
+			int id = p.getID();
+			r.toRemove().remove(id);
+			old.toRemove().add(id);
 			this.roomDetails.put(uid, false);
 		}
 	}
@@ -143,8 +147,21 @@ public class ServerSideGame implements Game {
 			}
 		}
 		else {
+			Set<Integer> toRemove = room.toRemove();
 			for (Sendable s : sendables) {
-				data[i++] = s.roomUpdate();
+				if (s instanceof Character && toRemove.contains(((Character)s).getID())) {
+					System.out.println("match");
+					data[i] = new byte[5];
+					data[i][0] = PackageCode.Codes.GAME_SENDABLE_REMOVE.value();
+					int j = 1;
+					for (byte b : Sendable.intToBytes(((Character)s).getID())) {
+						data[i][j++] = b;
+					}
+					i++;
+				}
+				else {
+					data[i++] = s.roomUpdate();
+				}
 			}
 		}
 		return data;
