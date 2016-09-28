@@ -140,46 +140,32 @@ public class Item implements Buildable {
 		}
 	}
 
+	@Override
 	public int getID() {
 		return this.ID;
 	}
 
-	public void setID(int ID) {
-		this.ID = ID;
-	}
-
+	@Override
 	public String getName() {
 		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Type getType() {
 		return this.type;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
-	}
-
+	@Override
 	public int getValue() {
 		return this.value;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
 	}
 
 	public int getSaleValue() {
 		return this.saleValue;
 	}
 
-	public void setSaleValue(int saleValue) {
-		this.saleValue = saleValue;
+	@Override
+	public String getDescription() {
+		return this.description;
 	}
-
-
 
 }

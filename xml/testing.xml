@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<items>
+<testing>
   <item>
     <ID>000</ID>
     <name>woodenTrainingSword</name>
     <type>WEAPON</type>
     <value>2</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>001</ID>
@@ -14,7 +13,6 @@
     <type>WEAPON</type>
     <value>3</value>
     <saleValue>2</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>002</ID>
@@ -22,7 +20,6 @@
     <type>WEAPON</type>
     <value>3</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>003</ID>
@@ -30,15 +27,13 @@
     <type>WEAPON</type>
     <value>7</value>
     <saleValue>10</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>004</ID>
     <name>bronzeShortSword</name>
     <type>WEAPON</type>
     <value>10</value>
-    <saleValue>15</saleValue>
-    <description>lorem ipsum</description>
+    <saleValue>17</saleValue>
   </item>
   <item>
     <ID>005</ID>
@@ -46,7 +41,6 @@
     <type>WEAPON</type>
     <value>15</value>
     <saleValue>28</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>006</ID>
@@ -54,7 +48,6 @@
     <type>WEAPON</type>
     <value>20</value>
     <saleValue>39</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>007</ID>
@@ -62,7 +55,6 @@
     <type>WEAPON</type>
     <value>23</value>
     <saleValue>44</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>008</ID>
@@ -70,7 +62,6 @@
     <type>WEAPON</type>
     <value>12</value>
     <saleValue>21</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>009</ID>
@@ -78,7 +69,6 @@
     <type>WEAPON</type>
     <value>18</value>
     <saleValue>33</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>010</ID>
@@ -86,7 +76,6 @@
     <type>WEAPON</type>
     <value>25</value>
     <saleValue>50</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>011</ID>
@@ -94,7 +83,6 @@
     <type>WEAPON</type>
     <value>32</value>
     <saleValue>60</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>012</ID>
@@ -102,7 +90,6 @@
     <type>WEAPON</type>
     <value>35</value>
     <saleValue>67</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>013</ID>
@@ -110,7 +97,6 @@
     <type>WEAPON</type>
     <value>40</value>
     <saleValue>78</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>014</ID>
@@ -118,7 +104,6 @@
     <type>WEAPON</type>
     <value>45</value>
     <saleValue>89</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>015</ID>
@@ -126,7 +111,6 @@
     <type>WEAPON</type>
     <value>48</value>
     <saleValue>94</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>016</ID>
@@ -134,7 +118,6 @@
     <type>WEAPON</type>
     <value>37</value>
     <saleValue>71</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>017</ID>
@@ -142,7 +125,6 @@
     <type>WEAPON</type>
     <value>43</value>
     <saleValue>83</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>018</ID>
@@ -150,7 +132,6 @@
     <type>WEAPON</type>
     <value>50</value>
     <saleValue>100</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>019</ID>
@@ -158,7 +139,6 @@
     <type>WEAPON</type>
     <value>57</value>
     <saleValue>110</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>020</ID>
@@ -166,7 +146,6 @@
     <type>WEAPON</type>
     <value>60</value>
     <saleValue>117</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>021</ID>
@@ -174,7 +153,6 @@
     <type>WEAPON</type>
     <value>65</value>
     <saleValue>128</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>022</ID>
@@ -182,7 +160,6 @@
     <type>WEAPON</type>
     <value>70</value>
     <saleValue>139</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>023</ID>
@@ -190,7 +167,6 @@
     <type>WEAPON</type>
     <value>73</value>
     <saleValue>144</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>024</ID>
@@ -198,7 +174,6 @@
     <type>WEAPON</type>
     <value>62</value>
     <saleValue>121</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>025</ID>
@@ -206,7 +181,6 @@
     <type>WEAPON</type>
     <value>68</value>
     <saleValue>133</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>026</ID>
@@ -214,7 +188,6 @@
     <type>WEAPON</type>
     <value>75</value>
     <saleValue>150</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>027</ID>
@@ -222,7 +195,6 @@
     <type>WEAPON</type>
     <value>82</value>
     <saleValue>160</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>028</ID>
@@ -230,7 +202,6 @@
     <type>WEAPON</type>
     <value>85</value>
     <saleValue>167</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>029</ID>
@@ -238,7 +209,6 @@
     <type>WEAPON</type>
     <value>90</value>
     <saleValue>178</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>030</ID>
@@ -246,7 +216,6 @@
     <type>WEAPON</type>
     <value>95</value>
     <saleValue>189</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>031</ID>
@@ -254,7 +223,6 @@
     <type>WEAPON</type>
     <value>98</value>
     <saleValue>194</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>032</ID>
@@ -262,7 +230,6 @@
     <type>WEAPON</type>
     <value>87</value>
     <saleValue>171</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>033</ID>
@@ -270,7 +237,6 @@
     <type>WEAPON</type>
     <value>93</value>
     <saleValue>183</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>034</ID>
@@ -278,7 +244,6 @@
     <type>WEAPON</type>
     <value>100</value>
     <saleValue>200</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>035</ID>
@@ -286,7 +251,6 @@
     <type>WEAPON</type>
     <value>55</value>
     <saleValue>99</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>200</ID>
@@ -294,7 +258,6 @@
     <type>SHIELD</type>
     <value>5</value>
     <saleValue>6</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>201</ID>
@@ -302,7 +265,6 @@
     <type>SHIELD</type>
     <value>11</value>
     <saleValue>13</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>202</ID>
@@ -310,7 +272,6 @@
     <type>SHIELD</type>
     <value>14</value>
     <saleValue>17</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>203</ID>
@@ -318,7 +279,6 @@
     <type>SHIELD</type>
     <value>20</value>
     <saleValue>24</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>204</ID>
@@ -326,7 +286,6 @@
     <type>SHIELD</type>
     <value>25</value>
     <saleValue>50</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>206</ID>
@@ -334,7 +293,6 @@
     <type>SHIELD</type>
     <value>31</value>
     <saleValue>57</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>207</ID>
@@ -342,7 +300,6 @@
     <type>SHIELD</type>
     <value>34</value>
     <saleValue>61</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>208</ID>
@@ -350,7 +307,6 @@
     <type>SHIELD</type>
     <value>40</value>
     <saleValue>68</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>209</ID>
@@ -358,7 +314,6 @@
     <type>SHIELD</type>
     <value>45</value>
     <saleValue>94</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>210</ID>
@@ -366,7 +321,6 @@
     <type>SHIELD</type>
     <value>51</value>
     <saleValue>101</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>211</ID>
@@ -374,7 +328,6 @@
     <type>SHIELD</type>
     <value>54</value>
     <saleValue>105</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>212</ID>
@@ -382,7 +335,6 @@
     <type>SHIELD</type>
     <value>60</value>
     <saleValue>112</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>213</ID>
@@ -390,7 +342,6 @@
     <type>SHIELD</type>
     <value>65</value>
     <saleValue>138</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>214</ID>
@@ -398,7 +349,6 @@
     <type>SHIELD</type>
     <value>71</value>
     <saleValue>145</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>215</ID>
@@ -406,7 +356,6 @@
     <type>SHIELD</type>
     <value>74</value>
     <saleValue>149</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>216</ID>
@@ -414,7 +363,6 @@
     <type>SHIELD</type>
     <value>80</value>
     <saleValue>156</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>217</ID>
@@ -422,7 +370,6 @@
     <type>SHIELD</type>
     <value>85</value>
     <saleValue>182</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>218</ID>
@@ -430,7 +377,6 @@
     <type>SHIELD</type>
     <value>91</value>
     <saleValue>189</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>219</ID>
@@ -438,7 +384,6 @@
     <type>SHIELD</type>
     <value>94</value>
     <saleValue>193</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>220</ID>
@@ -446,7 +391,6 @@
     <type>SHIELD</type>
     <value>100</value>
     <saleValue>200</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>300</ID>
@@ -454,7 +398,6 @@
     <type>HELMET</type>
     <value>3</value>
     <saleValue>5</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>301</ID>
@@ -462,7 +405,6 @@
     <type>HELMET</type>
     <value>6</value>
     <saleValue>8</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>302</ID>
@@ -470,7 +412,6 @@
     <type>HELMET</type>
     <value>10</value>
     <saleValue>13</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>303</ID>
@@ -478,7 +419,6 @@
     <type>HELMET</type>
     <value>16</value>
     <saleValue>19</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>304</ID>
@@ -486,7 +426,6 @@
     <type>HELMET</type>
     <value>19</value>
     <saleValue>23</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>305</ID>
@@ -494,7 +433,6 @@
     <type>HELMET</type>
     <value>33</value>
     <saleValue>67</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>306</ID>
@@ -502,7 +440,6 @@
     <type>HELMET</type>
     <value>37</value>
     <saleValue>72</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>307</ID>
@@ -510,7 +447,6 @@
     <type>HELMET</type>
     <value>43</value>
     <saleValue>78</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>308</ID>
@@ -518,7 +454,6 @@
     <type>HELMET</type>
     <value>46</value>
     <saleValue>82</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>309</ID>
@@ -526,7 +461,6 @@
     <type>HELMET</type>
     <value>60</value>
     <saleValue>126</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>310</ID>
@@ -534,7 +468,6 @@
     <type>HELMET</type>
     <value>64</value>
     <saleValue>131</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>311</ID>
@@ -542,7 +475,6 @@
     <type>HELMET</type>
     <value>70</value>
     <saleValue>137</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>312</ID>
@@ -550,7 +482,6 @@
     <type>HELMET</type>
     <value>73</value>
     <saleValue>141</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>313</ID>
@@ -558,7 +489,6 @@
     <type>HELMET</type>
     <value>87</value>
     <saleValue>185</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>314</ID>
@@ -566,7 +496,6 @@
     <type>HELMET</type>
     <value>91</value>
     <saleValue>190</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>315</ID>
@@ -574,7 +503,6 @@
     <type>HELMET</type>
     <value>97</value>
     <saleValue>196</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>316</ID>
@@ -582,167 +510,126 @@
     <type>HELMET</type>
     <value>100</value>
     <saleValue>200</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>400</ID>
     <name>leatherLeggings</name>
-    <type>ARMOR</type>
-    <value>10</value>
-    <saleValue>13</saleValue>
-    <description>lorem ipsum</description>
+    <type>10</type>
+    <value>13</value>
   </item>
   <item>
     <ID>401</ID>
     <name>leatherGloves</name>
-    <type>ARMOR</type>
-    <value>15</value>
-    <saleValue>19</saleValue>
-    <description>lorem ipsum</description>
+    <type>15</type>
+    <value>19</value>
   </item>
   <item>
     <ID>402</ID>
     <name>leatherVest</name>
-    <type>ARMOR</type>
-    <value>25</value>
-    <saleValue>28</saleValue>
-    <description>lorem ipsum</description>
+    <type>25</type>
+    <value>28</value>
   </item>
   <item>
     <ID>403</ID>
     <name>fullLeatherArmour</name>
-    <type>ARMOR</type>
-    <value>50</value>
-    <saleValue>60</saleValue>
-    <description>lorem ipsum</description>
+    <type>50</type>
+    <value>60</value>
   </item>
   <item>
     <ID>404</ID>
     <name>bronzeGreaves</name>
-    <type>ARMOR</type>
-    <value>35</value>
-    <saleValue>73</saleValue>
-    <description>lorem ipsum</description>
+    <type>35</type>
+    <value>73</value>
   </item>
   <item>
     <ID>405</ID>
     <name>bronzeGauntlets</name>
-    <type>ARMOR</type>
-    <value>40</value>
-    <saleValue>79</saleValue>
-    <description>lorem ipsum</description>
+    <type>40</type>
+    <value>79</value>
   </item>
   <item>
     <ID>406</ID>
     <name>bronzeChestplate</name>
-    <type>ARMOR</type>
-    <value>50</value>
-    <saleValue>88</saleValue>
-    <description>lorem ipsum</description>
+    <type>50</type>
+    <value>88</value>
   </item>
   <item>
     <ID>408</ID>
     <name>fullBronzeArmour</name>
-    <type>ARMOR</type>
-    <value>75</value>
-    <saleValue>120</saleValue>
-    <description>lorem ipsum</description>
+    <type>75</type>
+    <value>120</value>
   </item>
   <item>
     <ID>404</ID>
     <name>ironGreaves</name>
-    <type>ARMOR</type>
-    <value>60</value>
-    <saleValue>133</saleValue>
-    <description>lorem ipsum</description>
+    <type>60</type>
+    <value>133</value>
   </item>
   <item>
     <ID>405</ID>
     <name>ironGauntlets</name>
-    <type>ARMOR</type>
-    <value>65</value>
-    <saleValue>139</saleValue>
-    <description>lorem ipsum</description>
+    <type>65</type>
+    <value>139</value>
   </item>
   <item>
     <ID>406</ID>
     <name>ironChestplate</name>
-    <type>ARMOR</type>
-    <value>75</value>
-    <saleValue>148</saleValue>
-    <description>lorem ipsum</description>
+    <type>75</type>
+    <value>148</value>
   </item>
   <item>
     <ID>408</ID>
     <name>fullIronArmour</name>
-    <type>ARMOR</type>
-    <value>100</value>
-    <saleValue>180</saleValue>
-    <description>lorem ipsum</description>
+    <type>100</type>
+    <value>180</value>
   </item>
   <item>
     <ID>404</ID>
     <name>steelGreaves</name>
-    <type>ARMOR</type>
-    <value>85</value>
-    <saleValue>193</saleValue>
-    <description>lorem ipsum</description>
+    <type>85</type>
+    <value>193</value>
   </item>
   <item>
     <ID>405</ID>
     <name>steelGauntlets</name>
-    <type>ARMOR</type>
-    <value>90</value>
-    <saleValue>199</saleValue>
-    <description>lorem ipsum</description>
+    <type>90</type>
+    <value>199</value>
   </item>
   <item>
     <ID>406</ID>
     <name>steelChestplate</name>
-    <type>ARMOR</type>
-    <value>100</value>
-    <saleValue>208</saleValue>
-    <description>lorem ipsum</description>
+    <type>100</type>
+    <value>208</value>
   </item>
   <item>
     <ID>408</ID>
     <name>fullSteelArmour</name>
-    <type>ARMOR</type>
-    <value>125</value>
-    <saleValue>240</saleValue>
-    <description>lorem ipsum</description>
+    <type>125</type>
+    <value>240</value>
   </item>
   <item>
     <ID>404</ID>
     <name>mithrilGreaves</name>
-    <type>ARMOR</type>
-    <value>110</value>
-    <saleValue>253</saleValue>
-    <description>lorem ipsum</description>
+    <type>110</type>
+    <value>253</value>
   </item>
   <item>
     <ID>405</ID>
     <name>mithrilGauntlets</name>
-    <type>ARMOR</type>
-    <value>115</value>
-    <saleValue>259</saleValue>
-    <description>lorem ipsum</description>
+    <type>115</type>
+    <value>259</value>
   </item>
   <item>
     <ID>406</ID>
     <name>mithrilChestplate</name>
-    <type>ARMOR</type>
-    <value>125</value>
-    <saleValue>268</saleValue>
-    <description>lorem ipsum</description>
+    <type>125</type>
+    <value>268</value>
   </item>
   <item>
     <ID>408</ID>
     <name>fullMithrilArmour</name>
-    <type>ARMOR</type>
-    <value>150</value>
-    <saleValue>300</saleValue>
-    <description>lorem ipsum</description>
+    <type>150</type>
+    <value>300</value>
   </item>
   <item>
     <ID>600</ID>
@@ -750,7 +637,6 @@
     <type>POTION</type>
     <value>25</value>
     <saleValue>35</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>600</ID>
@@ -758,7 +644,6 @@
     <type>POTION</type>
     <value>50</value>
     <saleValue>67</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>601</ID>
@@ -766,7 +651,6 @@
     <type>POTION</type>
     <value>100</value>
     <saleValue>130</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>602</ID>
@@ -774,7 +658,6 @@
     <type>POTION</type>
     <value>150</value>
     <saleValue>187</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>603</ID>
@@ -782,7 +665,6 @@
     <type>POTION</type>
     <value>250</value>
     <saleValue>300</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>650</ID>
@@ -790,7 +672,6 @@
     <type>QUEST</type>
     <value>-1</value>
     <saleValue>-1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>651</ID>
@@ -798,7 +679,6 @@
     <type>QUEST</type>
     <value>-1</value>
     <saleValue>-1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>652</ID>
@@ -806,7 +686,6 @@
     <type>QUEST</type>
     <value>-1</value>
     <saleValue>-1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>700</ID>
@@ -814,7 +693,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>701</ID>
@@ -822,7 +700,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>702</ID>
@@ -830,7 +707,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>703</ID>
@@ -838,7 +714,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>704</ID>
@@ -846,7 +721,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>705</ID>
@@ -854,7 +728,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>1</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>706</ID>
@@ -862,7 +735,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>2</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>707</ID>
@@ -870,7 +742,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>2</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>708</ID>
@@ -878,7 +749,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>3</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>709</ID>
@@ -886,7 +756,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>4</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>710</ID>
@@ -894,7 +763,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>4</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>711</ID>
@@ -902,7 +770,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>4</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>712</ID>
@@ -910,7 +777,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>4</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>713</ID>
@@ -918,7 +784,6 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>4</saleValue>
-    <description>lorem ipsum</description>
   </item>
   <item>
     <ID>714</ID>
@@ -926,6 +791,5 @@
     <type>TRASH</type>
     <value>-1</value>
     <saleValue>4</saleValue>
-    <description>lorem ipsum</description>
   </item>
-</items>
+</testing>

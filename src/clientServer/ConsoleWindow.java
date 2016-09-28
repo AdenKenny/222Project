@@ -16,7 +16,7 @@ public class ConsoleWindow extends JFrame {
 	public ConsoleWindow() {
 		super("Server");
 
-		setSize(300, 200);
+		setSize(600, 600);
 
 	    final JTextArea textArea = new JTextArea();
 	    textArea.setEditable(false);

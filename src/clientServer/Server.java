@@ -3,23 +3,15 @@ package clientServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import dataStorage.CreateXML;
 import dataStorage.DataGetter;
-import dataStorage.XMLReader;
-import userHandling.Register;
 import util.Logging;
 
 public class Server {
 
 	private Game game;
 
-	private Server() {
+	public Server() {
 
 		//Start the game
 		this.game = new Game();
@@ -28,11 +20,9 @@ public class Server {
 		//Start the game tick
 		Tick tick = new Tick(this.game);
 		tick.start();
-
-
-		try {
-			//Connect to port 5000
-			ServerSocket ss = new ServerSocket(5000);
+		
+		//Connect to port 5000
+		try(ServerSocket ss = new ServerSocket(5000)) {
 			int uid = 0;
 			//loop indefinitely
 			while(true) {

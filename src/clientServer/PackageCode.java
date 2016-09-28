@@ -1,8 +1,12 @@
 package clientServer;
 
-public interface PackageCode {
+public final class PackageCode {
 
-	public enum Codes {
+	private PackageCode() {
+		throw new AssertionError();
+	}
+
+	public static enum Codes {
 		BREAK((byte) 0),
 		PING((byte) 1),
 		PONG((byte) 2),
@@ -15,7 +19,13 @@ public interface PackageCode {
 		NEW_USER_ATTEMPT((byte) 9),
 		NEW_USER_RESULT((byte) 10),
 		NEW_USER_SUCCESS((byte) 11),
-		NEW_USER_NAME_TAKEN((byte) 12);
+		NEW_USER_NAME_TAKEN((byte) 12),
+		DISCONNECT((byte) 13),
+		TEXT_MESSAGE((byte) 14),
+		GAME_ROOM_UPDATE((byte) 15),
+		GAME_ROOM_ENTRY((byte) 16),
+		GAME_POSITION_UPDATE((byte) 17),
+		USER_INPUT((byte) 18);
 
 		public final byte value;
 

@@ -6,9 +6,9 @@ import util.Buildable;
 
 /**
  * A class representing the abstract concept of a character. This stores values of the character
- * such as the unique ID and the name. An actual instance of this character uses this to build 
- * itself. 
- * 
+ * such as the unique ID and the name. An actual instance of this character uses this to build
+ * itself.
+ *
  * @author Aden
  */
 
@@ -19,6 +19,7 @@ public final class CharacterModel implements Buildable {
 	private Character.Type type;
 	private int value;
 	private Set<Integer> setOfItems;
+	private String description;
 
 	public CharacterModel(CharacterBuilder builder) {
 		this.ID = builder.getID();
@@ -26,21 +27,15 @@ public final class CharacterModel implements Buildable {
 		this.type = builder.getType();
 		this.value = builder.getValue();
 		this.setOfItems = builder.getSetOfItems();
-	}
-	
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return this.name;
+		this.description = builder.getDescription();
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @return the name
 	 */
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public String getName() {
+		return this.name;
 	}
 
 	/**
@@ -51,26 +46,11 @@ public final class CharacterModel implements Buildable {
 	}
 
 	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(Character.Type type) {
-		this.type = type;
-	}
-
-	/**
 	 * @return the value
 	 */
+	@Override
 	public int getValue() {
 		return this.value;
-	}
-
-	/**
-	 * @param value
-	 *            the value to set
-	 */
-	public void setValue(int value) {
-		this.value = value;
 	}
 
 	/**
@@ -80,24 +60,14 @@ public final class CharacterModel implements Buildable {
 		return this.setOfItems;
 	}
 
-	/**
-	 * @param setOfItems
-	 *            the setOfItems to set
-	 */
-	public void setSetOfItems(Set<Integer> setOfItems) {
-		this.setOfItems = setOfItems;
-	}
-	
+	@Override
 	public int getID() {
 		return this.ID;
 	}
 
-	/**
-	 * @param ID
-	 *            the ID to set
-	 */
-	public void setID(int ID) {
-		this.ID = ID;
+	@Override
+	public String getDescription() {
+		return this.description;
 	}
 
 }

@@ -5,7 +5,7 @@ import util.Logging;
 
 /**
  * A class to build an item.
- * 
+ *
  * @author Aden and Louis
  */
 
@@ -15,12 +15,14 @@ public final class ItemBuilder implements AbstractBuilder {
 	private String buildType;
 	private String buildValue;
 	private String buildSaleValue;
+	private String buildDescription;
 
 	private int ID;
 	private String name;
 	private Item.Type type;
 	private int value;
 	private int saleValue;
+	private String description;
 
 	@Override
 	public void setID(String buildID) {
@@ -47,6 +49,11 @@ public final class ItemBuilder implements AbstractBuilder {
 	}
 
 	@Override
+	public void setDescription(String description) {
+		this.buildDescription = description;
+	}
+
+	@Override
 	public int getID() {
 		return this.ID;
 	}
@@ -70,9 +77,14 @@ public final class ItemBuilder implements AbstractBuilder {
 	}
 
 	@Override
+	public String getDescription() {
+		return this.description;
+	}
+
+	@Override
 	public Item build() {
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
-				|| this.buildSaleValue == null) {
+		   || this.buildSaleValue == null || this.buildDescription == null) {
 			return null;
 		}
 		try {
@@ -81,6 +93,7 @@ public final class ItemBuilder implements AbstractBuilder {
 			this.type = Item.Type.valueOf(this.buildType);
 			this.value = Integer.parseInt(this.buildValue);
 			this.saleValue = Integer.parseInt(this.buildSaleValue);
+			this.description = this.buildDescription;
 
 			return new Item(this);
 		}

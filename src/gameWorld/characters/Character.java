@@ -212,11 +212,11 @@ public class Character extends Entity {
 		items.add(item.getID());
 		gold -= value;
 	}
-	
+
 	public void move(Direction dir) {
 		room.move(this, dir);
 	}
-	
+
 	public void turn(Direction dir) {
 		switch (dir) {
 		case NORTH:
@@ -241,7 +241,7 @@ public class Character extends Entity {
 			break;
 		}
 	}
-	
+
 	private void turnLeft() {
 		switch (facing) {
 		case NORTH:
@@ -260,7 +260,7 @@ public class Character extends Entity {
 			break;
 		}
 	}
-	
+
 	private void turnRight() {
 		switch (facing) {
 		case NORTH:
@@ -391,4 +391,4 @@ public class Character extends Entity {
 		this.isAlive = isAlive;
 	}
 
-}
+}

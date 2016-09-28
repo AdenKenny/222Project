@@ -56,7 +56,7 @@ public class DataTests {
 		}
 
 		catch (IllegalArgumentException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -105,53 +105,53 @@ public class DataTests {
 		}
 
 	}
-	
+
 	@Test
 	public void testWriteXML() {
-		XMLWriter xml = new XMLWriter("testing", "items", "testing2", "chars");
-		
+		new XMLWriter("testing", "items", "testing2", "characters");
+
 		String testPath = "xml/testing.xml";
-		
+
 		File file = new File(testPath);
-		
+
 		Path path = file.toPath();
-		
+
 		if(file.isFile()) {
 			try {
 				Files.delete(path);
 			}
-			
+
 			catch (IOException e) {
 				fail();
 			}
 		}
-		
+
 		else {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testReadXML() {
-		XMLWriter xml = new XMLWriter("testing", "items", "testing2", "chars");
-		
+		new XMLWriter("testing", "items", "testing2", "chars");
+
 		String testPath = "xml/testing.xml";
-		
+
 		XMLReader reader = XMLReader.getInstance();
 		Map<Integer, Item> map = reader.getItems();
-		
+
 		for(Entry<Integer, Item> e : map.entrySet()) {
 			System.out.println(e.getKey());
 		}
-		
+
 		assertNotSame(map.size(), 0);
-		
+
 		Item item = map.get(31);
-		
+
 		assertNotSame(item, null);
-		
-		item = map.get("foobar");
-		
+
+		item = map.get(12);
+
 		assertSame(item, null);
 	}
 
