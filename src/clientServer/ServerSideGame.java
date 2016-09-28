@@ -3,6 +3,7 @@ package clientServer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class ServerSideGame implements Game {
 
 	private final Map<Long, User> connectedUsers;
 	private final Map<Long, Boolean> roomDetails;
-	private final ArrayList<String> textMessages;
+	private final List<String> textMessages;
 
 	public ServerSideGame() {
 		LoadGame loader = new LoadGame();
@@ -75,7 +76,6 @@ public class ServerSideGame implements Game {
 	public void disconnect(long uid) {
 		this.connectedUsers.remove(uid);
 		this.roomDetails.remove(uid);
-		players.remove(this.connectedUsers.get(uid).getUsername());
 	}
 
 	/**
