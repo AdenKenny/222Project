@@ -67,12 +67,12 @@ public class Character extends Entity {
 	private int damage; //*
 	private int xp;
 	private int gold;
-	private boolean isAlive; //*
-	private long attackTimer = 0; //*
+	private boolean isAlive;
+	private long attackTimer = 0;
 
 	// extra fields for Players
 	private int level;
-	private int xpForLevel; //*
+	private int xpForLevel;
 
 	private List<Item> equips;
 
@@ -95,6 +95,23 @@ public class Character extends Entity {
 		this.xp = 0;
 		this.isAlive = true;
 		this.equips = new ArrayList<>();
+
+		setFields();
+		addActions();
+	}
+
+	public Character(String username) {
+		super(null, -1, -1, username, "A player, just like you!", null);
+
+		this.modelID = -1;
+		this.items = new ArrayList<Integer>();
+		this.type = Type.PLAYER;
+		this.baseXP = type.getBaseXP();
+		this.rank = -1;
+		this.level = 1;
+		this.xp = 0;
+		this.isAlive = true;
+		this.equips = new ArrayList<Item>();
 
 		setFields();
 		addActions();
