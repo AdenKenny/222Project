@@ -105,33 +105,33 @@ public class GraphicsPanel extends JPanel {
 
 		Entity[][] entities = room.entities();
 
-		int row, col, rowTarget, colTarget, rowChange, colChange;
+		int row, colVal, rowTarget, colTarget, rowChange, colChange;
 
 		switch (player.facing()) {
 		case NORTH:
 			row = 0;
-			col = 0;
+			colVal = 0;
 			rowTarget = entities.length;
 			colTarget = entities[0].length;
 			rowChange = 1;
 			colChange = 1;
 		case EAST:
 			row = 0;
-			col = entities[0].length-1;
+			colVal = entities[0].length-1;
 			rowTarget = entities.length;
 			colTarget = -1;
 			rowChange = 1;
 			colChange = -1;
 		case SOUTH:
 			row = entities.length-1;
-			col = entities[0].length-1;
+			colVal = entities[0].length-1;
 			rowTarget = -1;
 			colTarget = -1;
 			rowChange = -1;
 			colChange = -1;
 		default:
 			row = entities.length-1;
-			col = 0;
+			colVal = 0;
 			rowTarget = -1;
 			colTarget = entities[0].length;
 			rowChange = -1;
@@ -139,7 +139,7 @@ public class GraphicsPanel extends JPanel {
 		}
 
 		for (; row != rowTarget; row += rowChange) {
-			for (; col != colTarget; col += colChange) {
+			for (int col = colVal; col != colTarget; col += colChange) {
 				if (entities[row][col] != null) {
 					String name = entities[row][col].name();
 					String dir;
@@ -159,8 +159,6 @@ public class GraphicsPanel extends JPanel {
 					}
 
 					File sprite = new File(path + name + "/" + dir + ".png");
-
-					System.out.println(sprite);
 
 					try {
 						InputStream in = getClass().getResourceAsStream(path + name + "/" + dir + ".png");
