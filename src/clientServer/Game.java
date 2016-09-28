@@ -71,10 +71,35 @@ public class Game {
 	public byte[][] toByteArray(long uid) {
 		// get the character of the user
 		User user = this.connectedUsers.get(uid);
-		// TODO placeholder
-		byte[][] data = new byte[0][0];
-
-		return data;
+		//TODO check if returning room enter or room update
+		//TODO get room of player
+		/*Set<Entity> entities = room.getEntities();
+		 *byte[][] data = new byte[entities.size() + 1][];
+		 *
+		 *data[0] = new byte[5];
+		 *data[0][0] = PackageCode.Codes.GAME_POSITION_UPDATE.value;
+		 *data[0][1] = player room x
+		 *data[0][1] = player room y
+		 *data[0][1] = player tile x
+		 *data[0][1] = player tile y
+		 *
+		 *int i = 1;
+		 */
+		if (true /*newlyEntered*/) {
+			/*
+			 *for (Entity e : entities) {
+			 *		data[i++] = e.onEntry();
+			 *}
+			 */
+		}
+		else {
+			/*for (Entity e : entities) {
+			 *		data[i++] = e.roomUpdate();
+			 *}
+			 */
+		}
+		//return data;
+		return null; //TODO
 	}
 
 	/**
