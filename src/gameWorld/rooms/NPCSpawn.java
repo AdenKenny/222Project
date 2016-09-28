@@ -9,7 +9,7 @@ import gameWorld.characters.CharacterModel;
 
 public class NPCSpawn extends Room implements SpawnRoom {
 
-	private static final int RESPAWN_TIME = 5;
+	private static final int RESPAWN_TIME = 5000;
 
 	private Character npc;
 	private long deathTime;
@@ -29,11 +29,14 @@ public class NPCSpawn extends Room implements SpawnRoom {
 
 	@Override
 	public void tick() {
+
+		System.out.println(npc.isAlive());
+
 		if (!npc.isAlive()) {
 			if (deathTime == -1) {
 				deathTime = System.currentTimeMillis();
 			} else {
-				if (deathTime + RESPAWN_TIME >= System.currentTimeMillis()) {
+				if (deathTime + RESPAWN_TIME <= System.currentTimeMillis()) {
 					int x = width / 2, y = depth / 2;
 					while (entities[y][x] != null) {
 						x = (int) (Math.random() * width) + 1;

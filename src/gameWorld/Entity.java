@@ -1,5 +1,6 @@
 package gameWorld;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gameWorld.World.Direction;
@@ -34,6 +35,8 @@ public abstract class Entity {
 	 */
 	public Entity(Room room, int xPos, int yPos, String name, String description, Direction facing) {
 		this.ID = getNewID();
+
+		this.actions = new ArrayList<Action>();
 
 		this.room = room;
 		this.xPos = xPos;

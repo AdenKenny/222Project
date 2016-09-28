@@ -15,8 +15,8 @@
 		</room>
 		<room>
 			<playerSpawn>false</playerSpawn>
-			<npcSpawn>false</npcSpawn>
-			<modelID>-1</modelID>
+			<npcSpawn>true</npcSpawn>
+			<modelID>1000</modelID>
 			<xPos>0</xPos>
 			<yPos>1</yPos>
 			<width>9</width>
