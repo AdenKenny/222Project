@@ -14,19 +14,19 @@ import javax.swing.JPanel;
  */
 public class BottomPanel extends JPanel{
 	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
-	
+	private MainWindow parent;
 	private ChatPane chatPane;
 	private StatsPane statPane;
 	private InventoryPane inventoryPane;
 	
-	public BottomPanel() {
+	public BottomPanel(MainWindow parent) {
+		this.parent = parent;
 		setLayout(new BorderLayout());
 		setVisible(true);
 	}
 	
 	public void initComponents(){
-		System.out.println("BottomPanel " + getWidth() );
-		this.chatPane = new ChatPane();
+		this.chatPane = new ChatPane(this);
 		chatPane.initComponents();
 		this.statPane = new StatsPane();
 		this.inventoryPane = new InventoryPane();
@@ -56,6 +56,11 @@ public class BottomPanel extends JPanel{
 
 	public void addChat(String text) {
 		chatPane.addChat(text);
+		
+	}
+
+	public void sendChat(String chatInput) {
+		parent.sendChat(chatInput);
 		
 	}
 }

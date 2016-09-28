@@ -77,13 +77,20 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		infoBar = new InfoPane();
 		infoBar.initComponents();
 		display = new Login();
-		bottomPanel = new BottomPanel();
+		bottomPanel = new BottomPanel(this);
 		bottomPanel.initComponents();
 
 		add(infoBar, BorderLayout.PAGE_START);
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END); 
 		addGameChat("Testing game chat");
+		addChat("Text from another player");
+		addChat("Text from another player");
+		addChat("Text from another player");
+		addChat("Text from another player");
+		addChat("Text from another player");
+		addChat("Text from another player");
+		addChat("Text from another player");
 		addChat("Text from another player");
 		addGameChat("Gone?");
 		revalidate();
@@ -99,8 +106,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		bottomPanel.addChat(text);
 	}
 	
-	public void sendChat(String input) {
-		//TODO: send input to server for broadcast
+	public void sendChat(String chatInput) {
+		//send input to server for broadcast
+		addChat(chatInput); //TODO: Remove so user sending message gets back from broadcast
 	}
 
 	public void addGameChat(String output) {

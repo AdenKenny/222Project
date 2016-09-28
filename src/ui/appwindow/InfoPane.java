@@ -34,7 +34,6 @@ public class InfoPane extends JPanel{
 	}
 	
 	public void initComponents(){
-		System.out.println("InfoPane " + getWidth());
 		logoutButton = new JButton("Logout");
 		logoutButton.setOpaque(true);
 		logoutButton.setForeground(Color.WHITE);
@@ -52,7 +51,6 @@ public class InfoPane extends JPanel{
 		goldLabel.setOpaque(true);
 		goldLabel.setForeground(Color.WHITE);
 		goldLabel.setBackground(Color.DARK_GRAY);
-
 
 		add(logoutButton);
 		add(floorLabel);
