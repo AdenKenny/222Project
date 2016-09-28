@@ -113,7 +113,7 @@ public final class RoomBuilder {
 			if (this.playerSpawn) {
 				return new PlayerSpawn(this.floor, this);
 			} else if (this.npcSpawn) {
-				// TODO: make NPCSpawn class
+				return new NPCSpawn(this.floor, this);
 			} else {
 				return new Room(this.floor, this);
 			}

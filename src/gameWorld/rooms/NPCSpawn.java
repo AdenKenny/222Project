@@ -18,7 +18,8 @@ public class NPCSpawn extends Room implements SpawnRoom {
 		super(floor, builder);
 		CharacterModel model = ServerSideGame.mapOfCharacters.get(builder.getmodelID());
 
-		npc = new Character(null, -1, -1, model.getDescription(), Direction.NORTH, -1, model);
+		npc = new Character(null, -1, -1, model.getDescription(), Direction.NORTH,
+				builder.getLevel(), model);
 
 		deathTime = -1;
 		npc.setAlive(false);
@@ -32,7 +33,7 @@ public class NPCSpawn extends Room implements SpawnRoom {
 				deathTime = System.currentTimeMillis();
 			} else {
 				if (deathTime + RESPAWN_TIME >= System.currentTimeMillis()) {
-					int x = width/2, y = depth/2;
+					int x = width / 2, y = depth / 2;
 					while (entities[y][x] != null) {
 						x = (int) (Math.random() * width) + 1;
 						y = (int) (Math.random() * depth) + 1;
