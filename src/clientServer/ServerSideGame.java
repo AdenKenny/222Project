@@ -33,9 +33,9 @@ public class ServerSideGame implements Game {
 	public ServerSideGame() {
 		LoadGame loader = new LoadGame();
 
-		for(Character c : loader.getPlayers()) {
+		/*for(Character c : loader.getPlayers()) {
 			players.put(c.getName(), c); //Loads players into game.
-		}
+		}*/
 
 		this.connectedUsers = new HashMap<>();
 		this.roomDetails = new HashMap<>();
