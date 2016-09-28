@@ -23,14 +23,10 @@ public class Game {
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 
-/*		XMLReader reader = XMLReader.getInstance();
+		XMLReader reader = XMLReader.getInstance();
 
 		Game.mapOfItems = reader.getItems();
 		Game.mapOfCharacters = reader.getCharacters();
-
-		for(Entry<Integer, CharacterModel> e : mapOfCharacters.entrySet()) {
-			System.out.println(e.getValue().getName());
-		}*/
 	}
 
 	public synchronized void tick() {

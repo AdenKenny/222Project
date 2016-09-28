@@ -7,19 +7,19 @@ import gameWorld.World.Direction;
 public abstract class Character extends Entity {
 
 	public enum Type {
-		MONSTER, 
+		MONSTER,
 		VENDOR,
 		PLAYER;
 	}
-	
+
 	public Character(Location location, String name, String description, Direction facing) {
 		super(location, name, description, facing);
 	}
-	
+
 	public void move(Direction dir) {
 		location.room().move(this, dir);
 	}
-	
+
 	public void turn(Direction dir) {
 		switch (dir) {
 		case NORTH:
@@ -44,7 +44,7 @@ public abstract class Character extends Entity {
 			break;
 		}
 	}
-	
+
 	private void turnLeft() {
 		switch (facing) {
 		case NORTH:
@@ -63,7 +63,7 @@ public abstract class Character extends Entity {
 			break;
 		}
 	}
-	
+
 	private void turnRight() {
 		switch (facing) {
 		case NORTH:

@@ -602,3 +602,83 @@
 10:24:01 - EVENT in util.XMLWriter: Created XML of item: greenMushroom
 10:24:01 - EVENT in util.XMLWriter: Created XML of item: whiteMushroom
 10:24:01 - EVENT in util.XMLWriter: Created XML of item: blackMushroom
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodenTrainingSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodenBat
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodenPole
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeDagger
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeShortSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeLongSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeSabre
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeClaymore
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeHatchet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeWarAxe
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeGlaive
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironDagger
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironShortSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironLongSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironSabre
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironClaymore
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironHatchet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironWarAxe
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironGlaive
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelDagger
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelShortSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelLongSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelSabre
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelClaymore
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelHatchet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelWarAxe
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelGlaive
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondDagger
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondShortSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamonLongSword
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondSabre
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondClaymore
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondHatchet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondWarAxe
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: diamondGlaive
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelBat
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodPotLid
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodBuckler
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodRoundShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: woodKiteShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzePotLid
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeBuckler
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeRoundShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeKiteShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironPotLid
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironBuckler
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironRoundShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironKiteShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelPotLid
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelBuckler
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelRoundShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelKiteShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilPotLid
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilBuckler
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilRoundShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilKiteShield
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: leatherHood
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeCookingPot
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeKegelhelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeBurgonet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: bronzeGreatHelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironCookingPot
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironKegelhelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironBurgonet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: ironGreatHelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelCookingPot
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelKegelhelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelBurgonet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: steelGreatHelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilCookingPot
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilKegelhelm
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilBurgonet
+13:04:14 - EVENT in util.XMLWriter: Created XML of item: mithrilGreatHelm
+13:04:14 - EVENT in userHandling.Register: A user with the name Paul registered.
+13:04:14 - WARNING in userHandling.Register: Paul was already taken for new account reg.
+13:04:14 - EVENT in userHandling.Register: A user with the name Paul registered.
+13:04:14 - EVENT in userHandling.Verification: Paul logged in successfully.
+13:04:15 - EVENT in userHandling.Register: A user with the name Paul registered.
+13:04:15 - EVENT in userHandling.Register: A user with the name Paul registered.
+13:04:15 - WARNING in userHandling.Verification: An unsuccessful attempt to login from Paul
