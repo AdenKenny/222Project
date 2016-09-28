@@ -45,22 +45,22 @@ public class Slave extends Thread {
 				// create array and fill with received data
 				byte[] data = new byte[amount];
 				input.readFully(data);
-				if (data[0] == PackageCode.Codes.PING.value) {
+				if (data[0] == PackageCode.Codes.PING.value()) {
 					byte[] pong = new byte[1];
-					pong[0] = PackageCode.Codes.PONG.value;
+					pong[0] = PackageCode.Codes.PONG.value();
 					send(pong);
 				}
 				if (this.inGame) {
-					if (data[0] == PackageCode.Codes.GAME_POSITION_UPDATE.value) {
+					if (data[0] == PackageCode.Codes.GAME_POSITION_UPDATE.value()) {
 						//TODO send to thing to deal with
 					}
-					else if (data[0] == PackageCode.Codes.GAME_ROOM_UPDATE.value) {
+					else if (data[0] == PackageCode.Codes.GAME_ROOM_UPDATE.value()) {
 						//TODO send to thing to deal with
 					}
-					else if (data[0] == PackageCode.Codes.GAME_ROOM_ENTRY.value) {
+					else if (data[0] == PackageCode.Codes.GAME_ROOM_ENTRY.value()) {
 						//TODO send to thing to deal with
 					}
-					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value) {
+					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
 						for (int i = 1; i < data.length; i++) {
 							message.append((char)data[i]);
@@ -70,27 +70,27 @@ public class Slave extends Thread {
 					}
 				}
 				else {
-					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value) {
-						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value) {
+					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
+						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
 							System.out.println("Login successful.");
 							this.inGame = true;
 						}
-						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_USER.value) {
+						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_USER.value()) {
 							System.out.println("Incorrect username.");
 						}
-						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_PASSWORD.value) {
+						else if (data[1] == PackageCode.Codes.LOGIN_INCORRECT_PASSWORD.value()) {
 							System.out.println("Incorrect password.");
 						}
-						else if (data[1] == PackageCode.Codes.LOGIN_ALREADY_CONNECTED.value) {
+						else if (data[1] == PackageCode.Codes.LOGIN_ALREADY_CONNECTED.value()) {
 							System.out.println("That character is already online.");
 						}
 					}
-					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value) {
-						if (data[1] == PackageCode.Codes.NEW_USER_SUCCESS.value) {
+					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value()) {
+						if (data[1] == PackageCode.Codes.NEW_USER_SUCCESS.value()) {
 							System.out.println("Account created.");
 							this.inGame = true;
 						}
-						else if (data[1] == PackageCode.Codes.NEW_USER_NAME_TAKEN.value) {
+						else if (data[1] == PackageCode.Codes.NEW_USER_NAME_TAKEN.value()) {
 							System.out.println("That name is unavailable.");
 						}
 					}
@@ -107,12 +107,12 @@ public class Slave extends Thread {
 
 	public void login(String username, String password) {
 		byte[] toSend = new byte[username.length() + password.length() + 2];
-		toSend[0] = PackageCode.Codes.LOGIN_ATTEMPT.value;
+		toSend[0] = PackageCode.Codes.LOGIN_ATTEMPT.value();
 		int i = 1;
 		for (char c : username.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
-		toSend[i++] = PackageCode.Codes.BREAK.value;
+		toSend[i++] = PackageCode.Codes.BREAK.value();
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
@@ -121,14 +121,14 @@ public class Slave extends Thread {
 
 	public void newUser(String username, String password) {
 		byte[] toSend = new byte[username.length() + password.length() + 2];
-		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value;
+		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value();
 		int i = 1;
 
 		for (char c : username.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
 
-		toSend[i++] = PackageCode.Codes.BREAK.value;
+		toSend[i++] = PackageCode.Codes.BREAK.value();
 
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
@@ -161,7 +161,7 @@ public class Slave extends Thread {
 
 	public void sendTextMessage(String message) {
 		byte[] toSend = new byte[message.length() + 1];
-		toSend[0] = PackageCode.Codes.TEXT_MESSAGE.value;
+		toSend[0] = PackageCode.Codes.TEXT_MESSAGE.value();
 		int i = 1;
 		for (char c : message.toCharArray()) {
 			toSend[i++] = (byte) c;
@@ -171,7 +171,7 @@ public class Slave extends Thread {
 
 	public void sendUserInput(byte input) {
 		byte[] toSend = new byte[2];
-		toSend[0] = PackageCode.Codes.USER_INPUT.value;
+		toSend[0] = PackageCode.Codes.USER_INPUT.value();
 		toSend[1] = input;
 		send(toSend);
 	}
@@ -183,7 +183,7 @@ public class Slave extends Thread {
 	public void close() {
 		try {
 			byte[] disconnect = new byte[1];
-			disconnect[0] = PackageCode.Codes.DISCONNECT.value;
+			disconnect[0] = PackageCode.Codes.DISCONNECT.value();
 			send(disconnect);
 			this.socket.close();
 		} catch (IOException e) {

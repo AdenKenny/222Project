@@ -12,21 +12,21 @@ import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import userHandling.User;
 
-public class Game {
+public class ServerSideGame {
 
 	private final Map<Long, User> connectedUsers;
 	private static Map<Integer, Item> mapOfItems;
 	private static Map<Integer, CharacterModel> mapOfCharacters;
 	private final ArrayList<String> textMessages;
 
-	public Game() {
+	public ServerSideGame() {
 		this.connectedUsers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 
 		XMLReader reader = XMLReader.getInstance();
 
-		Game.mapOfItems = reader.getItems();
-		Game.mapOfCharacters = reader.getCharacters();
+		ServerSideGame.mapOfItems = reader.getItems();
+		ServerSideGame.mapOfCharacters = reader.getCharacters();
 	}
 
 	public synchronized void tick() {
