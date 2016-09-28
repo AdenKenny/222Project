@@ -47,9 +47,10 @@ public final class LoadGame {
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("floor"); // Get all characters.
+			NodeList list = getNodes("floor");
 
 			for (int i = 0, len = list.getLength(); i < len; ++i) {
+
 				Node node = list.item(i);
 
 				Element e = (Element) node;
@@ -61,11 +62,19 @@ public final class LoadGame {
 				String depth = e.getElementsByTagName("depth").item(0).getTextContent();
 
 				Floor floor = new Floor(level, width, depth);
+
 				ServerSideGame.world.addFloor(floor);
 
-				NodeList children = node.getChildNodes();
+				NodeList c = node.getChildNodes();
+
+				NodeList children = getNodes("room");
+
 
 				for (int j = 0, length = children.getLength(); j < length; ++j) {
+
+					Node n = children.item(i);
+					String test = n.getTextContent();
+
 
 					if (children.item(i).getNodeType() == Node.ELEMENT_NODE) {
 						Element child = (Element) children.item(i);
@@ -108,7 +117,7 @@ public final class LoadGame {
 		}
 
 		catch (IOException e) {
-
+			e.printStackTrace();
 		}
 
 		catch (SAXException e) {

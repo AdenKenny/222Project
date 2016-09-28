@@ -9,6 +9,7 @@ import java.util.Set;
 
 import dataStorage.LoadGame;
 import dataStorage.XMLReader;
+import gameWorld.Floor;
 import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
@@ -48,8 +49,11 @@ public class ServerSideGame implements Game {
 
 	@Override
 	public synchronized void tick() {
-		for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
-			spawn.tick();
+		System.out.println(world.getCurrentFloor().getSpawns());
+		if (world.getCurrentFloor().getSpawns() != null) {
+			for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
+				spawn.tick();
+			}
 		}
 	}
 

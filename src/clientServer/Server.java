@@ -10,6 +10,7 @@ import util.Logging;
 public class Server {
 
 	private ServerSideGame game;
+	private Tick tick;
 
 	public Server() {
 
@@ -18,8 +19,12 @@ public class Server {
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started");
 
 		//Start the game tick
-		Tick tick = new Tick(this.game);
-		tick.start();
+		this.tick = new Tick(this.game);
+
+	}
+
+	public void run() {
+		this.tick.start();
 
 		//Connect to port 5000
 		try(ServerSocket ss = new ServerSocket(5000)) {
@@ -50,7 +55,7 @@ public class Server {
 		//Create a window which replaces System.out
 				ConsoleWindow window = new ConsoleWindow();
 				window.setVisible(true);
-		new Server();
+		new Server().run();
 	}
 
 }
