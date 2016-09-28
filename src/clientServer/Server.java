@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import dataStorage.DataGetter;
 import util.Logging;
 
 public class Server {
@@ -45,10 +44,6 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void saveGame() {
-		new DataGetter(this.game);
 	}
 
 	public static void main(String[] args) {

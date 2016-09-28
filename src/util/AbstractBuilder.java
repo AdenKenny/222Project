@@ -6,16 +6,15 @@ package util;
  * implements this interface should implement 'Buildable' as all objects built
  * by objects must be buildable.
  *
+ * Note: No set itemValue or items as implementation differs between items and
+ * characters.
+ *
+ * Note: No type as implementation differs between items and characters.
+ *
  * @author Aden
  */
 
 public interface AbstractBuilder {
-
-	/*
-	 * Note: No set itemValue or items as implementation differs between items
-	 * and characters. Note: No type as implementation differs between items and
-	 * characters.
-	 */
 
 	/**
 	 * Sets the ID of something being built. Should probably use
@@ -85,6 +84,23 @@ public interface AbstractBuilder {
 	int getValue();
 
 	/**
+	 * Sets the description of an object. This will be displayed to users in game when
+	 * examining the object.
+	 *
+	 * @param description A String representing the description of the object.
+	 */
+
+	void setDescription(String description);
+
+	/**
+	 * Gets the description of an object that has been built.
+	 *
+	 * @return A string representing the description of an object.
+	 */
+
+	String getDescription();
+
+	/**
 	 * Builds an object from the params pased to the build. This will return a
 	 * type of 'Buildable' which requires that anything being built by a class
 	 * that implements 'AbstractBuilder' as an interface must itself implement
@@ -93,10 +109,6 @@ public interface AbstractBuilder {
 	 * @return The object that has been built by the builder. This must
 	 *         implement 'Buildable'.
 	 */
-
-	void setDescription(String description);
-
-	String getDescription();
 
 	Buildable build();
 }

@@ -9,6 +9,12 @@ import util.AbstractBuilder;
 import util.Buildable;
 import util.Logging;
 
+/**
+ * A class to build an instance of Character that represents a player.
+ *
+ * @author Aden
+ */
+
 public final class PlayerBuilder implements AbstractBuilder {
 
 	private String buildUsername;
@@ -143,7 +149,6 @@ public final class PlayerBuilder implements AbstractBuilder {
 
 		}
 
-		// TODO Auto-generated method stub
 		return null;
 	}
 

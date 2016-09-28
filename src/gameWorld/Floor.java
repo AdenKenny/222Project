@@ -69,31 +69,31 @@ public class Floor {
 	 * Sets the neighbouring Rooms for every Room on this Floor.
 	 */
 	public void setupNeighbours() {
-		for (int row = 0; row < depth; row++) {
-			for (int col = 0; col < width; col++) {
-				if (row > 0) rooms[row][col].setNeighbour(Direction.NORTH, rooms[row-1][col]);
-				if (row < depth - 1) rooms[row][col].setNeighbour(Direction.SOUTH, rooms[row+1][col]);
-				if (col > 0) rooms[row][col].setNeighbour(Direction.WEST, rooms[row][col-1]);
-				if (col < width - 1) rooms[row][col].setNeighbour(Direction.EAST, rooms[row][col+1]);
+		for (int row = 0; row < this.depth; row++) {
+			for (int col = 0; col < this.width; col++) {
+				if (row > 0) this.rooms[row][col].setNeighbour(Direction.NORTH, this.rooms[row-1][col]);
+				if (row < this.depth - 1) this.rooms[row][col].setNeighbour(Direction.SOUTH, this.rooms[row+1][col]);
+				if (col > 0) this.rooms[row][col].setNeighbour(Direction.WEST, this.rooms[row][col-1]);
+				if (col < this.width - 1) this.rooms[row][col].setNeighbour(Direction.EAST, this.rooms[row][col+1]);
 			}
 		}
 	}
 
 	private void setupRooms(int roomWidth, int roomDepth) {
-		rooms = new Room[depth][width];
+		this.rooms = new Room[this.depth][this.width];
 
-		for (int row = 0; row < depth; row++) {
-			for (int col = 0; col < width; col++) {
-				rooms[row][col] = new Room(this, row, col, roomWidth, roomDepth);
+		for (int row = 0; row < this.depth; row++) {
+			for (int col = 0; col < this.width; col++) {
+				this.rooms[row][col] = new Room(this, row, col, roomWidth, roomDepth);
 			}
 		}
 
-		for (int row = 0; row < depth; row++) {
-			for (int col = 0; col < width; col++) {
-				if (row > 0) rooms[row][col].setNeighbour(Direction.NORTH, rooms[row-1][col]);
-				if (row < depth - 1) rooms[row][col].setNeighbour(Direction.SOUTH, rooms[row+1][col]);
-				if (col > 0) rooms[row][col].setNeighbour(Direction.WEST, rooms[row][col-1]);
-				if (col < width - 1) rooms[row][col].setNeighbour(Direction.EAST, rooms[row][col+1]);
+		for (int row = 0; row < this.depth; row++) {
+			for (int col = 0; col < this.width; col++) {
+				if (row > 0) this.rooms[row][col].setNeighbour(Direction.NORTH, this.rooms[row-1][col]);
+				if (row < this.depth - 1) this.rooms[row][col].setNeighbour(Direction.SOUTH, this.rooms[row+1][col]);
+				if (col > 0) this.rooms[row][col].setNeighbour(Direction.WEST, this.rooms[row][col-1]);
+				if (col < this.width - 1) this.rooms[row][col].setNeighbour(Direction.EAST, this.rooms[row][col+1]);
 			}
 		}
 	}
@@ -104,7 +104,7 @@ public class Floor {
 	 * @return	the previous Floor
 	 */
 	public Floor previousFloor() {
-		return previousFloor;
+		return this.previousFloor;
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class Floor {
 	 * @return	the next Floor
 	 */
 	public Floor nextFloor() {
-		return nextFloor;
+		return this.nextFloor;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class Floor {
 	 * @return	the rooms on this Floor
 	 */
 	public Room[][] rooms() {
-		return rooms;
+		return this.rooms;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Floor {
 	 * @param y		the column in which to add the room
 	 */
 	public void addRoom(Room room, int x, int y) {
-		rooms[y][x] = room;
+		this.rooms[y][x] = room;
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class Floor {
 	 * @return	the width of this Floor
 	 */
 	public int width() {
-		return width;
+		return this.width;
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class Floor {
 	 * @return	the depth of this Floor
 	 */
 	public int depth() {
-		return depth;
+		return this.depth;
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class Floor {
 	 * @return	this Floor's level
 	 */
 	public int level() {
-		return level;
+		return this.level;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class Floor {
 	 * @param spawn
 	 */
 	public void addSpawnRoom(SpawnRoom spawn) {
-		spawns.add(spawn);
+		this.spawns.add(spawn);
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class Floor {
 	 * @return	this Floor's SpawnRooms
 	 */
 	public Set<SpawnRoom> getSpawns() {
-		return spawns;
+		return this.spawns;
 	}
 
 }

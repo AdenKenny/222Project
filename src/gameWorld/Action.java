@@ -7,7 +7,7 @@ public abstract class Action {
 	private int ID;
 
 	public Action() {
-		ID = IDCount++;
+		this.ID = IDCount++;
 	}
 
 	public int getID() {

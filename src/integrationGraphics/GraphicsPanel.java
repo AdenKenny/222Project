@@ -176,8 +176,6 @@ public class GraphicsPanel extends JPanel {
 					File sprite = new File(path + name + "/" + dir + ".png");
 
 					try {
-						InputStream in = getClass().getResourceAsStream(path + name + "/" + dir + ".png");
-
 						BufferedImage img = ImageIO.read(sprite);
 
 						int xScale, yScale;
@@ -208,6 +206,7 @@ public class GraphicsPanel extends JPanel {
 					} catch (IOException e) {
 						System.out.println("Sprite reading failed");
 					}
+
 				}
 			}
 		}
