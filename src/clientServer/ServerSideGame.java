@@ -12,19 +12,22 @@ import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
+import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
 
 public class ServerSideGame {
 
 	private static Map<String, Character> players = new HashMap<String, Character>();
 	private static XMLReader reader = XMLReader.getInstance();
-	private static Map<Integer, Item> mapOfItems = reader.getItems();
-	private static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
+	public final static Map<Integer, Item> mapOfItems = reader.getItems();
+	public final static Map<Integer, CharacterModel> mapOfCharacters = reader.getCharacters();
 
 	public static final World world = new World();
 
 	private final Map<Long, User> connectedUsers;
 	private final ArrayList<String> textMessages;
+	
+	private World world;
 
 	public ServerSideGame() {
 		this.connectedUsers = new HashMap<>();
@@ -38,7 +41,9 @@ public class ServerSideGame {
 	}
 
 	public synchronized void tick() {
-
+		for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
+			spawn.tick();
+		}
 	}
 
 	/**
