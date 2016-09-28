@@ -69,6 +69,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 		catch (NumberFormatException e){
 			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build character.");
 		}
+
 	}
 
 	@Override
