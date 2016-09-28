@@ -16,6 +16,8 @@ public class Slave extends Thread {
 	private boolean connected;
 	private ClientSideGame game;
 
+	private String username;
+
 	public Slave() {
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
@@ -116,6 +118,9 @@ public class Slave extends Thread {
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
+
+		this.username = username;
+
 		send(toSend);
 	}
 
@@ -133,6 +138,8 @@ public class Slave extends Thread {
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
+
+		this.username = username;
 
 		send(toSend);
 	}
@@ -193,6 +200,14 @@ public class Slave extends Thread {
 			this.socket.close();
 		} catch (IOException e) {
 			System.out.println(e);
+		}
+	}
+
+	public String getUsername() {
+		if (this.game == null) {
+			return null;
+		} else {
+			return this.username;
 		}
 	}
 
