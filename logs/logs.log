@@ -31,3 +31,15 @@
 03:44:26 - EVENT in clientServer.Server: User 0 timed out.
 03:47:14 - EVENT in clientServer.Server: User 1 connected.
 03:47:19 - EVENT in userHandling.Verification: Simon logged in successfully.
+03:49:41 - EVENT in clientServer.Server: The server was started
+03:49:43 - EVENT in clientServer.Server: User 0 connected.
+03:50:01 - EVENT in userHandling.Verification: Simon logged in successfully.
+03:51:25 - EVENT in clientServer.Server: The server was started
+03:51:27 - EVENT in clientServer.Server: User 0 connected.
+03:51:32 - EVENT in userHandling.Verification: Simon logged in successfully.
+03:51:57 - EVENT in clientServer.Server: User 1 connected.
+03:52:02 - EVENT in userHandling.Verification: Simon logged in successfully.
+03:52:21 - EVENT in clientServer.Server: User 1 timed out.
+03:53:22 - EVENT in clientServer.Server: The server was started
+03:53:25 - EVENT in clientServer.Server: User 0 connected.
+03:53:31 - EVENT in userHandling.Verification: Simon logged in successfully.
