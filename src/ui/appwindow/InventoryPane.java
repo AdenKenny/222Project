@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class InventoryPane extends JPanel{
-	public static float WIDTH_RATIO = 0.4f;
+	public static float WIDTH_RATIO = 0.34f;
 	public InventoryPane(){
 		
 	}

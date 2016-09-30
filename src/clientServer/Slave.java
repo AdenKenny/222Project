@@ -10,6 +10,7 @@ import java.util.Set;
 
 import IDGUI.Frame;
 import gameWorld.Sendable;
+import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {
 
@@ -19,12 +20,12 @@ public class Slave extends Thread {
 	private DataOutputStream output;
 	private boolean connected;
 	private ClientSideGame game;
-	private Frame frame;
+	private MainWindow frame;
 
 	private String username;
 
-	public Slave(Frame frame) {
-		this.frame = frame;
+	public Slave(MainWindow mainWindow) {
+		this.frame = mainWindow;
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
 			this.output = new DataOutputStream(this.socket.getOutputStream());

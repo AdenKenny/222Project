@@ -29,6 +29,7 @@ public class BottomPanel extends JPanel{
 		this.chatPane = new ChatPane(this);
 		chatPane.initComponents();
 		this.statPane = new StatsPane();
+		statPane.initComponents();
 		this.inventoryPane = new InventoryPane();
 		add(chatPane, BorderLayout.WEST);
 		add(statPane, BorderLayout.CENTER);

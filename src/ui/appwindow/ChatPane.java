@@ -18,7 +18,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class ChatPane extends JPanel{
-	public static float WIDTH_RATIO = 0.3f;
+	public static float WIDTH_RATIO = 0.33f;
 	private BottomPanel parent;
 	protected JTextPane textArea;
 	protected JScrollPane scroll;
@@ -45,8 +45,8 @@ public class ChatPane extends JPanel{
 		inputBar.setEditable(true);
 		inputBar.setLineWrap(true);
 		inputBar.setText("enter message:");
-		scroll.setPreferredSize(new Dimension(450, 150));
-		inputBar.setPreferredSize(new Dimension(450, 20));
+		scroll.setPreferredSize(new Dimension(550, 150));
+		inputBar.setPreferredSize(new Dimension(550, 20));
 		textArea.setText("Welcome to RoomScape!\n");
 		inputBar.addKeyListener(new KeyListener() {
 			
@@ -67,8 +67,8 @@ public class ChatPane extends JPanel{
 					sendChat(inputBar.getText().trim());
 					inputBar.setText("");
 					inputBar.setCaretPosition(0);
+					textArea.requestFocus(); //remove focus from text box by passing to TextArea
 				}
-				
 			}
 		});
 		add(scroll);
@@ -77,7 +77,6 @@ public class ChatPane extends JPanel{
 		inputBar.setVisible(true);
 		textArea.setBackground(Color.BLACK);
 		textArea.setVisible(true);
-		revalidate();
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -8,9 +9,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import Graphics.GraphicsPanel;
 import clientServer.ClientSideGame;
+import clientServer.PackageCode;
 import clientServer.Slave;
 import gameWorld.Entity;
 
@@ -23,14 +23,19 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public MainWindow(){
 		super("RoomScape");
+		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden
 		JFrame frame = this;
 		addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
                 if(JOptionPane.showConfirmDialog(frame, "Quit game?") == JOptionPane.YES_OPTION){
-                    //TODO: Send a disconnect from server request here
-
+                	try{
+                		slave.close();
+                	}
+                	catch(Exception ex){
+                		
+                	}
                     frame.setVisible(false);
                     frame.dispose();
                 }
@@ -68,12 +73,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setLayout(new BorderLayout());
 
 		//set size for initial restore down
-		setSize((int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100,
-				(int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100);
-
+		int width = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int height = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		setSize( width-100, height-100);
+		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
-
 	}
 
 	public void initComponents(){
@@ -96,10 +101,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		addChat("Text from another player");
 		addChat("Text from another player");
 		addChat("Text from another player");
-		addGameChat("Gone?");
+		addGameChat("Chat from the game");
 		revalidate();
 		setVisible(true);
-		repaint();
 	}
 
 	protected void setDisplay(JPanel display){
@@ -170,14 +174,56 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 		return null;
 	}
+	
+	public void reconnect() {
+		if (this.slave != null && this.slave.connected()) {
+			return;
+		}
+		this.slave = new Slave(this);
+		this.slave.start();
+	}
 
+	public void accountResult(byte result) {
+		String text = "";
+		if (result == PackageCode.Codes.LOGIN_SUCCESS.value()) {
+			enterGame();
+			text = "Login successful.";
+		}
+		else if (result == PackageCode.Codes.LOGIN_INCORRECT_USER.value()) {
+			text = "Incorrect username.";
+		}
+		else if (result == PackageCode.Codes.LOGIN_INCORRECT_PASSWORD.value()) {
+			text = "Incorrect password.";
+		}
+		else if (result == PackageCode.Codes.LOGIN_ALREADY_CONNECTED.value()) {
+			text = "That character is already online.";
+		}
+		else if (result == PackageCode.Codes.NEW_USER_SUCCESS.value()) {
+			enterGame();
+			text = "Account created.";
+		}
+		else if (result == PackageCode.Codes.NEW_USER_NAME_TAKEN.value()) {
+			text = "That name is unavailable.";
+		}
+		threadedMessage(text);
+	}
+
+	public void threadedMessage(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void enterGame() {
+		//TODO: setup graphics
+		this.revalidate();
+		this.repaint();
+	}
 	public static void main(String[] args){
 		//TODO: init client
 
 		MainWindow main = new MainWindow();
 		main.initComponents();
-		Slave slave = new Slave(main);
-
+		//Slave slave = new Slave(main);
+		//main.game = slave.getGame();
 	}
-
 }
