@@ -46,7 +46,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Room room;
 
     /**
-     * Create a new GraphicsPanel that displays the given room from the perspective of the
+     * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
      * @param inViewer
      * @param initRoom
      */
@@ -57,6 +57,10 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         addMouseListener(this);
     }
 
+	/**
+     * Change the display to a new room.
+     * @param newRoom
+     */
     public void setRoom(Room newRoom){
         room = newRoom;
     }
@@ -91,7 +95,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
             // Find the entity at the calculated location.
             Entity result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                     sideDelta, forwardDelta));
-            //If the result was null, check the square behind where there was a click, as there may be something behind this.
+            //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
             if (result == null){
                 forwardDelta += 1;
                 //Check that the target object is in view.
@@ -201,15 +205,11 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @return {y, x}
      */
     private int[] locateEntityInRoom(Entity entity, Room room){
-        Entity[][] locations = room.entities();
-        for (int y = 0; y < locations.length; ++y){
-            for (int x = 0; x < locations.length; ++x){
-                if (locations[y][x] == entity) {
-                    return new int[] {y, x};
-                }
-            }
+        if (entity.getRoomID() == room.getID()){
+            return new int[] {entity.yPos(), entity.xPos()};
+        } else {
+            return new int[]{-1, -1};
         }
-        return new int[]{-1, -1};
     }
 
     /**
