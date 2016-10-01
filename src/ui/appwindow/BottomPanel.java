@@ -64,4 +64,9 @@ public class BottomPanel extends JPanel{
 		parent.sendChat(chatInput);
 		
 	}
+
+	protected void setStat(int id, int value) {
+		statPane.setStat(id, value);
+		
+	}
 }

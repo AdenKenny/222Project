@@ -16,7 +16,7 @@ public class InventoryPane extends JPanel{
 	public void paint(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(), getHeight());
-		
+		System.out.println("inventory: " + getWidth() + "x" + getHeight());
 	}
 	
 	@Override

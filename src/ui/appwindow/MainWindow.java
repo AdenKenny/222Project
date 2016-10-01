@@ -102,6 +102,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		addChat("Text from another player");
 		addChat("Text from another player");
 		addGameChat("Chat from the game");
+		setStat(StatsPane.HEALTH, 50);
+		setStat(StatsPane.EXP, 20);
+		setStat(StatsPane.LEVEL, 3);
 		revalidate();
 		setVisible(true);
 	}
@@ -130,7 +133,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public void setStat(int id, int value) {
-		// TODO Auto-generated method stub
+		bottomPanel.setStat(id, value);
 
 	}
 

@@ -83,7 +83,7 @@ public class ChatPane extends JPanel{
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
-
+		System.out.println("Chat: " + getWidth() + "x" + getHeight());
 		if(scroll!=null ){
 			textArea.repaint();
 			scroll.repaint();

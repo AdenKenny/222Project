@@ -13,11 +13,13 @@ import javax.swing.JPanel;
 
 public class Login extends JPanel{
 	public Login() {
+		setVisible(true);
 	}
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(0,0,getWidth(), getHeight());
+		System.out.println("Display: " + getWidth() + "x" + getHeight());
 	}
 
 	@Override

@@ -81,7 +81,7 @@ public class InfoPane extends JPanel{
 	public void paint(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
-
+		System.out.println("Info: " + getWidth() + "x" + getHeight());
 		if(logoutButton!=null && floorLabel!=null&&goldLabel!=null){
 			calculateLayoutConstraints();
 			logoutButton.repaint();
