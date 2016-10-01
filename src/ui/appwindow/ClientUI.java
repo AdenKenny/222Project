@@ -1,5 +1,9 @@
 package ui.appwindow;
 
+import java.util.List;
+
+import gameWorld.Action;
+
 public interface ClientUI {
 
 	public void addChat(String text);
@@ -16,7 +20,7 @@ public interface ClientUI {
 
 	public void updateGold(int amount);
 
-	public void displayItemOptions(String[] options);
+	public void displayItemOptions(List<Action> options, int x, int y);
 
 	public void performActionOnItem(int itemId, int actionId);
 

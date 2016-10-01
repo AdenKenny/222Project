@@ -6,12 +6,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import Graphics.GraphicsPanel;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
+import gameWorld.Action;
 import gameWorld.Entity;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
@@ -145,9 +150,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		infoBar.updateGold(amount);
 	}
 
-	public void displayItemOptions(String[] options) {
-		// TODO Auto-generated method stub
-
+	public void displayItemOptions(List<Action> options, int x, int y) {
+		//Create list of options
 	}
 
 	public void performActionOnItem(int itemId, int actionId) {
@@ -218,6 +222,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
 	private void enterGame() {
 		//TODO: setup graphics
+		this.display = new GraphicsPanel(null, null);
+		GraphicsPanel gfx = (GraphicsPanel) display;
+		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
 		this.revalidate();
 		this.repaint();
 	}

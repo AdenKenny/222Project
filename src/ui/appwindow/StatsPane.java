@@ -46,6 +46,10 @@ public class StatsPane extends JPanel{
 	protected void initComponents() {
 		showStats = true;
 		this.name = new JLabel(username);
+		layout.putConstraint(SpringLayout.WEST, name, 15, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.SOUTH, name, 15, SpringLayout.SOUTH, this);
+		name.setForeground(Color.RED);
+		name.setVisible(true);
 		add(name);
 		revalidate();
 		repaint();
@@ -68,7 +72,6 @@ public class StatsPane extends JPanel{
 			g.fillRect(getWidth()/4, 90, getWidth()/2, 10);
 			g.setColor(Color.yellow);
 			g.fillRect(getWidth()/4, 90,getWidth()/2*(exp+1)/(expForLevel+1), 10);
-			
 		}
 		
 
