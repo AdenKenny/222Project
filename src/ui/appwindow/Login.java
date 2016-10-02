@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.File;
@@ -17,6 +19,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 
+import clientServer.Slave;
+import userHandling.Verification;
+
 /**
  * Container for displaying Login screen.
  * 
@@ -24,7 +29,6 @@ import javax.swing.SpringLayout;
  */
 
 public class Login extends JPanel{
-	
 	private JLabel userLabel;
 	private JLabel passLabel;
 	private JPasswordField passField;
@@ -34,14 +38,18 @@ public class Login extends JPanel{
 	private static Image background;
 	
 	private SpringLayout layout;
+	
+	private MainWindow client;
+	private Slave slave;
 
-	public Login() {
+	public Login(MainWindow client, Slave slave) {
+		this.client = client;
+		this.slave = slave;
 		try {
 			background = ImageIO.read(new File("resources/ui/LoginImage.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//setPreferredSize(new Dimension(getParent().getWidth(), (int) (getParent().getHeight()*0.5)));
 		layout = new SpringLayout();
 		setLayout(layout);
 		setVisible(true);
@@ -57,6 +65,8 @@ public class Login extends JPanel{
 		userField = new JTextArea();
 		loginButton = new JButton("Login");
 		registerButton = new JButton("Register");
+		setLoginAction();
+		setRegisterAction();
 		userLabel.setForeground(Color.GRAY);
 		passLabel.setForeground(Color.GRAY);
 		add(userLabel);
@@ -69,6 +79,29 @@ public class Login extends JPanel{
 		repaint();
 	}
 	
+	private void setRegisterAction() {
+		registerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Run registration for user
+				
+			}
+		});
+		
+	}
+
+	private void setLoginAction() {
+		loginButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Attempt Login
+				slave.login(userField.getText(), passField.getPassword().toString());
+				passField.setText("");
+			}
+		});
+		
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);

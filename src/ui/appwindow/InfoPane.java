@@ -56,7 +56,7 @@ public class InfoPane extends JPanel{
 		logoutButton.setVisible(false);
 		floorLabel.setVisible(true);
 		goldLabel.setVisible(true);
-		revalidate();
+		//revalidate();
 	}
 	
 	/*

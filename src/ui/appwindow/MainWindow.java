@@ -1,6 +1,7 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -25,9 +26,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
+	private OptionsGlassPane glassPane;
 
 	public MainWindow(){
 		super("RoomScape");
+		this.glassPane = new OptionsGlassPane(this);
+		//setGlassPane(glassPane);
+		glassPane.setVisible(true);
 		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden
 		JFrame frame = this;
@@ -76,7 +81,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
         });
 		setLayout(new BorderLayout());
-
 		//set size for initial restore down
 		int width = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		int height = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -89,7 +93,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void initComponents(){
 		//Add next level of components
 		infoBar = new InfoPane();
-		display = new Login();
+		display = new Login(this, slave);
 		bottomPanel = new BottomPanel(this);
 		add(infoBar, BorderLayout.PAGE_START);
 		add(display, BorderLayout.CENTER);
@@ -100,7 +104,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		login.initComponents();
 
 		bottomPanel.initComponents();
-
 
 		addGameChat("Testing game chat");
 		addChat("Text from another player");
@@ -117,6 +120,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setStat(StatsPane.LEVEL, 99);
 		revalidate();
 		setVisible(true);
+		displayItemOptions(null, 200, 200);
 	}
 
 	protected void setDisplay(JPanel display){
@@ -156,7 +160,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public void displayItemOptions(List<Action> options, int x, int y) {
-		//Create list of options
+		glassPane.displayAndDrawList(x, y, options);
 	}
 
 	public void performActionOnItem(int itemId, int actionId) {
@@ -227,6 +231,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
 	private void enterGame() {
 		//TODO: setup graphics
+		display.setVisible(false);
 		this.display = new GraphicsPanel(null, null);
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
@@ -234,11 +239,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.repaint();
 	}
 	public static void main(String[] args){
-		//TODO: init client
-
 		MainWindow main = new MainWindow();
 		main.initComponents();
-		//Slave slave = new Slave(main);
-		//main.game = slave.getGame();
+		Slave slave = new Slave(main);
+		main.game = slave.getGame();
+		main.slave = slave;
 	}
 }
