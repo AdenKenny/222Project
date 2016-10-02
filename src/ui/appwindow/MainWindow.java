@@ -37,13 +37,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
-	private OptionsGlassPane glassPane;
+	private OptionsPane glassPane;
 
 	public MainWindow(){
 		super("RoomScape");
 		this.itemIcons = new HashMap<>();
 		loadIcons();
-		this.glassPane = new OptionsGlassPane(this);
+		this.glassPane = new OptionsPane(this);
 		getLayeredPane().add(glassPane, new Integer(300));
 		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden

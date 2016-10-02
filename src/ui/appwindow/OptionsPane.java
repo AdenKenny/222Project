@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import gameWorld.Action;
 
@@ -17,13 +18,13 @@ import gameWorld.Action;
  *
  */
 
-public class OptionsGlassPane extends JComponent  {
+public class OptionsPane extends JPanel  {
 	private MainWindow window;
 	private int x = 100;
 	private int y = 100;
 	private List<Action> latestOptions;
 	
-	public OptionsGlassPane(MainWindow window) {
+	public OptionsPane(MainWindow window) {
 		this.window = window;
 	}
 	
@@ -32,8 +33,8 @@ public class OptionsGlassPane extends JComponent  {
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	public void paint(Graphics g) {
+		super.paint(g);
 		g.setColor(Color.yellow);
 		g.fillRect(x, y, 100, 100);
 	}

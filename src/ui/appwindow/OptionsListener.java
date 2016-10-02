@@ -7,10 +7,10 @@ import javax.swing.event.MouseInputListener;
 
 public class OptionsListener implements MouseInputListener{
 
-	private OptionsGlassPane pane;
+	private OptionsPane pane;
 	private Rectangle listBounds;
 	
-	public OptionsListener(OptionsGlassPane pane, Rectangle listBounds){
+	public OptionsListener(OptionsPane pane, Rectangle listBounds){
 		this.pane = pane;
 		this.listBounds = listBounds;
 	}

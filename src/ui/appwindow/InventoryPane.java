@@ -19,8 +19,8 @@ import gameWorld.item.Item;
 
 public class InventoryPane extends JPanel{
 	public static float WIDTH_RATIO = 0.34f;
-	public static final int ROWS = 2;
-	public static final int COLS = 4;
+	public static int ROWS;
+	public static int COLS;
 	
 	private Item[][] items;
 	private static HashMap<String, Image> itemIcons;
@@ -28,6 +28,8 @@ public class InventoryPane extends JPanel{
 	int rowHeight;
 	
 	public InventoryPane(){
+		ROWS=2;
+		COLS=4;
 		this.items = new Item[ROWS][COLS];
 		this.itemIcons = new HashMap<>();
 		try {
