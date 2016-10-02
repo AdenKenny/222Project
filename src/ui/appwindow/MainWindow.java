@@ -37,14 +37,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
-	private OptionsPane glassPane;
+	private OptionsPane optionsPane;
 
 	public MainWindow(){
 		super("RoomScape");
 		this.itemIcons = new HashMap<>();
 		loadIcons();
-		this.glassPane = new OptionsPane(this);
-		getLayeredPane().add(glassPane, new Integer(300));
 		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden
 		JFrame frame = this;
@@ -101,39 +99,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
 		
-		this.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				glassPane.setVisible(true);
-				glassPane.repaint();
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 	}
 
 	private void loadIcons() {
@@ -175,7 +140,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END);
 		infoBar.initComponents();
-
+		
 		Login login = (Login) display;
 		login.initComponents();
 
@@ -196,8 +161,46 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setStat(StatsPane.LEVEL, 99);
 		revalidate();
 		setVisible(true);
+		this.optionsPane = new OptionsPane(this);
+		this.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				optionsPane.setBounds(display.getBounds());
+				if(optionsPane.isVisible()) 
+					optionsPane.setVisible(false);
+				else {
+					optionsPane.setVisible(true);
+					}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
 		displayItemOptions(null, 200, 200);
-
 		
 	}
 
@@ -236,7 +239,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public void displayItemOptions(List<Action> options, int x, int y) {
-		glassPane.displayAndDrawList(x, y, options);
+		optionsPane.displayAndDrawList(x, y, options);
 	}
 
 	public void performActionOnItem(int itemId, int actionId) {
