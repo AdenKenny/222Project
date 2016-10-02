@@ -3,12 +3,17 @@ package ui.appwindow;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +27,7 @@ import gameWorld.Entity;
 import gameWorld.item.Item;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
+	private static HashMap<String, Image> itemIcons;
 	private Slave slave;
 	private ClientSideGame game;
 	private InfoPane infoBar;
@@ -31,6 +37,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public MainWindow(){
 		super("RoomScape");
+		this.itemIcons = new HashMap<>();
+		loadIcons();
 		this.glassPane = new OptionsGlassPane(this);
 		//setGlassPane(glassPane);
 		glassPane.setVisible(true);
@@ -89,6 +97,21 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
+	}
+
+	private void loadIcons() {
+		try {
+			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("bronzeDagger", ImageIO.read(new File("resources/resources/graphics/bronzeDagger.png")));
+			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
 
 	public void initComponents(){

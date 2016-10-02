@@ -1,9 +1,11 @@
 package ui.appwindow;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.text.AttributedCharacterIterator;
 
 import javax.swing.JLabel;
@@ -70,6 +72,15 @@ public class StatsPane extends JPanel{
 			g.setColor(Color.black);
 			g.setFont(new Font("Level "+level, Font.BOLD, 20));
 			g.drawString("Level "+level, getWidth()/2-40, 30);
+			
+			
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(10));
+            g2.setColor(new Color(23, 69, 40));
+			g2.drawRect(0,0,getWidth(), getHeight());
+			g2.setColor(Color.black);
+            g2.setStroke(new BasicStroke(5));
+			g.drawRect(0,0,getWidth(), getHeight());
 		}
 		
 

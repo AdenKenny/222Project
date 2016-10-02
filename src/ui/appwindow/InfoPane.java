@@ -46,7 +46,7 @@ public class InfoPane extends JPanel{
 		
 		goldLabel = new JLabel("Gold: 1000000000000");
 		goldLabel.setOpaque(true);
-		goldLabel.setForeground(Color.WHITE);
+		goldLabel.setForeground(new Color(245, 225, 7));
 		goldLabel.setBackground(Color.DARK_GRAY);
 
 		add(logoutButton);

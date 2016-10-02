@@ -1,8 +1,10 @@
 package ui.appwindow;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -29,7 +31,6 @@ public class InventoryPane extends JPanel{
 		this.items = new Item[ROWS][COLS];
 		this.itemIcons = new HashMap<>();
 		try {
-			//C:\Users\OEM\eclipse\workspace\RoomScape\resources\resources\graphics
 			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -101,9 +102,11 @@ public class InventoryPane extends JPanel{
 	
 	@Override
 	public void paint(Graphics g) {
+		System.out.println("inventory: " + getWidth() + "x" + getHeight());
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(), getHeight());
-		System.out.println("inventory: " + getWidth() + "x" + getHeight());
+		
+		//Draw boundary lines
 		g.setColor(Color.black);
 		colWidth = getWidth()/COLS;
 		for(int i=1; i<COLS;i++){
@@ -123,6 +126,14 @@ public class InventoryPane extends JPanel{
 				g.drawImage(itemIcons.get("Diamond Short Sword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 			}
 		}
+		
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(10));
+        g2.setColor(new Color(23, 69, 40));
+		g2.drawRect(0,0,getWidth(), getHeight());
+		g2.setColor(Color.black);
+        g2.setStroke(new BasicStroke(5));
+		g.drawRect(0,0,getWidth(), getHeight());
 	}
 	
 	@Override
