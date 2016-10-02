@@ -56,7 +56,8 @@ public class InfoPane extends JPanel{
 		logoutButton.setVisible(false);
 		floorLabel.setVisible(true);
 		goldLabel.setVisible(true);
-		//revalidate();
+		revalidate();
+		repaint();
 	}
 	
 	/*
@@ -76,6 +77,7 @@ public class InfoPane extends JPanel{
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
 		System.out.println("Info: " + getWidth() + "x" + getHeight());

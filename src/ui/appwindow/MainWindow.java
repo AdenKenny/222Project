@@ -4,8 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -40,8 +44,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.itemIcons = new HashMap<>();
 		loadIcons();
 		this.glassPane = new OptionsGlassPane(this);
-		//setGlassPane(glassPane);
-		glassPane.setVisible(true);
+		getLayeredPane().add(glassPane, new Integer(300));
 		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden
 		JFrame frame = this;
@@ -97,6 +100,40 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
+		
+		this.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				glassPane.setVisible(true);
+				glassPane.repaint();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private void loadIcons() {
@@ -160,6 +197,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		revalidate();
 		setVisible(true);
 		displayItemOptions(null, 200, 200);
+
+		
 	}
 
 	protected void setDisplay(JPanel display){
@@ -182,14 +221,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public void addToInventory(Item item) {
 		bottomPanel.addToInventory(item);
-			
-		
-
 	}
 
 	public void setStat(int id, int value) {
 		bottomPanel.setStat(id, value);
-
 	}
 
 	public void setFloor(int number) {
@@ -228,7 +263,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public Entity getEntity(int x, int y){
-
 		return null;
 	}
 	

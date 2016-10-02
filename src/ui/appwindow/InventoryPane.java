@@ -75,7 +75,7 @@ public class InventoryPane extends JPanel{
 			for(int j=1; j<=COLS; j++){
 				if(y<i*rowHeight && x<j*colWidth){
 					System.out.println("Item: " + (i-1) + " " + (j-1) + "Selected");
-					if(items[i][j] !=null){
+					if(items[i-1][j-1] !=null){
 						showOptions(items[i-1][j-1]);
 					}
 					return;
