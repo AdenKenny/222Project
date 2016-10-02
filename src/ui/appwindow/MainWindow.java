@@ -89,14 +89,19 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void initComponents(){
 		//Add next level of components
 		infoBar = new InfoPane();
-		infoBar.initComponents();
 		display = new Login();
 		bottomPanel = new BottomPanel(this);
-		bottomPanel.initComponents();
-
 		add(infoBar, BorderLayout.PAGE_START);
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END);
+		infoBar.initComponents();
+
+		Login login = (Login) display;
+		login.initComponents();
+
+		bottomPanel.initComponents();
+
+
 		addGameChat("Testing game chat");
 		addChat("Text from another player");
 		addChat("Text from another player");
@@ -109,7 +114,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		addGameChat("Chat from the game");
 		setStat(StatsPane.HEALTH, 50);
 		setStat(StatsPane.EXP, 20);
-		setStat(StatsPane.LEVEL, 3);
+		setStat(StatsPane.LEVEL, 99);
 		revalidate();
 		setVisible(true);
 	}

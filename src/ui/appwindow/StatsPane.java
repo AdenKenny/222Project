@@ -2,6 +2,7 @@ package ui.appwindow;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.text.AttributedCharacterIterator;
 
@@ -23,34 +24,22 @@ public class StatsPane extends JPanel{
 	public static final int LEVEL = 4;
 	public static final int EXP_FOR_LEVEL = 5;
 
-	private String username;
 	private int health= 70;
 	private int maxHealth= 100;
 	private int exp=20;
 	private int expForLevel=100;
 	private int level; 
 	
-	private SpringLayout layout;
 	private boolean showStats = false;
 	
-	private JLabel name;
-	
 	public StatsPane(){
-		this.layout = new SpringLayout();
-		setLayout(layout);
-		initComponents();
-		this.username = "Clinton";
-		this.setVisible(true);
+		setVisible(true);
+
 	}
 
 	protected void initComponents() {
 		showStats = true;
-		this.name = new JLabel(username);
-		layout.putConstraint(SpringLayout.WEST, name, 15, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.SOUTH, name, 15, SpringLayout.SOUTH, this);
-		name.setForeground(Color.RED);
-		name.setVisible(true);
-		add(name);
+
 		revalidate();
 		repaint();
 	}
@@ -62,16 +51,25 @@ public class StatsPane extends JPanel{
 		System.out.println("Stats: " + getWidth() + "x" + getHeight());
 		if(showStats){
 			//Health bar
+			g.setColor(Color.black);
+			g.drawString("Health:", 50, 100);
 			g.setColor(Color.red);
-			g.fillRect(getWidth()/4, 40, getWidth()/2, 10); //MaxHealth
+			g.fillRect(getWidth()/4, 90, getWidth()/2, 10); //MaxHealth
 			g.setColor(Color.green);
-			g.fillRect(getWidth()/4, 40, (getWidth()/2)*(health+1)/(maxHealth+1), 10); //currentHealth
+			g.fillRect(getWidth()/4, 90, (getWidth()/2)*(health+1)/(maxHealth+1), 10); //currentHealth
 			
 			//Exp bar
+			g.setColor(Color.black);
+			g.drawString("Exp:", 50, 150);
 			g.setColor(Color.orange);
-			g.fillRect(getWidth()/4, 90, getWidth()/2, 10);
+			g.fillRect(getWidth()/4, 140, getWidth()/2, 10);
 			g.setColor(Color.yellow);
-			g.fillRect(getWidth()/4, 90,getWidth()/2*(exp+1)/(expForLevel+1), 10);
+			g.fillRect(getWidth()/4, 140,getWidth()/2*(exp+1)/(expForLevel+1), 10);
+			
+
+			g.setColor(Color.black);
+			g.setFont(new Font("Level "+level, Font.BOLD, 20));
+			g.drawString("Level "+level, getWidth()/2-40, 30);
 		}
 		
 
@@ -99,10 +97,6 @@ public class StatsPane extends JPanel{
 		}
 	}
 	
-	protected void setUsername(String username) {
-		this.username = username;
-	}
-
 	protected void setHealth(int health) {
 		this.health = health;
 	}
@@ -121,10 +115,6 @@ public class StatsPane extends JPanel{
 
 	protected void setLevel(int level) {
 		this.level = level;
-	}
-
-	protected void setLayout(SpringLayout layout) {
-		this.layout = layout;
 	}
 
 	protected void setShowStats(boolean showStats) {

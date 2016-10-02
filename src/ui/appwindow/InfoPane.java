@@ -1,12 +1,9 @@
 package ui.appwindow;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,7 +53,7 @@ public class InfoPane extends JPanel{
 		add(floorLabel);
 		add(goldLabel);
 
-		logoutButton.setVisible(true);
+		logoutButton.setVisible(false);
 		floorLabel.setVisible(true);
 		goldLabel.setVisible(true);
 		revalidate();
