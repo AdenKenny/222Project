@@ -117,13 +117,14 @@ public class InventoryPane extends JPanel{
 			g.drawLine(0, i*rowHeight, getWidth(), i*rowHeight);
 		}
 		
-		//draw item icons
+		//draw item icons of inventory
 		for(int i=0; i<ROWS; i++ ){
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] != null){
 					//draw the item based on its name
 				}
-				g.drawImage(itemIcons.get("Diamond Short Sword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null);
+				//TODO remove this later
+				g.drawImage(MainWindow.itemIcons.get("diamondShortSword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null); 
 			}
 		}
 		

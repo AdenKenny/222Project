@@ -27,7 +27,7 @@ import gameWorld.Entity;
 import gameWorld.item.Item;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
-	private static HashMap<String, Image> itemIcons;
+	public static HashMap<String, Image> itemIcons;
 	private Slave slave;
 	private ClientSideGame game;
 	private InfoPane infoBar;
@@ -101,14 +101,29 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	private void loadIcons() {
 		try {
-			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
 			itemIcons.put("bronzeDagger", ImageIO.read(new File("resources/resources/graphics/bronzeDagger.png")));
-			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
-			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
-			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
-			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("bronzeLongSword", ImageIO.read(new File("resources/resources/graphics/bronzeLongSword.png")));
+			itemIcons.put("bronzeSabre", ImageIO.read(new File("resources/resources/graphics/bronzeSabre.png")));
+			itemIcons.put("bronzeShortSword", ImageIO.read(new File("resources/resources/graphics/bronzeShortSword.png")));
+			itemIcons.put("bronzeWarAxe", ImageIO.read(new File("resources/resources/graphics/bronzeWarAxe.png")));
+			itemIcons.put("diamondShortSword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("diamondDagger", ImageIO.read(new File("resources/resources/graphics/diamondDagger.png")));
+			itemIcons.put("diamondLongSword", ImageIO.read(new File("resources/resources/graphics/diamondLongSword.png")));
+			itemIcons.put("diamondSabre", ImageIO.read(new File("resources/resources/graphics/diamondSabre.png")));
+			itemIcons.put("diamondShortSword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("diamondWarAxe", ImageIO.read(new File("resources/resources/graphics/diamondWarAxe.png")));
+			itemIcons.put("ironDagger", ImageIO.read(new File("resources/resources/graphics/ironDagger.png")));
+			itemIcons.put("ironLongSword", ImageIO.read(new File("resources/resources/graphics/ironLongSword.png")));
+			itemIcons.put("ironSabre", ImageIO.read(new File("resources/resources/graphics/ironSabre.png")));
+			itemIcons.put("ironShortSword", ImageIO.read(new File("resources/resources/graphics/ironShortSword.png")));
+			itemIcons.put("ironWarAxe", ImageIO.read(new File("resources/resources/graphics/ironWarAxe.png")));
+			itemIcons.put("steelDagger", ImageIO.read(new File("resources/resources/graphics/steelDagger.png")));
+			itemIcons.put("steelLongSword", ImageIO.read(new File("resources/resources/graphics/steelLongSword.png")));
+			itemIcons.put("steelSabre", ImageIO.read(new File("resources/resources/graphics/steelSabre.png")));
+			itemIcons.put("steelShortSword", ImageIO.read(new File("resources/resources/graphics/steelShortSword.png")));
+			itemIcons.put("steelWarAxe", ImageIO.read(new File("resources/resources/graphics/steelWarAxe.png")));
+			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
