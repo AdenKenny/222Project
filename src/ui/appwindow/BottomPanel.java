@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+import gameWorld.item.Item;
+
 /**
  * Container for holding bottom Items(chat/info/inventory).
  * 
@@ -67,6 +69,11 @@ public class BottomPanel extends JPanel{
 
 	protected void setStat(int id, int value) {
 		statPane.setStat(id, value);
+		
+	}
+
+	public void addToInventory(Item item) {
+		inventoryPane.addItem(item);
 		
 	}
 }

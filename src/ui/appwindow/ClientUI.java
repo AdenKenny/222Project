@@ -3,6 +3,7 @@ package ui.appwindow;
 import java.util.List;
 
 import gameWorld.Action;
+import gameWorld.item.Item;
 
 public interface ClientUI {
 
@@ -12,7 +13,7 @@ public interface ClientUI {
 
 	public void addGameChat(String output);
 
-	public void addToInventory(int itemId);
+	public void addToInventory(Item item);
 
 	public void setStat(int id, int value);
 

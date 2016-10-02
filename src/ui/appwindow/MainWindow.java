@@ -19,6 +19,7 @@ import clientServer.PackageCode;
 import clientServer.Slave;
 import gameWorld.Action;
 import gameWorld.Entity;
+import gameWorld.item.Item;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private Slave slave;
@@ -141,8 +142,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	}
 
-	public void addToInventory(int itemId) {
-		// TODO Auto-generated method stub
+	public void addToInventory(Item item) {
+		bottomPanel.addToInventory(item);
+			
+		
 
 	}
 
