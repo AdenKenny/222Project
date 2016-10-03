@@ -72,7 +72,7 @@ public class GraphicsPanel extends JPanel {
 		super.paintComponent(g);
 
 		Room room = game.getRoom();
-		Character player = game.getPlayer(username);
+		Character player = game.getPlayer();
 
 		if (room == null || player == null) {
 			g.setColor(Color.GREEN.brighter());

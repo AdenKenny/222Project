@@ -21,6 +21,7 @@ public class Player {
 	public Player(User user, Character character) {
 		this.user = user;
 		this.character = character;
+		this.newlyEntered = true;
 		this.toMove = Direction.NONE;
 		this.toTurn = Direction.NONE;
 		this.order = Order.NONE;
