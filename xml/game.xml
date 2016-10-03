@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
-  <players/>
+  <players>
+    <player>
+      <username>Simon</username>
+      <UID>4</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>0</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips>-1</equips>
+    </player>
+  </players>
   <monsters/>
   <vendors/>
 </game>

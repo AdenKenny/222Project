@@ -80,6 +80,9 @@ public class Slave extends Thread {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
 							startGame();
 						}
+						else {
+							System.out.println("log in failed");
+						}
 						this.mainWindow.accountResult(data[1]);
 					}
 					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value()) {
@@ -174,7 +177,7 @@ public class Slave extends Thread {
 	}
 
 	private void startGame() {
-		this.game = new ClientSideGame();
+		this.game = new ClientSideGame(this.username);
 		new Tick(this.game).start();
 	}
 

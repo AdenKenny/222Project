@@ -17,6 +17,7 @@ import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
+import util.Logging;
 
 public class ServerSideGame implements Game {
 
@@ -33,9 +34,9 @@ public class ServerSideGame implements Game {
 	public ServerSideGame() {
 		LoadGame loader = new LoadGame();
 
-		/*for(Character c : loader.getPlayers()) {
+		for(Character c : loader.getPlayers()) {
 			players.put(c.getName(), c); //Loads players into game.
-		}*/
+		}
 
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
@@ -76,7 +77,14 @@ public class ServerSideGame implements Game {
 	 * @param user
 	 */
 	public void registerConnection(long uid, User user) {
-		this.connectedPlayers.put(uid, new Player(user, players.get(user.getUsername())));
+		String username = user.getUsername();
+		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + uid + " has logged in as " + username + ".");
+		Character character = players.get(username);
+		if (character == null) {
+			character = new Character(username);
+			players.put(username, character);
+		}
+		this.connectedPlayers.put(uid, new Player(user, character));
 	}
 
 	/**
@@ -84,8 +92,12 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 */
 	public void disconnect(long uid) {
-		Character player = this.connectedPlayers.remove(uid).getCharacter();
-		player.room().entities()[player.yPos()][player.xPos()] = null;
+		Player player = this.connectedPlayers.remove(uid);
+		if (player == null) {
+			return;
+		}
+		Character character = player.getCharacter();
+		character.room().entities()[character.yPos()][character.xPos()] = null;
 	}
 
 	/**
