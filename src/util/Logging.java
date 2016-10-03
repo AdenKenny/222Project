@@ -64,6 +64,8 @@ public final class Logging {
 			String eventOut = event.out();
 
 			printWriter.println(eventOut); // Print the message to log.
+			
+			System.out.println(eventOut);
 
 		}
 

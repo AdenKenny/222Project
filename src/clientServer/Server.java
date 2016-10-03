@@ -9,21 +9,20 @@ import util.Logging;
 public class Server {
 
 	private ServerSideGame game;
-	private Tick tick;
 
 	public Server() {
 
 		//Start the game
 		this.game = new ServerSideGame();
-		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started");
-
-		//Start the game tick
-		this.tick = new Tick(this.game);
 
 	}
 
 	public void run() {
-		this.tick.start();
+		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started.");
+		
+		//start the game tick
+		new Tick(this.game).start();
+		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The game tick has begun.");
 
 		//Connect to port 5000
 		try(ServerSocket ss = new ServerSocket(5000)) {

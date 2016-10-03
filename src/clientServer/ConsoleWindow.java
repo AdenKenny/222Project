@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 
 import dataStorage.SaveGame;
 import gameWorld.characters.Character;
+import util.Logging;
 
 public class ConsoleWindow extends JFrame {
 
@@ -55,13 +56,14 @@ public class ConsoleWindow extends JFrame {
 	    addWindowListener(new WindowAdapter() {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
-
+	        	Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "Stopping the server...");
 	        	SaveGame saver = new SaveGame();
 
 	        	for (Character player : ServerSideGame.getAllPlayers().values()) {
 	        		saver.savePlayer(player);
 	        	}
 	        	saver.saveFile();
+	        	Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server has stopped.");
 	            System.exit(0);
 	        }
 	    });

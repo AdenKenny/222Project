@@ -309,7 +309,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
 	private void enterGame() {
 		//TODO: setup graphics
-		display.setVisible(false);
+		if (this.display != null) {
+			this.display.setVisible(false);
+		}
 		this.display = new GraphicsPanel(null, null);
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
