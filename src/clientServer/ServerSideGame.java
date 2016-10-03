@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.LoadGame;
+import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World;
@@ -24,9 +25,10 @@ public class ServerSideGame implements Game {
 
 	public static final World world = new World();
 
-	private final Map<Long, User> connectedUsers;
-	private final Map<Long, Boolean> roomDetails;
+	private final Map<Long, Player> connectedPlayers;
 	private final List<String> textMessages;
+	private final Map<Room, byte[][]> byteArrays;
+	private int tickCounter = 0;
 
 	public ServerSideGame() {
 		LoadGame loader = new LoadGame();
@@ -35,25 +37,35 @@ public class ServerSideGame implements Game {
 			players.put(c.getName(), c); //Loads players into game.
 		}*/
 
-		this.connectedUsers = new HashMap<>();
-		this.roomDetails = new HashMap<>();
+		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
-
-		/*	TODO: remove if the Game still works
-		XMLReader reader = XMLReader.getInstance();
-		ServerSideGame.mapOfItems = reader.getItems();
-		ServerSideGame.mapOfCharacters = reader.getCharacters();
-		*/
+		this.byteArrays = new HashMap<>();
 	}
 
 	@Override
 	public synchronized void tick() {
-		//System.out.println(world.getCurrentFloor().getSpawns());
-		if (world.getCurrentFloor().getSpawns() != null) {
+		for (Player player : this.connectedPlayers.values()) {
+			player.doMovement();
+		}
+		Floor current = world.getCurrentFloor();
+		if (current.getSpawns() != null) {
 			for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
 				spawn.tick();
 			}
 		}
+		this.byteArrays.clear();
+		for (Room[] rooms : current.rooms()) {
+			for (Room room : rooms) {
+				Set<Sendable> sendables = room.getSendables();
+				byte[][] data = new byte[sendables.size()][];
+				int i = 0;
+				for (Sendable s : sendables) {
+					data[i++] = s.toSend();
+				}
+				this.byteArrays.put(room, data);
+			}
+		}
+		this.tickCounter++;
 	}
 
 	/**
@@ -64,9 +76,7 @@ public class ServerSideGame implements Game {
 	 * @param user
 	 */
 	public void registerConnection(long uid, User user) {
-		this.connectedUsers.put(uid, user);
-		this.roomDetails.put(uid, false);
-		//players.put(user.getUsername(), new Character(user.getUsername()));
+		this.connectedPlayers.put(uid, new Player(user, players.get(user.getUsername())));
 	}
 
 	/**
@@ -74,10 +84,8 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 */
 	public void disconnect(long uid) {
-		Character player = players.get(this.connectedUsers.get(uid).getUsername());
-		player.room().entities()[player.yPos()][player.xPos()] = null;;
-		this.connectedUsers.remove(uid);
-		this.roomDetails.remove(uid);
+		Character player = this.connectedPlayers.remove(uid).getCharacter();
+		player.room().entities()[player.yPos()][player.xPos()] = null;
 	}
 
 	/**
@@ -86,33 +94,24 @@ public class ServerSideGame implements Game {
 	 * @param input
 	 */
 	public void keyPress(long uid, byte input) {
-		//TODO check for timing restriction
-		Character p = players.get(connectedUsers.get(uid).getUsername());
-		Room old = p.room();
+		Player player = this.connectedPlayers.get(uid);
 		if (input == PackageCode.Codes.KEY_PRESS_W.value()) {
-			p.move(Direction.FORWARD);
+			player.setToMove(Direction.FORWARD);
 		}
 		else if (input == PackageCode.Codes.KEY_PRESS_A.value()) {
-			p.move(Direction.LEFT);
+			player.setToMove(Direction.LEFT);
 		}
 		else if (input == PackageCode.Codes.KEY_PRESS_S.value()) {
-			p.move(Direction.BACK);
+			player.setToMove(Direction.BACK);
 		}
 		else if (input == PackageCode.Codes.KEY_PRESS_D.value()) {
-			p.move(Direction.RIGHT);
+			player.setToMove(Direction.RIGHT);
 		}
 		else if (input == PackageCode.Codes.KEY_PRESS_Q.value()) {
-			p.turnLeft();
+			player.setToTurn(Direction.LEFT);
 		}
 		else if (input == PackageCode.Codes.KEY_PRESS_E.value()) {
-			p.turnRight();
-		}
-		Room r = p.room();
-		if (!r.equals(old)) {
-			int id = p.getID();
-			r.toRemove().remove(id);
-			old.toRemove().add(id);
-			this.roomDetails.put(uid, false);
+			player.setToTurn(Direction.RIGHT);
 		}
 	}
 
@@ -122,59 +121,32 @@ public class ServerSideGame implements Game {
 	 * @return
 	 */
 	public synchronized byte[][] toByteArray(long uid) {
-		// get the character of the user
-		Character player = players.get(this.connectedUsers.get(uid).getUsername());
-		Room room = player.room();
-		if (room == null) {
-			return new byte[0][];
+		byte[][] data;
+		try {
+			data = this.byteArrays.get(this.connectedPlayers.get(uid).getCharacter().room());
 		}
-		Set<Sendable> sendables = room.getSendables();
-		boolean newlyEntered = !this.roomDetails.get(uid);
-		int extra = newlyEntered ? 1 : 0;
-		byte[][] data = new byte[sendables.size() + extra][];
-		int i = extra;
-		if (newlyEntered) {
-			this.roomDetails.put(uid, true);
-			data[0] = new byte[3];
-			data[0][0] = PackageCode.Codes.GAME_NEW_ROOM.value();
-			data[0][1] = (byte)room.width();
-			data[0][2] = (byte)room.depth();
-			for (Sendable s : sendables) {
-				if (s instanceof Character) {
-					System.out.println(((Character)s).getType());
-				}
-				data[i++] = s.onEntry();
-			}
-		}
-		else {
-			Set<Integer> toRemove = room.toRemove();
-			for (Sendable s : sendables) {
-				if (s instanceof Character && toRemove.contains(((Character)s).getID())) {
-					System.out.println("match");
-					data[i] = new byte[5];
-					data[i][0] = PackageCode.Codes.GAME_SENDABLE_REMOVE.value();
-					int j = 1;
-					for (byte b : Sendable.intToBytes(((Character)s).getID())) {
-						data[i][j++] = b;
-					}
-					i++;
-				}
-				else {
-					data[i++] = s.roomUpdate();
-				}
-			}
+		catch(NullPointerException e) {
+			return null;
 		}
 		return data;
 	}
-
-	public synchronized byte[] getSendable(long uid, int id) {
-		Set<Sendable> sendables = players.get(this.connectedUsers.get(uid).getUsername()).room().getSendables();
-		for (Sendable s : sendables) {
-			if (s instanceof Character && ((Character)s).getID() == id) {
-				return s.onEntry();
-			}
+	
+	public synchronized byte[] checkNewlyEntered(long uid) {
+		Player player = this.connectedPlayers.get(uid);
+		if (player.isNewlyEntered()) {
+			Room room = player.getCharacter().room();
+			player.setNewlyEntered(false);
+			byte[] roomEntry = new byte[3];
+			roomEntry[0] = PackageCode.Codes.GAME_NEW_ROOM.value();
+			roomEntry[1] = (byte)room.width();
+			roomEntry[2] = (byte)room.depth();
+			return roomEntry;
 		}
 		return null;
+	}
+	
+	public synchronized int getTickCounter() {
+		return this.tickCounter;
 	}
 
 	/**
@@ -184,7 +156,7 @@ public class ServerSideGame implements Game {
 	 */
 	public void textMessage(long uid, String message) {
 		//add the users name to the start of the text message
-		message = this.connectedUsers.get(uid).getUsername() + ": " + message;
+		message = this.connectedPlayers.get(uid).getCharacter().getName() + ": " + message;
 		textMessages.add(message);
 	}
 
@@ -202,7 +174,7 @@ public class ServerSideGame implements Game {
 	}
 
 	public boolean userOnline(User user) {
-		return this.connectedUsers.containsValue(user);
+		return this.connectedPlayers.containsValue(user);
 	}
 
 	/**
@@ -215,8 +187,8 @@ public class ServerSideGame implements Game {
 
 		Set<User> set = new HashSet<>();
 
-		for(Entry<Long, User> entry : this.connectedUsers.entrySet()) {
-			set.add(entry.getValue()); //Add the value of the key value pair.
+		for(Entry<Long, Player> entry : this.connectedPlayers.entrySet()) {
+			set.add(entry.getValue().getUser()); //Add the value of the key value pair.
 		}
 
 		return set;

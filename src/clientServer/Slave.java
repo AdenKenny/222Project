@@ -20,12 +20,12 @@ public class Slave extends Thread {
 	private DataOutputStream output;
 	private boolean connected;
 	private ClientSideGame game;
-	private MainWindow frame;
+	private MainWindow mainWindow;
 
 	private String username;
 
 	public Slave(MainWindow mainWindow) {
-		this.frame = mainWindow;
+		this.mainWindow = mainWindow;
 		try {
 			this.socket = new Socket("127.0.0.1", 5000);
 			this.output = new DataOutputStream(this.socket.getOutputStream());
@@ -63,14 +63,8 @@ public class Slave extends Thread {
 					if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
 						this.game.newRoom(data);
 					}
-					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_UPDATE.value()) {
+					else if (data[0] == PackageCode.Codes.GAME_SENDABLE.value()) {
 						this.game.updateSendable(data);
-					}
-					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_CREATE.value()) {
-						this.game.addSendable(data);
-					}
-					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_REMOVE.value()) {
-						this.game.removeSendable(data);
 					}
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
@@ -80,39 +74,26 @@ public class Slave extends Thread {
 						//TODO send the received message to relevant class
 						System.out.println(message.toString());
 					}
-					Set<Integer> unknown = game.getUnknown();
-					if (unknown.size() != 0) {
-						for (int id : unknown) {
-							byte[] toSend = new byte[5];
-							toSend[0] = PackageCode.Codes.GAME_SENDABLE_REQUEST.value();
-							int i = 1;
-							for (byte b : Sendable.intToBytes(id)) {
-								toSend[i++] = b;
-							}
-							send(toSend);
-						}
-						unknown.clear();
-					}
 				}
 				else {
 					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
 							startGame();
 						}
-						this.frame.accountResult(data[1]);
+						this.mainWindow.accountResult(data[1]);
 					}
 					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.NEW_USER_SUCCESS.value()) {
 							startGame();
 						}
-						this.frame.accountResult(data[1]);
+						this.mainWindow.accountResult(data[1]);
 					}
 				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 			this.socket.close();
 		} catch (IOException e) {
-			this.frame.threadedMessage("Disconnected from server.");
+			this.mainWindow.threadedMessage("Disconnected from server.");
 			this.connected = false;
 		} catch (InterruptedException e) {
 			System.out.println(e);

@@ -15,13 +15,10 @@ import gameWorld.characters.CharacterModel;
 
 public class ClientSideGame extends Thread implements Game {
 	private final Map<Integer, Sendable> sendables;
-	private final Set<Integer> unknownIds;
 	private Room room;
-	private Character player;
 
 	public ClientSideGame() {
 		this.sendables = new HashMap<>();
-		this.unknownIds = new HashSet<>();
 	}
 
 	@Override
@@ -40,9 +37,9 @@ public class ClientSideGame extends Thread implements Game {
 
 		if (type.equals(Character.Type.MONSTER)) {
 			boolean isAlive = (received[2] == 1);
-			World.Direction facing = World.Direction.values()[received[3]];
-			int modelId = Sendable.bytesToInt(received, 4);
-			int ID = Sendable.bytesToInt(received, 8);
+			Direction facing = Direction.values()[received[3]];
+			int ID = Sendable.bytesToInt(received, 4);
+			int modelId = Sendable.bytesToInt(received, 8);
 			int health = Sendable.bytesToInt(received, 12);
 			int level = Sendable.bytesToInt(received, 16);
 			int xPos = Sendable.bytesToInt(received, 20);
@@ -55,11 +52,11 @@ public class ClientSideGame extends Thread implements Game {
 			this.room.entities()[yPos][xPos] = toAdd;
 		}
 		else if (type.equals(Character.Type.VENDOR)) {
-			World.Direction facing = World.Direction.values()[received[2]];
-			int modelId = Sendable.bytesToInt(received, 3);
-			int ID = Sendable.bytesToInt(received, 7);
-			int xPos = Sendable.bytesToInt(received, 11);
-			int yPos = Sendable.bytesToInt(received, 15);
+			Direction facing = Direction.values()[received[2]];
+			int ID = Sendable.bytesToInt(received, 4);
+			int modelId = Sendable.bytesToInt(received, 8);
+			int xPos = Sendable.bytesToInt(received, 12);
+			int yPos = Sendable.bytesToInt(received, 16);
 			CharacterModel model = mapOfCharacters.get(modelId);
 			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, -1, model);
 			sendables.put(ID, toAdd);
@@ -90,22 +87,35 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public void updateSendable(byte[] received) {
-		int id = Sendable.bytesToInt(received, 3);
+		int id = Sendable.bytesToInt(received, 4);
 		Sendable toUpdate = sendables.get(id);
 		if (toUpdate == null) {
-			this.unknownIds.add(id);
+			addSendable(received);
+			return;
 		}
 		if (toUpdate instanceof Character) {
 			Character c = (Character) toUpdate;
 			Entity[][] entities = room.entities();
-
 			entities[c.yPos()][c.xPos()] = null;
-			c.setAlive(received[1] == 1);
-			c.setFacing(Direction.values()[received[2]]);
-			c.setHealth(Sendable.bytesToInt(received, 7));
-			c.setLevel(Sendable.bytesToInt(received, 11));
-			c.setXPos(Sendable.bytesToInt(received, 15));
-			c.setYPos(Sendable.bytesToInt(received, 19));
+
+			Character.Type type = Character.Type.values()[received[1]];
+			
+			if (type.equals(Character.Type.MONSTER)) {
+				c.setAlive(received[2] == 1);
+				c.setFacing(Direction.values()[received[3]]);
+				c.setHealth(Sendable.bytesToInt(received, 12));
+				c.setLevel(Sendable.bytesToInt(received, 16));
+				c.setXPos(Sendable.bytesToInt(received, 20));
+				c.setYPos(Sendable.bytesToInt(received, 24));
+			}
+			else if (type.equals(Character.Type.PLAYER)) {
+				c.setAlive(received[2] == 1);
+				c.setFacing(Direction.values()[received[3]]);
+				c.setHealth(Sendable.bytesToInt(received, 8));
+				c.setLevel(Sendable.bytesToInt(received, 12));
+				c.setXPos(Sendable.bytesToInt(received, 16));
+				c.setYPos(Sendable.bytesToInt(received, 20));
+			}
 
 			entities[c.yPos()][c.xPos()] = c;
 		}
@@ -150,9 +160,5 @@ public class ClientSideGame extends Thread implements Game {
 			}
 		}
 		return null;
-	}
-
-	public Set<Integer> getUnknown() {
-		return this.unknownIds;
 	}
 }

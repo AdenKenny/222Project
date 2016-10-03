@@ -21,7 +21,8 @@ public class World {
 		FORWARD(true),
 		BACK(true),
 		LEFT(true),
-		RIGHT(true);
+		RIGHT(true),
+		NONE(false);
 
 		private boolean relative;
 
