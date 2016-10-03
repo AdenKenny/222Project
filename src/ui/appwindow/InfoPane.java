@@ -1,12 +1,9 @@
 package ui.appwindow;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,17 +46,18 @@ public class InfoPane extends JPanel{
 		
 		goldLabel = new JLabel("Gold: 1000000000000");
 		goldLabel.setOpaque(true);
-		goldLabel.setForeground(Color.WHITE);
+		goldLabel.setForeground(new Color(245, 225, 7));
 		goldLabel.setBackground(Color.DARK_GRAY);
 
 		add(logoutButton);
 		add(floorLabel);
 		add(goldLabel);
 
-		logoutButton.setVisible(true);
+		logoutButton.setVisible(false);
 		floorLabel.setVisible(true);
 		goldLabel.setVisible(true);
 		revalidate();
+		repaint();
 	}
 	
 	/*
@@ -79,9 +77,10 @@ public class InfoPane extends JPanel{
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
-
+		System.out.println("Info: " + getWidth() + "x" + getHeight());
 		if(logoutButton!=null && floorLabel!=null&&goldLabel!=null){
 			calculateLayoutConstraints();
 			logoutButton.repaint();

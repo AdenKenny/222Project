@@ -4,7 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+
+import gameWorld.item.Item;
 
 /**
  * Container for holding bottom Items(chat/info/inventory).
@@ -31,6 +37,7 @@ public class BottomPanel extends JPanel{
 		this.statPane = new StatsPane();
 		statPane.initComponents();
 		this.inventoryPane = new InventoryPane();
+		
 		add(chatPane, BorderLayout.WEST);
 		add(statPane, BorderLayout.CENTER);
 		add(inventoryPane, BorderLayout.EAST);
@@ -62,6 +69,16 @@ public class BottomPanel extends JPanel{
 
 	public void sendChat(String chatInput) {
 		parent.sendChat(chatInput);
+		
+	}
+
+	protected void setStat(int id, int value) {
+		statPane.setStat(id, value);
+		
+	}
+
+	public void addToInventory(Item item) {
+		inventoryPane.addItem(item);
 		
 	}
 }

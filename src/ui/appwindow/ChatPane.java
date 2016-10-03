@@ -1,8 +1,10 @@
 package ui.appwindow;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -38,7 +40,7 @@ public class ChatPane extends JPanel{
 		this.scroll = new JScrollPane(textArea);
 		this.inputBar = new JTextArea();
 		layout.putConstraint(SpringLayout.WEST, scroll, 15, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, scroll, 5, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.NORTH, scroll, 15, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.NORTH, inputBar, 3, SpringLayout.SOUTH, scroll);
 		layout.putConstraint(SpringLayout.WEST, inputBar, 15, SpringLayout.WEST, this);
 		textArea.setEditable(false);
@@ -83,12 +85,19 @@ public class ChatPane extends JPanel{
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
-
+		System.out.println("Chat: " + getWidth() + "x" + getHeight());
 		if(scroll!=null ){
 			textArea.repaint();
 			scroll.repaint();
 			inputBar.repaint();
 		}
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(10));
+        g2.setColor(new Color(23, 69, 40));
+		g2.drawRect(0,0,getWidth(), getHeight());
+		g2.setColor(Color.black);
+        g2.setStroke(new BasicStroke(5));
+		g.drawRect(0,0,getWidth(), getHeight());
 	}
 
 	/*

@@ -1,28 +1,48 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import Graphics.GraphicsPanel;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
+import gameWorld.Action;
 import gameWorld.Entity;
+import gameWorld.item.Item;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
+	public static HashMap<String, Image> itemIcons;
 	private Slave slave;
 	private ClientSideGame game;
 	private InfoPane infoBar;
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
+	private OptionsPane optionsPane;
 
 	public MainWindow(){
 		super("RoomScape");
+		this.itemIcons = new HashMap<>();
+		loadIcons();
 		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden
 		JFrame frame = this;
@@ -71,7 +91,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
         });
 		setLayout(new BorderLayout());
-
 		//set size for initial restore down
 		int width = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		int height = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -79,19 +98,54 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
+		
+	}
+
+	private void loadIcons() {
+		try {
+			itemIcons.put("bronzeDagger", ImageIO.read(new File("resources/resources/graphics/bronzeDagger.png")));
+			itemIcons.put("bronzeLongSword", ImageIO.read(new File("resources/resources/graphics/bronzeLongSword.png")));
+			itemIcons.put("bronzeSabre", ImageIO.read(new File("resources/resources/graphics/bronzeSabre.png")));
+			itemIcons.put("bronzeShortSword", ImageIO.read(new File("resources/resources/graphics/bronzeShortSword.png")));
+			itemIcons.put("bronzeWarAxe", ImageIO.read(new File("resources/resources/graphics/bronzeWarAxe.png")));
+			itemIcons.put("diamondShortSword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("diamondDagger", ImageIO.read(new File("resources/resources/graphics/diamondDagger.png")));
+			itemIcons.put("diamondLongSword", ImageIO.read(new File("resources/resources/graphics/diamondLongSword.png")));
+			itemIcons.put("diamondSabre", ImageIO.read(new File("resources/resources/graphics/diamondSabre.png")));
+			itemIcons.put("diamondShortSword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
+			itemIcons.put("diamondWarAxe", ImageIO.read(new File("resources/resources/graphics/diamondWarAxe.png")));
+			itemIcons.put("ironDagger", ImageIO.read(new File("resources/resources/graphics/ironDagger.png")));
+			itemIcons.put("ironLongSword", ImageIO.read(new File("resources/resources/graphics/ironLongSword.png")));
+			itemIcons.put("ironSabre", ImageIO.read(new File("resources/resources/graphics/ironSabre.png")));
+			itemIcons.put("ironShortSword", ImageIO.read(new File("resources/resources/graphics/ironShortSword.png")));
+			itemIcons.put("ironWarAxe", ImageIO.read(new File("resources/resources/graphics/ironWarAxe.png")));
+			itemIcons.put("steelDagger", ImageIO.read(new File("resources/resources/graphics/steelDagger.png")));
+			itemIcons.put("steelLongSword", ImageIO.read(new File("resources/resources/graphics/steelLongSword.png")));
+			itemIcons.put("steelSabre", ImageIO.read(new File("resources/resources/graphics/steelSabre.png")));
+			itemIcons.put("steelShortSword", ImageIO.read(new File("resources/resources/graphics/steelShortSword.png")));
+			itemIcons.put("steelWarAxe", ImageIO.read(new File("resources/resources/graphics/steelWarAxe.png")));
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 	}
 
 	public void initComponents(){
 		//Add next level of components
 		infoBar = new InfoPane();
-		infoBar.initComponents();
-		display = new Login();
+		display = new Login(this, slave);
 		bottomPanel = new BottomPanel(this);
-		bottomPanel.initComponents();
-
 		add(infoBar, BorderLayout.PAGE_START);
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END);
+		infoBar.initComponents();
+		
+		Login login = (Login) display;
+		login.initComponents();
+
+		bottomPanel.initComponents();
+
 		addGameChat("Testing game chat");
 		addChat("Text from another player");
 		addChat("Text from another player");
@@ -102,8 +156,52 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		addChat("Text from another player");
 		addChat("Text from another player");
 		addGameChat("Chat from the game");
+		setStat(StatsPane.HEALTH, 50);
+		setStat(StatsPane.EXP, 20);
+		setStat(StatsPane.LEVEL, 99);
 		revalidate();
 		setVisible(true);
+		this.optionsPane = new OptionsPane(this);
+		this.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				optionsPane.setBounds(display.getBounds());
+				if(optionsPane.isVisible()) 
+					optionsPane.setVisible(false);
+				else {
+					optionsPane.setVisible(true);
+					}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
+		displayItemOptions(null, 200, 200);
+		
 	}
 
 	protected void setDisplay(JPanel display){
@@ -124,14 +222,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	}
 
-	public void addToInventory(int itemId) {
-		// TODO Auto-generated method stub
-
+	public void addToInventory(Item item) {
+		bottomPanel.addToInventory(item);
 	}
 
 	public void setStat(int id, int value) {
-		// TODO Auto-generated method stub
-
+		bottomPanel.setStat(id, value);
 	}
 
 	public void setFloor(int number) {
@@ -142,9 +238,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		infoBar.updateGold(amount);
 	}
 
-	public void displayItemOptions(String[] options) {
-		// TODO Auto-generated method stub
-
+	public void displayItemOptions(List<Action> options, int x, int y) {
+		optionsPane.displayAndDrawList(x, y, options);
 	}
 
 	public void performActionOnItem(int itemId, int actionId) {
@@ -171,7 +266,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	public Entity getEntity(int x, int y){
-
 		return null;
 	}
 	
@@ -215,15 +309,18 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
 	private void enterGame() {
 		//TODO: setup graphics
+		display.setVisible(false);
+		this.display = new GraphicsPanel(null, null);
+		GraphicsPanel gfx = (GraphicsPanel) display;
+		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
 		this.revalidate();
 		this.repaint();
 	}
 	public static void main(String[] args){
-		//TODO: init client
-
 		MainWindow main = new MainWindow();
 		main.initComponents();
-		//Slave slave = new Slave(main);
-		//main.game = slave.getGame();
+		Slave slave = new Slave(main);
+		main.game = slave.getGame();
+		main.slave = slave;
 	}
 }
