@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import clientServer.Server;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
 import util.Logging;
@@ -163,8 +164,12 @@ public final class SaveGame {
 
 	private static String itemToString(List<Item> list) {
 		StringBuilder builder = new StringBuilder();
-
+		
 		for(Item i : list) {
+			if (i == null) {
+				Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Saving error: an item was null.");
+				continue;
+			}
 			builder.append(i.getID());
 			builder.append(", ");
 		}

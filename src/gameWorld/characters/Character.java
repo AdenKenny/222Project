@@ -451,36 +451,38 @@ public class Character extends Entity implements Buildable, Sendable {
 	public List<Item> getEquips() {
 		return this.equips;
 	}
+	
 	@Override
-	public byte[] onEntry() {
+	public byte[] toSend() {
 		byte[] bytes;
 		int i;
 
 		switch (type) {
 		case MONSTER:
 			bytes = new byte[28];
-			bytes[0] = PackageCode.Codes.GAME_SENDABLE_CREATE.value();
+			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.MONSTER.value();
 			bytes[2] = isAlive ? (byte) 1 : 0;
 			bytes[3] = facing.value();
 			i = 4;
-			for (byte b : Sendable.intsToBytes(modelID, ID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(ID, modelID, health, level, xPos, yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
 		case VENDOR:
-			bytes = new byte[19];
-			bytes[0] = PackageCode.Codes.GAME_SENDABLE_CREATE.value();
+			bytes = new byte[20];
+			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.VENDOR.value();
 			bytes[2] = facing.value();
-			i = 3;
-			for (byte b : Sendable.intsToBytes(modelID, ID, xPos, yPos)) {
+			bytes[3] = PackageCode.Codes.BREAK.value(); //empty slot
+			i = 4;
+			for (byte b : Sendable.intsToBytes(ID, modelID, xPos, yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
 		case PLAYER:
 			bytes = new byte[24+name.length()];
-			bytes[0] = PackageCode.Codes.GAME_SENDABLE_CREATE.value();
+			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.PLAYER.value();
 			bytes[2] = isAlive ? (byte) 1 : 0;
 			bytes[3] = facing.value();
@@ -495,23 +497,6 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 
 		return null;
-	}
-
-	@Override
-	public byte[] roomUpdate() {
-		if (type.equals(Type.VENDOR)) {
-			return null;
-		}
-
-		byte[] bytes = new byte[23];
-		bytes[0] = PackageCode.Codes.GAME_SENDABLE_UPDATE.value();
-		bytes[1] = isAlive ? (byte) 1 : 0;
-		bytes[2] = facing.value();
-		int i = 3;
-		for (byte b : Sendable.intsToBytes(ID, health, level, xPos, yPos)) {
-			bytes[i++] = b;
-		}
-		return bytes;
 	}
 
 	@Override

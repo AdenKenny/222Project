@@ -94,7 +94,7 @@ public class Frame extends JFrame implements KeyListener {
 			threadedMessage("You are already logged in.");
 			return;
 		}
-		this.slave = new Slave(this);
+		//this.slave = new Slave(this);
 		this.slave.start();
 	}
 

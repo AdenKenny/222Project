@@ -15,8 +15,8 @@ import gameWorld.characters.Character;
 public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 200;
-	private static final int PING_TIMER = 1000;
-	private static final int TIMEOUT = 2000;
+	private static final int PING_TIMER = 25;
+	private static final int TIMEOUT = 50;
 
 	private final Socket socket;
 	private final long uid;
@@ -24,6 +24,7 @@ public class Master extends Thread {
 	private boolean inGame;
 	private DataOutputStream output;
 	private int messagesReceived;
+	private int tickCounter;
 
 	public Master(Socket socket, long uid, ServerSideGame game) {
 		this.socket = socket;
@@ -81,12 +82,6 @@ public class Master extends Thread {
 						if (received[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 							textMessage(received);
 						}
-						else if (received[0] == PackageCode.Codes.GAME_SENDABLE_REQUEST.value()) {
-							byte[] toSend = this.game.getSendable(uid, Sendable.bytesToInt(received, 1));
-							if (toSend != null) {
-								send(toSend);
-							}
-						}
 						else if (received[0] >= PackageCode.Codes.KEY_PRESS_W.value() && received[0] <= PackageCode.Codes.KEY_PRESS_E.value()) {
 							this.game.keyPress(this.uid, received[0]);
 						}
@@ -102,21 +97,30 @@ public class Master extends Thread {
 					}
 				}
 				if (this.inGame) {
-					//send game information
-					byte[][] packets = this.game.toByteArray(this.uid);
-					for (byte[] toSend : packets) {
-						if (toSend != null) {
-							send(toSend);
+					int gameCounter = this.game.getTickCounter();
+					if (gameCounter != this.tickCounter) {
+						byte[] roomEntry = this.game.checkNewlyEntered(this.uid);
+						if (roomEntry != null) {
+							send(roomEntry);
 						}
+						byte[][] packets = this.game.toByteArray(this.uid);
+						if (packets != null) {
+							for (byte[] toSend : packets) {
+								if (toSend != null) {
+									send(toSend);
+								}
+							}
+						}
+						getMessages();
+						this.tickCounter = gameCounter;
 					}
-					getMessages();
 				}
 				//sleep
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 		} catch(IOException e) {
 			this.game.disconnect(this.uid);
-			System.out.println("User " + this.uid + " disconnected.");
+			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " disconnected.");
 		} catch (InterruptedException e) {
 			this.game.disconnect(this.uid);
 			Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, e.getMessage());
@@ -203,8 +207,7 @@ public class Master extends Thread {
 					//associate this connection with that user
 					this.game.registerConnection(this.uid, user);
 					this.inGame = true;
-					loginResult[1] = PackageCode.Codes.LOGIN_SUCCESS.value(); //TODO Move to register success.
-					ServerSideGame.getAllPlayers().put(user.getUsername(), new Character(user.getUsername()));
+					loginResult[1] = PackageCode.Codes.LOGIN_SUCCESS.value();
 				}
 			}
 		}
