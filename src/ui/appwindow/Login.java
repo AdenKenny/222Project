@@ -84,7 +84,8 @@ public class Login extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Run registration for user
-				
+				slave.newUser(userField.getText(), passField.getPassword().toString());
+				passField.setText("");
 			}
 		});
 		

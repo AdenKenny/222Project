@@ -49,6 +49,7 @@ public class Master extends Thread {
 				//if data has not been received
 				if (input.available() == 0) {
 					noResponse++;
+					//System.out.println(noResponse);
 					//if no response has been received for a certain time, disconnect the user
 					if (noResponse == TIMEOUT) {
 						this.game.disconnect(this.uid);

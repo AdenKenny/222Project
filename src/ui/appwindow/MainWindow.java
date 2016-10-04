@@ -320,9 +320,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 	public static void main(String[] args){
 		MainWindow main = new MainWindow();
-		main.initComponents();
 		Slave slave = new Slave(main);
 		main.game = slave.getGame();
 		main.slave = slave;
+		main.initComponents();
 	}
 }
