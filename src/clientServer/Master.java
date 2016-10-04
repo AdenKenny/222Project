@@ -16,7 +16,7 @@ public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 200;
 	private static final int PING_TIMER = 25;
-	private static final int TIMEOUT = 50;
+	private static final int TIMEOUT = 200;
 
 	private final Socket socket;
 	private final long uid;
