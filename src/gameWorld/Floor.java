@@ -38,7 +38,7 @@ public class Floor {
 		this.width = width;
 		this.depth = depth;
 
-		this.spawns = new HashSet<SpawnRoom>();
+		this.spawns = new HashSet<>();
 
 		setupRooms(roomWidth, roomDepth);
 	}
@@ -48,7 +48,7 @@ public class Floor {
 		this.width = width;
 		this.depth = depth;
 
-		this.spawns = new HashSet<SpawnRoom>();
+		this.spawns = new HashSet<>();
 
 		this.rooms = new Room[depth][width];
 	}
@@ -59,7 +59,7 @@ public class Floor {
 			this.width = Integer.parseInt(width);
 			this.depth = Integer.parseInt(depth);
 
-			this.spawns = new HashSet<SpawnRoom>();
+			this.spawns = new HashSet<>();
 
 			this.rooms = new Room[this.depth][this.width];
 		} catch (NumberFormatException e) {}
