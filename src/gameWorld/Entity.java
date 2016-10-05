@@ -61,7 +61,7 @@ public abstract class Entity {
 				}
 				
 				MainWindow mw = (MainWindow) caller;
-				// TODO Print the name & description in the client's chat
+				mw.addGameChat(name+": "+description+"\n");
 			}
 
 			@Override
