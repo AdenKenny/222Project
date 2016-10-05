@@ -13,6 +13,8 @@ public class Server {
 
 	public Server() {
 
+		Logging.checkFile();
+
 		//Start the game
 		this.game = new ServerSideGame();
 
@@ -20,7 +22,7 @@ public class Server {
 
 	public void run() {
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started.");
-		
+
 		//start the game tick
 		new Tick(this.game).start();
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The game tick has begun.");

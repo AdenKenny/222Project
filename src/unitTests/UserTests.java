@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
-
+import static org.junit.Assert.assertNotSame;
 import org.junit.Test;
 
 import userHandling.Hashing;
@@ -117,12 +117,12 @@ public class UserTests {
 		User user = createUser();
 		user = createUser();
 
-		if(user != null) { //User should be null as failed login returns null.
+		if (user != null) { // User should be null as failed login returns null.
 			deleteFile();
 			fail();
 		}
 
-		deleteFile(); //User was null, test passed.
+		deleteFile(); // User was null, test passed.
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class UserTests {
 
 					method.setAccessible(true);
 
-					if ((boolean) method.invoke(hashClass, byteHash1, byteHash1)){
+					if ((boolean) method.invoke(hashClass, byteHash1, byteHash1)) {
 
 					}
 
@@ -200,7 +200,6 @@ public class UserTests {
 	 */
 
 	private User createUser() {
-
 		try {
 			Class<?> regClass = Class.forName("userHandling.Register");
 
@@ -217,7 +216,10 @@ public class UserTests {
 
 				User user = Register.createUser("Paul", "hunter2");
 
-				return user;
+				System.out.println(user.getId());
+
+				assertNotSame(user, null);
+				deleteFile();
 
 			}
 

@@ -21,6 +21,7 @@ import gameWorld.Room;
 import gameWorld.characters.Character;
 import gameWorld.characters.PlayerBuilder;
 import gameWorld.rooms.RoomBuilder;
+import util.Logging;
 
 /**
  * A class to load entities from XML.
@@ -30,18 +31,28 @@ import gameWorld.rooms.RoomBuilder;
 
 public final class LoadGame {
 
-	private Document doc; //Document we will do tree operations.
+	private Document doc; // Document we will do tree operations.
 
-	private Set<Character> setOfCharacters; //Set of loaded in characters.
+	private Set<Character> setOfCharacters; // Set of loaded in characters.
 
-	public LoadGame() {
+	private static LoadGame INSTANCE = null;
+
+	private LoadGame() {
 		this.setOfCharacters = readPlayers();
 		readRooms();
 	}
 
+	public static synchronized LoadGame getInstance() { //Singleton.
+		if (INSTANCE == null) {
+			INSTANCE = new LoadGame();
+		}
+
+		return INSTANCE;
+	}
+
 	/**
-	 * Gets a set of Characters from the XML file that was specified when the LoadGame
-	 * class was initialised.
+	 * Gets a set of Characters from the XML file that was specified when the
+	 * LoadGame class was initialised.
 	 *
 	 * @return A Set<Character> of characters that were loaded from file.
 	 */
@@ -55,44 +66,67 @@ public final class LoadGame {
 	 */
 
 	private synchronized void readRooms() {
-		File file = new File("xml/world.xml"); //We will read from world.xml
+		File file = new File("xml/world.xml"); // We will read the floors from
+												// this file.
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = factory.newDocumentBuilder(); //Builders.
-			this.doc = docBuilder.parse(file); //Parse the file to a document.
+			DocumentBuilder docBuilder = factory.newDocumentBuilder(); // Builders.
+			this.doc = docBuilder.parse(file); // Parse the file to a document.
 
-			this.doc.getDocumentElement().normalize();
+			this.doc.getDocumentElement().normalize(); // This is apparently
+														// important.
 
-			NodeList list = getNodes("floor"); //Get a list of the floors.
+			NodeList list = getNodes("floor"); // Get a list of the floors.
 
-			for (int i = 0, len = list.getLength(); i < len; ++i) { //Iterate through elements of the floor.
+			for (int i = 0, len = list.getLength(); i < len; ++i) { // Iterate
+																	// through
+																	// elements
+																	// of the
+																	// floor.
 
-				Node node = list.item(i); //Get the node at position.
+				Node node = list.item(i); // Get the node at position.
 
-				Element e = (Element) node; //Safe cast.
+				Element e = (Element) node; // Safe cast.
 
-				String level = e.getElementsByTagName("level").item(0).getTextContent(); //Get the level of the floor.
+				String level = e.getElementsByTagName("level").item(0).getTextContent(); // Get
+																							// the
+																							// level
+																							// of
+																							// the
+																							// floor.
 
-				String width = e.getElementsByTagName("width").item(0).getTextContent(); //The width.
+				String width = e.getElementsByTagName("width").item(0).getTextContent(); // The
+																							// width.
 
-				String depth = e.getElementsByTagName("depth").item(0).getTextContent(); //The depth.
+				String depth = e.getElementsByTagName("depth").item(0).getTextContent(); // The
+																							// depth.
 
-				Floor floor = new Floor(level, width, depth); //Create a new floor with the values above.
+				Floor floor = new Floor(level, width, depth); // Create a new
+																// floor with
+																// the values
+																// above.
 
-				ServerSideGame.world.addFloor(floor); //Add the floor to the world in server.
+				ServerSideGame.world.addFloor(floor); // Add the floor to the
+														// world in server.
 
-				NodeList children = getNodes("room"); //Get a list of the rooms in a floor.
+				NodeList rooms = e.getElementsByTagName("room");
 
-				for (int j = 0, length = children.getLength(); j < length; ++j) {
+				for (int j = 0, length = rooms.getLength(); j < length; ++j) {
 
-					if (children.item(j).getNodeType() == Node.ELEMENT_NODE) { //Check cast.
-						Element child = (Element) children.item(j); //The cast is safe.
+					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) { // Check
+																			// cast.
+						Element child = (Element) rooms.item(j); // The cast is
+																	// safe.
 
-						RoomBuilder build = new RoomBuilder(floor); //New room builder.
+						RoomBuilder build = new RoomBuilder(floor); // New room
+																	// builder.
 
 						String playerSpawn = child.getElementsByTagName("playerSpawn").item(0).getTextContent();
-						build.setBuildPlayerSpawn(playerSpawn); //Get values from tag and add values to builder.
+						build.setBuildPlayerSpawn(playerSpawn); // Get values
+																// from tag and
+																// add values to
+																// builder.
 
 						String npcSpawn = child.getElementsByTagName("npcSpawn").item(0).getTextContent();
 						build.setBuildNpcSpawn(npcSpawn);
@@ -115,14 +149,22 @@ public final class LoadGame {
 						String roomLevel = child.getElementsByTagName("level").item(0).getTextContent();
 						build.setLevel(roomLevel);
 
-						Room room = build.build(); //Build the builder, returning a room.
+						Room room = build.build(); // Build the builder,
+													// returning a room.
 
-						floor.addRoom(room, room.xPos(), room.yPos()); //Add the newly built room the floor.
+						floor.addRoom(room, room.xPos(), room.yPos()); // Add
+																		// the
+																		// newly
+																		// built
+																		// room
+																		// the
+																		// floor.
 					}
 
 				}
 
-				floor.setupNeighbours(); //Work out the neighboring rooms for all the rooms in the floor.
+				floor.setupNeighbours(); // Work out the neighboring rooms for
+											// all the rooms in the floor.
 			}
 		}
 
@@ -140,14 +182,15 @@ public final class LoadGame {
 	}
 
 	/**
-	 * Returns a Set<Character> from player entries in XML. These players are built
-	 * with a PlayerBuilder and values read from xml.
+	 * Returns a Set<Character> from player entries in XML. These players are
+	 * built with a PlayerBuilder and values read from xml.
 	 *
 	 * @return A Set<Character> representing players that were loaded from XML.
 	 */
 
 	private synchronized Set<Character> readPlayers() {
-		File file = new File("xml/game.xml"); //Once again, the file we'll read from.
+		File file = new File("xml/game.xml"); // Once again, the file we'll read
+												// from.
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -156,9 +199,10 @@ public final class LoadGame {
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("player"); //We're doing players this time.
+			NodeList list = getNodes("player"); // We're doing players this
+												// time.
 
-			Set<Character> set = new HashSet<>(); //Create a new set.
+			Set<Character> set = new HashSet<>(); // Create a new set.
 
 			for (int i = 0, len = list.getLength(); i < len; ++i) {
 
@@ -166,10 +210,12 @@ public final class LoadGame {
 
 				Element e = (Element) node;
 
-				PlayerBuilder build = new PlayerBuilder(); //Player builder this time.
+				PlayerBuilder build = new PlayerBuilder(); // Player builder
+															// this time.
 
 				String username = e.getElementsByTagName("username").item(0).getTextContent();
-				build.setName(username); //Get values and pass them to the builder.
+				build.setName(username); // Get values and pass them to the
+											// builder.
 
 				String UID = e.getElementsByTagName("UID").item(0).getTextContent();
 				build.setID(UID);
@@ -195,12 +241,15 @@ public final class LoadGame {
 				String equips = e.getElementsByTagName("equips").item(0).getTextContent();
 				build.setEquips(equips);
 
-				Character character = build.build(); //Build it to create a Character.
+				Character character = build.build(); // Build it to create a
+														// Character.
 
-				set.add(character); //Add this newly created player to the set of characters.
+				set.add(character); // Add this newly created player to the set
+									// of characters.
 			}
 
-			return set; //Return our newly populated (if we loaded any players) set.
+			return set; // Return our newly populated (if we loaded any players)
+						// set.
 		}
 
 		catch (IOException e) {
@@ -214,13 +263,17 @@ public final class LoadGame {
 		catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+
+		Logging.logEvent(LoadGame.class.getName(), Logging.Levels.SEVERE, "Failed to load in characters");
+
 		return new HashSet<>(); // Empty set as failed.
 	}
 
 	/**
 	 * Gets all the nodes by the tag name.
 	 *
-	 * @param tagName The name of the nodes you want to get.
+	 * @param tagName
+	 *            The name of the nodes you want to get.
 	 * @return A NodeList representing all the nodes that tag names match.
 	 */
 

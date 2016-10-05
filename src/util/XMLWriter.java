@@ -51,7 +51,7 @@ public final class XMLWriter {
 		/*
 		 * TODO This is really bad and needs to be changed. This uses ordinility.
 		 * This is really really bad and will be changed. //First noted on 21/9/16.
-		 * Seen again 28/9/16.
+		 * Seen again 28/9/16. Once again on the 06/10/16.
 		*/
 		static Position getPos(int i) {
 			switch (i) {

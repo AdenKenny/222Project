@@ -208,41 +208,50 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.display = display;
 	}
 
+	@Override
 	public void addChat(String text) {
 		bottomPanel.addChat(text);
 	}
 
+	@Override
 	public void sendChat(String chatInput) {
 		//send input to server for broadcast
 		slave.sendTextMessage(chatInput);
 		addChat(chatInput); //TODO: Remove so user sending message gets back from broadcast
 	}
 
+	@Override
 	public void addGameChat(String output) {
 		bottomPanel.addGameChat(output);
 
 	}
 
+	@Override
 	public void addToInventory(Item item) {
 		bottomPanel.addToInventory(item);
 	}
 
+	@Override
 	public void setStat(int id, int value) {
 		bottomPanel.setStat(id, value);
 	}
 
+	@Override
 	public void setFloor(int number) {
 		infoBar.setFloor(number);
 	}
 
+	@Override
 	public void updateGold(int amount) {
 		infoBar.updateGold(amount);
 	}
 
+	@Override
 	public void displayItemOptions(List<Action> options, int x, int y) {
 		optionsPane.displayAndDrawList(x, y, options);
 	}
 
+	@Override
 	public void performActionOnItem(int itemId, int actionId) {
 		// TODO Auto-generated method stub
 
