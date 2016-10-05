@@ -187,7 +187,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
 		displayItemOptions(null, 200, 200);
-
+		this.game = slave.getGame();
 	}
 
 	protected void setDisplay(JPanel display){
@@ -310,12 +310,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		//TODO: setup graphics
 		if (this.display != null) {
 			this.display.setVisible(false);
-		}
-		this.display = new GraphicsPanel(null, null);
+			this.remove(display);		}
+		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
+
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+		gfx.setVisible(true);
+		add(gfx);
 		this.revalidate();
 		this.repaint();
+		gfx.repaint();
 	}
 
 	public void setSlave(Slave slave) {
