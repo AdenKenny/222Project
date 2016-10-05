@@ -7,12 +7,10 @@ import clientServer.ServerSideGame;
 import clientServer.PackageCode;
 import gameWorld.Action;
 import gameWorld.Entity;
-import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
-import gameWorld.rooms.NPCSpawn;
 import util.Buildable;
 
 public class Character extends Entity implements Buildable, Sendable {
@@ -113,7 +111,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.level = builder.getValue();
 		this.items = builder.getItems();
 		this.type = Character.Type.PLAYER;
-		this.equips = new ArrayList<Item>();
+		this.equips = new ArrayList<>();
 		for (int i : builder.getEquips()) {
 			this.equips.add(ServerSideGame.mapOfItems.get(i));
 		}
@@ -125,14 +123,14 @@ public class Character extends Entity implements Buildable, Sendable {
 		super(null, -1, -1, username, "A player, just like you!", null);
 
 		this.modelID = -1;
-		this.items = new ArrayList<Integer>();
+		this.items = new ArrayList<>();
 		this.type = Type.PLAYER;
-		this.baseXP = type.getBaseXP();
+		this.baseXP = this.type.getBaseXP();
 		this.rank = -1;
 		this.level = 1;
 		this.xp = 0;
 		this.isAlive = false;
-		this.equips = new ArrayList<Item>();
+		this.equips = new ArrayList<>();
 
 		setFields();
 		addActions();
@@ -473,21 +471,21 @@ public class Character extends Entity implements Buildable, Sendable {
 	public List<Item> getEquips() {
 		return this.equips;
 	}
-	
+
 	@Override
 	public byte[] toSend() {
 		byte[] bytes;
 		int i;
 
-		switch (type) {
+		switch (this.type) {
 		case MONSTER:
 			bytes = new byte[28];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.MONSTER.value();
-			bytes[2] = isAlive ? (byte) 1 : 0;
-			bytes[3] = facing.value();
+			bytes[2] = this.isAlive ? (byte) 1 : 0;
+			bytes[3] = this.facing.value();
 			i = 4;
-			for (byte b : Sendable.intsToBytes(ID, modelID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.health, this.level, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
@@ -495,24 +493,24 @@ public class Character extends Entity implements Buildable, Sendable {
 			bytes = new byte[20];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.VENDOR.value();
-			bytes[2] = facing.value();
+			bytes[2] = this.facing.value();
 			bytes[3] = PackageCode.Codes.BREAK.value(); //empty slot
 			i = 4;
-			for (byte b : Sendable.intsToBytes(ID, modelID, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
 		case PLAYER:
-			bytes = new byte[24+name.length()];
+			bytes = new byte[24+this.name.length()];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.PLAYER.value();
-			bytes[2] = isAlive ? (byte) 1 : 0;
-			bytes[3] = facing.value();
+			bytes[2] = this.isAlive ? (byte) 1 : 0;
+			bytes[3] = this.facing.value();
 			i = 4;
-			for (byte b : Sendable.intsToBytes(ID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.health, this.level, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
-			for (char c : name.toCharArray()) {
+			for (char c : this.name.toCharArray()) {
 				bytes[i++] = (byte) c;
 			}
 			return bytes;

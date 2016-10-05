@@ -407,6 +407,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                             return Side.Back;
                         case WEST:
                             return Side.Right;
+					default:
+						break;
                     }
                     break;
             case East:
@@ -419,6 +421,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Left;
                     case WEST:
                         return Side.Back;
+				default:
+					break;
                 }
                 break;
             case South:
@@ -431,6 +435,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Front;
                     case WEST:
                         return Side.Left;
+				default:
+					break;
                 }
                 break;
             case West:
@@ -445,6 +451,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Front;
                 }
                 break;
+		default:
+			break;
         }
         return Side.Front;
     }
