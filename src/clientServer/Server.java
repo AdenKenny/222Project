@@ -1,6 +1,5 @@
 package clientServer;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +19,7 @@ public class Server {
 
 	public void run() {
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started.");
-		
+
 		//start the game tick
 		new Tick(this.game).start();
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The game tick has begun.");
@@ -48,7 +47,7 @@ public class Server {
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-		ConsoleWindow window = new ConsoleWindow();
+		new ConsoleWindow();
 	}
 
 }
