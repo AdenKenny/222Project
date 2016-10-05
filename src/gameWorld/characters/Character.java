@@ -13,6 +13,7 @@ import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
 import gameWorld.rooms.NPCSpawn;
+import ui.appwindow.MainWindow;
 import util.Buildable;
 
 public class Character extends Entity implements Buildable, Sendable {
@@ -153,14 +154,14 @@ public class Character extends Entity implements Buildable, Sendable {
 				public String name() { return "Trade";}
 				@Override
 				public void perform(Object caller) {
-					if (!(caller instanceof Character)) {
+					if (!(caller instanceof MainWindow)) {
 						return;
 					}
-					
-					Character ch = (Character) caller;
+
+					MainWindow mw = (MainWindow) caller;
 					// TODO UI.showTradeDialog(); or something
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -171,18 +172,18 @@ public class Character extends Entity implements Buildable, Sendable {
 			this.actions.add(new Action() {
 				@Override
 				public String name() { return "Attack";}
-				
+
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					tryAttack(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -473,7 +474,7 @@ public class Character extends Entity implements Buildable, Sendable {
 	public List<Item> getEquips() {
 		return this.equips;
 	}
-	
+
 	@Override
 	public byte[] toSend() {
 		byte[] bytes;
@@ -541,4 +542,9 @@ public class Character extends Entity implements Buildable, Sendable {
 		return this.description;
 	}
 
-}
+	@Override
+	public boolean isPlayer() {
+		return this.type.equals(Type.PLAYER);
+	}
+
+}

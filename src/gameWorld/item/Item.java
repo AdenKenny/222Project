@@ -6,6 +6,7 @@ import java.util.List;
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.characters.Character;
+import ui.appwindow.MainWindow;
 import util.Buildable;
 
 public class Item implements Buildable, Cloneable {
@@ -49,6 +50,40 @@ public class Item implements Buildable, Cloneable {
 	}
 
 	private void addActions() {
+		this.actions.add(new Action() {
+
+			@Override
+			public String name() {
+				return "Inspect";
+			}
+
+			@Override
+			public void perform(Object caller) {
+				if (!(caller instanceof MainWindow)) {
+					return;
+				}
+
+				MainWindow mw = (MainWindow) caller;
+
+				String friendlyName = name;
+				friendlyName = java.lang.Character.toUpperCase(friendlyName.charAt(0)) + friendlyName.substring(1);
+
+				for (int i = 1; i < friendlyName.length(); ++i) {
+					if (java.lang.Character.isUpperCase(friendlyName.charAt(i))) {
+						friendlyName = friendlyName.substring(0, i) + " " + friendlyName.substring(i);
+						++i;
+					}
+				}
+
+				mw.addGameChat(friendlyName+": "+description);
+			}
+
+			@Override
+			public boolean isClientAction() {
+				return true;
+			}
+
+		});
 		switch (this.type) {
 		case WEAPON:
 		case SHIELD:
@@ -65,12 +100,12 @@ public class Item implements Buildable, Cloneable {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					tryEquip(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -92,12 +127,12 @@ public class Item implements Buildable, Cloneable {
 				if (!(caller instanceof Character)) {
 					return;
 				}
-				
+
 				Character ch = (Character) caller;
-				
+
 				tryPickUp(ch);
 			}
-			
+
 			@Override
 			public boolean isClientAction() {
 				return false;
@@ -116,12 +151,12 @@ public class Item implements Buildable, Cloneable {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					trySell(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -139,12 +174,12 @@ public class Item implements Buildable, Cloneable {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					tryBuy(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;

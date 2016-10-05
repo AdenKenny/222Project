@@ -77,4 +77,9 @@ public class StationaryObject extends Entity {
 		return this.items;
 	}
 
+	@Override
+	public boolean isPlayer() {
+		return false;
+	}
+
 }
