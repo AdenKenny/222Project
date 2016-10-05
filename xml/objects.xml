@@ -1,2 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <objects>
+  <object>
+    <ID>231321</ID>
+    <name>table</name>
+    <type>FURNITURE</type>
+    <value>-1</value>
+    <items/>
+    <description>A table.</description>
+  </object>
+  <object>
+    <ID>321323</ID>
+    <name>chest</name>
+    <type>CHEST</type>
+    <value>-1</value>
+    <items>32, 15, 51, 52</items>
+    <description>A wooden chest.</description>
+  </object>
 </objects>
