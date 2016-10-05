@@ -9,7 +9,7 @@ public class OptionsListener implements MouseInputListener{
 
 	private OptionsPane pane;
 	private Rectangle listBounds;
-	
+
 	public OptionsListener(OptionsPane pane, Rectangle listBounds){
 		this.pane = pane;
 		this.listBounds = listBounds;
@@ -17,8 +17,8 @@ public class OptionsListener implements MouseInputListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		pane.selectOption(e.getY());
+
 	}
 
 	@Override
@@ -31,27 +31,29 @@ public class OptionsListener implements MouseInputListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
+		pane.setVisible(false);
+	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {	
+	public void mouseDragged(MouseEvent e) {
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 
 }
