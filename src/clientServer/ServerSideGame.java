@@ -32,9 +32,8 @@ public class ServerSideGame implements Game {
 	private int tickCounter = 0;
 
 	public ServerSideGame() {
-		LoadGame loader = new LoadGame();
 
-		for(Character c : loader.getPlayers()) {
+		for(Character c : LoadGame.getInstance().getPlayers()) {
 			players.put(c.getName(), c); //Loads players into game.
 		}
 
@@ -142,7 +141,7 @@ public class ServerSideGame implements Game {
 		}
 		return data;
 	}
-	
+
 	public synchronized byte[] checkNewlyEntered(long uid) {
 		Player player = this.connectedPlayers.get(uid);
 		if (player.isNewlyEntered()) {
@@ -156,7 +155,7 @@ public class ServerSideGame implements Game {
 		}
 		return null;
 	}
-	
+
 	public synchronized int getTickCounter() {
 		return this.tickCounter;
 	}
