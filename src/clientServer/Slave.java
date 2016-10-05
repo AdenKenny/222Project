@@ -71,7 +71,7 @@ public class Slave extends Thread {
 						for (int i = 1; i < data.length; i++) {
 							message.append((char)data[i]);
 						}
-						this.frame.addChat(message.toString());
+						this.mainWindow.addChat(message.toString());
 					}
 				}
 				else {
