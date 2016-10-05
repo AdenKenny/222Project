@@ -65,17 +65,7 @@ public class Item implements Buildable, Cloneable {
 
 				MainWindow mw = (MainWindow) caller;
 
-				String friendlyName = name;
-				friendlyName = java.lang.Character.toUpperCase(friendlyName.charAt(0)) + friendlyName.substring(1);
-
-				for (int i = 1; i < friendlyName.length(); ++i) {
-					if (java.lang.Character.isUpperCase(friendlyName.charAt(i))) {
-						friendlyName = friendlyName.substring(0, i) + " " + friendlyName.substring(i);
-						++i;
-					}
-				}
-
-				mw.addGameChat(friendlyName+": "+description);
+				mw.addGameChat(getNiceName()+": "+description);
 			}
 
 			@Override
@@ -84,6 +74,40 @@ public class Item implements Buildable, Cloneable {
 			}
 
 		});
+
+		this.actions.add(new Action() {
+			@Override
+			public String name() {
+				return "Sell";
+			}
+
+			@Override
+			public void perform(Object caller) {
+				if (!(caller instanceof Character)) {
+					return;
+				}
+
+				Character ch = (Character) caller;
+				Entity[][] entities = ch.room().entities();
+				for (Entity[] es : entities) {
+					for (Entity e : es) {
+						if (e instanceof Character) {
+							Character c = (Character) e;
+							if (c.getType().equals(Character.Type.VENDOR)) {
+								ch.sellItem(ID, saleValue * c.getRank());
+								return;
+							}
+						}
+					}
+				}
+			}
+
+			@Override
+			public boolean isClientAction() {
+				return false;
+			}
+		});
+
 		switch (this.type) {
 		case WEAPON:
 		case SHIELD:
@@ -210,7 +234,7 @@ public class Item implements Buildable, Cloneable {
 					if (entities[i][j] instanceof Character) {
 						Character ch = (Character) entities[i][j];
 						if (ch.getType().equals(Character.Type.VENDOR)) {
-							this.holder.sellItem(this, (int) (this.saleValue * (1 + ((double) ch.getRank()) / 10)));
+							this.holder.sellItem(this.ID, (int) (this.saleValue * (1 + ((double) ch.getRank()) / 10)));
 						}
 					}
 				}
@@ -247,6 +271,21 @@ public class Item implements Buildable, Cloneable {
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	public String getNiceName() {
+		String niceName = name;
+
+		niceName = java.lang.Character.toUpperCase(niceName.charAt(0)) + niceName.substring(1);
+
+		for (int i = 1; i < niceName.length(); ++i) {
+			if (java.lang.Character.isUpperCase(niceName.charAt(i))) {
+				niceName = niceName.substring(0, i) + " " + niceName.substring(i);
+				++i;
+			}
+		}
+
+		return niceName;
 	}
 
 	public Type getType() {
