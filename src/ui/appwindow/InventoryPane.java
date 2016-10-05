@@ -21,12 +21,12 @@ public class InventoryPane extends JPanel{
 	public static float WIDTH_RATIO = 0.34f;
 	public static int ROWS;
 	public static int COLS;
-	
+
 	private Item[][] items;
 	private static HashMap<String, Image> itemIcons;
 	int colWidth;
 	int rowHeight;
-	
+
 	public InventoryPane(){
 		ROWS=2;
 		COLS=4;
@@ -39,39 +39,39 @@ public class InventoryPane extends JPanel{
 			e1.printStackTrace();
 		}
 		addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				processItemClick(e.getX(), e.getY(), e.getButton());
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
-	
+
 	protected void processItemClick(int x, int y, int button) {
 		for(int i=1; i<=ROWS; i++){
 			for(int j=1; j<=COLS; j++){
@@ -84,7 +84,7 @@ public class InventoryPane extends JPanel{
 				}
 			}
 		}
-		
+
 	}
 
 	private void showOptions(Item item) {
@@ -101,13 +101,12 @@ public class InventoryPane extends JPanel{
 			}
 		}
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
-		System.out.println("inventory: " + getWidth() + "x" + getHeight());
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(), getHeight());
-		
+
 		//Draw boundary lines
 		g.setColor(Color.black);
 		colWidth = getWidth()/COLS;
@@ -118,7 +117,7 @@ public class InventoryPane extends JPanel{
 		for(int i=1; i<ROWS;i++){
 			g.drawLine(0, i*rowHeight, getWidth(), i*rowHeight);
 		}
-		
+
 		//draw item icons of inventory
 		for(int i=0; i<ROWS; i++ ){
 			for(int j=0; j<COLS; j++){
@@ -126,10 +125,10 @@ public class InventoryPane extends JPanel{
 					//draw the item based on its name
 				}
 				//TODO remove this later
-				g.drawImage(MainWindow.itemIcons.get("diamondShortSword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null); 
+				g.drawImage(MainWindow.itemIcons.get("diamondShortSword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 			}
 		}
-		
+
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(10));
         g2.setColor(new Color(23, 69, 40));
@@ -138,7 +137,7 @@ public class InventoryPane extends JPanel{
         g2.setStroke(new BasicStroke(5));
 		g.drawRect(0,0,getWidth(), getHeight());
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((int) (getParent().getWidth()*WIDTH_RATIO), (int) (getParent().getHeight()));

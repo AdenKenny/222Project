@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Graphics.GraphicsPanel;
+import IDGUI.Frame;
+import IDGUI.MessageDialog;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
@@ -49,16 +51,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if(JOptionPane.showConfirmDialog(frame, "Quit game?") == JOptionPane.YES_OPTION){
-                	try{
-                		slave.close();
-                	}
-                	catch(Exception ex){
-
-                	}
-                    frame.setVisible(false);
-                    frame.dispose();
-                }
+                slave.close();
+                frame.setVisible(false);
+                frame.dispose();
+                System.exit(0);
             }
 
 			@Override
@@ -146,16 +142,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 		bottomPanel.initComponents();
 
-		addGameChat("Testing game chat");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addGameChat("Chat from the game");
 		setStat(StatsPane.HEALTH, 50);
 		setStat(StatsPane.EXP, 20);
 		setStat(StatsPane.LEVEL, 99);
@@ -215,7 +201,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void sendChat(String chatInput) {
 		//send input to server for broadcast
 		slave.sendTextMessage(chatInput);
-		addChat(chatInput); //TODO: Remove so user sending message gets back from broadcast
 	}
 
 	public void addGameChat(String output) {
@@ -303,9 +288,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		threadedMessage(text);
 	}
 
-	public void threadedMessage(String string) {
-		// TODO Auto-generated method stub
-
+	public void threadedMessage(String text) {
+		new Thread() {
+			@Override
+			public void run() {
+				new MessageDialog(MainWindow.this, text);
+			}
+		}.start();
 	}
 
 	private void enterGame() {
@@ -319,11 +308,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.revalidate();
 		this.repaint();
 	}
+
+	public void setSlave(Slave slave) {
+		this.slave = slave;
+	}
+
 	public static void main(String[] args){
 		MainWindow main = new MainWindow();
 		Slave slave = new Slave(main);
-		main.game = slave.getGame();
-		main.slave = slave;
+		slave.start();
+		main.setSlave(slave);
 		main.initComponents();
 	}
 }

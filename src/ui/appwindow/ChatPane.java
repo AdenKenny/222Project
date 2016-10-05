@@ -25,16 +25,16 @@ public class ChatPane extends JPanel{
 	protected JTextPane textArea;
 	protected JScrollPane scroll;
 	protected JTextArea inputBar;
-	
+
 	private SpringLayout layout;
-	
+
 	public ChatPane(BottomPanel parent){
 		this.parent = parent;
 		layout = new SpringLayout();
 		setLayout(layout);
 		setVisible(true);
 	}
-	
+
 	public void initComponents(){
 		this.textArea = new JTextPane();
 		this.scroll = new JScrollPane(textArea);
@@ -46,23 +46,23 @@ public class ChatPane extends JPanel{
 		textArea.setEditable(false);
 		inputBar.setEditable(true);
 		inputBar.setLineWrap(true);
-		inputBar.setText("enter message:");
+		//inputBar.setText("");
 		scroll.setPreferredSize(new Dimension(550, 150));
 		inputBar.setPreferredSize(new Dimension(550, 20));
 		textArea.setText("Welcome to RoomScape!\n");
 		inputBar.addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -80,12 +80,11 @@ public class ChatPane extends JPanel{
 		textArea.setBackground(Color.BLACK);
 		textArea.setVisible(true);
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
-		System.out.println("Chat: " + getWidth() + "x" + getHeight());
 		if(scroll!=null ){
 			textArea.repaint();
 			scroll.repaint();
@@ -101,26 +100,26 @@ public class ChatPane extends JPanel{
 	}
 
 	/*
-	 * Makes the JScrollPane scroll down to the bottom of the text area so 
+	 * Makes the JScrollPane scroll down to the bottom of the text area so
 	 * that the latest input is shown
 	 */
 	public void scrollToEnd() {
 		scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMaximum());
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((int) (getParent().getWidth()*WIDTH_RATIO), (int) (getParent().getHeight()));
 	}
-	
+
 	private void sendChat(String chatInput){
 		parent.sendChat(chatInput);
 	}
-	
+
 	public void addGameChat(String output){
 		StyledDocument current = textArea.getStyledDocument();
 		SimpleAttributeSet style = new SimpleAttributeSet();
-		StyleConstants.setItalic(style, true);
+		StyleConstants.setForeground(style, Color.RED);
 		try{
 			textArea.getStyledDocument().insertString(current.getLength(), "\n"+output, style);
 		}
@@ -133,7 +132,7 @@ public class ChatPane extends JPanel{
 	public void addChat(String text) {
 		StyledDocument current = textArea.getStyledDocument();
 		SimpleAttributeSet style = new SimpleAttributeSet();
-		StyleConstants.setForeground(style, Color.RED);
+		StyleConstants.setItalic(style, true);
 		try{
 			textArea.getStyledDocument().insertString(current.getLength(), "\n"+text, style);
 		}

@@ -30,10 +30,10 @@ public class StatsPane extends JPanel{
 	private int maxHealth= 100;
 	private int exp=20;
 	private int expForLevel=100;
-	private int level; 
-	
+	private int level;
+
 	private boolean showStats = false;
-	
+
 	public StatsPane(){
 		setVisible(true);
 
@@ -50,7 +50,6 @@ public class StatsPane extends JPanel{
 	public void paint(Graphics g) {
 		g.setColor(Color.gray);
 		g.fillRect(0,0,getWidth(), getHeight());
-		System.out.println("Stats: " + getWidth() + "x" + getHeight());
 		if(showStats){
 			//Health bar
 			g.setColor(Color.black);
@@ -59,7 +58,7 @@ public class StatsPane extends JPanel{
 			g.fillRect(getWidth()/4, 90, getWidth()/2, 10); //MaxHealth
 			g.setColor(Color.green);
 			g.fillRect(getWidth()/4, 90, (getWidth()/2)*(health+1)/(maxHealth+1), 10); //currentHealth
-			
+
 			//Exp bar
 			g.setColor(Color.black);
 			g.drawString("Exp:", 50, 150);
@@ -67,13 +66,13 @@ public class StatsPane extends JPanel{
 			g.fillRect(getWidth()/4, 140, getWidth()/2, 10);
 			g.setColor(Color.yellow);
 			g.fillRect(getWidth()/4, 140,getWidth()/2*(exp+1)/(expForLevel+1), 10);
-			
+
 
 			g.setColor(Color.black);
 			g.setFont(new Font("Level "+level, Font.BOLD, 20));
 			g.drawString("Level "+level, getWidth()/2-40, 30);
-			
-			
+
+
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(10));
             g2.setColor(new Color(23, 69, 40));
@@ -82,10 +81,10 @@ public class StatsPane extends JPanel{
             g2.setStroke(new BasicStroke(5));
 			g.drawRect(0,0,getWidth(), getHeight());
 		}
-		
+
 
 	}
-	
+
 	protected void setStat(int id, int value){
 		switch (id) {
 		case HEALTH:
@@ -107,7 +106,7 @@ public class StatsPane extends JPanel{
 			break;
 		}
 	}
-	
+
 	protected void setHealth(int health) {
 		this.health = health;
 	}

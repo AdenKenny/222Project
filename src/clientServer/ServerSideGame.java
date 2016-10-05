@@ -142,11 +142,14 @@ public class ServerSideGame implements Game {
 		}
 		return data;
 	}
-	
+
 	public synchronized byte[] checkNewlyEntered(long uid) {
 		Player player = this.connectedPlayers.get(uid);
 		if (player.isNewlyEntered()) {
 			Room room = player.getCharacter().room();
+			if (room == null) {
+				return null;
+			}
 			player.setNewlyEntered(false);
 			byte[] roomEntry = new byte[3];
 			roomEntry[0] = PackageCode.Codes.GAME_NEW_ROOM.value();
@@ -156,7 +159,7 @@ public class ServerSideGame implements Game {
 		}
 		return null;
 	}
-	
+
 	public synchronized int getTickCounter() {
 		return this.tickCounter;
 	}
