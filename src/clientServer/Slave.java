@@ -71,8 +71,7 @@ public class Slave extends Thread {
 						for (int i = 1; i < data.length; i++) {
 							message.append((char)data[i]);
 						}
-						//TODO send the received message to relevant class
-						System.out.println(message.toString());
+						this.frame.addChat(message.toString());
 					}
 				}
 				else {
