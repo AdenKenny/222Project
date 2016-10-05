@@ -1,6 +1,5 @@
 package clientServer;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -56,7 +55,7 @@ public class Server {
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-		ConsoleWindow window = new ConsoleWindow();
+		new ConsoleWindow();
 	}
 
 }
