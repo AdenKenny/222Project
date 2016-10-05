@@ -61,8 +61,19 @@ public class Item implements Buildable, Cloneable {
 				}
 
 				@Override
-				public void perform(Character caller) {
-					tryEquip(caller);
+				public void perform(Object caller) {
+					if (!(caller instanceof Character)) {
+						return;
+					}
+					
+					Character ch = (Character) caller;
+					
+					tryEquip(ch);
+				}
+				
+				@Override
+				public boolean isClientAction() {
+					return false;
 				}
 			});
 			break;
@@ -77,8 +88,19 @@ public class Item implements Buildable, Cloneable {
 			}
 
 			@Override
-			public void perform(Character caller) {
-				tryPickUp(caller);
+			public void perform(Object caller) {
+				if (!(caller instanceof Character)) {
+					return;
+				}
+				
+				Character ch = (Character) caller;
+				
+				tryPickUp(ch);
+			}
+			
+			@Override
+			public boolean isClientAction() {
+				return false;
 			}
 		});
 
@@ -90,8 +112,19 @@ public class Item implements Buildable, Cloneable {
 				}
 
 				@Override
-				public void perform(Character caller) {
-					trySell(caller);
+				public void perform(Object caller) {
+					if (!(caller instanceof Character)) {
+						return;
+					}
+					
+					Character ch = (Character) caller;
+					
+					trySell(ch);
+				}
+				
+				@Override
+				public boolean isClientAction() {
+					return false;
 				}
 			});
 		} else {
@@ -102,8 +135,19 @@ public class Item implements Buildable, Cloneable {
 				}
 
 				@Override
-				public void perform(Character caller) {
-					tryBuy(caller);
+				public void perform(Object caller) {
+					if (!(caller instanceof Character)) {
+						return;
+					}
+					
+					Character ch = (Character) caller;
+					
+					tryBuy(ch);
+				}
+				
+				@Override
+				public boolean isClientAction() {
+					return false;
 				}
 			});
 		}

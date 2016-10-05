@@ -152,8 +152,18 @@ public class Character extends Entity implements Buildable, Sendable {
 				@Override
 				public String name() { return "Trade";}
 				@Override
-				public void perform(Character caller) {
+				public void perform(Object caller) {
+					if (!(caller instanceof Character)) {
+						return;
+					}
+					
+					Character ch = (Character) caller;
 					// TODO UI.showTradeDialog(); or something
+				}
+				
+				@Override
+				public boolean isClientAction() {
+					return false;
 				}
 			});
 
@@ -161,9 +171,21 @@ public class Character extends Entity implements Buildable, Sendable {
 			this.actions.add(new Action() {
 				@Override
 				public String name() { return "Attack";}
+				
 				@Override
-				public void perform(Character caller) {
-					tryAttack(caller);
+				public void perform(Object caller) {
+					if (!(caller instanceof Character)) {
+						return;
+					}
+					
+					Character ch = (Character) caller;
+					
+					tryAttack(ch);
+				}
+				
+				@Override
+				public boolean isClientAction() {
+					return false;
 				}
 			});
 	}

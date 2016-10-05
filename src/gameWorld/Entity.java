@@ -5,6 +5,7 @@ import java.util.List;
 
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import ui.appwindow.MainWindow;
 
 public abstract class Entity {
 	private static int IDCount = 0;
@@ -23,9 +24,8 @@ public abstract class Entity {
 	protected List<Action> actions;
 
 	/**
-	 * Constructs an Entity at the given Location,
-	 * with the given name and description, facing in
-	 * the given Direction.
+	 * Constructs an Entity at the given Location, with the given name and
+	 * description, facing in the given Direction.
 	 *
 	 * @param location
 	 * @param actions
@@ -46,6 +46,29 @@ public abstract class Entity {
 		this.description = name;
 
 		this.facing = (facing == null) ? Direction.NORTH : facing;
+
+		this.actions.add(new Action() {
+
+			@Override
+			public String name() {
+				return "Inspect";
+			}
+
+			@Override
+			public void perform(Object caller) {
+				if (!(caller instanceof MainWindow)) {
+					return;
+				}
+				
+				MainWindow mw = (MainWindow) caller;
+				// TODO Print the name & description in the client's chat
+			}
+
+			@Override
+			public boolean isClientAction() {
+				return true;
+			}
+		});
 	}
 
 	/**
@@ -89,7 +112,7 @@ public abstract class Entity {
 	/**
 	 * Returns the name of this Entity.
 	 *
-	 * @return	the name
+	 * @return the name
 	 */
 	public String name() {
 		return name;
@@ -98,7 +121,7 @@ public abstract class Entity {
 	/**
 	 * Returns the description of this Entity.
 	 *
-	 * @return	the description
+	 * @return the description
 	 */
 	public String description() {
 		return description;
@@ -107,7 +130,7 @@ public abstract class Entity {
 	/**
 	 * Returns the Direction this Entity is facing.
 	 *
-	 * @return	the Direction
+	 * @return the Direction
 	 */
 	public Direction facing() {
 		return facing;
@@ -116,29 +139,28 @@ public abstract class Entity {
 	/**
 	 * Returns the unique ID of this Entity.
 	 *
-	 * @return	a unique ID
+	 * @return a unique ID
 	 */
 	public int ID() {
 		return ID;
 	}
 
 	/**
-	 * Returns the actions that may be performed on this
-	 * Entity.
+	 * Returns the actions that may be performed on this Entity.
 	 *
-	 * @return	the List of actions
+	 * @return the List of actions
 	 */
 	public List<Action> actions() {
 		return actions;
 	}
 
 	/**
-	 * Attempts to perform the specified action on this Entity.
-	 * Will fail if the specified action cannot be found in the
-	 * List of actions that may be performed on this Entity.
+	 * Attempts to perform the specified action on this Entity. Will fail if the
+	 * specified action cannot be found in the List of actions that may be
+	 * performed on this Entity.
 	 *
 	 * @param action
-	 * @return	whether the action succeeded or not
+	 * @return whether the action succeeded or not
 	 */
 	public boolean performAction(String action, Character caller) {
 
