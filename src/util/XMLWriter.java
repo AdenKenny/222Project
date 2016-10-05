@@ -73,9 +73,79 @@ public final class XMLWriter {
 
 	private Document doc;
 
-	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead) {
+	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead, String objectsFile, String objectsRead) {
 		writeItems(itemsFile, itemsRead);
 		writeChars(charsFile, charsRead);
+		writeObjects(objectsFile, objectsRead);
+	}
+
+	public void writeObjects(String fileName, String readFile) {
+
+		try {
+
+			Element root = getRoot(fileName); // Create a new root.
+
+			this.doc.appendChild(root); // Append root to tree.
+
+			Scanner scan = null;
+
+			try {
+				scan = new Scanner(new File("xml/" + readFile + ".txt"));
+
+				while (scan.hasNextLine()) {
+					String line = scan.nextLine();
+
+					// Skip comments prefaced with //
+					if (line.startsWith("//") || line.startsWith(" "))
+						continue;
+					String[] test = line.split("\\{"); // Split set of items from main details.
+
+					String[] temp = line.split("\\(");
+
+					String values = temp[0];
+
+					String[] arr = values.split(" "); // Split on space
+
+					Element object = this.doc.createElement("object"); // Create new item.
+
+					for (int i = 0, length = arr.length; i < length; ++i) { // For the amount of words.
+						Position pos = Position.getPos(i); // Get what the field should be called.
+
+						System.out.println(i);
+
+						Element tag = this.doc.createElement(pos.getName()); // Create new element.
+						tag.appendChild(this.doc.createTextNode(arr[i])); // Append value to field.
+
+						object.appendChild(tag); // Append the field to the item.
+					}
+
+					String description = temp[1].substring(0, temp[1].length() - 1);
+
+					Element desc = this.doc.createElement("description");
+					desc.appendChild(this.doc.createTextNode(description));
+
+					object.appendChild(desc);
+
+					String name = object.getElementsByTagName("name").item(0).getTextContent();
+					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
+
+					root.appendChild(object); // Append the new item to the root.
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			finally {
+				if (scan != null) {
+					scan.close();
+				}
+			}
+			transform("xml/" + fileName + ".xml"); // Print to file.
+		}
+
+		catch (ParserConfigurationException e) {
+			Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.SEVERE, "Failed to parse in XML Writer");
+		}
 	}
 
 
@@ -272,7 +342,7 @@ public final class XMLWriter {
 	}
 
 	public static void main(String[] args) {
-		new XMLWriter("items", "items", "characters", "characters");
+		new XMLWriter("items", "items", "characters", "characters", "objects", "objects");
 		XMLReader.getInstance();
 	}
 }
