@@ -54,7 +54,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
                 		slave.close();
                 	}
                 	catch(Exception ex){
-                		
+
                 	}
                     frame.setVisible(false);
                     frame.dispose();
@@ -98,7 +98,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
-		
+
 	}
 
 	private void loadIcons() {
@@ -124,11 +124,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			itemIcons.put("steelSabre", ImageIO.read(new File("resources/resources/graphics/steelSabre.png")));
 			itemIcons.put("steelShortSword", ImageIO.read(new File("resources/resources/graphics/steelShortSword.png")));
 			itemIcons.put("steelWarAxe", ImageIO.read(new File("resources/resources/graphics/steelWarAxe.png")));
-			
+
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	public void initComponents(){
@@ -140,7 +140,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END);
 		infoBar.initComponents();
-		
+
 		Login login = (Login) display;
 		login.initComponents();
 
@@ -163,85 +163,94 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setVisible(true);
 		this.optionsPane = new OptionsPane(this);
 		this.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 				optionsPane.setBounds(display.getBounds());
-				if(optionsPane.isVisible()) 
+				if(optionsPane.isVisible())
 					optionsPane.setVisible(false);
 				else {
 					optionsPane.setVisible(true);
 					}
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
 		displayItemOptions(null, 200, 200);
-		
+
 	}
 
 	protected void setDisplay(JPanel display){
 		this.display = display;
 	}
 
+	@Override
 	public void addChat(String text) {
 		bottomPanel.addChat(text);
 	}
 
+	@Override
 	public void sendChat(String chatInput) {
 		//send input to server for broadcast
 		addChat(chatInput); //TODO: Remove so user sending message gets back from broadcast
 	}
 
+	@Override
 	public void addGameChat(String output) {
 		bottomPanel.addGameChat(output);
 
 	}
 
+	@Override
 	public void addToInventory(Item item) {
 		bottomPanel.addToInventory(item);
 	}
 
+	@Override
 	public void setStat(int id, int value) {
 		bottomPanel.setStat(id, value);
 	}
 
+	@Override
 	public void setFloor(int number) {
 		infoBar.setFloor(number);
 	}
 
+	@Override
 	public void updateGold(int amount) {
 		infoBar.updateGold(amount);
 	}
 
+	@Override
 	public void displayItemOptions(List<Action> options, int x, int y) {
 		optionsPane.displayAndDrawList(x, y, options);
 	}
 
+	@Override
 	public void performActionOnItem(int itemId, int actionId) {
 		// TODO Auto-generated method stub
 
@@ -268,7 +277,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public Entity getEntity(int x, int y){
 		return null;
 	}
-	
+
 	public void reconnect() {
 		if (this.slave != null && this.slave.connected()) {
 			return;
@@ -304,9 +313,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public void threadedMessage(String string) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	private void enterGame() {
 		//TODO: setup graphics
 		if (this.display != null) {

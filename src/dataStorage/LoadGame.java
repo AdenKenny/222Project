@@ -21,6 +21,7 @@ import gameWorld.Room;
 import gameWorld.characters.Character;
 import gameWorld.characters.PlayerBuilder;
 import gameWorld.rooms.RoomBuilder;
+import util.Logging;
 
 /**
  * A class to load entities from XML.
@@ -55,14 +56,14 @@ public final class LoadGame {
 	 */
 
 	private synchronized void readRooms() {
-		File file = new File("xml/world.xml"); //We will read from world.xml
+		File file = new File("xml/world.xml"); //We will read the floors from this file.
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder(); //Builders.
 			this.doc = docBuilder.parse(file); //Parse the file to a document.
 
-			this.doc.getDocumentElement().normalize();
+			this.doc.getDocumentElement().normalize(); //This is apparently important.
 
 			NodeList list = getNodes("floor"); //Get a list of the floors.
 
@@ -82,12 +83,12 @@ public final class LoadGame {
 
 				ServerSideGame.world.addFloor(floor); //Add the floor to the world in server.
 
-				NodeList children = getNodes("room"); //Get a list of the rooms in a floor.
+				NodeList rooms = e.getElementsByTagName("room");
 
-				for (int j = 0, length = children.getLength(); j < length; ++j) {
+				for (int j = 0, length = rooms.getLength(); j < length; ++j) {
 
-					if (children.item(j).getNodeType() == Node.ELEMENT_NODE) { //Check cast.
-						Element child = (Element) children.item(j); //The cast is safe.
+					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) { //Check cast.
+						Element child = (Element) rooms.item(j); //The cast is safe.
 
 						RoomBuilder build = new RoomBuilder(floor); //New room builder.
 
@@ -214,6 +215,9 @@ public final class LoadGame {
 		catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+
+		Logging.logEvent(LoadGame.class.getName(),Logging.Levels.SEVERE, "Failed to load in characters");
+
 		return new HashSet<>(); // Empty set as failed.
 	}
 
