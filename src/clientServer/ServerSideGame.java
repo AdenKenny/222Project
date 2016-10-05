@@ -22,7 +22,7 @@ import util.Logging;
 public class ServerSideGame implements Game {
 
 
-	private static Map<String, Character> players = new HashMap<String, Character>();
+	private static Map<String, Character> players = new HashMap<>();
 
 	public static final World world = new World();
 
@@ -32,9 +32,8 @@ public class ServerSideGame implements Game {
 	private int tickCounter = 0;
 
 	public ServerSideGame() {
-		LoadGame loader = new LoadGame();
 
-		for(Character c : loader.getPlayers()) {
+		for(Character c : LoadGame.getInstance().getPlayers()) {
 			players.put(c.getName(), c); //Loads players into game.
 		}
 
@@ -172,7 +171,7 @@ public class ServerSideGame implements Game {
 	public void textMessage(long uid, String message) {
 		//add the users name to the start of the text message
 		message = this.connectedPlayers.get(uid).getCharacter().getName() + ": " + message;
-		textMessages.add(message);
+		this.textMessages.add(message);
 	}
 
 	/**
@@ -189,7 +188,14 @@ public class ServerSideGame implements Game {
 	}
 
 	public boolean userOnline(User user) {
-		return this.connectedPlayers.containsValue(user);
+
+		for(Player p: this.connectedPlayers.values()) {
+			if(user.equals(p.getUser())){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

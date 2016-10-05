@@ -39,7 +39,7 @@ public class Room {
 
 		this.floor = floor;
 
-		this.neighbours = new HashMap<Direction, Room>();
+		this.neighbours = new HashMap<>();
 
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -55,7 +55,7 @@ public class Room {
 
 		this.ID = Entity.getNewID();
 
-		this.neighbours = new HashMap<Direction, Room>();
+		this.neighbours = new HashMap<>();
 
 		this.xPos = builder.getxPos();
 		this.yPos = builder.getyPos();
@@ -106,7 +106,7 @@ public class Room {
 	public Entity[][] entities() {
 		return this.entities;
 	}
-	
+
 	public Set<Sendable> getSendables() {
 		Set<Sendable> sendables = new HashSet<>();
 		for (Entity[] es : entities) {

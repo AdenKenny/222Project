@@ -2,7 +2,7 @@ package clientServer;
 
 public final class PackageCode {
 
-	private PackageCode() {
+	private PackageCode() { //This shouldn't be initialised.
 		throw new AssertionError();
 	}
 

@@ -14,6 +14,8 @@ public class Server {
 
 	public Server() {
 
+		Logging.checkFile();
+
 		//Start the game
 		this.game = new ServerSideGame();
 

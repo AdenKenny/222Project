@@ -12,20 +12,6 @@ import gameWorld.characters.Character;
 
 public class ClientServerTests {
 
-	/**
-	 * Requires a server to be running.
-	 */
-	@Test
-	public void textMessage() {
-		Slave slave = new Slave(null);
-		slave.start();
-		slave.login("Simon", "hunter2");
-		slave.sendTextMessage("1");
-		slave.sendTextMessage("2");
-		slave.sendTextMessage("3");
-		while (true) {}
-	}
-
 	@Test
 	public void intToBytesToInt() {
 		int num = 70000;
@@ -33,7 +19,7 @@ public class ClientServerTests {
 		int back = Sendable.bytesToInt(bytes, 0);
 		assertEquals(num, back);
 	}
-	
+
 	@Test
 	public void connect() {
 		Slave slave = new Slave(new MainWindow());
@@ -47,7 +33,7 @@ public class ClientServerTests {
 		while (player == null) {
 			player = game.getPlayer();
 		}
-		System.out.println(player);
+		//System.out.println(player);
 	}
 
 }

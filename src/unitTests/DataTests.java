@@ -32,8 +32,8 @@ import util.XMLWriter;
 public class DataTests {
 
 	/**
-	 * This isn't actually a test. It just sets the logging file to a test one through reflection
-	 * rather than using the actual logging file.
+	 * This isn't actually a test. It just sets the logging file to a test one
+	 * through reflection rather than using the actual logging file.
 	 */
 
 	@Test
@@ -76,38 +76,34 @@ public class DataTests {
 		}
 	}
 
-/*	*//**
-	 * Test to make sure the CreateXML path actually creates a file.
-	 *//*
-
-	@Test
-	public void testCreateBasicXML() {
-
-		new CreateXML(null, "createXMLTest");
-
-		String testPath = "tests/createXMLTest.xml"; // Path for the file to be created in.
-
-		File file = new File(testPath);
-
-		Path path = file.toPath(); // The path to the file.
-
-		if (file.isFile()) { // Make sure the file exists.
-			try {
-				Files.delete(path); // It exists, we can clean up.
-			}
-
-			catch (IOException e) {
-				System.out.println("testCreateBasicXML failed: The file couldn't be read.");
-				fail(); // Problem with file. Test fails.
-			}
-		}
-
-		else {
-			System.out.println("testCreateBasicXML failed: The XML file was not created.");
-			fail(); // No file at all. Test fails.
-		}
-
-	}*/
+	/*	*//**
+			 * Test to make sure the CreateXML path actually creates a file.
+			 *//*
+			 *
+			 * @Test public void testCreateBasicXML() {
+			 *
+			 * new CreateXML(null, "createXMLTest");
+			 *
+			 * String testPath = "tests/createXMLTest.xml"; // Path for the file
+			 * to be created in.
+			 *
+			 * File file = new File(testPath);
+			 *
+			 * Path path = file.toPath(); // The path to the file.
+			 *
+			 * if (file.isFile()) { // Make sure the file exists. try {
+			 * Files.delete(path); // It exists, we can clean up. }
+			 *
+			 * catch (IOException e) { System.out.
+			 * println("testCreateBasicXML failed: The file couldn't be read.");
+			 * fail(); // Problem with file. Test fails. } }
+			 *
+			 * else { System.out.
+			 * println("testCreateBasicXML failed: The XML file was not created."
+			 * ); fail(); // No file at all. Test fails. }
+			 *
+			 * }
+			 */
 
 	@Test
 	public void testWriteXML() {
@@ -119,7 +115,7 @@ public class DataTests {
 
 		Path path = file.toPath();
 
-		if(file.isFile()) {
+		if (file.isFile()) {
 			try {
 				Files.delete(path);
 			}
@@ -136,21 +132,17 @@ public class DataTests {
 
 	@Test
 	public void testPlayersLoad() {
-		LoadGame loader = new LoadGame();
 
-		Set<Character> set = loader.getPlayers();
+		Set<Character> set = LoadGame.getInstance().getPlayers();
 
-		for(Character c : set) {
-
-		}
-
+		assert (set.size() > 0);
 	}
 
 	@Test
 	public void testReadXML() {
 		new XMLWriter("testing", "items", "testing2", "chars");
 
-		String testPath = "xml/testing.xml";
+		// String testPath = "xml/testing.xml";
 
 		XMLReader reader = XMLReader.getInstance();
 		Map<Integer, Item> map = reader.getItems();
@@ -166,7 +158,6 @@ public class DataTests {
 
 		item = map.get(5000);
 		assertSame(item, null);
-
 
 		CharacterModel character = map2.get(1000);
 

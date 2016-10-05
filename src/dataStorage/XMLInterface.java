@@ -4,6 +4,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Element;
 
+//This can probably be removed, it doesn't really serve a purpose at the moment.
+
 /**
  * An interface representing a way we will interact with a .xml file such as
  * creating, reading or editing one.

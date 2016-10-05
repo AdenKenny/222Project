@@ -45,20 +45,19 @@ public class GraphicsPanel extends JPanel {
 		this.username = username;
 
 		this.spawn = true;
+		this.wallColors = new HashMap<>();
+		this.wallColors.put(Direction.NORTH, Color.GREEN.darker());
+		this.wallColors.put(Direction.SOUTH, Color.BLUE.darker());
+		this.wallColors.put(Direction.EAST, Color.RED.darker());
+		this.wallColors.put(Direction.WEST, Color.YELLOW.darker());
 
-		wallColors = new HashMap<Direction, Color>();
-		wallColors.put(Direction.NORTH, Color.GREEN.darker());
-		wallColors.put(Direction.SOUTH, Color.BLUE.darker());
-		wallColors.put(Direction.EAST, Color.RED.darker());
-		wallColors.put(Direction.WEST, Color.YELLOW.darker());
+		this.spawnColors = new HashMap<>();
+		this.spawnColors.put(Direction.NORTH, Color.ORANGE);
+		this.spawnColors.put(Direction.WEST, Color.ORANGE.brighter());
+		this.spawnColors.put(Direction.EAST, Color.ORANGE.darker());
+		this.spawnColors.put(Direction.SOUTH, Color.CYAN);
 
-		spawnColors = new HashMap<Direction, Color>();
-		spawnColors.put(Direction.NORTH, Color.ORANGE);
-		spawnColors.put(Direction.WEST, Color.ORANGE.brighter());
-		spawnColors.put(Direction.EAST, Color.ORANGE.darker());
-		spawnColors.put(Direction.SOUTH, Color.CYAN);
-
-		floorColor = Color.GRAY.darker();
+		this.floorColor = Color.GRAY.darker();
 	}
 
 	@Override
@@ -71,8 +70,8 @@ public class GraphicsPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		Room room = game.getRoom();
-		Character player = game.getPlayer();
+		Room room = this.game.getRoom();
+		Character player = this.game.getPlayer();
 
 		if (room == null || player == null) {
 			g.setColor(Color.GREEN.brighter());
@@ -80,13 +79,13 @@ public class GraphicsPanel extends JPanel {
 			return;
 		}
 
-		g.setColor(floorColor);
+		g.setColor(this.floorColor);
 		int[] xs = {0, 150, 850, 1000};
 		int[] ys = {650, 500, 500, 650};
 		g.fillPolygon(xs, ys, 4);
 
 		// front wall
-		g.setColor((spawn) ? spawnColors.get(player.facing()) : wallColors.get(player.facing()));
+		g.setColor((spawn) ? this.spawnColors.get(player.facing()) : this.wallColors.get(player.facing()));
 		xs = new int[] {150, 150, 850, 850};
 		ys = new int[] {0, 500, 500, 0};
 		g.fillPolygon(xs, ys, 4);
@@ -95,13 +94,13 @@ public class GraphicsPanel extends JPanel {
 		Direction right = player.facing().getRight();
 
 		// left wall
-		g.setColor((spawn) ? spawnColors.get(left) : wallColors.get(left));
+		g.setColor((spawn) ? this.spawnColors.get(left) : this.wallColors.get(left));
 		xs = new int[] {0, 0, 150, 150};
 		ys = new int[] {0, 650, 500, 0};
 		g.fillPolygon(xs, ys, 4);
 
 		// right wall
-		g.setColor((spawn) ? spawnColors.get(right) : wallColors.get(right));
+		g.setColor((spawn) ? this.spawnColors.get(right) : this.wallColors.get(right));
 		xs = new int[] {850, 850, 1000, 1000};
 		ys = new int[] {0, 500, 650, 0};
 		g.fillPolygon(xs, ys, 4);
