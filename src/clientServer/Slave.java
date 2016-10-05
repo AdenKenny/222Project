@@ -7,10 +7,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Set;
 
-import IDGUI.Frame;
-import gameWorld.Sendable;
 import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {

@@ -61,6 +61,10 @@ public class StationaryObject extends Entity {
 		}
 	}
 
+	public void open() {
+		// TODO: stuff
+	}
+
 	public Integer getRandomItem() {
 		if (this.type.equals(Type.CHEST)) {
 			Integer[] ints = this.items.toArray(new Integer[this.items.size()]);
@@ -75,6 +79,14 @@ public class StationaryObject extends Entity {
 
 	public Set<Integer> getItems() {
 		return this.items;
+	}
+
+	public int getModelID() {
+		return this.modelID;
+	}
+
+	public boolean isOpen() {
+		return this.isOpen;
 	}
 
 	@Override

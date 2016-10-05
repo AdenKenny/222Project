@@ -19,8 +19,6 @@ import gameWorld.characters.CharacterBuilder;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
-import util.AbstractBuilder;
-import util.Buildable;
 import util.Logging;
 
 /**
