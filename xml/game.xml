@@ -13,6 +13,17 @@
       <equips>-1</equips>
     </player>
     <player>
+      <username>hotbabe4u</username>
+      <UID>11</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>0</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips>-1</equips>
+    </player>
+    <player>
       <username>Simon</username>
       <UID>4</UID>
       <type>PLAYER</type>

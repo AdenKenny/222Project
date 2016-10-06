@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -158,8 +159,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				optionsPane.setBounds(display.getBounds());
+				displayItemOptions(null, e.getX()-10, e.getY()-infoBar.HEIGHT);
 				if(optionsPane.isVisible())
 					optionsPane.setVisible(false);
 				else {
@@ -186,7 +186,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
 		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
-		displayItemOptions(null, 200, 200);
+		//displayItemOptions(null, 200, 200);
 
 	}
 
@@ -307,15 +307,20 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	private void enterGame() {
+		while ((this.game = slave.getGame()) == null) {};
 		//TODO: setup graphics
 		if (this.display != null) {
 			this.display.setVisible(false);
-		}
-		this.display = new GraphicsPanel(null, null);
+			this.remove(display);		}
+		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
+
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+		gfx.setVisible(true);
+		add(gfx);
 		this.revalidate();
 		this.repaint();
+		gfx.repaint();
 	}
 
 	public void setSlave(Slave slave) {

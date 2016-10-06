@@ -70,6 +70,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @param input
      */
     public void setGraphicsClickListener(GraphicsClickListener input){
+    	System.out.println("Added click listener");
         clickListener = input;
     }
 
@@ -109,11 +110,13 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     @Override
-    public void paint(Graphics graphics) {
+    public void paintComponent(Graphics graphics) {
+    	System.out.println("Paint called");
         render(viewer, room, graphics);
     }
 
     private void render(Character character, Room room, Graphics graphics){
+    	System.out.println("Render called");
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
