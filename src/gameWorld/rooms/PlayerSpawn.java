@@ -32,8 +32,8 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 				World.Direction facing = World.Direction.NORTH;
 
 				while (entities[y][x] != null) {
-					x = (int) (Math.random() * width + 1);
-					y = (int) (Math.random() * depth + 1);
+					x = (int) (Math.random() * width);
+					y = (int) (Math.random() * depth);
 				}
 
 				entities[y][x] = player;

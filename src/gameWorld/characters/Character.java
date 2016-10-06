@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import clientServer.ServerSideGame;
+import clientServer.Game;
 import clientServer.PackageCode;
 import gameWorld.Action;
 import gameWorld.Entity;
@@ -11,6 +12,7 @@ import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
+import ui.appwindow.MainWindow;
 import util.Buildable;
 
 public class Character extends Entity implements Buildable, Sendable {
@@ -145,10 +147,43 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	private void addActions() {
-		if (this.type.equals(Type.VENDOR))
+		if (this.type.equals(Type.VENDOR)) {
 			this.actions.add(new Action() {
 				@Override
-				public String name() { return "Trade";}
+				public String name() { return "Item Info";}
+				@Override
+				public void perform(Object caller) {
+					if (!(caller instanceof MainWindow)) {
+						return;
+					}
+
+					MainWindow mw = (MainWindow) caller;
+
+					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
+
+					int saleValue = sellItem.getSaleValue();
+					int price = saleValue + (saleValue * (rank-1) / 5);
+
+					mw.addGameChat("++++++++++++++++++\n"
+								+ sellItem.getNiceName() + "\n"
+								+ sellItem.getDescription() + "\n"
+								+ String.format("Price: %d", saleValue) + "\n"
+								+ "++++++++++++++++++");
+				}
+
+				@Override
+				public boolean isClientAction() {
+					return true;
+				}
+			});
+
+			this.actions.add(new Action() {
+
+				@Override
+				public String name() {
+					return "Buy Item";
+				}
+
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
@@ -156,7 +191,14 @@ public class Character extends Entity implements Buildable, Sendable {
 					}
 
 					Character ch = (Character) caller;
-					// TODO UI.showTradeDialog(); or something
+
+					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
+
+					int saleValue = sellItem.getSaleValue();
+					int price = saleValue + (saleValue * (rank-1) / 5);
+
+					ch.items.add(items.toArray(new Integer[1])[0]);
+					ch.setGold(ch.getGold() - price);
 				}
 
 				@Override
@@ -164,8 +206,9 @@ public class Character extends Entity implements Buildable, Sendable {
 					return false;
 				}
 			});
+		}
 
-		if (this.type.equals(Type.MONSTER))
+		if (this.type.equals(Type.MONSTER)) {
 			this.actions.add(new Action() {
 				@Override
 				public String name() { return "Attack";}
@@ -186,6 +229,7 @@ public class Character extends Entity implements Buildable, Sendable {
 					return false;
 				}
 			});
+		}
 	}
 
 	private void setFields() {
@@ -245,7 +289,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 
 		int damageDone = attack - defense;
-		setHealth(this.health-damageDone);
+		this.health = this.health-damageDone;
 		attacker.startAttackTimer();
 	}
 
@@ -270,9 +314,9 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.items.add(item.getID());
 	}
 
-	public void sellItem(Item item, int value) {
+	public void sellItem(int itemID, int value) {
 		for (Integer id : this.items) {
-			if (id == item.getID()) {
+			if (id == itemID) {
 				this.items.remove(id);
 				this.gold += value;
 			}
@@ -539,4 +583,9 @@ public class Character extends Entity implements Buildable, Sendable {
 		return this.description;
 	}
 
-}
+	@Override
+	public boolean isPlayer() {
+		return this.type.equals(Type.PLAYER);
+	}
+
+}

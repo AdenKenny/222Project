@@ -1,14 +1,12 @@
 package clientServer;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import gameWorld.Entity;
 import gameWorld.Room;
 import gameWorld.Sendable;
-import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
@@ -107,7 +105,7 @@ public class ClientSideGame extends Thread implements Game {
 			entities[c.yPos()][c.xPos()] = null;
 
 			Character.Type type = Character.Type.values()[received[1]];
-			
+
 			if (type.equals(Character.Type.MONSTER)) {
 				c.setAlive(received[2] == 1);
 				c.setFacing(Direction.values()[received[3]]);
@@ -158,6 +156,6 @@ public class ClientSideGame extends Thread implements Game {
 
 		return this.player;
 	}
-	
-	
+
+
 }

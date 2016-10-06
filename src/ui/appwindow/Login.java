@@ -24,7 +24,7 @@ import userHandling.Verification;
 
 /**
  * Container for displaying Login screen.
- * 
+ *
  * @author Clinton
  */
 
@@ -36,9 +36,9 @@ public class Login extends JPanel{
 	private JButton loginButton;
 	private JButton registerButton;
 	private static Image background;
-	
+
 	private SpringLayout layout;
-	
+
 	private MainWindow client;
 	private Slave slave;
 
@@ -56,7 +56,7 @@ public class Login extends JPanel{
 		setBackground(null);
 		setOpaque(false);
 	}
-	
+
 	public void initComponents(){
 		userLabel = new JLabel("Username:");
 		passLabel = new JLabel("Password:");
@@ -78,17 +78,17 @@ public class Login extends JPanel{
 		revalidate();
 		repaint();
 	}
-	
+
 	private void setRegisterAction() {
 		registerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Run registration for user
-				slave.newUser(userField.getText(), passField.getPassword().toString());
+				slave.newUser(userField.getText(), new String(passField.getPassword()));
 				passField.setText("");
 			}
 		});
-		
+
 	}
 
 	private void setLoginAction() {
@@ -96,32 +96,31 @@ public class Login extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Attempt Login
-				slave.login(userField.getText(), passField.getPassword().toString());
+				slave.login(userField.getText(), new String(passField.getPassword()));
 				passField.setText("");
 			}
 		});
-		
+
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-		System.out.println("Display: " + getWidth() + "x" + getHeight());
-		
+
 		//username
 		userField.setSize(new Dimension(200, 20));
 		layout.putConstraint(SpringLayout.WEST, userLabel, getWidth()/2-150, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, userLabel, 250, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.WEST, userField, 20, SpringLayout.EAST, userLabel);
 		layout.putConstraint(SpringLayout.NORTH, userField, 250, SpringLayout.NORTH, this);
-		
+
 		//password
 		passField.setSize(new Dimension(200, 20));
 		layout.putConstraint(SpringLayout.WEST, passLabel, getWidth()/2-150, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, passLabel, 290, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.WEST, passField, 20, SpringLayout.EAST, passLabel);
 		layout.putConstraint(SpringLayout.NORTH, passField, 290, SpringLayout.NORTH, this);
-		
+
 		//buttons
 		loginButton.setSize(90, 30);
 		registerButton.setSize(90, 30);

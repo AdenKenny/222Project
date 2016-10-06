@@ -46,7 +46,6 @@ public class ChatPane extends JPanel{
 		this.textArea.setEditable(false);
 		this.inputBar.setEditable(true);
 		this.inputBar.setLineWrap(true);
-		this.inputBar.setText("enter message:");
 		this.scroll.setPreferredSize(new Dimension(550, 150));
 		this.inputBar.setPreferredSize(new Dimension(550, 20));
 		this.textArea.setText("Welcome to RoomScape!\n");
@@ -85,7 +84,6 @@ public class ChatPane extends JPanel{
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
-		System.out.println("Chat: " + getWidth() + "x" + getHeight());
 		if(this.scroll!=null ){
 			this.textArea.repaint();
 			this.scroll.repaint();
@@ -120,7 +118,7 @@ public class ChatPane extends JPanel{
 	public void addGameChat(String output){
 		StyledDocument current = this.textArea.getStyledDocument();
 		SimpleAttributeSet style = new SimpleAttributeSet();
-		StyleConstants.setItalic(style, true);
+		StyleConstants.setForeground(style, Color.RED);
 		try{
 			this.textArea.getStyledDocument().insertString(current.getLength(), "\n"+output, style);
 		}
@@ -133,7 +131,7 @@ public class ChatPane extends JPanel{
 	public void addChat(String text) {
 		StyledDocument current = this.textArea.getStyledDocument();
 		SimpleAttributeSet style = new SimpleAttributeSet();
-		StyleConstants.setForeground(style, Color.RED);
+		StyleConstants.setItalic(style, true);
 		try{
 			this.textArea.getStyledDocument().insertString(current.getLength(), "\n"+text, style);
 		}

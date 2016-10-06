@@ -146,6 +146,9 @@ public class ServerSideGame implements Game {
 		Player player = this.connectedPlayers.get(uid);
 		if (player.isNewlyEntered()) {
 			Room room = player.getCharacter().room();
+			if (room == null) {
+				return null;
+			}
 			player.setNewlyEntered(false);
 			byte[] roomEntry = new byte[3];
 			roomEntry[0] = PackageCode.Codes.GAME_NEW_ROOM.value();

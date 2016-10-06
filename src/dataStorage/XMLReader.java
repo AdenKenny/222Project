@@ -390,4 +390,4 @@ public final class XMLReader {
 
 		}
 	}
-}
+}
