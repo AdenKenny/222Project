@@ -1,6 +1,9 @@
 package gameWorld.rooms;
 
+import java.util.ArrayList;
+
 import clientServer.ServerSideGame;
+import gameWorld.Entity;
 import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.World.Direction;
@@ -18,8 +21,7 @@ public class NPCSpawn extends Room implements SpawnRoom {
 		super(floor, builder);
 		CharacterModel model = ServerSideGame.mapOfCharacters.get(builder.getmodelID());
 
-		npc = new Character(null, -1, -1, model.getDescription(), Direction.NORTH,
-				builder.getLevel(), model);
+		npc = new Character(null, -1, -1, model.getDescription(), Direction.NORTH, builder.getLevel(), model);
 
 		deathTime = -1;
 		npc.setAlive(false);
@@ -44,6 +46,32 @@ public class NPCSpawn extends Room implements SpawnRoom {
 					npc.respawn(this, x, y, Direction.NORTH);
 					deathTime = -1;
 				}
+			}
+		} else {
+			if (npc.getAttackTimer() < System.currentTimeMillis()) {
+				int x = npc.xPos(), y = npc.yPos();
+				ArrayList<Entity> adjacents = new ArrayList<>(4);
+
+				if (entities[y - 1][x] instanceof Character) {
+					adjacents.add(entities[y - 1][x]);
+				}
+				if (entities[y + 1][x] instanceof Character) {
+					adjacents.add(entities[y + 1][x]);
+				}
+				if (entities[y][x - 1] instanceof Character) {
+					adjacents.add(entities[y][x - 1]);
+				}
+				if (entities[y][x + 1] instanceof Character) {
+					adjacents.add(entities[y][x + 1]);
+				}
+
+				if (adjacents.isEmpty()) {
+					return;
+				}
+
+				Character attackChar = (Character) adjacents.get((int) (Math.random() * adjacents.size()));
+
+				attackChar.tryAttack(npc);
 			}
 		}
 

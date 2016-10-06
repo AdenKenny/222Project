@@ -5,11 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Set;
 
-import IDGUI.Frame;
-import gameWorld.Sendable;
 import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {
@@ -79,9 +77,6 @@ public class Slave extends Thread {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
 							startGame();
 						}
-						else {
-							System.out.println("log in failed");
-						}
 						this.mainWindow.accountResult(data[1]);
 					}
 					else if (data[0] == PackageCode.Codes.NEW_USER_RESULT.value()) {
@@ -94,6 +89,9 @@ public class Slave extends Thread {
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 			this.socket.close();
+		} catch(SocketException e) {
+			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.connected = false;
 		} catch (IOException e) {
 			this.mainWindow.threadedMessage("Disconnected from server.");
 			this.connected = false;
@@ -151,9 +149,10 @@ public class Slave extends Thread {
 		try {
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
-		}
-
-		catch (IOException e) {
+		} catch(SocketException e) {
+			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.connected = false;
+		} catch (IOException e) {
 			System.out.println("Sending error");
 			e.printStackTrace();
 		}
@@ -198,7 +197,11 @@ public class Slave extends Thread {
 			disconnect[0] = PackageCode.Codes.DISCONNECT.value();
 			send(disconnect);
 			this.socket.close();
-		} catch (IOException e) {
+		}
+		catch(SocketException e) {
+			//nothing needs to be done, as the server connection is closed already
+		}
+		catch (IOException e) {
 			System.out.println(e);
 		}
 	}

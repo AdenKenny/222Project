@@ -61,7 +61,21 @@ public abstract class Entity {
 				}
 
 				MainWindow mw = (MainWindow) caller;
-				mw.addGameChat(name+": "+description+"\n");
+
+				String friendlyName = name;
+
+				if (!isPlayer()) {
+					friendlyName = java.lang.Character.toUpperCase(friendlyName.charAt(0)) + friendlyName.substring(1);
+
+					for (int i = 1; i < friendlyName.length(); ++i) {
+						if (java.lang.Character.isUpperCase(friendlyName.charAt(i))) {
+							friendlyName = friendlyName.substring(0, i) + " " + friendlyName.substring(i);
+							++i;
+						}
+					}
+				}
+
+				mw.addGameChat(friendlyName+": "+description+"\n");
 			}
 
 			@Override
@@ -227,4 +241,11 @@ public abstract class Entity {
 			return false;
 		return true;
 	}
+	/**
+	 * Returns true if this Entity is a Player
+	 *
+	 * @return	true if this is a Player
+	 */
+	public abstract boolean isPlayer();
+
 }
