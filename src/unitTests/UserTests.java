@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static org.junit.Assert.assertNotSame;
 import org.junit.Test;
 
@@ -33,7 +35,7 @@ public class UserTests {
 
 	@Test
 	public void createMockUser() {
-
+		createFile();
 		User user = createUser();
 
 		if (Register.userExists(user.getUsername())) {
@@ -55,6 +57,7 @@ public class UserTests {
 	public void testVerification() {
 		String mockUsername = "Paul";
 		String mockPassword = "hunter2";
+		createFile();
 
 		User user = createUser();
 
@@ -78,6 +81,7 @@ public class UserTests {
 	public void testWrongVerification() {
 		String mockUsername = "Paul";
 		String mockPassword = "dsadsadsa"; // Wrong password.
+		createFile();
 
 		User user = createUser();
 
@@ -99,6 +103,7 @@ public class UserTests {
 
 	@Test
 	public void testHashing() {
+		createFile();
 
 		String hash = Hashing.createHash("abcDef12#".toCharArray());
 
@@ -114,6 +119,11 @@ public class UserTests {
 
 	@Test
 	public void testNoReRegister() {
+
+
+		createFile();
+
+
 		User user = createUser();
 		user = createUser();
 
@@ -131,6 +141,10 @@ public class UserTests {
 
 	@Test
 	public void testSlowEquals() {
+
+		createFile();
+
+
 		try {
 			Class<?> hashClass = Class.forName("userHandling.Hashing");
 			Method[] methods = hashClass.getDeclaredMethods();
@@ -200,6 +214,10 @@ public class UserTests {
 	 */
 
 	private User createUser() {
+
+		createFile();
+
+
 		try {
 			Class<?> regClass = Class.forName("userHandling.Register");
 
@@ -215,8 +233,6 @@ public class UserTests {
 				field.set(regClass, this.file);
 
 				User user = Register.createUser("Paul", "hunter2");
-
-				System.out.println(user.getId());
 
 				assertNotSame(user, null);
 				deleteFile();
@@ -250,7 +266,25 @@ public class UserTests {
 		}
 
 		catch (IOException e) {
-			e.printStackTrace(); // Don't really care. Test still passed.
+			//e.printStackTrace(); // Don't really care. Test still passed.
+		}
+	}
+
+	private void createFile() {
+		File logFile = new File("tests/testDB.txt");
+
+		Path path = logFile.toPath();
+
+		if (logFile.isFile()) { // Check to see if it already exists.
+			return;
+		}
+
+		try {
+			Files.createFile(path); //Create the logging file.
+		}
+
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

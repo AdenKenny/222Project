@@ -70,6 +70,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @param input
      */
     public void setGraphicsClickListener(GraphicsClickListener input){
+    	System.out.println("Added click listener");
         clickListener = input;
     }
 
@@ -109,11 +110,13 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     @Override
-    public void paint(Graphics graphics) {
+    public void paintComponent(Graphics graphics) {
+    	System.out.println("Paint called");
         render(viewer, room, graphics);
     }
 
     private void render(Character character, Room room, Graphics graphics){
+    	System.out.println("Render called");
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
@@ -407,6 +410,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                             return Side.Back;
                         case WEST:
                             return Side.Right;
+					default:
+						break;
                     }
                     break;
             case East:
@@ -419,6 +424,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Left;
                     case WEST:
                         return Side.Back;
+				default:
+					break;
                 }
                 break;
             case South:
@@ -431,6 +438,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Front;
                     case WEST:
                         return Side.Left;
+				default:
+					break;
                 }
                 break;
             case West:
@@ -445,6 +454,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Front;
                 }
                 break;
+		default:
+			break;
         }
         return Side.Front;
     }

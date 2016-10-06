@@ -1,7 +1,6 @@
 package dataStorage;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -164,7 +163,7 @@ public final class SaveGame {
 
 	private static String itemToString(List<Item> list) {
 		StringBuilder builder = new StringBuilder();
-		
+
 		for(Item i : list) {
 			if (i == null) {
 				Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Saving error: an item was null.");

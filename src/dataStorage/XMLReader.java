@@ -19,6 +19,8 @@ import gameWorld.characters.CharacterBuilder;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
+import gameWorld.objects.ObjectBuilder;
+import gameWorld.objects.ObjectModel;
 import util.AbstractBuilder;
 import util.Buildable;
 import util.Logging;
@@ -37,12 +39,14 @@ public final class XMLReader {
 	private Map<Integer, Item> mapOfItems; // Map of the items.
 	private Map<Integer, CharacterModel> mapOfCharacters; // Map of the
 															// characters.
+	private Map<Integer, ObjectModel> mapOfObjects;
 	private static XMLReader INSTANCE = null;
 
 	private XMLReader() { // Singleton pattern.
 
 		this.mapOfItems = readItems(); // Get items.
 		this.mapOfCharacters = readCharacters();
+		this.mapOfObjects = readObjects();
 	}
 
 	/**
@@ -62,6 +66,70 @@ public final class XMLReader {
 		}
 
 		return INSTANCE; // Already exists.
+	}
+
+	private Map<Integer, ObjectModel> readObjects() {
+		File file = new File("xml/" + "objects" + ".xml");
+
+		try {
+
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			this.doc = builder.parse(file);
+
+			this.doc.getDocumentElement().normalize();
+
+			NodeList list = getNodes("object"); // Get all objects.
+
+			HashMap<Integer, ObjectModel> map = new HashMap<>();
+
+			for (int i = 0, len = list.getLength(); i < len; ++i) {
+				Node node = list.item(i);
+
+				Element e = (Element) node;
+
+				ObjectBuilder build = new ObjectBuilder();
+
+				String itemID = e.getElementsByTagName("ID").item(0).getTextContent();
+				build.setID(itemID); // Set the ID.
+
+				String name = e.getElementsByTagName("name").item(0).getTextContent();
+				build.setName(name); // Set the name.
+
+				String type = e.getElementsByTagName("type").item(0).getTextContent();
+				build.setType(type); // Set the type.
+
+				String value = e.getElementsByTagName("value").item(0).getTextContent();
+				build.setValue(value); // Set the value.
+
+				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
+				build.setBuildItems(buildItems); // Set items.
+
+				String description = e.getElementsByTagName("description").item(0).getTextContent();
+				build.setDescription(description);
+
+				ObjectModel object = build.build();
+
+				map.put(object.getID(), object);
+
+			}
+
+			return map;
+		}
+
+		catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+
+		catch (SAXException e) {
+			e.printStackTrace();
+		}
+
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return new HashMap<>();
 	}
 
 	/**
@@ -247,7 +315,17 @@ public final class XMLReader {
 
 		Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE, "Failed to load chars from .xml file");
 
-		return this.mapOfCharacters;
+		return new HashMap<>();
+	}
+
+	public Map<Integer, ObjectModel> getObjects() {
+		if(this.mapOfObjects.size() > 0) {
+			return this.mapOfObjects;
+		}
+
+		Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE, "Failed to load objects from .xml file");
+
+		return new HashMap<>();
 	}
 
 	/**
@@ -312,4 +390,4 @@ public final class XMLReader {
 
 		}
 	}
-}
+}

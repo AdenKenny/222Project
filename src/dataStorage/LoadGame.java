@@ -42,7 +42,7 @@ public final class LoadGame {
 		readRooms();
 	}
 
-	public static synchronized LoadGame getInstance() { //Singleton.
+	public static synchronized LoadGame getInstance() { // Singleton.
 		if (INSTANCE == null) {
 			INSTANCE = new LoadGame();
 		}

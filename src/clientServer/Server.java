@@ -1,7 +1,7 @@
 package clientServer;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -21,14 +21,15 @@ public class Server {
 	}
 
 	public void run() {
-		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started.");
-
-		//start the game tick
-		new Tick(this.game).start();
-		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The game tick has begun.");
 
 		//Connect to port 5000
 		try(ServerSocket ss = new ServerSocket(5000)) {
+			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started.");
+
+			//start the game tick
+			new Tick(this.game).start();
+			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The game tick has begun.");
+
 			int uid = 0;
 			//loop indefinitely
 			while(true) {
@@ -43,14 +44,18 @@ public class Server {
 				}
 
 			}
-		} catch (IOException e) {
+		}
+		catch (BindException e) {
+			System.out.println("A server is already running on this computer.");
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
 		//Create a window which replaces System.out
-		ConsoleWindow window = new ConsoleWindow();
+		new ConsoleWindow();
 	}
 
 }

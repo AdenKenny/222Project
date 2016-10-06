@@ -4,10 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import gameWorld.characters.CharacterBuilder;
-import gameWorld.item.ItemBuilder;
 import gameWorld.objects.StationaryObject.Type;
 import util.AbstractBuilder;
-import util.Buildable;
 import util.Logging;
 
 public class ObjectBuilder implements AbstractBuilder {
@@ -17,7 +15,7 @@ public class ObjectBuilder implements AbstractBuilder {
 	private String buildValue;
 	private String name;
 	private String description;
-	
+
 	private int ID;
 	private Type type;
 	private int value;
@@ -88,11 +86,11 @@ public class ObjectBuilder implements AbstractBuilder {
 	public String getDescription() {
 		return this.description;
 	}
-	
+
 	public Type getType() {
 		return this.type;
 	}
-	
+
 	public Set<Integer> getSetOfItems() {
 		return this.setOfItems;
 	}
@@ -103,18 +101,18 @@ public class ObjectBuilder implements AbstractBuilder {
 				|| this.description == null || this.setOfItems == null) {
 			return null;
 		}
-		
+
 		try {
 			this.ID = Integer.parseInt(this.buildID);
 			this.value = Integer.parseInt(this.buildValue);
 			this.type = Type.valueOf(this.buildType);
-			
+
 			return new ObjectModel(this);
 		} catch (NumberFormatException e) {
 			Logging.logEvent(ObjectBuilder.class.getName(), Logging.Levels.WARNING,
 					"Improperly formatted XML file on stationary object loading.");
 		}
-		
+
 		return null;
 	}
 

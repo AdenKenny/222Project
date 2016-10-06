@@ -107,7 +107,7 @@ public class DataTests {
 
 	@Test
 	public void testWriteXML() {
-		new XMLWriter("testing", "items", "testing2", "characters");
+		new XMLWriter("testing", "items", "testing2", "characters", "og", "lol");
 
 		String testPath = "xml/testing.xml";
 
@@ -140,7 +140,7 @@ public class DataTests {
 
 	@Test
 	public void testReadXML() {
-		new XMLWriter("testing", "items", "testing2", "chars");
+		new XMLWriter("testing", "items", "testing2", "chars", "testing", "lol");
 
 		// String testPath = "xml/testing.xml";
 

@@ -3,7 +3,6 @@ package gameWorld.characters;
 import java.util.HashSet;
 import java.util.Set;
 
-import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
 import util.AbstractBuilder;
 import util.Logging;

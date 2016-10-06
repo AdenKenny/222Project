@@ -9,8 +9,6 @@ import userHandling.Register;
 import userHandling.User;
 import userHandling.Verification;
 import util.Logging;
-import gameWorld.Sendable;
-import gameWorld.characters.Character;
 
 public class Master extends Thread {
 

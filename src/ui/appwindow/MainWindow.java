@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -23,6 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Graphics.GraphicsPanel;
+import IDGUI.Frame;
+import IDGUI.MessageDialog;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
@@ -49,16 +52,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if(JOptionPane.showConfirmDialog(frame, "Quit game?") == JOptionPane.YES_OPTION){
-                	try{
-                		slave.close();
-                	}
-                	catch(Exception ex){
-
-                	}
-                    frame.setVisible(false);
-                    frame.dispose();
-                }
+                slave.close();
+                frame.setVisible(false);
+                frame.dispose();
+                System.exit(0);
             }
 
 			@Override
@@ -146,16 +143,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 		bottomPanel.initComponents();
 
-		addGameChat("Testing game chat");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addChat("Text from another player");
-		addGameChat("Chat from the game");
 		setStat(StatsPane.HEALTH, 50);
 		setStat(StatsPane.EXP, 20);
 		setStat(StatsPane.LEVEL, 99);
@@ -172,8 +159,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				optionsPane.setBounds(display.getBounds());
+				displayItemOptions(null, e.getX()-10, e.getY()-infoBar.HEIGHT);
 				if(optionsPane.isVisible())
 					optionsPane.setVisible(false);
 				else {
@@ -200,7 +186,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
 		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
-		displayItemOptions(null, 200, 200);
+		//displayItemOptions(null, 200, 200);
 
 	}
 
@@ -217,7 +203,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void sendChat(String chatInput) {
 		//send input to server for broadcast
 		slave.sendTextMessage(chatInput);
-		addChat(chatInput); //TODO: Remove so user sending message gets back from broadcast
 	}
 
 	@Override
@@ -312,27 +297,41 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		threadedMessage(text);
 	}
 
-	public void threadedMessage(String string) {
-		// TODO Auto-generated method stub
-
+	public void threadedMessage(String text) {
+		new Thread() {
+			@Override
+			public void run() {
+				new MessageDialog(MainWindow.this, text);
+			}
+		}.start();
 	}
 
 	private void enterGame() {
+		while ((this.game = slave.getGame()) == null) {};
 		//TODO: setup graphics
 		if (this.display != null) {
 			this.display.setVisible(false);
-		}
-		this.display = new GraphicsPanel(null, null);
+			this.remove(display);		}
+		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
+
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+		gfx.setVisible(true);
+		add(gfx);
 		this.revalidate();
 		this.repaint();
+		gfx.repaint();
 	}
+
+	public void setSlave(Slave slave) {
+		this.slave = slave;
+	}
+
 	public static void main(String[] args){
 		MainWindow main = new MainWindow();
 		Slave slave = new Slave(main);
-		main.game = slave.getGame();
-		main.slave = slave;
+		slave.start();
+		main.setSlave(slave);
 		main.initComponents();
 	}
 }

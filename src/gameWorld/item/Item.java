@@ -6,6 +6,7 @@ import java.util.List;
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.characters.Character;
+import ui.appwindow.MainWindow;
 import util.Buildable;
 
 public class Item implements Buildable, Cloneable {
@@ -49,6 +50,64 @@ public class Item implements Buildable, Cloneable {
 	}
 
 	private void addActions() {
+		this.actions.add(new Action() {
+
+			@Override
+			public String name() {
+				return "Inspect";
+			}
+
+			@Override
+			public void perform(Object caller) {
+				if (!(caller instanceof MainWindow)) {
+					return;
+				}
+
+				MainWindow mw = (MainWindow) caller;
+
+				mw.addGameChat(getNiceName()+": "+description);
+			}
+
+			@Override
+			public boolean isClientAction() {
+				return true;
+			}
+
+		});
+
+		this.actions.add(new Action() {
+			@Override
+			public String name() {
+				return "Sell";
+			}
+
+			@Override
+			public void perform(Object caller) {
+				if (!(caller instanceof Character)) {
+					return;
+				}
+
+				Character ch = (Character) caller;
+				Entity[][] entities = ch.room().entities();
+				for (Entity[] es : entities) {
+					for (Entity e : es) {
+						if (e instanceof Character) {
+							Character c = (Character) e;
+							if (c.getType().equals(Character.Type.VENDOR)) {
+								ch.sellItem(ID, saleValue * c.getRank());
+								return;
+							}
+						}
+					}
+				}
+			}
+
+			@Override
+			public boolean isClientAction() {
+				return false;
+			}
+		});
+
 		switch (this.type) {
 		case WEAPON:
 		case SHIELD:
@@ -65,12 +124,12 @@ public class Item implements Buildable, Cloneable {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					tryEquip(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -92,12 +151,12 @@ public class Item implements Buildable, Cloneable {
 				if (!(caller instanceof Character)) {
 					return;
 				}
-				
+
 				Character ch = (Character) caller;
-				
+
 				tryPickUp(ch);
 			}
-			
+
 			@Override
 			public boolean isClientAction() {
 				return false;
@@ -116,12 +175,12 @@ public class Item implements Buildable, Cloneable {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					trySell(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -139,12 +198,12 @@ public class Item implements Buildable, Cloneable {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
+
 					tryBuy(ch);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
@@ -175,7 +234,7 @@ public class Item implements Buildable, Cloneable {
 					if (entities[i][j] instanceof Character) {
 						Character ch = (Character) entities[i][j];
 						if (ch.getType().equals(Character.Type.VENDOR)) {
-							this.holder.sellItem(this, (int) (this.saleValue * (1 + ((double) ch.getRank()) / 10)));
+							this.holder.sellItem(this.ID, (int) (this.saleValue * (1 + ((double) ch.getRank()) / 10)));
 						}
 					}
 				}
@@ -212,6 +271,21 @@ public class Item implements Buildable, Cloneable {
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	public String getNiceName() {
+		String niceName = name;
+
+		niceName = java.lang.Character.toUpperCase(niceName.charAt(0)) + niceName.substring(1);
+
+		for (int i = 1; i < niceName.length(); ++i) {
+			if (java.lang.Character.isUpperCase(niceName.charAt(i))) {
+				niceName = niceName.substring(0, i) + " " + niceName.substring(i);
+				++i;
+			}
+		}
+
+		return niceName;
 	}
 
 	public Type getType() {

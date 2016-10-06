@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import dataStorage.XMLInterface;
 import dataStorage.XMLReader;
 
 /**
@@ -26,9 +27,9 @@ import dataStorage.XMLReader;
  * @author Aden
  */
 
-public final class XMLWriter {
+public final class XMLWriter implements XMLInterface {
 
-	private enum Position {
+	private static enum Position {
 
 		ID(0, "ID"),
 		NAME(1, "name"),
@@ -36,8 +37,8 @@ public final class XMLWriter {
 		VALUE(3, "value"),
 		SALE_VALUE(4, "saleValue");
 
-		final int pos;
-		final String name;
+		private final int pos;
+		private final String name;
 
 		Position(int pos, String name) {
 			this.pos = pos;
@@ -73,13 +74,94 @@ public final class XMLWriter {
 
 	private Document doc;
 
-	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead) {
+	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead, String objectsFile, String objectsRead) {
 		writeItems(itemsFile, itemsRead);
 		writeChars(charsFile, charsRead);
+		writeObjects(objectsFile, objectsRead);
+	}
+
+	private void writeObjects(String fileName, String readFile) {
+
+		try {
+
+			Element root = getRoot(fileName);
+
+			this.doc.appendChild(root); // Append root to tree.
+
+			Scanner scan = null;
+
+			try {
+
+				scan = new Scanner(new File("xml/" + readFile + ".txt"));
+
+				while (scan.hasNextLine()) {
+					String line = scan.nextLine();
+
+					String[] test = line.split("\\{"); // Split set of items from main details.
+
+					String values = test[0]; // Main values, i.e. ID, name, type, and value.
+
+					String[] details = values.split(" "); // Split the main values on space.
+
+					Element character = this.doc.createElement("object");
+
+					for (int i = 0; i < details.length; ++i) { // For the amount of words.
+						Position pos = Position.getPos(i); // Get what the field should be called.
+
+						Element tag = this.doc.createElement(pos.getName()); // Create new element.
+						tag.appendChild(this.doc.createTextNode(details[i])); // Append value to
+																				// field.
+
+						character.appendChild(tag); // Append the field to the item.
+					}
+
+					String other = test[1]; // Set of items.
+
+					String[] tmp = other.split("\\(");
+
+					String items = tmp[0];
+
+					items = items.substring(0, items.length() - 2); //Remove end curly brace.
+
+					Element tag = this.doc.createElement("items"); //Create the items node.
+					tag.appendChild(this.doc.createTextNode(items));
+
+					character.appendChild(tag); //Append the items to the char.
+
+					Element description = this.doc.createElement("description");
+
+					String desc = tmp[1].substring(0, tmp[1].length() - 1);
+
+					description.appendChild(this.doc.createTextNode(desc));
+
+					character.appendChild(description);
+
+					String name = character.getElementsByTagName("name").item(0).getTextContent();
+					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
+
+					root.appendChild(character); // Append the new char to the root.
+
+				}
+			}
+
+			catch (IOException e) {
+			}
+
+			finally {
+				if (scan != null) {
+					scan.close();
+				}
+			}
+			transform("xml/" + fileName + ".xml"); // Print to file.
+		}
+
+		catch (ParserConfigurationException e) {
+			Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.SEVERE, "Failed to parse in XML Writer");
+		}
 	}
 
 
-	public void writeItems(String fileName, String readFile) {
+	private void writeItems(String fileName, String readFile) {
 		try {
 
 			Element root = getRoot(fileName); // Create a new root.
@@ -143,7 +225,7 @@ public final class XMLWriter {
 		}
 	}
 
-	public void writeChars(String fileName, String readFile) {
+	private void writeChars(String fileName, String readFile) {
 
 		try {
 
@@ -224,7 +306,8 @@ public final class XMLWriter {
 
 	}
 
-	private Element getRoot(String fileName) throws ParserConfigurationException {
+	@Override
+	public Element getRoot(String fileName) throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -244,12 +327,12 @@ public final class XMLWriter {
 	 *            The name of the file we will be outputting to.
 	 */
 
-	private void transform(String fileName) {
+	@Override
+	public void transform(String fileName) {
 
 		try {
 
 			TransformerFactory transFactory = TransformerFactory.newInstance();
-
 			Transformer transformer = transFactory.newTransformer();
 
 			DOMSource source = new DOMSource(this.doc);
@@ -272,7 +355,7 @@ public final class XMLWriter {
 	}
 
 	public static void main(String[] args) {
-		new XMLWriter("items", "items", "characters", "characters");
+		new XMLWriter("items", "items", "characters", "characters", "objects", "objects");
 		XMLReader.getInstance();
 	}
 }

@@ -8,12 +8,9 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.w3c.dom.events.MouseEvent;
-
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
-import gameWorld.Sendable;
 import integrationGraphics.FrameRate;
 import integrationGraphics.GraphicsPanel;
 import IDGUI.MenuBar;
@@ -95,7 +92,7 @@ public class Frame extends JFrame implements KeyListener {
 			return;
 		}
 		//this.slave = new Slave(this);
-		this.slave.start();
+		//this.slave.start();
 	}
 
 	public void mockLogin() {

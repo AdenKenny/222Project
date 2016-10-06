@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import clientServer.ServerSideGame;
+import clientServer.Game;
 import clientServer.PackageCode;
 import gameWorld.Action;
 import gameWorld.Entity;
-import gameWorld.Floor;
 import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
-import gameWorld.rooms.NPCSpawn;
+import ui.appwindow.MainWindow;
 import util.Buildable;
 
 public class Character extends Entity implements Buildable, Sendable {
@@ -113,7 +113,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.level = builder.getValue();
 		this.items = builder.getItems();
 		this.type = Character.Type.PLAYER;
-		this.equips = new ArrayList<Item>();
+		this.equips = new ArrayList<>();
 		for (int i : builder.getEquips()) {
 			this.equips.add(ServerSideGame.mapOfItems.get(i));
 		}
@@ -125,14 +125,14 @@ public class Character extends Entity implements Buildable, Sendable {
 		super(null, -1, -1, username, "A player, just like you!", null);
 
 		this.modelID = -1;
-		this.items = new ArrayList<Integer>();
+		this.items = new ArrayList<>();
 		this.type = Type.PLAYER;
-		this.baseXP = type.getBaseXP();
+		this.baseXP = this.type.getBaseXP();
 		this.rank = -1;
 		this.level = 1;
 		this.xp = 0;
 		this.isAlive = false;
-		this.equips = new ArrayList<Item>();
+		this.equips = new ArrayList<>();
 
 		setFields();
 		addActions();
@@ -147,47 +147,89 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	private void addActions() {
-		if (this.type.equals(Type.VENDOR))
+		if (this.type.equals(Type.VENDOR)) {
 			this.actions.add(new Action() {
 				@Override
-				public String name() { return "Trade";}
+				public String name() { return "Item Info";}
 				@Override
 				public void perform(Object caller) {
-					if (!(caller instanceof Character)) {
+					if (!(caller instanceof MainWindow)) {
 						return;
 					}
-					
-					Character ch = (Character) caller;
-					// TODO UI.showTradeDialog(); or something
+
+					MainWindow mw = (MainWindow) caller;
+
+					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
+
+					int saleValue = sellItem.getSaleValue();
+					int price = saleValue + (saleValue * (rank-1) / 5);
+
+					mw.addGameChat("++++++++++++++++++\n"
+								+ sellItem.getNiceName() + "\n"
+								+ sellItem.getDescription() + "\n"
+								+ String.format("Price: %d", saleValue) + "\n"
+								+ "++++++++++++++++++");
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
-					return false;
+					return true;
 				}
 			});
 
-		if (this.type.equals(Type.MONSTER))
 			this.actions.add(new Action() {
+
 				@Override
-				public String name() { return "Attack";}
-				
+				public String name() {
+					return "Buy Item";
+				}
+
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
 						return;
 					}
-					
+
 					Character ch = (Character) caller;
-					
-					tryAttack(ch);
+
+					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
+
+					int saleValue = sellItem.getSaleValue();
+					int price = saleValue + (saleValue * (rank-1) / 5);
+
+					ch.items.add(items.toArray(new Integer[1])[0]);
+					ch.setGold(ch.getGold() - price);
 				}
-				
+
 				@Override
 				public boolean isClientAction() {
 					return false;
 				}
 			});
+		}
+
+		if (this.type.equals(Type.MONSTER)) {
+			this.actions.add(new Action() {
+				@Override
+				public String name() { return "Attack";}
+
+				@Override
+				public void perform(Object caller) {
+					if (!(caller instanceof Character)) {
+						return;
+					}
+
+					Character ch = (Character) caller;
+
+					tryAttack(ch);
+				}
+
+				@Override
+				public boolean isClientAction() {
+					return false;
+				}
+			});
+		}
 	}
 
 	private void setFields() {
@@ -247,7 +289,7 @@ public class Character extends Entity implements Buildable, Sendable {
 		}
 
 		int damageDone = attack - defense;
-		setHealth(this.health-damageDone);
+		this.health = this.health-damageDone;
 		attacker.startAttackTimer();
 	}
 
@@ -272,9 +314,9 @@ public class Character extends Entity implements Buildable, Sendable {
 		this.items.add(item.getID());
 	}
 
-	public void sellItem(Item item, int value) {
+	public void sellItem(int itemID, int value) {
 		for (Integer id : this.items) {
-			if (id == item.getID()) {
+			if (id == itemID) {
 				this.items.remove(id);
 				this.gold += value;
 			}
@@ -473,21 +515,21 @@ public class Character extends Entity implements Buildable, Sendable {
 	public List<Item> getEquips() {
 		return this.equips;
 	}
-	
+
 	@Override
 	public byte[] toSend() {
 		byte[] bytes;
 		int i;
 
-		switch (type) {
+		switch (this.type) {
 		case MONSTER:
 			bytes = new byte[28];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.MONSTER.value();
-			bytes[2] = isAlive ? (byte) 1 : 0;
-			bytes[3] = facing.value();
+			bytes[2] = this.isAlive ? (byte) 1 : 0;
+			bytes[3] = this.facing.value();
 			i = 4;
-			for (byte b : Sendable.intsToBytes(ID, modelID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.health, this.level, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
@@ -495,24 +537,24 @@ public class Character extends Entity implements Buildable, Sendable {
 			bytes = new byte[20];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.VENDOR.value();
-			bytes[2] = facing.value();
+			bytes[2] = this.facing.value();
 			bytes[3] = PackageCode.Codes.BREAK.value(); //empty slot
 			i = 4;
-			for (byte b : Sendable.intsToBytes(ID, modelID, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
 		case PLAYER:
-			bytes = new byte[24+name.length()];
+			bytes = new byte[24+this.name.length()];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.PLAYER.value();
-			bytes[2] = isAlive ? (byte) 1 : 0;
-			bytes[3] = facing.value();
+			bytes[2] = this.isAlive ? (byte) 1 : 0;
+			bytes[3] = this.facing.value();
 			i = 4;
-			for (byte b : Sendable.intsToBytes(ID, health, level, xPos, yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.health, this.level, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
-			for (char c : name.toCharArray()) {
+			for (char c : this.name.toCharArray()) {
 				bytes[i++] = (byte) c;
 			}
 			return bytes;
@@ -541,4 +583,9 @@ public class Character extends Entity implements Buildable, Sendable {
 		return this.description;
 	}
 
-}
+	@Override
+	public boolean isPlayer() {
+		return this.type.equals(Type.PLAYER);
+	}
+
+}
