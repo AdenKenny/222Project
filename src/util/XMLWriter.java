@@ -29,7 +29,7 @@ import dataStorage.XMLReader;
 
 public final class XMLWriter implements XMLInterface {
 
-	private enum Position {
+	private static enum Position {
 
 		ID(0, "ID"),
 		NAME(1, "name"),
@@ -37,8 +37,8 @@ public final class XMLWriter implements XMLInterface {
 		VALUE(3, "value"),
 		SALE_VALUE(4, "saleValue");
 
-		final int pos;
-		final String name;
+		private final int pos;
+		private final String name;
 
 		Position(int pos, String name) {
 			this.pos = pos;
@@ -333,7 +333,6 @@ public final class XMLWriter implements XMLInterface {
 		try {
 
 			TransformerFactory transFactory = TransformerFactory.newInstance();
-
 			Transformer transformer = transFactory.newTransformer();
 
 			DOMSource source = new DOMSource(this.doc);
