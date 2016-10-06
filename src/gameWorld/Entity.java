@@ -59,7 +59,7 @@ public abstract class Entity {
 				if (!(caller instanceof MainWindow)) {
 					return;
 				}
-				
+
 				MainWindow mw = (MainWindow) caller;
 				mw.addGameChat(name+": "+description+"\n");
 			}
@@ -86,7 +86,7 @@ public abstract class Entity {
 	}
 
 	public Room room() {
-		return room;
+		return this.room;
 	}
 
 	public void setRoom(Room room) {
@@ -94,7 +94,7 @@ public abstract class Entity {
 	}
 
 	public int xPos() {
-		return xPos;
+		return this.xPos;
 	}
 
 	public void setXPos(int xPos) {
@@ -102,7 +102,7 @@ public abstract class Entity {
 	}
 
 	public int yPos() {
-		return yPos;
+		return this.yPos;
 	}
 
 	public void setYPos(int yPos) {
@@ -115,7 +115,7 @@ public abstract class Entity {
 	 * @return the name
 	 */
 	public String name() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -124,7 +124,7 @@ public abstract class Entity {
 	 * @return the description
 	 */
 	public String description() {
-		return description;
+		return this.description;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public abstract class Entity {
 	 * @return the Direction
 	 */
 	public Direction facing() {
-		return facing;
+		return this.facing;
 	}
 
 	/**
@@ -142,7 +142,7 @@ public abstract class Entity {
 	 * @return a unique ID
 	 */
 	public int ID() {
-		return ID;
+		return this.ID;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public abstract class Entity {
 	 * @return the List of actions
 	 */
 	public List<Action> actions() {
-		return actions;
+		return this.actions;
 	}
 
 	/**
@@ -164,12 +164,67 @@ public abstract class Entity {
 	 */
 	public boolean performAction(String action, Character caller) {
 
-		for (Action a : actions) {
+		for (Action a : this.actions) {
 			if (a.name().equals(action)) {
 				a.perform(caller);
 				return true;
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + this.ID;
+		result = prime * result + ((this.actions == null) ? 0 : this.actions.hashCode());
+		result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+		result = prime * result + ((this.facing == null) ? 0 : this.facing.hashCode());
+		result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+		result = prime * result + ((this.room == null) ? 0 : this.room.hashCode());
+		result = prime * result + this.xPos;
+		result = prime * result + this.yPos;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Entity other = (Entity) obj;
+		if (this.ID != other.ID)
+			return false;
+		if (this.actions == null) {
+			if (other.actions != null)
+				return false;
+		} else if (!this.actions.equals(other.actions))
+			return false;
+		if (this.description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!this.description.equals(other.description))
+			return false;
+		if (this.facing != other.facing)
+			return false;
+		if (this.name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!this.name.equals(other.name))
+			return false;
+		if (this.room == null) {
+			if (other.room != null)
+				return false;
+		} else if (!this.room.equals(other.room))
+			return false;
+		if (this.xPos != other.xPos)
+			return false;
+		if (this.yPos != other.yPos)
+			return false;
+		return true;
 	}
 }

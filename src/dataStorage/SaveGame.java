@@ -30,7 +30,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class SaveGame {
+public final class SaveGame implements XMLInteractable {
 
 	private Document doc; //The document we'll be building on.
 	private File file;
@@ -164,7 +164,7 @@ public final class SaveGame {
 
 	private static String itemToString(List<Item> list) {
 		StringBuilder builder = new StringBuilder();
-		
+
 		for(Item i : list) {
 			if (i == null) {
 				Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Saving error: an item was null.");

@@ -29,7 +29,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class LoadGame {
+public final class LoadGame implements XMLInteractable {
 
 	private Document doc; // Document we will do tree operations.
 
