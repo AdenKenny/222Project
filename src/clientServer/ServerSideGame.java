@@ -168,7 +168,7 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 * @param message
 	 */
-	public void textMessage(long uid, String message) {
+	public void textMessage(long uid, String message) { //TODO What the fuck? Why is a string passed here?
 		//add the users name to the start of the text message
 		message = this.connectedPlayers.get(uid).getCharacter().getName() + ": " + message;
 		this.textMessages.add(message);
@@ -177,7 +177,7 @@ public class ServerSideGame implements Game {
 	/**
 	 * send all unreceived messages to a user
 	 * @param messagesReceived
-	 * @return
+	 * @return A String array of the messages that we send.
 	 */
 	public String[] getMessages(int messagesReceived) {
 		String[] messages = new String[this.textMessages.size() - messagesReceived];

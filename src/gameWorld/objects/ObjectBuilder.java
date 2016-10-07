@@ -43,17 +43,17 @@ public class ObjectBuilder implements AbstractBuilder {
 
 	public void setBuildItems(String buildItems) {
 
-		buildItems = buildItems.replace(",", ""); //Remove commas.
+		String temp = buildItems.replace(",", ""); //Remove commas.
 
-		String[] itemValues = buildItems.split(" "); //Split into unique strings.
+		String[] itemValues = temp.split(" "); //Split into unique strings.
 
 		this.setOfItems = new HashSet<>(); //Set to put item IDs in.
 
 		try {
 
 			for(String string : itemValues) {
-				int value = Integer.parseInt(string);
-				this.setOfItems.add(value); //Add the id to the set.
+				int itemVal = Integer.parseInt(string);
+				this.setOfItems.add(itemVal); //Add the id to the set.
 			}
 		}
 

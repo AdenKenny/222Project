@@ -192,11 +192,9 @@ public final class SaveGame {
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
 
-		Document doc = builder.newDocument(); // Create actual document.
+		this.doc = builder.newDocument(); // Create actual document.
 
-		this.doc = doc; // Set the root of the tree
-
-		return doc.createElement(fileName); // The name of the node.
+		return this.doc.createElement(fileName); // The name of the node.
 	}
 
 	private void transform(String fileName) {

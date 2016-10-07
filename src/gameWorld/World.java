@@ -68,7 +68,7 @@ public class World {
 	private int currentFloor;
 
 	public World() {
-		this.floors = new ArrayList<Floor>();
+		this.floors = new ArrayList<>();
 		this.currentFloor = 0;
 	}
 
