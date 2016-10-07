@@ -109,7 +109,7 @@ public class Room {
 
 	public Set<Sendable> getSendables() {
 		Set<Sendable> sendables = new HashSet<>();
-		for (Entity[] es : entities) {
+		for (Entity[] es : this.entities) {
 			for (Entity e : es) {
 				if (e instanceof Sendable) {
 					sendables.add((Sendable) e);
@@ -237,9 +237,9 @@ public class Room {
 		if (targetX < 0) {
 			Room targetRoom = this.neighbours.get(Direction.WEST);
 			if (targetRoom != null) {
-				if (targetRoom.entities[yPos][targetRoom.width-1] == null) {
-					targetRoom.entities[yPos][targetRoom.width-1] = entity;
-					entities[entity.yPos()][entity.xPos()] = null;
+				if (targetRoom.entities[this.yPos][targetRoom.width-1] == null) {
+					targetRoom.entities[this.yPos][targetRoom.width-1] = entity;
+					this.entities[entity.yPos()][entity.xPos()] = null;
 					entity.setRoom(targetRoom);
 					entity.setXPos(targetRoom.width-1);
 					return true;
@@ -249,9 +249,9 @@ public class Room {
 		} else if (targetX >= this.width) {
 			Room targetRoom = this.neighbours.get(Direction.EAST);
 			if (targetRoom != null) {
-				if (targetRoom.entities[yPos][0] == null) {
-					targetRoom.entities[yPos][0] = entity;
-					entities[entity.yPos()][entity.xPos()] = null;
+				if (targetRoom.entities[this.yPos][0] == null) {
+					targetRoom.entities[this.yPos][0] = entity;
+					this.entities[entity.yPos()][entity.xPos()] = null;
 					entity.setRoom(targetRoom);
 					entity.setXPos(0);
 					return true;
@@ -261,9 +261,9 @@ public class Room {
 		} else if (targetY < 0) {
 			Room targetRoom = this.neighbours.get(Direction.NORTH);
 			if (targetRoom != null) {
-				if (targetRoom.entities[targetRoom.depth-1][xPos] == null) {
-					targetRoom.entities[targetRoom.depth-1][xPos] = entity;
-					entities[entity.yPos()][entity.xPos()] = null;
+				if (targetRoom.entities[targetRoom.depth-1][this.xPos] == null) {
+					targetRoom.entities[targetRoom.depth-1][this.xPos] = entity;
+					this.entities[entity.yPos()][entity.xPos()] = null;
 					entity.setRoom(targetRoom);
 					entity.setYPos(targetRoom.depth-1);
 					return true;
@@ -273,9 +273,9 @@ public class Room {
 		} else if (targetY >= this.depth){
 			Room targetRoom = this.neighbours.get(Direction.SOUTH);
 			if (targetRoom != null) {
-				if (targetRoom.entities[0][xPos] == null) {
-					targetRoom.entities[0][xPos] = entity;
-					entities[entity.yPos()][entity.xPos()] = null;
+				if (targetRoom.entities[0][this.xPos] == null) {
+					targetRoom.entities[0][this.xPos] = entity;
+					this.entities[entity.yPos()][entity.xPos()] = null;
 					entity.setRoom(targetRoom);
 					entity.setYPos(0);
 					return true;

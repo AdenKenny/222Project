@@ -14,8 +14,9 @@ import gameWorld.World.Direction;
 import gameWorld.item.Item;
 import ui.appwindow.MainWindow;
 import util.Buildable;
+import util.Logging;
 
-public class Character extends Entity implements Buildable, Sendable {
+public class Character extends Entity implements Buildable, Sendable, Cloneable {
 
 	public enum Type {
 		MONSTER(45),
@@ -558,6 +559,8 @@ public class Character extends Entity implements Buildable, Sendable {
 				bytes[i++] = (byte) c;
 			}
 			return bytes;
+		default:
+			break;
 		}
 
 		return null;
@@ -584,8 +587,87 @@ public class Character extends Entity implements Buildable, Sendable {
 	}
 
 	@Override
-	public boolean isPlayer() {
-		return this.type.equals(Type.PLAYER);
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (this.attackTimer ^ (this.attackTimer >>> 32));
+		result = prime * result + this.baseXP;
+		result = prime * result + this.damage;
+		result = prime * result + ((this.equips == null) ? 0 : this.equips.hashCode());
+		result = prime * result + this.gold;
+		result = prime * result + this.health;
+		result = prime * result + (this.isAlive ? 1231 : 1237);
+		result = prime * result + ((this.items == null) ? 0 : this.items.hashCode());
+		result = prime * result + this.level;
+		result = prime * result + this.maxHealth;
+		result = prime * result + this.modelID;
+		result = prime * result + this.rank;
+		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+		result = prime * result + this.xp;
+		result = prime * result + this.xpForLevel;
+		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Character other = (Character) obj;
+		if (this.attackTimer != other.attackTimer)
+			return false;
+		if (this.baseXP != other.baseXP)
+			return false;
+		if (this.damage != other.damage)
+			return false;
+		if (this.equips == null) {
+			if (other.equips != null)
+				return false;
+		} else if (!this.equips.equals(other.equips))
+			return false;
+		if (this.gold != other.gold)
+			return false;
+		if (this.health != other.health)
+			return false;
+		if (this.isAlive != other.isAlive)
+			return false;
+		if (this.items == null) {
+			if (other.items != null)
+				return false;
+		} else if (!this.items.equals(other.items))
+			return false;
+		if (this.level != other.level)
+			return false;
+		if (this.maxHealth != other.maxHealth)
+			return false;
+		if (this.modelID != other.modelID)
+			return false;
+		if (this.rank != other.rank)
+			return false;
+		if (this.type != other.type)
+			return false;
+		if (this.xp != other.xp)
+			return false;
+		if (this.xpForLevel != other.xpForLevel)
+			return false;
+		return true;
+	}
+
+	@Override
+	public Character clone() {
+		try {
+			return (Character) super.clone();
+		}
+
+		catch (CloneNotSupportedException e) {
+			Logging.logEvent(Character.class.getName(), Logging.Levels.WARNING, "Failed to clone a character");
+		}
+
+		return null;
+	}
 }
+
+

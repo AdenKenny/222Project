@@ -29,7 +29,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class SaveGame {
+public final class SaveGame implements XMLInteractable {
 
 	private Document doc; //The document we'll be building on.
 	private File file;

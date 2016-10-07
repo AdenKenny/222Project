@@ -32,7 +32,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class XMLReader {
+public final class XMLReader implements XMLInteractable {
 
 	private Document doc;
 

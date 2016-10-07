@@ -8,6 +8,7 @@ import gameWorld.Entity;
 import gameWorld.characters.Character;
 import ui.appwindow.MainWindow;
 import util.Buildable;
+import util.Logging;
 
 public class Item implements Buildable, Cloneable {
 	public enum Type {
@@ -365,10 +366,12 @@ public class Item implements Buildable, Cloneable {
 	public Item clone() {
 		try {
 			return (Item) super.clone();
-		} catch (CloneNotSupportedException e) {
-
 		}
+
+		catch (CloneNotSupportedException e) {
+			Logging.logEvent(Item.class.getName(), Logging.Levels.WARNING, "Failed to clone an item");
+		}
+
 		return null;
 	}
-
 }
