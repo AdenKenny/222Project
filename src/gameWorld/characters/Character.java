@@ -3,9 +3,9 @@ package gameWorld.characters;
 import java.util.ArrayList;
 import java.util.List;
 
-import clientServer.ServerSideGame;
 import clientServer.Game;
 import clientServer.PackageCode;
+import clientServer.ServerSideGame;
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.Room;
@@ -558,6 +558,8 @@ public class Character extends Entity implements Buildable, Sendable {
 				bytes[i++] = (byte) c;
 			}
 			return bytes;
+		default:
+			break;
 		}
 
 		return null;
