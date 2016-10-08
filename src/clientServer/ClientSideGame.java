@@ -153,11 +153,7 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public Character getPlayer() {
-<<<<<<< HEAD
-=======
 		if (this.room == null) return null;
-
->>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
 		return this.player;
 	}
 
