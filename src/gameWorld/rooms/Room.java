@@ -1,11 +1,14 @@
-package gameWorld;
+package gameWorld.rooms;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import gameWorld.Entity;
+import gameWorld.Floor;
+import gameWorld.Sendable;
+import gameWorld.World;
 import gameWorld.World.Direction;
-import gameWorld.rooms.RoomBuilder;
 
 public class Room {
 

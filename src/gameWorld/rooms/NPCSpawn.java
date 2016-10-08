@@ -6,7 +6,6 @@ import clientServer.Game;
 import clientServer.ServerSideGame;
 import gameWorld.Entity;
 import gameWorld.Floor;
-import gameWorld.Room;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;

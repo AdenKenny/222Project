@@ -17,9 +17,9 @@ import IDGUI.Frame;
 import clientServer.ClientSideGame;
 import clientServer.Slave;
 import gameWorld.Entity;
-import gameWorld.Room;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 
 public class GraphicsPanel extends JPanel {
 

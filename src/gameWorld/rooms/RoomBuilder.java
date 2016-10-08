@@ -1,7 +1,6 @@
 package gameWorld.rooms;
 
 import gameWorld.Floor;
-import gameWorld.Room;
 
 /**
  * A class to build an instance of a room.

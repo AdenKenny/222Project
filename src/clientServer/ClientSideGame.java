@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 import gameWorld.Entity;
-import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
+import gameWorld.rooms.Room;
 
 public class ClientSideGame extends Thread implements Game {
 	private final Map<Integer, Sendable> sendables;
