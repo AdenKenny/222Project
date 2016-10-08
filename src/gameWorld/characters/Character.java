@@ -682,4 +682,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public boolean isPlayer() {
 		return this.type.equals(Type.PLAYER);
 	}
+
+	public void slay() {
+		this.isAlive = false;
+	}
 }

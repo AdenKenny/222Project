@@ -13,6 +13,7 @@ public final class RoomBuilder {
 
 	private String buildPlayerSpawn;
 	private String buildNpcSpawn;
+	private String buildTargetRoom;
 	private String buildModelID;
 	private String buildXPos;
 	private String buildYPos;
@@ -22,6 +23,7 @@ public final class RoomBuilder {
 
 	private boolean playerSpawn;
 	private boolean npcSpawn;
+	private boolean targetRoom;
 	private int modelID;
 	private int xPos;
 	private int yPos;
@@ -41,6 +43,10 @@ public final class RoomBuilder {
 
 	public void setBuildNpcSpawn(String buildNpcSpawn) {
 		this.buildNpcSpawn = buildNpcSpawn;
+	}
+
+	public void setBuildTargetRoom(String buildTargetRoom) {
+		this.buildTargetRoom = buildTargetRoom;
 	}
 
 	public void setBuildModelID(String modelID) {
@@ -75,6 +81,10 @@ public final class RoomBuilder {
 		return this.npcSpawn;
 	}
 
+	public boolean isTargetRoom() {
+		return this.targetRoom;
+	}
+
 	public int getmodelID() {
 		return this.modelID;
 	}
@@ -101,9 +111,9 @@ public final class RoomBuilder {
 
 	public Room build() {
 
-		if (this.buildPlayerSpawn == null || this.buildNpcSpawn == null || this.buildModelID == null
-				|| this.buildXPos == null || this.buildYPos == null || this.buildWidth == null
-				|| this.buildDepth == null || this.buildLevel == null) {
+		if (this.buildPlayerSpawn == null || this.buildNpcSpawn == null || this.buildTargetRoom == null
+				|| this.buildModelID == null || this.buildXPos == null || this.buildYPos == null
+				|| this.buildWidth == null || this.buildDepth == null || this.buildLevel == null) {
 
 			return null;
 		}
@@ -111,6 +121,7 @@ public final class RoomBuilder {
 		try {
 			this.playerSpawn = Boolean.parseBoolean(this.buildPlayerSpawn);
 			this.npcSpawn = Boolean.parseBoolean(this.buildNpcSpawn);
+			this.targetRoom = Boolean.parseBoolean(this.buildTargetRoom);
 			this.modelID = Integer.parseInt(this.buildModelID);
 			this.xPos = Integer.parseInt(this.buildXPos);
 			this.yPos = Integer.parseInt(this.buildYPos);
@@ -120,17 +131,14 @@ public final class RoomBuilder {
 
 			if (this.playerSpawn) {
 				return new PlayerSpawn(this.floor, this);
-			}
-
-			else if (this.npcSpawn) {
+			} else if (this.npcSpawn) {
 				return new NPCSpawn(this.floor, this);
-			}
-
-			else {
+			} else if (this.targetRoom) {
+				return new TargetRoom(this.floor, this);
+			} else {
 				return new Room(this.floor, this);
 			}
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 
 		}
 

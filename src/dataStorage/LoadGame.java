@@ -130,6 +130,9 @@ public final class LoadGame implements XMLInteractable {
 
 						String npcSpawn = child.getElementsByTagName("npcSpawn").item(0).getTextContent();
 						build.setBuildNpcSpawn(npcSpawn);
+						
+						String targetRoom = child.getElementsByTagName("targetRoom").item(0).getTextContent();
+						build.setBuildTargetRoom(targetRoom);
 
 						String xPos = child.getElementsByTagName("xPos").item(0).getTextContent();
 						build.setBuildXPos(xPos);
