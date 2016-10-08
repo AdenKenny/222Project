@@ -37,14 +37,14 @@ public class InfoPane extends JPanel{
 		logoutButton.setBackground(Color.DARK_GRAY);
 		logoutButton.setFocusPainted(false);
 
-		floorLabel = new JLabel("Floor: 1");
+		floorLabel = new JLabel("");
 		floorLabel.setOpaque(true);
 		floorLabel.setForeground(Color.WHITE);
 		floorLabel.setBackground(Color.DARK_GRAY);
 		floorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-		goldLabel = new JLabel("Gold: 1000000000000");
+		goldLabel = new JLabel("");
 		goldLabel.setOpaque(true);
 		goldLabel.setForeground(new Color(245, 225, 7));
 		goldLabel.setBackground(Color.DARK_GRAY);

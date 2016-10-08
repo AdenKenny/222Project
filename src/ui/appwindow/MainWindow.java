@@ -318,7 +318,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		gfx.setVisible(true);
 		gfx.revalidate();
 		gfx.repaint();
-
 	}
 
 	public void setSlave(Slave slave) {
