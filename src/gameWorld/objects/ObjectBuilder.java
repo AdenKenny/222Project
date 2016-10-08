@@ -3,7 +3,6 @@ package gameWorld.objects;
 import java.util.HashSet;
 import java.util.Set;
 
-import gameWorld.characters.CharacterBuilder;
 import gameWorld.objects.StationaryObject.Type;
 import util.AbstractBuilder;
 import util.Logging;
@@ -42,9 +41,9 @@ public class ObjectBuilder implements AbstractBuilder {
 	}
 
 	public void setBuildItems(String buildItems) {
-
+		
 		buildItems = buildItems.replace(",", ""); //Remove commas.
-
+		
 		String[] itemValues = buildItems.split(" "); //Split into unique strings.
 
 		this.setOfItems = new HashSet<>(); //Set to put item IDs in.
@@ -58,7 +57,8 @@ public class ObjectBuilder implements AbstractBuilder {
 		}
 
 		catch (NumberFormatException e){
-			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build object.");
+			Logging.logEvent(ObjectBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build object.");
+			e.printStackTrace();
 		}
 	}
 
@@ -99,6 +99,7 @@ public class ObjectBuilder implements AbstractBuilder {
 	public ObjectModel build() {
 		if (this.buildID == null || this.buildType == null || this.buildValue == null || this.name == null
 				|| this.description == null || this.setOfItems == null) {
+			
 			return null;
 		}
 

@@ -1,11 +1,13 @@
-package gameWorld;
+package gameWorld.rooms;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import gameWorld.Entity;
+import gameWorld.Floor;
+import gameWorld.Sendable;
 import gameWorld.World.Direction;
-import gameWorld.rooms.RoomBuilder;
 
 public class Room {
 
@@ -234,51 +236,60 @@ public class Room {
 		int targetX = entity.xPos() + changeX;
 		int targetY = entity.yPos() + changeY;
 
+		// movement between rooms
 		if (targetX < 0) {
-			Room targetRoom = this.neighbours.get(Direction.WEST);
-			if (targetRoom != null) {
-				if (targetRoom.entities[this.yPos][targetRoom.width-1] == null) {
-					targetRoom.entities[this.yPos][targetRoom.width-1] = entity;
-					this.entities[entity.yPos()][entity.xPos()] = null;
-					entity.setRoom(targetRoom);
-					entity.setXPos(targetRoom.width-1);
-					return true;
+			if (targetY == depth/2) {
+				Room targetRoom = this.neighbours.get(Direction.WEST);
+				if (targetRoom != null) {
+					if (targetRoom.entities[this.yPos][targetRoom.width-1] == null) {
+						targetRoom.entities[this.yPos][targetRoom.width-1] = entity;
+						this.entities[entity.yPos()][entity.xPos()] = null;
+						entity.setRoom(targetRoom);
+						entity.setXPos(targetRoom.width-1);
+						return true;
+					}
 				}
 			}
 			return false;
 		} else if (targetX >= this.width) {
-			Room targetRoom = this.neighbours.get(Direction.EAST);
-			if (targetRoom != null) {
-				if (targetRoom.entities[this.yPos][0] == null) {
-					targetRoom.entities[this.yPos][0] = entity;
-					this.entities[entity.yPos()][entity.xPos()] = null;
-					entity.setRoom(targetRoom);
-					entity.setXPos(0);
-					return true;
+			if (targetY == depth/2) {
+				Room targetRoom = this.neighbours.get(Direction.EAST);
+				if (targetRoom != null) {
+					if (targetRoom.entities[this.yPos][0] == null) {
+						targetRoom.entities[this.yPos][0] = entity;
+						this.entities[entity.yPos()][entity.xPos()] = null;
+						entity.setRoom(targetRoom);
+						entity.setXPos(0);
+						return true;
+					}
 				}
 			}
 			return false;
 		} else if (targetY < 0) {
-			Room targetRoom = this.neighbours.get(Direction.NORTH);
-			if (targetRoom != null) {
-				if (targetRoom.entities[targetRoom.depth-1][this.xPos] == null) {
-					targetRoom.entities[targetRoom.depth-1][this.xPos] = entity;
-					this.entities[entity.yPos()][entity.xPos()] = null;
-					entity.setRoom(targetRoom);
-					entity.setYPos(targetRoom.depth-1);
-					return true;
+			if (targetX == width/2) {
+				Room targetRoom = this.neighbours.get(Direction.NORTH);
+				if (targetRoom != null) {
+					if (targetRoom.entities[targetRoom.depth-1][this.xPos] == null) {
+						targetRoom.entities[targetRoom.depth-1][this.xPos] = entity;
+						this.entities[entity.yPos()][entity.xPos()] = null;
+						entity.setRoom(targetRoom);
+						entity.setYPos(targetRoom.depth-1);
+						return true;
+					}
 				}
 			}
 			return false;
 		} else if (targetY >= this.depth){
-			Room targetRoom = this.neighbours.get(Direction.SOUTH);
-			if (targetRoom != null) {
-				if (targetRoom.entities[0][this.xPos] == null) {
-					targetRoom.entities[0][this.xPos] = entity;
-					this.entities[entity.yPos()][entity.xPos()] = null;
-					entity.setRoom(targetRoom);
-					entity.setYPos(0);
-					return true;
+			if (targetX == width/2) {
+				Room targetRoom = this.neighbours.get(Direction.SOUTH);
+				if (targetRoom != null) {
+					if (targetRoom.entities[0][this.xPos] == null) {
+						targetRoom.entities[0][this.xPos] = entity;
+						this.entities[entity.yPos()][entity.xPos()] = null;
+						entity.setRoom(targetRoom);
+						entity.setYPos(0);
+						return true;
+					}
 				}
 			}
 			return false;

@@ -47,7 +47,6 @@ public class Master extends Thread {
 				//if data has not been received
 				if (input.available() == 0) {
 					noResponse++;
-					//System.out.println(noResponse);
 					//if no response has been received for a certain time, disconnect the user
 					if (noResponse == TIMEOUT) {
 						this.game.disconnect(this.uid);
@@ -61,7 +60,7 @@ public class Master extends Thread {
 						send(ping);
 					}
 				}
-
+				//if data has been received
 				else {
 					//reset timeout, as data has been received
 					noResponse = 0;
@@ -95,6 +94,7 @@ public class Master extends Thread {
 						}
 					}
 				}
+				//sending data
 				if (this.inGame) {
 					int gameCounter = this.game.getTickCounter();
 					if (gameCounter != this.tickCounter) {

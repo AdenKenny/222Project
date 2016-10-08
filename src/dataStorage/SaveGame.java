@@ -194,12 +194,9 @@ public final class SaveGame implements XMLInteractable {
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
 
-		Document doc = builder.newDocument(); // Create actual document.
-		Element root = doc.createElement(fileName); // The name of the node.
+		this.doc = builder.newDocument();
 
-		this.doc = doc; // Set the root of the tree
-
-		return root; // Return the root.
+		return this.doc.createElement(fileName);
 	}
 
 	private void transform(String fileName) {

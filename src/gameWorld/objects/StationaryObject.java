@@ -5,25 +5,22 @@ import java.util.Set;
 
 import gameWorld.Action;
 import gameWorld.Entity;
-import gameWorld.Room;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 
 public class StationaryObject extends Entity {
 
 	public enum Type {
-		FURNITURE,
-		CHEST,
-		DOOR,
-		// TODO: DROP
+		FURNITURE, CHEST, DOOR, DROP
 	}
 
 	private Type type;
 	private Set<Integer> items;
 	private int modelID;
 
-	private boolean isOpen;
-	private long openTime;
+	//private boolean isOpen;
+	//private long openTime;
 
 	public StationaryObject(ObjectModel model, Room room, int xPos, int yPos, Direction facing) {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
@@ -32,7 +29,7 @@ public class StationaryObject extends Entity {
 		this.items = model.getItems();
 		this.modelID = model.getID();
 
-		this.isOpen = false;
+		//this.isOpen = false;
 
 		if (this.type.equals(Type.CHEST)) {
 			this.actions.add(new Action() {
@@ -44,12 +41,15 @@ public class StationaryObject extends Entity {
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
+						util.Logging.logEvent("StationaryObject", util.Logging.Levels.WARNING,
+								"StationaryObject action 'Open' expected Character argument, got "
+										+ caller.getClass().getName() + " argument.");
 						return;
 					}
 
 					Character ch = (Character) caller;
 					List<Integer> chItems = ch.getItems();
-					chItems.add(getRandomItem());
+					chItems.add(open());
 				}
 
 				@Override
@@ -61,11 +61,14 @@ public class StationaryObject extends Entity {
 		}
 	}
 
-	public void open() {
-		// TODO: stuff
+	public Integer open() {
+		//this.isOpen = true;
+		this.room.entities()[this.yPos][this.xPos] = null;
+		//this.openTime = System.currentTimeMillis();
+		return getRandomItem();
 	}
 
-	public Integer getRandomItem() {
+	private Integer getRandomItem() {
 		if (this.type.equals(Type.CHEST)) {
 			Integer[] ints = this.items.toArray(new Integer[this.items.size()]);
 			return ints[(int) (Math.random() * ints.length)];
@@ -85,9 +88,9 @@ public class StationaryObject extends Entity {
 		return this.modelID;
 	}
 
-	public boolean isOpen() {
+	/*public boolean isOpen() {
 		return this.isOpen;
-	}
+	}*/
 
 	@Override
 	public boolean isPlayer() {
