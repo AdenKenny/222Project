@@ -54,7 +54,7 @@ public class ObjectModel implements Buildable {
 	}
 	
 	public void setItems(List<Integer> items) {
-		this.items = new HashSet<Integer>();
+		this.items = new HashSet<>();
 		for (Integer i : items) {
 			this.items.add(i);
 		}

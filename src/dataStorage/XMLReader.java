@@ -24,8 +24,7 @@ import gameWorld.objects.ObjectModel;
 import util.Logging;
 
 /**
- * A class for reading XML input into the game, mainly regarding loading
- * hardcoded items into the game.
+ * A class for reading XML input into the game, mainly regarding loading hardcoded items into the game.
  *
  * @author Aden
  */
@@ -48,17 +47,14 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns the instance of this (XMLReader) class. There can only be one as
-	 * this class is a singleton. If the class has not already been created a
-	 * new one will be created and after that this method will only return that
-	 * single instance of the parent class.
+	 * Returns the instance of this (XMLReader) class as there can only be one as this class is a singleton. 
+	 * If the class has not already been created a new one will be created and after that this method will 
+	 * only return that single instance of the class.
 	 *
 	 * @return A singleton of the XMLReader class.
 	 */
 
-	public static synchronized XMLReader getInstance() { // Stop multiple
-															// threads
-															// accessing.
+	public static synchronized XMLReader getInstance() { // Stop multiple threads accessing.
 		if (INSTANCE == null) { // Do we need to create the singleton?
 			INSTANCE = new XMLReader(); // Yes.
 		}
@@ -101,8 +97,8 @@ public final class XMLReader implements XMLInteractable {
 				build.setValue(value); // Set the value.
 
 				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
-								
-				build.setBuildItems(buildItems); // Set items.
+
+				build.setItems(buildItems); // Set items.
 
 				String description = e.getElementsByTagName("description").item(0).getTextContent();
 				build.setDescription(description);
@@ -132,8 +128,7 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a HashMap<Integer, Item> with the items loaded in from XML mapped
-	 * to their unique ID that was gotten from the file.
+	 * Returns a HashMap<Integer, Item> with the items loaded in from XML mapped to their unique ID that was gotten from the file.
 	 *
 	 * @return A map of <Integer, Item> representing the items loaded in.
 	 */
@@ -204,11 +199,9 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a HashMap<Integer, CharacterModel> with the characters loaded in
-	 * from XML mapped to their unique ID that was also got from the file.
+	 * Returns a HashMap<Integer, CharacterModel> with the characters loaded in from XML mapped to their unique ID that was also got from the file.
 	 *
-	 * @return A map of <Integer, CharacterModel> representing all the
-	 *         characters loaded in.
+	 * @return A map of <Integer, CharacterModel> representing all the characters loaded in.
 	 */
 
 	private Map<Integer, CharacterModel> readCharacters() {
@@ -249,7 +242,7 @@ public final class XMLReader implements XMLInteractable {
 				build.setValue(value); // Set the value.
 
 				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
-				build.setBuildItems(buildItems); // Set items.
+				build.setItems(buildItems); // Set items.
 
 				String description = e.getElementsByTagName("description").item(0).getTextContent();
 				build.setDescription(description);
@@ -280,8 +273,7 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a Map<Integer, Item> of the items that were loaded from XML. An
-	 * item is mapped to ID.
+	 * Returns a Map<Integer, Item> of the items that were loaded from XML. An item is mapped to ID.
 	 *
 	 * @return A Map<Integer, Item>.
 	 */
@@ -299,8 +291,7 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a Map<Integer, Character of the characters that were loaded from
-	 * XML. A character is mapped to ID.
+	 * Returns a Map<Integer, Character of the characters that were loaded from XML. A character is mapped to ID.
 	 *
 	 * @return A Map<Integer, Character>.
 	 */
@@ -318,7 +309,7 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	public Map<Integer, ObjectModel> getObjects() {
-		if(this.mapOfObjects.size() > 0) {
+		if (this.mapOfObjects.size() > 0) {
 			return this.mapOfObjects;
 		}
 
@@ -331,26 +322,18 @@ public final class XMLReader implements XMLInteractable {
 	 * Gets all the nodes with the specified name in the tree structure.
 	 *
 	 * @param tagName
-	 *            A String representing the name of that we want to search for
-	 *            nodes with.
-	 *
-	 * @return A NodeList representing all the nodes. Note: NodeList doesn't
-	 *         implement 'Iterable'.
+	 *            A String representing the name of that we want to search for nodes with.
+	 * @return A NodeList representing all the nodes. Note: NodeList doesn't implement 'Iterable'.
 	 */
 
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
 	}
 
-	//TODO Implement this after integration day.
+	// TODO Implement this after integration day.
 	private static final class PosEnums {
 		private enum Position {
-			ID(0, "ID"),
-			NAME(1, "name"),
-			TYPE(2, "type"),
-			VALUE(3, "value"),
-			SALE_VALUE(4, "saleValue"),
-			DESCRIPTION(5, "description");
+			ID(0, "ID"), NAME(1, "name"), TYPE(2, "type"), VALUE(3, "value"), SALE_VALUE(4, "saleValue"), DESCRIPTION(5, "description");
 
 			private final int pos;
 			private final String name;
@@ -389,4 +372,4 @@ public final class XMLReader implements XMLInteractable {
 
 		}
 	}
-}
+}

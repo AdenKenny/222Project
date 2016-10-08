@@ -47,10 +47,10 @@ public final class Hashing {
 	private enum Position {
 		HASH_SECTIONS(5), // Number of sections in the hash string.
 		HASH_ALGORITHM_INDEX(0), // Indexes of various elements in the hash string.
-		ITERATION_INDEX(1), 
 		HASH_SIZE_INDEX(2),
-		SALT_INDEX(3), 
-		PBKDF2_INDEX(4);
+		ITERATION_INDEX(1), 
+		PBKDF2_INDEX(4),
+		SALT_INDEX(3);
 
 		final int value; //Final as this should not be changed.
 

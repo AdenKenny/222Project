@@ -3,7 +3,6 @@ package gameWorld.characters;
 import java.util.HashSet;
 import java.util.Set;
 
-import gameWorld.item.ItemBuilder;
 import util.AbstractBuilder;
 import util.Logging;
 
@@ -49,23 +48,24 @@ public final class CharacterBuilder implements AbstractBuilder {
 		this.buildValue = buildValue;
 	}
 
-	public void setBuildItems(String buildItems) {
+	@Override
+	public void setItems(String buildItems) {
 
-		this.buildItems = buildItems.replace(",", ""); //Remove commas.
+		this.buildItems = buildItems.replace(",", ""); // Remove commas.
 
-		String[] itemValues = this.buildItems.split(" "); //Split into unique strings.
+		String[] itemValues = this.buildItems.split(" "); // Split into unique strings.
 
-		this.setOfItems = new HashSet<>(); //Set to put item IDs in.
+		this.setOfItems = new HashSet<>(); // Set to put item IDs in.
 
 		try {
 
 			for(String string : itemValues) {
-				int value = Integer.parseInt(string);
-				this.setOfItems.add(value); //Add the id to the set.
+				int valueS = Integer.parseInt(string);
+				this.setOfItems.add(valueS); //Add the id to the set.
 			}
 		}
 
-		catch (NumberFormatException e){
+		catch (NumberFormatException e) {
 			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build character.");
 			e.printStackTrace();
 		}
@@ -84,6 +84,16 @@ public final class CharacterBuilder implements AbstractBuilder {
 	public Character.Type getType() {
 		return this.type;
 	}
+
+	/**
+	 * <pre>
+	 * {@code
+	* Set<String> s;
+	* System.out.println(s);
+	* }
+	 * 
+	 * </pre>
+	 **/
 
 	@Override
 	public int getValue() {
@@ -107,32 +117,28 @@ public final class CharacterBuilder implements AbstractBuilder {
 	@Override
 	public CharacterModel build() {
 
-		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
-				|| this.buildItems == null || this.buildDescription == null) {
+		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null || this.buildItems == null
+				|| this.buildDescription == null) {
 			return null;
 		}
 
+		try {
+			this.ID = Integer.parseInt(this.buildID);
+			this.name = this.buildName;
+			this.type = Character.Type.valueOf(this.buildType);
+			this.value = Integer.parseInt(this.buildValue);
+			setItems(this.buildItems);
+			this.description = this.buildDescription;
 
-			try {
-				this.ID = Integer.parseInt(this.buildID);
-				this.name = this.buildName;
-				this.type = Character.Type.valueOf(this.buildType);
-				this.value = Integer.parseInt(this.buildValue);
-				setBuildItems(this.buildItems);
-				this.description = this.buildDescription;
+			return new CharacterModel(this);
+		}
 
-				return new CharacterModel(this);
-			}
+		catch (NumberFormatException e) {
+			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.WARNING, "Improperly formatted XML file on item loading.");
 
-			catch (NumberFormatException e) {
-				Logging.logEvent(ItemBuilder.class.getName(), Logging.Levels.WARNING,
-						"Improperly formatted XML file on item loading.");
-
-			}
-
+		}
 
 		return null;
 	}
-
 
 }

@@ -1,33 +1,61 @@
 package gameWorld.objects;
 
+
+import java.util.List;
+import java.util.Set;
+
+import gameWorld.objects.StationaryObject.Type;
 import util.Buildable;
 
-public class ChestModel implements Buildable {
+/**
+ * A class representing a chest in the game. Uses the super class ObjectModel for all it's stuff.
+ * 
+ * @author Aden
+ */
+
+public class ChestModel extends ObjectModel implements Buildable {
+
+	public ChestModel(ObjectBuilder builder) {
+		super(builder);
+	}
+
+
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+		return super.getName();
+}
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return super.getID();
 	}
 
 	@Override
 	public int getValue() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return super.getValue();
+
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.getDescription();
 	}
 
+	@Override
+	public Type getType() {
+		return super.getType();
+	}
 	
+	@Override
+	public Set<Integer> getItems() {
+		return super.getItems();
+	}
 	
+	@Override
+	public void setItems(List<Integer> items) {
+		super.setItems(items);
+	}
+
 }

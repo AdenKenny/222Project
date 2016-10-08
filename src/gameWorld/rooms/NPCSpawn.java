@@ -13,9 +13,7 @@ import gameWorld.objects.ObjectModel;
 import gameWorld.objects.StationaryObject;
 
 public class NPCSpawn extends Room implements SpawnRoom {
-
 	private static final int RESPAWN_TIME = 5000;
-
 	private Character npc;
 	private long deathTime;
 	private boolean wasAlive;
@@ -23,23 +21,19 @@ public class NPCSpawn extends Room implements SpawnRoom {
 	public NPCSpawn(Floor floor, RoomBuilder builder) {
 		super(floor, builder);
 		CharacterModel model = ServerSideGame.mapOfCharacters.get(builder.getmodelID());
-
 		this.npc = new Character(null, -1, -1, model.getDescription(), Direction.NORTH, builder.getLevel(), model);
-
 		this.deathTime = -1;
 		this.wasAlive = false;
 		this.npc.setAlive(false);
-
 		floor.addSpawnRoom(this);
 	}
 
 	@Override
 	public void tick() {
-
 		if (!this.npc.isAlive()) {
 			if (this.deathTime == -1) {
 				this.deathTime = System.currentTimeMillis();
-				
+
 				if (this.wasAlive) {
 					// create a Drop Entity at the position of the Monster that died
 					int x = this.npc.xPos(), y = this.npc.yPos();
@@ -47,7 +41,8 @@ public class NPCSpawn extends Room implements SpawnRoom {
 					dropModel.setItems(this.npc.getItems());
 					this.entities[y][x] = new StationaryObject(dropModel, this, x, y, Direction.NORTH);
 				}
-			} else {
+			}
+			else {
 				if (this.deathTime + RESPAWN_TIME <= System.currentTimeMillis()) {
 					if (this.wasAlive) {
 						int x = this.npc.xPos(), y = this.npc.yPos();
@@ -58,23 +53,22 @@ public class NPCSpawn extends Room implements SpawnRoom {
 							}
 						}
 					}
-					
+
 					int x = this.width / 2, y = this.depth / 2;
 					while (this.entities[y][x] != null) {
 						x = (int) (Math.random() * this.width);
 						y = (int) (Math.random() * this.depth);
 					}
-
 					this.npc.respawn(this, x, y, Direction.NORTH);
 					this.deathTime = -1;
 					this.wasAlive = true;
 				}
 			}
-		} else {
+		}
+		else {
 			if (this.npc.getAttackTimer() < System.currentTimeMillis()) {
 				int x = this.npc.xPos(), y = this.npc.yPos();
 				ArrayList<Entity> adjacents = new ArrayList<>(4);
-
 				if (this.entities[y - 1][x] instanceof Character) {
 					adjacents.add(this.entities[y - 1][x]);
 				}
@@ -87,16 +81,12 @@ public class NPCSpawn extends Room implements SpawnRoom {
 				if (this.entities[y][x + 1] instanceof Character) {
 					adjacents.add(this.entities[y][x + 1]);
 				}
-
 				if (adjacents.isEmpty()) {
 					return;
 				}
-
 				Character attackChar = (Character) adjacents.get((int) (Math.random() * adjacents.size()));
-
 				attackChar.tryAttack(this.npc);
 			}
 		}
-
 	}
 }
