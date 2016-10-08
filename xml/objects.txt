@@ -1,3 +1,5 @@
-0 monsterDrop DROP -1 {} (An item dropped by the monster you just killed.)
-231321 table FURNITURE -1 {} (A table.)
-321323 chest CHEST -1 {32, 15, 51, 52} (A wooden chest.)
+231321 table FURNITURE -1 {-1} (A table.)
+321323 chest CHEST -1 {0} (A chest that contains loot.)
+231211 chair FURNITURE -1 {-1} (A wooden chair.)
+232112 bench FURNITURE -1 {-1} (A wooden bench.)
+231113 cauldron FURNITURE -1 {-1} (An iron cauldron.)

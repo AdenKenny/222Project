@@ -1,16 +1,19 @@
 package Graphics;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.characters.Character;
 import gameWorld.rooms.Room;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 
 /**
  * Created by kiwij on 22-Sep-16.
@@ -452,6 +455,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                         return Side.Right;
                     case WEST:
                         return Side.Front;
+				default:
+					break;
                 }
                 break;
 		default:
