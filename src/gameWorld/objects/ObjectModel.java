@@ -1,5 +1,6 @@
 package gameWorld.objects;
 
+import java.util.List;
 import java.util.Set;
 
 import gameWorld.objects.StationaryObject.Type;
@@ -49,6 +50,12 @@ public class ObjectModel implements Buildable {
 	
 	public Set<Integer> getItems() {
 		return this.items;
+	}
+	
+	public void setItems(List<Integer> items) {
+		for (Integer i : items) {
+			this.items.add(i);
+		}
 	}
 
 }
