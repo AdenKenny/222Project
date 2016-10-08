@@ -5,6 +5,7 @@ import java.util.List;
 
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 import ui.appwindow.MainWindow;
 
 public abstract class Entity {

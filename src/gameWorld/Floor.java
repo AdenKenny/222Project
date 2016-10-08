@@ -5,6 +5,7 @@ import java.util.Set;
 
 import clientServer.ServerSideGame;
 import gameWorld.World.Direction;
+import gameWorld.rooms.Room;
 import gameWorld.rooms.SpawnRoom;
 import gameWorld.rooms.TargetRoom;
 

@@ -2,7 +2,6 @@ package gameWorld.rooms;
 
 import gameWorld.Entity;
 import gameWorld.Floor;
-import gameWorld.Room;
 
 public class TargetRoom extends Room {
 	

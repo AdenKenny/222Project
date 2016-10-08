@@ -17,9 +17,9 @@ import org.xml.sax.SAXException;
 
 import clientServer.ServerSideGame;
 import gameWorld.Floor;
-import gameWorld.Room;
 import gameWorld.characters.Character;
 import gameWorld.characters.PlayerBuilder;
+import gameWorld.rooms.Room;
 import gameWorld.rooms.RoomBuilder;
 import util.Logging;
 

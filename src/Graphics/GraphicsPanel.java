@@ -1,9 +1,9 @@
 package Graphics;
 
 import gameWorld.Entity;
-import gameWorld.Room;
 import gameWorld.World;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

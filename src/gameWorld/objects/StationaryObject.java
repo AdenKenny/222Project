@@ -5,9 +5,9 @@ import java.util.Set;
 
 import gameWorld.Action;
 import gameWorld.Entity;
-import gameWorld.Room;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 
 public class StationaryObject extends Entity {
 

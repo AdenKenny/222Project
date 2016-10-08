@@ -8,10 +8,10 @@ import clientServer.Game;
 import clientServer.PackageCode;
 import gameWorld.Action;
 import gameWorld.Entity;
-import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 import gameWorld.item.Item;
+import gameWorld.rooms.Room;
 import ui.appwindow.MainWindow;
 import util.Buildable;
 import util.Logging;
@@ -677,12 +677,6 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 		return null;
 	}
-
-	@Override
-	public boolean isPlayer() {
-		return this.type.equals(Type.PLAYER);
-	}
-}
 
 	@Override
 	public boolean isPlayer() {
