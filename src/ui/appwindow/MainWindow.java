@@ -1,6 +1,7 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -295,7 +296,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		
 		if (this.display != null) {
 			this.display.setVisible(false);
-			this.remove(display);		}
+			this.remove(display);		
+		}
 		//load player stats 
 		Character player = null;
 		while (player == null) {
@@ -307,15 +309,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		bottomPanel.loadPlayerStats(player);
 		updateGold(game.getPlayer().getGold());
 		setRoom(game.getRoom().depth());
+		
 		//Load graphics panel
 		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+		add(gfx,BorderLayout.CENTER);
 		gfx.setVisible(true);
-		add(gfx);
-		this.revalidate();
-		this.repaint();
+		gfx.revalidate();
 		gfx.repaint();
+
 	}
 
 	public void setSlave(Slave slave) {
