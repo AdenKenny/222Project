@@ -6,6 +6,7 @@ import java.util.Set;
 
 import gameWorld.Entity;
 import gameWorld.Sendable;
+import gameWorld.Sendable.Types;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
@@ -35,9 +36,9 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public void addSendable(byte[] received) {
-		Character.Type type = Character.Type.values()[received[1]];
+		Types type = Types.values()[received[1]];
 
-		if (type.equals(Character.Type.MONSTER)) {
+		if (type.equals(Types.MONSTER)) {
 			boolean isAlive = (received[2] == 1);
 			Direction facing = Direction.values()[received[3]];
 			int ID = Sendable.bytesToInt(received, 4);
@@ -53,7 +54,7 @@ public class ClientSideGame extends Thread implements Game {
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 		}
-		else if (type.equals(Character.Type.VENDOR)) {
+		else if (type.equals(Types.VENDOR)) {
 			Direction facing = Direction.values()[received[2]];
 			int ID = Sendable.bytesToInt(received, 4);
 			int modelId = Sendable.bytesToInt(received, 8);
@@ -64,7 +65,7 @@ public class ClientSideGame extends Thread implements Game {
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 		}
-		else if (type.equals(Character.Type.PLAYER)) {
+		else if (type.equals(Types.PLAYER)) {
 			boolean isAlive = (received[2] == 1);
 			Direction facing = Direction.values()[received[3]];
 			int ID = Sendable.bytesToInt(received, 4);
@@ -152,8 +153,6 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public Character getPlayer() {
-		if (room == null) return null;
-
 		return this.player;
 	}
 

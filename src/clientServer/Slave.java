@@ -31,7 +31,7 @@ public class Slave extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (ConnectException e) {
-			System.out.println("Unable to connect to server.");
+			this.mainWindow.addGameChat("Unable to connect to server.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,7 +99,7 @@ public class Slave extends Thread {
 
 	public void login(String username, String password) {
 		if (!this.connected) {
-			System.out.println("Unable to connect to server.");
+			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
 		byte[] toSend = new byte[username.length() + password.length() + 2];
@@ -120,7 +120,7 @@ public class Slave extends Thread {
 
 	public void newUser(String username, String password) {
 		if (!this.connected) {
-			System.out.println("Unable to connect to server.");
+			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
 		byte[] toSend = new byte[username.length() + password.length() + 2];
