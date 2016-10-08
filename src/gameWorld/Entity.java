@@ -57,6 +57,9 @@ public abstract class Entity {
 			@Override
 			public void perform(Object caller) {
 				if (!(caller instanceof MainWindow)) {
+					util.Logging.logEvent("Entity", util.Logging.Levels.WARNING,
+							"Entity action 'Inspect' expected MainWindow argument, got " + caller.getClass().getName()
+									+ " argument.");
 					return;
 				}
 
@@ -75,7 +78,7 @@ public abstract class Entity {
 					}
 				}
 
-				mw.addGameChat(friendlyName+": "+description+"\n");
+				mw.addGameChat(friendlyName + ": " + description + "\n");
 			}
 
 			@Override
@@ -241,10 +244,11 @@ public abstract class Entity {
 			return false;
 		return true;
 	}
+
 	/**
 	 * Returns true if this Entity is a Player
 	 *
-	 * @return	true if this is a Player
+	 * @return true if this is a Player
 	 */
 	public abstract boolean isPlayer();
 

@@ -19,9 +19,7 @@ import util.Logging;
 public class Character extends Entity implements Buildable, Sendable, Cloneable {
 
 	public enum Type {
-		MONSTER(45),
-		VENDOR(-1),
-		PLAYER(100);
+		MONSTER(45), VENDOR(-1), PLAYER(100);
 
 		private int baseXP;
 
@@ -35,12 +33,11 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	/*
-	 * All Characters have names, items
-	 * Vendors and Monsters have ranks and modelIDs
-	 * Players and Monsters have gold, xp, health (& max health) and damage
-	 * Players have level, as well as scaling factors for their various stats
-	 * Players also have a value for xp to next level, which does not take
-	 * 		into account the amount of xp already earned this level
+	 * All Characters have names, items Vendors and Monsters have ranks and
+	 * modelIDs Players and Monsters have gold, xp, health (& max health) and
+	 * damage Players have level, as well as scaling factors for their various
+	 * stats Players also have a value for xp to next level, which does not take
+	 * into account the amount of xp already earned this level
 	 */
 
 	/* Constants for Player leveling calculations */
@@ -60,7 +57,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	private static final int ATTACK_SPEED = 1000; // ms
 
 	/* Fields for all characters */
-	private Type type; //?
+	private Type type; // ?
 	private List<Integer> items;
 
 	/* Fields for NPCs */
@@ -69,8 +66,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/* Fields for combat characters (Players, Monsters) */
 	private int health;
-	private int maxHealth; //*
-	private int damage; //*
+	private int maxHealth; // *
+	private int damage; // *
 	private int xp;
 	private int gold;
 	private boolean isAlive;
@@ -82,13 +79,13 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	private List<Item> equips;
 
-	/*public Character(Room room, int xPos, int yPos,
-			String name, String description, Direction facing) {
-		super(room, xPos, yPos, name, description, facing);
-	}*/
+	/*
+	 * public Character(Room room, int xPos, int yPos, String name, String
+	 * description, Direction facing) { super(room, xPos, yPos, name,
+	 * description, facing); }
+	 */
 
-	public Character(Room room, int xPos, int yPos,
-			String description, Direction facing, int level,
+	public Character(Room room, int xPos, int yPos, String description, Direction facing, int level,
 			CharacterModel model) {
 		super(room, xPos, yPos, model.getName(), description, facing);
 
@@ -119,8 +116,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			this.equips.add(ServerSideGame.mapOfItems.get(i));
 		}
 	}
-	//TODO constructor.
-	//username, UID, type, items, health, 0, gold, level, equips.
+	// TODO constructor.
+	// username, UID, type, items, health, 0, gold, level, equips.
 
 	public Character(String username) {
 		super(null, -1, -1, username, "A player, just like you!", null);
@@ -151,10 +148,16 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		if (this.type.equals(Type.VENDOR)) {
 			this.actions.add(new Action() {
 				@Override
-				public String name() { return "Item Info";}
+				public String name() {
+					return "Item Info";
+				}
+
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof MainWindow)) {
+						util.Logging.logEvent("Character", util.Logging.Levels.WARNING,
+								"Vendor action 'Item Info' expected MainWindow argument, got "
+										+ caller.getClass().getName() + " argument.");
 						return;
 					}
 
@@ -163,13 +166,10 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
 
 					int saleValue = sellItem.getSaleValue();
-					int price = saleValue + (saleValue * (rank-1) / 5);
+					int price = saleValue + (saleValue * (rank - 1) / 5);
 
-					mw.addGameChat("++++++++++++++++++\n"
-								+ sellItem.getNiceName() + "\n"
-								+ sellItem.getDescription() + "\n"
-								+ String.format("Price: %d", saleValue) + "\n"
-								+ "++++++++++++++++++");
+					mw.addGameChat("++++++++++++++++++\n" + sellItem.getNiceName() + "\n" + sellItem.getDescription()
+							+ "\n" + String.format("Price: %d", price) + "\n" + "++++++++++++++++++");
 				}
 
 				@Override
@@ -188,6 +188,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
+						util.Logging.logEvent("Character", util.Logging.Levels.WARNING,
+								"Vendor action 'Buy Item' expected Character argument, got "
+										+ caller.getClass().getName() + " argument.");
 						return;
 					}
 
@@ -196,7 +199,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
 
 					int saleValue = sellItem.getSaleValue();
-					int price = saleValue + (saleValue * (rank-1) / 5);
+					int price = saleValue + (saleValue * (rank - 1) / 5);
 
 					ch.items.add(items.toArray(new Integer[1])[0]);
 					ch.setGold(ch.getGold() - price);
@@ -212,11 +215,16 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		if (this.type.equals(Type.MONSTER)) {
 			this.actions.add(new Action() {
 				@Override
-				public String name() { return "Attack";}
+				public String name() {
+					return "Attack";
+				}
 
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
+						util.Logging.logEvent("Character", util.Logging.Levels.WARNING,
+								"Monster action 'Attack' expected Character argument, got "
+										+ caller.getClass().getName() + " argument.");
 						return;
 					}
 
@@ -234,7 +242,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	private void setFields() {
-		if (this.items == null) this.items = new ArrayList<>();
+		if (this.items == null)
+			this.items = new ArrayList<>();
 
 		if (this.type.equals(Type.VENDOR)) {
 			this.maxHealth = -1;
@@ -246,37 +255,37 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			this.xpForLevel = -1;
 		} else if (this.type.equals(Type.PLAYER)) {
 			this.rank = -1;
-			this.maxHealth = (int) Math.pow(BASE_HEALTH, 1+HEALTH_FACTOR*((this.level-1)/100));
+			this.maxHealth = (int) Math.pow(BASE_HEALTH, 1 + HEALTH_FACTOR * ((this.level - 1) / 100));
 			this.health = this.maxHealth;
-			this.damage = (int) Math.pow(BASE_DAMAGE, 1+DAMAGE_FACTOR*((this.level-1)/100));
+			this.damage = (int) Math.pow(BASE_DAMAGE, 1 + DAMAGE_FACTOR * ((this.level - 1) / 100));
 			this.gold = 0;
-			this.xpForLevel = this.baseXP + (int) Math.pow(this.level-1, XP_FACTOR);
+			this.xpForLevel = this.baseXP + (int) Math.pow(this.level - 1, XP_FACTOR);
 		} else if (this.type.equals(Type.MONSTER)) {
-			this.maxHealth = (int) (Math.pow(BASE_HEALTH, 1+1*((this.level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
+			this.maxHealth = (int) (Math.pow(BASE_HEALTH, 1 + 1 * ((this.level - 1) / 100))
+					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
 			this.health = this.maxHealth;
-			this.damage = (int) (Math.pow(BASE_DAMAGE, 1+1*((this.level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
-			this.gold = (int) (Math.pow(2, 1+1*((this.level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
-			this.xp = (int) (Math.pow(this.baseXP, 1+1*((this.level-1)/100))
-					*(0.45*(1+RANK_SCALE_FACTOR*(this.rank-1))));
+			this.damage = (int) (Math.pow(BASE_DAMAGE, 1 + 1 * ((this.level - 1) / 100))
+					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
+			this.gold = (int) (Math.pow(2, 1 + 1 * ((this.level - 1) / 100))
+					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
+			this.xp = (int) (Math.pow(this.baseXP, 1 + 1 * ((this.level - 1) / 100))
+					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
 		}
 	}
 
 	public void tryAttack(Character attacker) {
 		if (attacker.room().equals(this.room)) {
-			if (attacker.xPos() == this.xPos-1 || attacker.xPos() == this.xPos+1
-					|| attacker.yPos() == this.yPos-1 || attacker.yPos() == this.yPos+1) {
-				if (System.currentTimeMillis() > attacker.attackTimer+ATTACK_SPEED)
+			if (attacker.xPos() == this.xPos - 1 || attacker.xPos() == this.xPos + 1 || attacker.yPos() == this.yPos - 1
+					|| attacker.yPos() == this.yPos + 1) {
+				if (System.currentTimeMillis() > attacker.attackTimer + ATTACK_SPEED)
 					applyAttack(attacker);
 			}
 		}
 	}
 
 	private void applyAttack(Character attacker) {
-		int attack = attacker.getAttack();	// max ~1000
-		int defense = 0;	// max 350
+		int attack = attacker.getAttack(); // max ~1000
+		int defense = 0; // max 350
 		for (Item item : this.equips) {
 			switch (item.getType()) {
 			case ARMOR:
@@ -290,7 +299,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		}
 
 		int damageDone = attack - defense;
-		this.health = this.health-damageDone;
+		this.health = this.health - damageDone;
 		attacker.startAttackTimer();
 	}
 
@@ -539,14 +548,14 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.VENDOR.value();
 			bytes[2] = this.facing.value();
-			bytes[3] = PackageCode.Codes.BREAK.value(); //empty slot
+			bytes[3] = PackageCode.Codes.BREAK.value(); // empty slot
 			i = 4;
 			for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
 			return bytes;
 		case PLAYER:
-			bytes = new byte[24+this.name.length()];
+			bytes = new byte[24 + this.name.length()];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = Sendable.Types.PLAYER.value();
 			bytes[2] = this.isAlive ? (byte) 1 : 0;
@@ -675,4 +684,12 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 }
 
+	@Override
+	public boolean isPlayer() {
+		return this.type.equals(Type.PLAYER);
+	}
 
+	public void slay() {
+		this.isAlive = false;
+	}
+}

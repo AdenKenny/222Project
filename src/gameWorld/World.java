@@ -2,6 +2,9 @@ package gameWorld;
 
 import java.util.ArrayList;
 
+import clientServer.ServerSideGame;
+import gameWorld.characters.Character;
+
 public class World {
 	/**
 	 * Used to represent the directions in the game.
@@ -95,5 +98,9 @@ public class World {
 	 */
 	public void goUpFloor() {
 		++this.currentFloor;
+		// Slay all players so that they get respawned in the new Floor's spawn room.
+		for (Character c : ServerSideGame.getAllPlayers().values()) {
+			c.slay();
+		}
 	}
 }

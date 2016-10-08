@@ -2,6 +2,7 @@ package gameWorld.rooms;
 
 import java.util.ArrayList;
 
+import clientServer.Game;
 import clientServer.ServerSideGame;
 import gameWorld.Entity;
 import gameWorld.Floor;
@@ -9,6 +10,8 @@ import gameWorld.Room;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
+import gameWorld.objects.ObjectModel;
+import gameWorld.objects.StationaryObject;
 
 public class NPCSpawn extends Room implements SpawnRoom {
 
@@ -35,9 +38,24 @@ public class NPCSpawn extends Room implements SpawnRoom {
 		if (!npc.isAlive()) {
 			if (deathTime == -1) {
 				deathTime = System.currentTimeMillis();
+				
+				// create a Drop Entity at the position of the Monster that died
+				int x = npc.xPos(), y = npc.yPos();
+				ObjectModel dropModel = Game.mapOfObjects.get(0);
+				dropModel.setItems(npc.getItems());
+				entities[y][x] = new StationaryObject(dropModel, this, x, y, Direction.NORTH);
 			} else {
 				if (deathTime + RESPAWN_TIME <= System.currentTimeMillis()) {
-					int x = width / 2, y = depth / 2;
+					int x = npc.xPos(), y = npc.yPos();
+					if (entities[y][x] != null) {
+						if (entities[y][x] instanceof StationaryObject) {
+							// the drop hasn't been picked up yet, so wait until it is
+							return;
+						}
+					}
+					
+					x = width / 2;
+					y = depth / 2;
 					while (entities[y][x] != null) {
 						x = (int) (Math.random() * width) + 1;
 						y = (int) (Math.random() * depth) + 1;
