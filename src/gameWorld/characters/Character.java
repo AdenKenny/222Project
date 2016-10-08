@@ -19,16 +19,22 @@ import util.Logging;
 public class Character extends Entity implements Buildable, Sendable, Cloneable {
 
 	public enum Type {
-		MONSTER(45), VENDOR(-1), PLAYER(100);
+		MONSTER(45, Types.MONSTER), VENDOR(-1, Types.VENDOR), PLAYER(100, Types.PLAYER);
 
 		private int baseXP;
+		private Types sendableType;
 
-		private Type(int baseXP) {
+		private Type(int baseXP, Types sendableType) {
 			this.baseXP = baseXP;
+			this.sendableType = sendableType;
 		}
 
 		public int getBaseXP() {
 			return this.baseXP;
+		}
+		
+		public Types sendableType() {
+			return this.sendableType;
 		}
 	}
 
@@ -535,7 +541,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		case MONSTER:
 			bytes = new byte[28];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
-			bytes[1] = Sendable.Types.MONSTER.value();
+			bytes[1] = this.type.sendableType().value();
 			bytes[2] = this.isAlive ? (byte) 1 : 0;
 			bytes[3] = this.facing.value();
 			i = 4;
@@ -546,7 +552,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		case VENDOR:
 			bytes = new byte[20];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
-			bytes[1] = Sendable.Types.VENDOR.value();
+			bytes[1] = this.type.sendableType().value();
 			bytes[2] = this.facing.value();
 			bytes[3] = PackageCode.Codes.BREAK.value(); // empty slot
 			i = 4;
@@ -557,7 +563,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		case PLAYER:
 			bytes = new byte[24 + this.name.length()];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
-			bytes[1] = Sendable.Types.PLAYER.value();
+			bytes[1] = this.type.sendableType().value();
 			bytes[2] = this.isAlive ? (byte) 1 : 0;
 			bytes[3] = this.facing.value();
 			i = 4;
