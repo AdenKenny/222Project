@@ -22,6 +22,7 @@ import clientServer.PackageCode;
 import clientServer.Slave;
 import gameWorld.Action;
 import gameWorld.Entity;
+import gameWorld.characters.Character;
 import gameWorld.item.Item;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
@@ -119,7 +120,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	}
 
-	public void initComponents(){
+	private void initComponents(){
 		//Add next level of components
 		infoBar = new InfoPane();
 		display = new Login(this, slave);
@@ -213,8 +214,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void setFloor(int number) {
-		infoBar.setFloor(number);
+	public void setRoom(int number) {
+		infoBar.setRoom(number);
 	}
 
 	@Override
@@ -318,18 +319,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 //		this.repaint();
 //		gfx.repaint();
 		//load player stats 
-		while(game.getPlayer()==null){ 
-			//wait for server to send character data
-			try {
-				System.out.println("Waiting");
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		while (game == null) {
+			game = slave.getGame();
+		}
+		Character player = null;
+		while (player == null) {
+			player = game.getPlayer();
 		}
 		bottomPanel.loadPlayerStats(game.getPlayer());
+		updateGold(game.getPlayer().getGold());
+		setRoom(game.getRoom().depth());
 	}
 
 	public void setSlave(Slave slave) {

@@ -22,7 +22,9 @@ public class ClientServerTests {
 
 	@Test
 	public void connect() {
-		Slave slave = new Slave(new MainWindow());
+		MainWindow main = new MainWindow();
+		Slave slave = new Slave(main);
+		main.setSlave(slave);
 		slave.start();
 		slave.login("Simon", "hunter2");
 		ClientSideGame game = null;
@@ -32,6 +34,7 @@ public class ClientServerTests {
 		Character player = null;
 		while (player == null) {
 			player = game.getPlayer();
+			System.out.println("getting player");
 		}
 		//System.out.println(player);
 	}
