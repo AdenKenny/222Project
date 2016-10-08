@@ -93,6 +93,8 @@ public interface AbstractBuilder {
 	 * @param description A String representing the description of the object.
 	 */
 
+	void setSaleValue(String value);
+	
 	void setDescription(String description);
 
 	/**
@@ -114,5 +116,6 @@ public interface AbstractBuilder {
 	 */
 
 	Buildable build();
+
 
 }

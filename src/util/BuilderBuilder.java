@@ -3,6 +3,7 @@ package util;
 import java.util.HashMap;
 import java.util.Map;
 
+import gameWorld.characters.CharacterBuilder;
 import gameWorld.characters.PlayerBuilder;
 import gameWorld.item.ItemBuilder;
 import gameWorld.objects.ObjectBuilder;
@@ -31,6 +32,8 @@ public class BuilderBuilder {
 			throw new UnsupportedOperationException();
 		case "Item":
 			return new ItemBuilder();
+		case "Character":
+			return new CharacterBuilder();
 		default:
 			break;
 		}
@@ -64,10 +67,17 @@ public class BuilderBuilder {
 				case "items":
 					builder.setItems(this.fields.get(s));
 					break;
+				case "saleValue":
+					if(!(builder instanceof ItemBuilder)) {
+						throw new AssertionError();
+					}
+					builder.setSaleValue(this.fields.get(s));
+					break;
 				default:
 					break;
 				}
 			}
+			
 			return builder;
 		}
 		

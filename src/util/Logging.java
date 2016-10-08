@@ -103,7 +103,7 @@ public final class Logging {
 
 			printWriter.println(eventOut); // Print the message to log.
 
-			System.out.println(eventOut);
+			//System.out.println(eventOut);
 
 		}
 
