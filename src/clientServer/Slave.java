@@ -95,8 +95,7 @@ public class Slave extends Thread {
 			this.connected = false;
 		} catch (IOException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			System.out.println(e);
 		}
 	}

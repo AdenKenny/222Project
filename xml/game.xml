@@ -13,7 +13,11 @@
       <equips>-1</equips>
     </player>
     <player>
+<<<<<<< HEAD
       <username>janef</username>
+=======
+      <username>Clinton</username>
+>>>>>>> ClintonMaster
       <UID>10</UID>
       <type>PLAYER</type>
       <items>-1</items>
