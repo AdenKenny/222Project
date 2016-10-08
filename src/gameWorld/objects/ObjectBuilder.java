@@ -40,7 +40,8 @@ public class ObjectBuilder implements AbstractBuilder {
 		this.buildValue = value;
 	}
 
-	public void setBuildItems(String buildItems) {
+	@Override
+	public void setItems(String buildItems) {
 		
 		buildItems = buildItems.replace(",", ""); //Remove commas.
 		

@@ -6,8 +6,9 @@ import clientServer.ServerSideGame;
 import gameWorld.Floor;
 import gameWorld.World;
 import gameWorld.characters.Character;
+import util.Buildable;
 
-public class PlayerSpawn extends Room implements SpawnRoom {
+public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
 
 	private Map<String, Character> players;
 
@@ -40,6 +41,24 @@ public class PlayerSpawn extends Room implements SpawnRoom {
 				player.respawn(this, x, y, facing);
 			}
 		}
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

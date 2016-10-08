@@ -105,4 +105,9 @@ public final class ItemBuilder implements AbstractBuilder {
 
 		return null;
 	}
+
+	@Override
+	public void setItems(String s) {
+		throw new AssertionError(); //This shouldn't ever be called.
+	}
 }
