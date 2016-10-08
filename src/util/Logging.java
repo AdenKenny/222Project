@@ -29,7 +29,10 @@ public final class Logging {
 	 */
 
 	public enum Levels {
-		SEVERE(0), WARNING(1), EVENT(2), OTHER(3); // Is this needed?
+		SEVERE(0), 
+		WARNING(1), 
+		EVENT(2), 
+		OTHER(3); // Is this needed?
 
 		private final int value;
 
@@ -164,6 +167,7 @@ class LogEvent implements Comparable<LogEvent> {
 	 * the greater the priority. Note: (this.compareTo(LogEvent o) == 0) does
 	 * not imply that this and o are equal, nor does it imply that
 	 * (this.equals(o) == true). It only means that (this.level.equals(o.level).
+	 * 
 	 * SEVERE > WARNING > EVENT > OTHER
 	 */
 
