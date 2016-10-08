@@ -305,7 +305,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
 	private void enterGame() {
 		while ((this.game = slave.getGame()) == null) {};
-
+		while (game == null) {
+			game = slave.getGame();
+		}
+		Character player = null;
+		while (player == null) {
+			player = game.getPlayer();
+		}
+		bottomPanel.loadPlayerStats(game.getPlayer());
+		updateGold(game.getPlayer().getGold());
+		setRoom(game.getRoom().depth());
 		if (this.display != null) {
 			this.display.setVisible(false);
 			this.remove(display);		}
@@ -319,16 +328,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 //		this.repaint();
 //		gfx.repaint();
 		//load player stats 
-		while (game == null) {
-			game = slave.getGame();
-		}
-		Character player = null;
-		while (player == null) {
-			player = game.getPlayer();
-		}
-		bottomPanel.loadPlayerStats(game.getPlayer());
-		updateGold(game.getPlayer().getGold());
-		setRoom(game.getRoom().depth());
+
 	}
 
 	public void setSlave(Slave slave) {
