@@ -1,2 +1,3 @@
+0 monsterDrop DROP -1 {} (An item dropped by the monster you just killed.)
 231321 table FURNITURE -1 {} (A table.)
 321323 chest CHEST -1 {32, 15, 51, 52} (A wooden chest.)
