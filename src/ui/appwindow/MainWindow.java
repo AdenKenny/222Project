@@ -309,14 +309,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		bottomPanel.loadPlayerStats(player);
 		updateGold(game.getPlayer().getGold());
 		setRoom(game.getRoom().depth());
-		//Load graphics panel
-//		JPanel panel = new TestPanel();
-//		panel.setBackground(Color.CYAN);
-//		add(panel, BorderLayout.CENTER);
-//		panel.setVisible(true);
-//		panel.revalidate();
-//		panel.repaint();
 		
+		//Load graphics panel
 		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
