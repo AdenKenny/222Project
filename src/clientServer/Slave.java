@@ -42,11 +42,9 @@ public class Slave extends Thread {
 		if (!this.connected) {
 			return;
 		}
-		try {
-			DataInputStream input = new DataInputStream(this.socket.getInputStream());
+		try(DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
 
-			boolean exit = false;
-			while (!exit) {
+			while (true) {
 				// the size of the packet received
 				int amount = input.readInt();
 				// create array and fill with received data
@@ -88,12 +86,11 @@ public class Slave extends Thread {
 				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-			this.socket.close();
 		} catch(SocketException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (InterruptedException e) {
 			System.out.println(e);
@@ -150,7 +147,7 @@ public class Slave extends Thread {
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 		} catch(SocketException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
 			System.out.println("Sending error");
