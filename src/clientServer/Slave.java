@@ -90,28 +90,12 @@ public class Slave extends Thread {
 				
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-<<<<<<< HEAD
 		} catch(SocketException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
-=======
-			
-			this.socket.close();
-		} 
-		
-		catch (SocketException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
-			this.connected = false;
 		}
-		
-		catch (IOException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
->>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
-			this.connected = false;
-		} 
-		
 		catch (InterruptedException e) {
 			System.out.println(e);
 		}
