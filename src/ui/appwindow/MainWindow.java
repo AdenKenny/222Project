@@ -1,12 +1,8 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -17,14 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import Graphics.GraphicsPanel;
-import IDGUI.Frame;
 import IDGUI.MessageDialog;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
@@ -160,11 +151,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				displayItemOptions(null, e.getX()-10, e.getY()-infoBar.HEIGHT);
-				if(optionsPane.isVisible())
-					optionsPane.setVisible(false);
-				else {
-					optionsPane.setVisible(true);
-					}
+//				if(optionsPane.isVisible())
+//					optionsPane.setVisible(false);
+//				else {
+//					optionsPane.setVisible(true);
+//					}
 			}
 
 			@Override
@@ -232,15 +223,20 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void displayItemOptions(List<Action> options, int x, int y) {
-		optionsPane.displayAndDrawList(x, y, options);
+	public void displayItemOptions(Entity entity, int x, int y) {
+		optionsPane.displayAndDrawList(x, y, entity);
 	}
 
 	@Override
-	public void performActionOnItem(int itemId, int actionId) {
+	public void performActionOnEntity(int itemId, int actionId) {
 		// TODO Auto-generated method stub
 
 	}
+	
+
+	/*
+	 * Methods for implementing key listener for game movement.
+	 */
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -258,10 +254,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public Entity getEntity(int x, int y){
-		return null;
 	}
 
 	public void reconnect() {
@@ -306,21 +298,38 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		}.start();
 	}
 
+	/*
+	 * Once a user has successfully logged in, load them into game.
+	 */
+	
 	private void enterGame() {
 		while ((this.game = slave.getGame()) == null) {};
-		//TODO: setup graphics
+
 		if (this.display != null) {
 			this.display.setVisible(false);
 			this.remove(display);		}
-		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
-		GraphicsPanel gfx = (GraphicsPanel) display;
-
-		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
-		gfx.setVisible(true);
-		add(gfx);
-		this.revalidate();
-		this.repaint();
-		gfx.repaint();
+		//Load graphics panel
+//		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
+//		GraphicsPanel gfx = (GraphicsPanel) display;
+//		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+//		gfx.setVisible(true);
+//		add(gfx);
+//		this.revalidate();
+//		this.repaint();
+//		gfx.repaint();
+		//load player stats 
+		while(game.getPlayer()==null){ 
+			//wait for server to send character data
+			try {
+				System.out.println("Waiting");
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		bottomPanel.loadPlayerStats(game.getPlayer());
 	}
 
 	public void setSlave(Slave slave) {

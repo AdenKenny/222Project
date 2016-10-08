@@ -668,6 +668,11 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 		return null;
 	}
+
+	@Override
+	public boolean isPlayer() {
+		return this.type.equals(Type.PLAYER);
+	}
 }
 
 
