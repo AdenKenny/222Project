@@ -21,8 +21,7 @@ import util.Logging;
 
 public class ServerSideGame implements Game {
 
-
-	private static Map<String, Character> players = new HashMap<>();
+	private static final Map<String, Character> players = new HashMap<>();
 
 	public static final World world = new World();
 

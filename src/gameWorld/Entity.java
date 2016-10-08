@@ -8,6 +8,11 @@ import gameWorld.characters.Character;
 import gameWorld.rooms.Room;
 import ui.appwindow.MainWindow;
 
+/**
+ * A class which represents anything that physically exists in the game's world.
+ * 
+ * @author Louis
+ */
 public abstract class Entity {
 	private static int IDCount = 0;
 
@@ -92,35 +97,74 @@ public abstract class Entity {
 	 *
 	 * @return The ID of an object.
 	 */
-
 	public static synchronized int getNewID() {
 		return Entity.IDCount++;
 	}
 
+	/**
+	 * Gets the ID of this Entity's Room.
+	 * 
+	 * @return This Entity's Room's ID.
+	 */
 	public int getRoomID() {
 		return this.room.getID();
 	}
 
+	/**
+	 * Returns the Room of this Entity.
+	 * 
+	 * @return This Entity's Room.
+	 */
 	public Room room() {
 		return this.room;
 	}
 
+	/**
+	 * Sets this Entity's Room to the specified Room.
+	 * 
+	 * @param room
+	 *            The new Room for this Entity.
+	 */
 	public void setRoom(Room room) {
 		this.room = room;
 	}
 
+	/**
+	 * Returns this Entity's current x position. That is, this Entity's position
+	 * along the x-axis of its Room.
+	 * 
+	 * @return this Entity's x position
+	 */
 	public int xPos() {
 		return this.xPos;
 	}
 
+	/**
+	 * Sets this Entity's x position to the specified value.
+	 * 
+	 * @param xPos
+	 *            the new position
+	 */
 	public void setXPos(int xPos) {
 		this.xPos = xPos;
 	}
 
+	/**
+	 * Returns this Entity's current y position. That is, this Entity's position
+	 * along the y-axis of its Room.
+	 * 
+	 * @return this Entity's y position
+	 */
 	public int yPos() {
 		return this.yPos;
 	}
 
+	/**
+	 * Sets this Entity's y position to the specified value.
+	 * 
+	 * @param yPos
+	 *            the new position
+	 */
 	public void setYPos(int yPos) {
 		this.yPos = yPos;
 	}
@@ -245,9 +289,9 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Returns true if this Entity is a Player
+	 * Returns true if this Entity is a Player, false otherwise.
 	 *
-	 * @return true if this is a Player
+	 * @return whether this Entity is a Player
 	 */
 	public abstract boolean isPlayer();
 
