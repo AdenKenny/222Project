@@ -33,6 +33,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private JPanel display; //Login to begin with, then display
 	private BottomPanel bottomPanel;
 	private OptionsPane optionsPane;
+	private boolean enterGame;
 
 	public MainWindow(){
 		super("RoomScape");
@@ -87,7 +88,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
-
 	}
 
 	private void loadIcons() {
@@ -268,7 +268,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void accountResult(byte result) {
 		String text = "";
 		if (result == PackageCode.Codes.LOGIN_SUCCESS.value()) {
-			enterGame();
+			this.enterGame = true;
 			text = "Login successful.";
 		}
 		else if (result == PackageCode.Codes.LOGIN_INCORRECT_USER.value()) {
@@ -281,22 +281,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			text = "That character is already online.";
 		}
 		else if (result == PackageCode.Codes.NEW_USER_SUCCESS.value()) {
-			enterGame();
+			this.enterGame = true;
 			text = "Account created.";
 		}
 		else if (result == PackageCode.Codes.NEW_USER_NAME_TAKEN.value()) {
 			text = "That name is unavailable.";
 		}
-		threadedMessage(text);
-	}
-
-	public void threadedMessage(String text) {
-		new Thread() {
-			@Override
-			public void run() {
-				new MessageDialog(MainWindow.this, text);
-			}
-		}.start();
+		addGameChat(text);
 	}
 
 	/*
@@ -334,6 +325,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	public void setSlave(Slave slave) {
 		this.slave = slave;
 	}
+	
+	public void waitForGame() {
+		while (!this.enterGame) {
+			//wait for user to login
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {}
+		}
+		enterGame();
+	}
 
 	public static void main(String[] args){
 		MainWindow main = new MainWindow();
@@ -341,5 +342,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		slave.start();
 		main.setSlave(slave);
 		main.initComponents();
+		main.waitForGame();
 	}
 }
