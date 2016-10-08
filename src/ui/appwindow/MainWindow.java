@@ -293,14 +293,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private void enterGame() {
 		while ((this.game = slave.getGame()) == null) {};
 		
->>>>>>> master
 		if (this.display != null) {
 			this.display.setVisible(false);
-			this.remove(display);		}
+			this.remove(display);		
+		}
 		//load player stats 
-<<<<<<< HEAD
-
-=======
 		Character player = null;
 		while (player == null) {
 			player = this.game.getPlayer();
@@ -320,7 +317,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.revalidate();
 		this.repaint();
 		gfx.repaint();
->>>>>>> master
+
 	}
 
 	public void setSlave(Slave slave) {
