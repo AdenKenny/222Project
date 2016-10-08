@@ -16,6 +16,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import Graphics.GraphicsPanel;
 import IDGUI.MessageDialog;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
@@ -152,11 +154,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				displayItemOptions(null, e.getX()-10, e.getY()-infoBar.HEIGHT);
-//				if(optionsPane.isVisible())
-//					optionsPane.setVisible(false);
-//				else {
-//					optionsPane.setVisible(true);
-//					}
 			}
 
 			@Override
@@ -178,7 +175,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
 		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
-		//displayItemOptions(null, 200, 200);
 
 	}
 
@@ -300,15 +296,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		if (this.display != null) {
 			this.display.setVisible(false);
 			this.remove(display);		}
-		//Load graphics panel
-//		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
-//		GraphicsPanel gfx = (GraphicsPanel) display;
-//		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
-//		gfx.setVisible(true);
-//		add(gfx);
-//		this.revalidate();
-//		this.repaint();
-//		gfx.repaint();
 		//load player stats 
 		Character player = null;
 		while (player == null) {
@@ -320,6 +307,15 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		bottomPanel.loadPlayerStats(player);
 		updateGold(game.getPlayer().getGold());
 		setRoom(game.getRoom().depth());
+		//Load graphics panel
+		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
+		GraphicsPanel gfx = (GraphicsPanel) display;
+		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+		gfx.setVisible(true);
+		add(gfx);
+		this.revalidate();
+		this.repaint();
+		gfx.repaint();
 	}
 
 	public void setSlave(Slave slave) {
