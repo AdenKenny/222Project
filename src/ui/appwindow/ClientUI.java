@@ -3,6 +3,7 @@ package ui.appwindow;
 import java.util.List;
 
 import gameWorld.Action;
+import gameWorld.Entity;
 import gameWorld.item.Item;
 
 public interface ClientUI {
@@ -17,12 +18,12 @@ public interface ClientUI {
 
 	public void setStat(int id, int value);
 
-	public void setFloor(int number);
+	public void setRoom(int number);
 
 	public void updateGold(int amount);
 
-	public void displayItemOptions(List<Action> options, int x, int y);
+	public void displayItemOptions(Entity entity, int x, int y);
 
-	public void performActionOnItem(int itemId, int actionId);
+	public void performActionOnEntity(int itemId, int actionId);
 
 }

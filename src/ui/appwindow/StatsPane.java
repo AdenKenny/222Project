@@ -6,12 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.text.AttributedCharacterIterator;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 /**
  * Displays players information
@@ -58,7 +53,7 @@ public class StatsPane extends JPanel{
 			g.fillRect(getWidth()/4, 90, getWidth()/2, 10); //MaxHealth
 			g.setColor(Color.green);
 			g.fillRect(getWidth()/4, 90, (getWidth()/2)*(health+1)/(maxHealth+1), 10); //currentHealth
-
+			System.out.println("Drawing stats, Health: " +health);
 			//Exp bar
 			g.setColor(Color.black);
 			g.drawString("Exp:", 50, 150);

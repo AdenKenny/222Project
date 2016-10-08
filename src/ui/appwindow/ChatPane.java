@@ -20,7 +20,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class ChatPane extends JPanel{
-	public static float WIDTH_RATIO = 0.33f;
+	public static float WIDTH_RATIO = 0.33f; //fraction of display width used
 	private BottomPanel parent;
 	protected JTextPane textArea;
 	protected JScrollPane scroll;
@@ -35,7 +35,7 @@ public class ChatPane extends JPanel{
 		setVisible(true);
 	}
 
-	public void initComponents(){
+	protected void initComponents(){
 		this.textArea = new JTextPane();
 		this.scroll = new JScrollPane(this.textArea);
 		this.inputBar = new JTextArea();
@@ -53,13 +53,10 @@ public class ChatPane extends JPanel{
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override

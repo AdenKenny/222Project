@@ -1,43 +1,38 @@
 package ui.appwindow;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
+
+/*
+ * Mouse listener for selecting the correct list item
+ * and hiding on mouse exit of the OptionsPane list.
+ * An instance is created each time the OptionsPane is displayed.
+ */
 
 public class OptionsListener implements MouseInputListener{
 
 	private OptionsPane pane;
-	private Rectangle listBounds;
 
-	public OptionsListener(OptionsPane pane, Rectangle listBounds){
+	public OptionsListener(OptionsPane pane){
 		this.pane = pane;
-		this.listBounds = listBounds;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		pane.selectOption(e.getY());
-
+		pane.setVisible(false);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(listBounds.contains(new Point(e.getX(), e.getY()))){
-			pane.selectOption(e.getY());
-		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -51,8 +46,6 @@ public class OptionsListener implements MouseInputListener{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 

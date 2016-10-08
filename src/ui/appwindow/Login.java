@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.File;
@@ -63,6 +65,22 @@ public class Login extends JPanel{
 		passField = new JPasswordField();
 		passField.setBounds(getWidth()/2-50, getHeight()/2+30, 50, 10);
 		userField = new JTextArea();
+		userField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_TAB){
+					passField.requestFocus();
+				}
+			}
+		});
 		loginButton = new JButton("Login");
 		registerButton = new JButton("Register");
 		setLoginAction();
@@ -77,6 +95,7 @@ public class Login extends JPanel{
 		add(registerButton);
 		revalidate();
 		repaint();
+		userField.requestFocus();
 	}
 
 	private void setRegisterAction() {
@@ -84,7 +103,7 @@ public class Login extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Run registration for user
-				slave.newUser(userField.getText(), new String(passField.getPassword()));
+				slave.newUser(userField.getText().trim(), new String(passField.getPassword()));
 				passField.setText("");
 			}
 		});
@@ -96,7 +115,7 @@ public class Login extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Attempt Login
-				slave.login(userField.getText(), new String(passField.getPassword()));
+				slave.login(userField.getText().trim(), new String(passField.getPassword()));
 				passField.setText("");
 			}
 		});

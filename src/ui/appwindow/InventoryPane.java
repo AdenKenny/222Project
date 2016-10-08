@@ -21,76 +21,70 @@ public class InventoryPane extends JPanel{
 	public static float WIDTH_RATIO = 0.34f;
 	public static int ROWS;
 	public static int COLS;
-
+	private MainWindow client;
+	
 	private Item[][] items;
-	private static HashMap<String, Image> itemIcons;
 	int colWidth;
 	int rowHeight;
 
-	public InventoryPane(){
+	public InventoryPane(MainWindow client){
 		ROWS=2;
 		COLS=4;
+		this.client = client;
 		this.items = new Item[ROWS][COLS];
-		this.itemIcons = new HashMap<>();
-		try {
-			itemIcons.put("Diamond Short Sword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
-
 			@Override
 			public void mousePressed(MouseEvent e) {
-				processItemClick(e.getX(), e.getY(), e.getButton());
-
 			}
-
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
-
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
+				processItemClick(e.getX(), e.getY(), e.getButton());
 			}
 		});
 	}
 
+	/*
+	 * Calculates what grid space was clicked and displays
+	 * the options if an item is present in that space.
+	 */
 	protected void processItemClick(int x, int y, int button) {
 		for(int i=1; i<=ROWS; i++){
 			for(int j=1; j<=COLS; j++){
 				if(y<i*rowHeight && x<j*colWidth){
-					System.out.println("Item: " + (i-1) + " " + (j-1) + "Selected");
+					System.out.println("Item: " + (i-1) + " " + (j-1) + " Selected");
+					showOptions(items[i-1][j-1], x+getX(), y+getParent().getY()); //TODO: remove this
 					if(items[i-1][j-1] !=null){
-						showOptions(items[i-1][j-1]);
+						//calculate position according to parent components and window bounds
+						showOptions(items[i-1][j-1], x+getX(), y+getParent().getY());
 					}
 					return;
 				}
 			}
 		}
-
 	}
 
-	private void showOptions(Item item) {
-		// TODO Auto-generated method stub
+	/*
+	 * Uses the item clicked on to call for an options list to be displayed.
+	 */
+	private void showOptions(Item item, int x, int y) {
+		client.displayItemOptions(null, x, y);
 	}
 
+	/*
+	 * Add an item to the players inventory. 
+	 * Fills the first free space starting from top left to bottom right, moving left to right.
+	 * If no free spaces, no item will be added, although this method should not be called in that case.
+	 */
 	public void addItem(Item item){
 		for(int i=0; i<ROWS; i++ ){
 			for(int j=0; j<COLS; j++){
@@ -104,6 +98,7 @@ public class InventoryPane extends JPanel{
 
 	@Override
 	public void paint(Graphics g) {
+		//background
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,getWidth(), getHeight());
 
@@ -129,6 +124,7 @@ public class InventoryPane extends JPanel{
 			}
 		}
 
+		//Draw borders
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(10));
         g2.setColor(new Color(23, 69, 40));
