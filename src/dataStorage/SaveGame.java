@@ -32,7 +32,6 @@ import util.Logging;
 public final class SaveGame implements XMLInteractable {
 
 	private Document doc; //The document we'll be building on.
-	private File file;
 
 	private Element root;
 
@@ -41,7 +40,6 @@ public final class SaveGame implements XMLInteractable {
 	private Element vendors; //For vendors.
 
 	public SaveGame() {
-		this.file = new File("xml/game.xml"); //Sets the file we'll output to.
 
 		try {
 			this.root = getRoot("game"); //Create a new root with game as the tag value.
@@ -189,7 +187,7 @@ public final class SaveGame implements XMLInteractable {
 		return element;
 	}
 
-	private Element getRoot(String fileName) throws ParserConfigurationException {
+	private Element getRoot(String fileName) throws ParserConfigurationException { //TODO is this broken.
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder builder = factory.newDocumentBuilder();

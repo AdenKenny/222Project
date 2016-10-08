@@ -10,24 +10,17 @@ import gameWorld.Sendable;
 import gameWorld.World.Direction;
 
 public class Room {
-
 	protected Floor floor;
-
 	protected HashMap<Direction, Room> neighbours;
-
 	protected Entity[][] entities;
-
 	protected int xPos;
 	protected int yPos;
-
 	protected int ID;
-
 	protected int width;
 	protected int depth;
 
 	/**
-	 * Constructs a Room containing a grid of Locations which has
-	 * the specified width and depth.
+	 * Constructs a Room containing a grid of Locations which has the specified width and depth.
 	 *
 	 * @param floor
 	 * @param xPos
@@ -36,61 +29,48 @@ public class Room {
 	 * @param depth
 	 */
 	public Room(Floor floor, int xPos, int yPos, int width, int depth) {
-
 		this.ID = Entity.getNewID();
-
 		this.floor = floor;
-
 		this.neighbours = new HashMap<>();
-
 		this.xPos = xPos;
 		this.yPos = yPos;
-
 		this.width = width;
 		this.depth = depth;
-
 		this.entities = new Entity[depth][width];
 	}
 
 	public Room(Floor floor, RoomBuilder builder) {
 		this.floor = floor;
-
 		this.ID = Entity.getNewID();
-
 		this.neighbours = new HashMap<>();
-
 		this.xPos = builder.getxPos();
 		this.yPos = builder.getyPos();
-
 		this.width = builder.getWidth();
 		this.depth = builder.getDepth();
-
 		this.entities = new Entity[this.depth][this.width];
 	}
 
 	/**
 	 * Returns the Floor that this Room is situated on.
 	 *
-	 * @return	this Room's Floor
+	 * @return this Room's Floor
 	 */
 	public Floor floor() {
 		return this.floor;
 	}
 
 	/**
-	 * Returns the Room immediately adjacent to this Room in the
-	 * specified Direction.
+	 * Returns the Room immediately adjacent to this Room in the specified Direction.
 	 *
 	 * @param direction
-	 * @return	the Room in the Direction specified
+	 * @return the Room in the Direction specified
 	 */
 	public Room neighbour(Direction direction) {
 		return this.neighbours.get(direction);
 	}
 
 	/**
-	 * Sets the neighbouring Room in the specified Direction to
-	 * neighbour.
+	 * Sets the neighbouring Room in the specified Direction to neighbour.
 	 *
 	 * @param direction
 	 * @param neighbour
@@ -100,10 +80,9 @@ public class Room {
 	}
 
 	/**
-	 * Returns the grid of Entities as a 2D array of Entities,
-	 * with depth x width Entities.
+	 * Returns the grid of Entities as a 2D array of Entities, with depth x width Entities.
 	 *
-	 * @return	the Entities in this Room
+	 * @return the Entities in this Room
 	 */
 	public Entity[][] entities() {
 		return this.entities;
@@ -124,7 +103,7 @@ public class Room {
 	/**
 	 * Returns the x position (that is, width-wise) of this Room on this Floor.
 	 *
-	 * @return	the x position in the Floor grid
+	 * @return the x position in the Floor grid
 	 */
 	public int xPos() {
 		return this.xPos;
@@ -133,7 +112,7 @@ public class Room {
 	/**
 	 * Returns the y position (that is, depth-wise) of this Room on this Floor.
 	 *
-	 * @return	the y position in the Floor grid
+	 * @return the y position in the Floor grid
 	 */
 	public int yPos() {
 		return this.yPos;
@@ -142,7 +121,7 @@ public class Room {
 	/**
 	 * Returns the width of this Room, in Locations.
 	 *
-	 * @return	the width of this Room
+	 * @return the width of this Room
 	 */
 	public int width() {
 		return this.width;
@@ -155,24 +134,22 @@ public class Room {
 	/**
 	 * Returns the depth of this Room, in Locations.
 	 *
-	 * @return	the depth of this Room
+	 * @return the depth of this Room
 	 */
 	public int depth() {
 		return this.depth;
 	}
 
 	public boolean move(Entity entity, Direction dir) {
-		if (entity == null || entity.room() == null || dir == null) return false;
-		if (!entity.room().equals(this)) return false;
-
+		if (entity == null || entity.room() == null || dir == null)
+			return false;
+		if (!entity.room().equals(this))
+			return false;
 		int changeX = 0;
 		int changeY = 0;
-
 		if (dir.isRelative()) {
 			// handling for forward, back, left, right
-
 			Direction facing = entity.facing();
-
 			// first get the change values sorted for when facing North
 			switch (dir) {
 			case FORWARD:
@@ -190,21 +167,20 @@ public class Room {
 			default:
 				break;
 			}
-
 			// then, adjust them to fit the Direction that the Entity is facing
 			switch (facing) {
-			case NORTH:	// everything fine
+			case NORTH: // everything fine
 				break;
-			case EAST:	// rotate 90 degrees right
+			case EAST: // rotate 90 degrees right
 				int tempY = changeY;
 				changeY = changeX;
 				changeX = -tempY;
 				break;
-			case SOUTH:	// opposite of North, so invert
+			case SOUTH: // opposite of North, so invert
 				changeX = -changeX;
 				changeY = -changeY;
 				break;
-			case WEST:	// rotate 90 degrees left
+			case WEST: // rotate 90 degrees left
 				int tempX = changeX;
 				changeX = changeY;
 				changeY = -tempX;
@@ -212,9 +188,9 @@ public class Room {
 			default:
 				break;
 			}
-		} else {
+		}
+		else {
 			// handling for North, East, South, West
-
 			switch (dir) {
 			case NORTH:
 				changeY = -1;
@@ -232,27 +208,26 @@ public class Room {
 				break;
 			}
 		}
-
 		int targetX = entity.xPos() + changeX;
 		int targetY = entity.yPos() + changeY;
-
 		// movement between rooms
 		if (targetX < 0) {
-			if (targetY == depth/2) {
+			if (targetY == depth / 2) {
 				Room targetRoom = this.neighbours.get(Direction.WEST);
 				if (targetRoom != null) {
-					if (targetRoom.entities[this.yPos][targetRoom.width-1] == null) {
-						targetRoom.entities[this.yPos][targetRoom.width-1] = entity;
+					if (targetRoom.entities[this.yPos][targetRoom.width - 1] == null) {
+						targetRoom.entities[this.yPos][targetRoom.width - 1] = entity;
 						this.entities[entity.yPos()][entity.xPos()] = null;
 						entity.setRoom(targetRoom);
-						entity.setXPos(targetRoom.width-1);
+						entity.setXPos(targetRoom.width - 1);
 						return true;
 					}
 				}
 			}
 			return false;
-		} else if (targetX >= this.width) {
-			if (targetY == depth/2) {
+		}
+		else if (targetX >= this.width) {
+			if (targetY == depth / 2) {
 				Room targetRoom = this.neighbours.get(Direction.EAST);
 				if (targetRoom != null) {
 					if (targetRoom.entities[this.yPos][0] == null) {
@@ -265,22 +240,24 @@ public class Room {
 				}
 			}
 			return false;
-		} else if (targetY < 0) {
-			if (targetX == width/2) {
+		}
+		else if (targetY < 0) {
+			if (targetX == width / 2) {
 				Room targetRoom = this.neighbours.get(Direction.NORTH);
 				if (targetRoom != null) {
-					if (targetRoom.entities[targetRoom.depth-1][this.xPos] == null) {
-						targetRoom.entities[targetRoom.depth-1][this.xPos] = entity;
+					if (targetRoom.entities[targetRoom.depth - 1][this.xPos] == null) {
+						targetRoom.entities[targetRoom.depth - 1][this.xPos] = entity;
 						this.entities[entity.yPos()][entity.xPos()] = null;
 						entity.setRoom(targetRoom);
-						entity.setYPos(targetRoom.depth-1);
+						entity.setYPos(targetRoom.depth - 1);
 						return true;
 					}
 				}
 			}
 			return false;
-		} else if (targetY >= this.depth){
-			if (targetX == width/2) {
+		}
+		else if (targetY >= this.depth) {
+			if (targetX == width / 2) {
 				Room targetRoom = this.neighbours.get(Direction.SOUTH);
 				if (targetRoom != null) {
 					if (targetRoom.entities[0][this.xPos] == null) {
@@ -294,7 +271,6 @@ public class Room {
 			}
 			return false;
 		}
-
 		if (this.entities[targetY][targetX] == null) {
 			// target location is free, so can move there
 			this.entities[targetY][targetX] = entity;
@@ -303,7 +279,6 @@ public class Room {
 			entity.setYPos(targetY);
 			return true;
 		}
-
 		return false;
 	}
 }

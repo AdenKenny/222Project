@@ -14,29 +14,29 @@ public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
 
 	public PlayerSpawn(Floor floor, int xPos, int yPos, int width, int depth) {
 		super(floor, xPos, yPos, width, depth);
-		players = ServerSideGame.getAllPlayers();
+		this.players = ServerSideGame.getAllPlayers();
 		floor.addSpawnRoom(this);
 	}
 
 	public PlayerSpawn(Floor floor, RoomBuilder builder) {
 		super(floor, builder);
-		players = ServerSideGame.getAllPlayers();
+		this.players = ServerSideGame.getAllPlayers();
 		floor.addSpawnRoom(this);
 	}
 
 	@Override
 	public void tick() {
-		for (Character player : players.values()) {
+		for (Character player : this.players.values()) {
 			if (!player.isAlive()) {
-				int x = width/2, y = depth/2;
+				int x = this.width/2, y = this.depth/2;
 				World.Direction facing = World.Direction.NORTH;
 
-				while (entities[y][x] != null) {
-					x = (int) (Math.random() * width);
-					y = (int) (Math.random() * depth);
+				while (this.entities[y][x] != null) {
+					x = (int) (Math.random() * this.width);
+					y = (int) (Math.random() * this.depth);
 				}
 
-				entities[y][x] = player;
+				this.entities[y][x] = player;
 
 				player.respawn(this, x, y, facing);
 			}

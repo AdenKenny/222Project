@@ -3,7 +3,6 @@ package gameWorld.characters;
 import java.util.ArrayList;
 import java.util.List;
 
-import clientServer.ServerSideGame;
 import clientServer.Game;
 import clientServer.PackageCode;
 import gameWorld.Action;
@@ -109,7 +108,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		addActions();
 	}
 
-	public Character(PlayerBuilder builder) {
+	public Character(PlayerBuilder builder) { //TODO, should xp and stuff be assigned here?
 		super(null, -1, -1, builder.getName(), builder.getDescription(), null);
 
 		this.ID = builder.getID();
@@ -119,7 +118,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.type = Character.Type.PLAYER;
 		this.equips = new ArrayList<>();
 		for (int i : builder.getEquips()) {
-			this.equips.add(ServerSideGame.mapOfItems.get(i));
+			this.equips.add(Game.mapOfItems.get(i));
 		}
 	}
 	// TODO constructor.
@@ -299,6 +298,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			case HELMET:
 				defense += item.getValue();
 				break;
+				//$CASES-OMITTED$
 			default:
 				break;
 			}
@@ -389,6 +389,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		case WEST:
 			this.facing = Direction.SOUTH;
 			break;
+			//$CASES-OMITTED$
 		default:
 			break;
 		}
@@ -408,6 +409,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		case WEST:
 			this.facing = Direction.NORTH;
 			break;
+			//$CASES-OMITTED$
 		default:
 			break;
 		}
@@ -448,7 +450,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public void setHealth(int health) {
 		this.health = health;
 		if (health > this.maxHealth)
-			health = this.maxHealth;
+			health = this.maxHealth; //TODO The param is assigned here? Should this.health be assigned?
 		if (health < 0) {
 			this.isAlive = false;
 			// TODO: die();
@@ -501,7 +503,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public void setGold(int gold) {
 		this.gold = gold;
 		if (gold < 0)
-			gold = 0;
+			gold = 0; //Should this be this.gold?
 	}
 
 	public int getLevel() {

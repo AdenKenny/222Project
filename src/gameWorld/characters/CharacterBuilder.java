@@ -59,9 +59,9 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 		try {
 
-			for (String string : itemValues) {
-				int value = Integer.parseInt(string);
-				this.setOfItems.add(value); // Add the id to the set.
+			for(String string : itemValues) {
+				int valueS = Integer.parseInt(string);
+				this.setOfItems.add(valueS); //Add the id to the set.
 			}
 		}
 

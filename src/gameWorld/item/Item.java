@@ -34,7 +34,7 @@ public class Item implements Buildable, Cloneable {
 		this.saleValue = builder.getSaleValue();
 		this.description = builder.getDescription();
 
-		this.actions = new ArrayList<Action>();
+		this.actions = new ArrayList<>();
 		addActions();
 	}
 
@@ -46,7 +46,7 @@ public class Item implements Buildable, Cloneable {
 		this.saleValue = item.getSaleValue();
 		this.description = item.getDescription();
 
-		this.actions = new ArrayList<Action>();
+		this.actions = new ArrayList<>();
 		addActions();
 	}
 
@@ -147,6 +147,9 @@ public class Item implements Buildable, Cloneable {
 				}
 			});
 			break;
+		case POTION:
+		case QUEST:
+		case TRASH:
 		default:
 			break;
 		}
