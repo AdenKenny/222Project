@@ -77,7 +77,7 @@ public interface Sendable {
 	 * Returns a packet with all the information required for the client to be
 	 * updated.
 	 *
-	 * @return
+	 * @return A byte packet.
 	 */
 	public byte[] toSend();
 }

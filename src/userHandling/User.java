@@ -6,7 +6,7 @@ package userHandling;
  * @author Aden
  */
 
-public final class User implements Comparable<User> {
+public final class User implements Comparable<User>, Cloneable {
 
 	private final long id; //Unique identifier of the user.
 	private final String username; //Username of user.
@@ -141,5 +141,18 @@ public final class User implements Comparable<User> {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public User clone() {
+		try {
+			return (User) super.clone();
+		}
+		catch (CloneNotSupportedException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

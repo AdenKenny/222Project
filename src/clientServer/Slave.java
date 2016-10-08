@@ -59,9 +59,11 @@ public class Slave extends Thread {
 					if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
 						this.game.newRoom(data);
 					}
+					
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE.value()) {
 						this.game.updateSendable(data);
 					}
+					
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
 						for (int i = 1; i < data.length; i++) {
@@ -70,6 +72,7 @@ public class Slave extends Thread {
 						this.mainWindow.addChat(message.toString());
 					}
 				}
+				
 				else {
 					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
@@ -84,15 +87,32 @@ public class Slave extends Thread {
 						this.mainWindow.accountResult(data[1]);
 					}
 				}
+				
 				Thread.sleep(BROADCAST_CLOCK);
 			}
+<<<<<<< HEAD
 		} catch(SocketException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
+=======
+			
+			this.socket.close();
+		} 
+		
+		catch (SocketException e) {
+			this.mainWindow.threadedMessage("Disconnected from server.");
 			this.connected = false;
-		} catch (InterruptedException e) {
+		}
+		
+		catch (IOException e) {
+			this.mainWindow.threadedMessage("Disconnected from server.");
+>>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
+			this.connected = false;
+		} 
+		
+		catch (InterruptedException e) {
 			System.out.println(e);
 		}
 	}
@@ -206,9 +226,9 @@ public class Slave extends Thread {
 	public String getUsername() {
 		if (this.game == null) {
 			return null;
-		} else {
-			return this.username;
 		}
+		
+		return this.username;
 	}
 
 	public static void main(String[] args) {

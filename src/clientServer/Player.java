@@ -1,8 +1,8 @@
 package clientServer;
 
-import userHandling.User;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import userHandling.User;
 
 public class Player {
 	private User user;
@@ -76,7 +76,7 @@ public class Player {
 	}
 
 	public Direction getToMove() {
-		return toMove;
+		return this.toMove;
 	}
 
 	public void setToMove(Direction toMove) {
@@ -87,7 +87,7 @@ public class Player {
 	}
 	
 	public Direction getToTurn() {
-		return toTurn;
+		return this.toTurn;
 	}
 
 	public void setToTurn(Direction toTurn) {

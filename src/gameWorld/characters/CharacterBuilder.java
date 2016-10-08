@@ -3,7 +3,6 @@ package gameWorld.characters;
 import java.util.HashSet;
 import java.util.Set;
 
-import gameWorld.item.ItemBuilder;
 import util.AbstractBuilder;
 import util.Logging;
 
@@ -49,7 +48,8 @@ public final class CharacterBuilder implements AbstractBuilder {
 		this.buildValue = buildValue;
 	}
 
-	public void setBuildItems(String buildItems) {
+	@Override
+	public void setItems(String buildItems) {
 
 		this.buildItems = buildItems.replace(",", ""); // Remove commas.
 
@@ -59,9 +59,9 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 		try {
 
-			for (String string : itemValues) {
-				int value = Integer.parseInt(string);
-				this.setOfItems.add(value); // Add the id to the set.
+			for(String string : itemValues) {
+				int valueS = Integer.parseInt(string);
+				this.setOfItems.add(valueS); //Add the id to the set.
 			}
 		}
 
@@ -127,14 +127,14 @@ public final class CharacterBuilder implements AbstractBuilder {
 			this.name = this.buildName;
 			this.type = Character.Type.valueOf(this.buildType);
 			this.value = Integer.parseInt(this.buildValue);
-			setBuildItems(this.buildItems);
+			setItems(this.buildItems);
 			this.description = this.buildDescription;
 
 			return new CharacterModel(this);
 		}
 
 		catch (NumberFormatException e) {
-			Logging.logEvent(ItemBuilder.class.getName(), Logging.Levels.WARNING, "Improperly formatted XML file on item loading.");
+			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.WARNING, "Improperly formatted XML file on item loading.");
 
 		}
 

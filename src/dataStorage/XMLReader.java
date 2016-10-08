@@ -98,7 +98,7 @@ public final class XMLReader implements XMLInteractable {
 
 				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
 
-				build.setBuildItems(buildItems); // Set items.
+				build.setItems(buildItems); // Set items.
 
 				String description = e.getElementsByTagName("description").item(0).getTextContent();
 				build.setDescription(description);
@@ -242,7 +242,7 @@ public final class XMLReader implements XMLInteractable {
 				build.setValue(value); // Set the value.
 
 				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
-				build.setBuildItems(buildItems); // Set items.
+				build.setItems(buildItems); // Set items.
 
 				String description = e.getElementsByTagName("description").item(0).getTextContent();
 				build.setDescription(description);

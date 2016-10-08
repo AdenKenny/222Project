@@ -100,7 +100,7 @@ public class World {
 	private Set<Character> players;
 
 	public World() {
-		this.floors = new ArrayList<Floor>();
+		this.floors = new ArrayList<>();
 		this.currentFloor = 0;
 
 		this.players = new HashSet<Character>();

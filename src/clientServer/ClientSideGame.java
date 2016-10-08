@@ -95,14 +95,14 @@ public class ClientSideGame extends Thread implements Game {
 
 	public void updateSendable(byte[] received) {
 		int id = Sendable.bytesToInt(received, 4);
-		Sendable toUpdate = sendables.get(id);
+		Sendable toUpdate = this.sendables.get(id);
 		if (toUpdate == null) {
 			addSendable(received);
 			return;
 		}
 		if (toUpdate instanceof Character) {
 			Character c = (Character) toUpdate;
-			Entity[][] entities = room.entities();
+			Entity[][] entities = this.room.entities();
 			entities[c.yPos()][c.xPos()] = null;
 
 			Character.Type type = Character.Type.values()[received[1]];
@@ -138,7 +138,7 @@ public class ClientSideGame extends Thread implements Game {
 				Character c = (Character)s;
 				if (c.getID() == id) {
 					toRemove = s;
-					room.entities()[c.yPos()][c.xPos()] = null;
+					this.room.entities()[c.yPos()][c.xPos()] = null;
 					break;
 				}
 			}
@@ -149,10 +149,15 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public Room getRoom() {
-		return room;
+		return this.room;
 	}
 
 	public Character getPlayer() {
+<<<<<<< HEAD
+=======
+		if (this.room == null) return null;
+
+>>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
 		return this.player;
 	}
 

@@ -60,6 +60,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 		this.buildGold = gold;
 	}
 
+	@Override
 	public void setItems(String items) {
 		this.buildItems = items;
 	}

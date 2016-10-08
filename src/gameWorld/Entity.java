@@ -33,8 +33,6 @@ public abstract class Entity {
 	 * Constructs an Entity at the given Location, with the given name and
 	 * description, facing in the given Direction.
 	 *
-	 * @param location
-	 * @param actions
 	 * @param name
 	 * @param description
 	 * @param facing
@@ -42,7 +40,7 @@ public abstract class Entity {
 	public Entity(Room room, int xPos, int yPos, String name, String description, Direction facing) {
 		this.ID = getNewID();
 
-		this.actions = new ArrayList<Action>();
+		this.actions = new ArrayList<>();
 
 		this.room = room;
 		this.xPos = xPos;

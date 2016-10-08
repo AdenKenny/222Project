@@ -16,7 +16,7 @@ package util;
 
 public interface AbstractBuilder {
 
-	/**
+	/*
 	 * Sets the ID of something being built. Should probably use
 	 * Integer.parseInt().
 	 *
@@ -64,6 +64,9 @@ public interface AbstractBuilder {
 	 *
 	 * @return An int representing the ID of the object.
 	 */
+	
+	void setItems(String s);
+
 
 	int getID();
 
@@ -111,4 +114,5 @@ public interface AbstractBuilder {
 	 */
 
 	Buildable build();
+
 }
