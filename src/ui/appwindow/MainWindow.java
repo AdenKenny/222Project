@@ -1,6 +1,7 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -309,13 +310,19 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		updateGold(game.getPlayer().getGold());
 		setRoom(game.getRoom().depth());
 		//Load graphics panel
+//		JPanel panel = new TestPanel();
+//		panel.setBackground(Color.CYAN);
+//		add(panel, BorderLayout.CENTER);
+//		panel.setVisible(true);
+//		panel.revalidate();
+//		panel.repaint();
+		
 		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
+		add(gfx,BorderLayout.CENTER);
 		gfx.setVisible(true);
-		add(gfx);
-		this.revalidate();
-		this.repaint();
+		gfx.revalidate();
 		gfx.repaint();
 
 	}
