@@ -9,6 +9,11 @@ import gameWorld.rooms.Room;
 import gameWorld.rooms.SpawnRoom;
 import gameWorld.rooms.TargetRoom;
 
+/**
+ * A class which represents a Floor that contains various Rooms.
+ * 
+ * @author Louis
+ */
 public class Floor {
 	private Floor previousFloor;
 	private Floor nextFloor;
@@ -22,42 +27,7 @@ public class Floor {
 	private int depth;
 
 	private int level;
-
-	/**
-	 * Constructs a Floor containing a grid of Rooms which has the specified
-	 * width and depth, with each Room having the specified width (roomWidth)
-	 * and depth (roomDepth).
-	 *
-	 * @param previousFloor
-	 * @param level
-	 * @param width
-	 * @param depth
-	 * @param roomWidth
-	 * @param roomDepth
-	 */
-	public Floor(Floor previousFloor, int level, int width, int depth, int roomWidth, int roomDepth) {
-		this.previousFloor = previousFloor;
-
-		this.level = level;
-
-		this.width = width;
-		this.depth = depth;
-
-		this.spawns = new HashSet<>();
-
-		setupRooms(roomWidth, roomDepth);
-	}
-
-	public Floor(int level, int width, int depth) {
-		this.level = level;
-		this.width = width;
-		this.depth = depth;
-
-		this.spawns = new HashSet<>();
-
-		this.rooms = new Room[depth][width];
-	}
-
+	
 	public Floor(String level, String width, String depth) {
 		try {
 			this.level = Integer.parseInt(level);
@@ -75,29 +45,6 @@ public class Floor {
 	 * Sets the neighbouring Rooms for every Room on this Floor.
 	 */
 	public void setupNeighbours() {
-		for (int row = 0; row < this.depth; row++) {
-			for (int col = 0; col < this.width; col++) {
-				if (row > 0)
-					this.rooms[row][col].setNeighbour(Direction.NORTH, this.rooms[row - 1][col]);
-				if (row < this.depth - 1)
-					this.rooms[row][col].setNeighbour(Direction.SOUTH, this.rooms[row + 1][col]);
-				if (col > 0)
-					this.rooms[row][col].setNeighbour(Direction.WEST, this.rooms[row][col - 1]);
-				if (col < this.width - 1)
-					this.rooms[row][col].setNeighbour(Direction.EAST, this.rooms[row][col + 1]);
-			}
-		}
-	}
-
-	private void setupRooms(int roomWidth, int roomDepth) {
-		this.rooms = new Room[this.depth][this.width];
-
-		for (int row = 0; row < this.depth; row++) {
-			for (int col = 0; col < this.width; col++) {
-				this.rooms[row][col] = new Room(this, row, col, roomWidth, roomDepth);
-			}
-		}
-
 		for (int row = 0; row < this.depth; row++) {
 			for (int col = 0; col < this.width; col++) {
 				if (row > 0)
@@ -238,7 +185,7 @@ public class Floor {
 	public boolean targetReached() {
 		return targetRoom.hasBeenReached();
 	}
-	
+
 	/**
 	 * Moves the game to the next Floor up.
 	 */

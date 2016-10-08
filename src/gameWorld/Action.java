@@ -1,5 +1,11 @@
 package gameWorld;
 
+/**
+ * A class which represents Actions that may be performed by players on various
+ * things in the world.
+ * 
+ * @author Louis
+ */
 public abstract class Action {
 	private static int IDCount = 0;
 	private int ID;

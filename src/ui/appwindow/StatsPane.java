@@ -53,7 +53,6 @@ public class StatsPane extends JPanel{
 			g.fillRect(getWidth()/4, 90, getWidth()/2, 10); //MaxHealth
 			g.setColor(Color.green);
 			g.fillRect(getWidth()/4, 90, (getWidth()/2)*(health+1)/(maxHealth+1), 10); //currentHealth
-			System.out.println("Drawing stats, Health: " +health);
 			//Exp bar
 			g.setColor(Color.black);
 			g.drawString("Exp:", 50, 150);
