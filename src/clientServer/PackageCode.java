@@ -6,7 +6,7 @@ public final class PackageCode {
 		throw new AssertionError();
 	}
 
-	public static enum Codes {
+	public enum Codes {
 		BREAK,
 		PING,
 		PONG,

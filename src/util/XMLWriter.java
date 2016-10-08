@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import dataStorage.XMLInteractable;
 import dataStorage.XMLInterface;
 import dataStorage.XMLReader;
 
@@ -27,9 +28,9 @@ import dataStorage.XMLReader;
  * @author Aden
  */
 
-public final class XMLWriter implements XMLInterface {
+public final class XMLWriter implements XMLInteractable {
 
-	private static enum Position {
+	private enum Position {
 
 		ID(0, "ID"),
 		NAME(1, "name"),
@@ -306,8 +307,7 @@ public final class XMLWriter implements XMLInterface {
 
 	}
 
-	@Override
-	public Element getRoot(String fileName) throws ParserConfigurationException {
+	private Element getRoot(String fileName) throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -327,8 +327,7 @@ public final class XMLWriter implements XMLInterface {
 	 *            The name of the file we will be outputting to.
 	 */
 
-	@Override
-	public void transform(String fileName) {
+	private void transform(String fileName) {
 
 		try {
 

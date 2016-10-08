@@ -1,5 +1,7 @@
 package gameWorld.objects;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import gameWorld.objects.StationaryObject.Type;
@@ -49,6 +51,13 @@ public class ObjectModel implements Buildable {
 	
 	public Set<Integer> getItems() {
 		return this.items;
+	}
+	
+	public void setItems(List<Integer> items) {
+		this.items = new HashSet<Integer>();
+		for (Integer i : items) {
+			this.items.add(i);
+		}
 	}
 
 }

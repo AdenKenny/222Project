@@ -17,7 +17,7 @@ public class GuiGraphicsClickListener implements GraphicsClickListener {
 
 		if(alt){
 			// display, then get the index of the selected option
-			client.displayItemOptions(entity.actions(), x, y);
+			client.displayItemOptions(entity, x, y);
 			// check Action.isClientAction()
 			//		if true -> Action.perform(client) !needs to be MainWindow
 			//		else send to server

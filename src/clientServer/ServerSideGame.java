@@ -10,11 +10,11 @@ import java.util.Set;
 
 import dataStorage.LoadGame;
 import gameWorld.Floor;
-import gameWorld.Room;
 import gameWorld.Sendable;
 import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
 import util.Logging;

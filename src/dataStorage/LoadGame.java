@@ -17,9 +17,9 @@ import org.xml.sax.SAXException;
 
 import clientServer.ServerSideGame;
 import gameWorld.Floor;
-import gameWorld.Room;
 import gameWorld.characters.Character;
 import gameWorld.characters.PlayerBuilder;
+import gameWorld.rooms.Room;
 import gameWorld.rooms.RoomBuilder;
 import util.Logging;
 
@@ -29,7 +29,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class LoadGame {
+public final class LoadGame implements XMLInteractable {
 
 	private Document doc; // Document we will do tree operations.
 
@@ -130,6 +130,9 @@ public final class LoadGame {
 
 						String npcSpawn = child.getElementsByTagName("npcSpawn").item(0).getTextContent();
 						build.setBuildNpcSpawn(npcSpawn);
+						
+						String targetRoom = child.getElementsByTagName("targetRoom").item(0).getTextContent();
+						build.setBuildTargetRoom(targetRoom);
 
 						String xPos = child.getElementsByTagName("xPos").item(0).getTextContent();
 						build.setBuildXPos(xPos);

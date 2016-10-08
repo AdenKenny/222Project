@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
-import javax.swing.BorderFactory;
+import gameWorld.characters.Character;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 
 import gameWorld.item.Item;
 
@@ -35,13 +32,23 @@ public class BottomPanel extends JPanel{
 		this.chatPane = new ChatPane(this);
 		chatPane.initComponents();
 		this.statPane = new StatsPane();
-		statPane.initComponents();
-		this.inventoryPane = new InventoryPane();
+
+		this.inventoryPane = new InventoryPane(parent);
 		
 		add(chatPane, BorderLayout.WEST);
 		add(statPane, BorderLayout.CENTER);
 		add(inventoryPane, BorderLayout.EAST);
 		revalidate();
+	}
+	
+	public void loadPlayerStats(Character currentPlayer){
+		
+		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
+		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
+		setStat(StatsPane.EXP, currentPlayer.getXp());
+		setStat(StatsPane.HEALTH, currentPlayer.getXpForLevel());
+		setStat(StatsPane.LEVEL, currentPlayer.getLevel());
+		statPane.initComponents();
 	}
 	
 	@Override

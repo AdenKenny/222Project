@@ -31,7 +31,7 @@ public class Slave extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (ConnectException e) {
-			System.out.println("Unable to connect to server.");
+			this.mainWindow.addGameChat("Unable to connect to server.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,11 +42,9 @@ public class Slave extends Thread {
 		if (!this.connected) {
 			return;
 		}
-		try {
-			DataInputStream input = new DataInputStream(this.socket.getInputStream());
+		try(DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
 
-			boolean exit = false;
-			while (!exit) {
+			while (true) {
 				// the size of the packet received
 				int amount = input.readInt();
 				// create array and fill with received data
@@ -88,12 +86,11 @@ public class Slave extends Thread {
 				}
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-			this.socket.close();
 		} catch(SocketException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (InterruptedException e) {
 			System.out.println(e);
@@ -102,7 +99,7 @@ public class Slave extends Thread {
 
 	public void login(String username, String password) {
 		if (!this.connected) {
-			System.out.println("Unable to connect to server.");
+			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
 		byte[] toSend = new byte[username.length() + password.length() + 2];
@@ -123,7 +120,7 @@ public class Slave extends Thread {
 
 	public void newUser(String username, String password) {
 		if (!this.connected) {
-			System.out.println("Unable to connect to server.");
+			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
 		byte[] toSend = new byte[username.length() + password.length() + 2];
@@ -150,7 +147,7 @@ public class Slave extends Thread {
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 		} catch(SocketException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
+			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
 			System.out.println("Sending error");

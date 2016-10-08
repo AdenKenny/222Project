@@ -2,44 +2,11 @@
 <game>
   <players>
     <player>
-      <username/>
-      <UID>6</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>0</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
-    <player>
-      <username>hotbabe4u</username>
-      <UID>11</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>0</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
-    <player>
       <username>Simon</username>
-      <UID>4</UID>
+      <UID>8</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>0</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
-    <player>
-      <username>jane</username>
-      <UID>5</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>0</health>
+      <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>

@@ -8,6 +8,7 @@ import gameWorld.Entity;
 import gameWorld.characters.Character;
 import ui.appwindow.MainWindow;
 import util.Buildable;
+import util.Logging;
 
 public class Item implements Buildable, Cloneable {
 	public enum Type {
@@ -60,12 +61,15 @@ public class Item implements Buildable, Cloneable {
 			@Override
 			public void perform(Object caller) {
 				if (!(caller instanceof MainWindow)) {
+					util.Logging.logEvent("Item", util.Logging.Levels.WARNING,
+							"Item action 'Inspect' expected MainWindow argument, got " + caller.getClass().getName()
+									+ " argument.");
 					return;
 				}
 
 				MainWindow mw = (MainWindow) caller;
 
-				mw.addGameChat(getNiceName()+": "+description);
+				mw.addGameChat(getNiceName() + ": " + description);
 			}
 
 			@Override
@@ -84,17 +88,21 @@ public class Item implements Buildable, Cloneable {
 			@Override
 			public void perform(Object caller) {
 				if (!(caller instanceof Character)) {
+					util.Logging.logEvent("Item", util.Logging.Levels.WARNING,
+							"Item action 'Sell' expected Character argument, got " + caller.getClass().getName()
+									+ " argument.");
 					return;
 				}
 
-				Character ch = (Character) caller;
-				Entity[][] entities = ch.room().entities();
+				Character seller = (Character) caller;
+				Entity[][] entities = seller.room().entities();
 				for (Entity[] es : entities) {
 					for (Entity e : es) {
 						if (e instanceof Character) {
 							Character c = (Character) e;
 							if (c.getType().equals(Character.Type.VENDOR)) {
-								ch.sellItem(ID, saleValue * c.getRank());
+								int price = saleValue + (saleValue * (c.getRank() - 1) / 5);
+								seller.sellItem(ID, price);
 								return;
 							}
 						}
@@ -122,6 +130,9 @@ public class Item implements Buildable, Cloneable {
 				@Override
 				public void perform(Object caller) {
 					if (!(caller instanceof Character)) {
+						util.Logging.logEvent("Item", util.Logging.Levels.WARNING,
+								"Item action 'Equip' expected Character argument, got " + caller.getClass().getName()
+										+ " argument.");
 						return;
 					}
 
@@ -143,12 +154,15 @@ public class Item implements Buildable, Cloneable {
 		this.actions.add(new Action() {
 			@Override
 			public String name() {
-				return "Pick up";
+				return "Pick Up";
 			}
 
 			@Override
 			public void perform(Object caller) {
 				if (!(caller instanceof Character)) {
+					util.Logging.logEvent("Item", util.Logging.Levels.WARNING,
+							"Item action 'Pick Up' expected Character argument, got " + caller.getClass().getName()
+									+ " argument.");
 					return;
 				}
 
@@ -163,54 +177,6 @@ public class Item implements Buildable, Cloneable {
 			}
 		});
 
-		if (this.holder != null) {
-			this.actions.add(new Action() {
-				@Override
-				public String name() {
-					return "Sell";
-				}
-
-				@Override
-				public void perform(Object caller) {
-					if (!(caller instanceof Character)) {
-						return;
-					}
-
-					Character ch = (Character) caller;
-
-					trySell(ch);
-				}
-
-				@Override
-				public boolean isClientAction() {
-					return false;
-				}
-			});
-		} else {
-			this.actions.add(new Action() {
-				@Override
-				public String name() {
-					return "Buy";
-				}
-
-				@Override
-				public void perform(Object caller) {
-					if (!(caller instanceof Character)) {
-						return;
-					}
-
-					Character ch = (Character) caller;
-
-					tryBuy(ch);
-				}
-
-				@Override
-				public boolean isClientAction() {
-					return false;
-				}
-			});
-		}
-
 	}
 
 	public void tryEquip(Character equipper) {
@@ -223,43 +189,6 @@ public class Item implements Buildable, Cloneable {
 		if (this.holder == null) {
 			pickerUpperer.pickUp(this);
 			this.holder = pickerUpperer;
-		}
-	}
-
-	public void trySell(Character seller) {
-		if (seller.equals(this.holder)) {
-			Entity[][] entities = this.holder.room().entities();
-			for (int i = 0; i < entities.length; ++i) {
-				for (int j = 0; j < entities[i].length; ++j) {
-					if (entities[i][j] instanceof Character) {
-						Character ch = (Character) entities[i][j];
-						if (ch.getType().equals(Character.Type.VENDOR)) {
-							this.holder.sellItem(this.ID, (int) (this.saleValue * (1 + ((double) ch.getRank()) / 10)));
-						}
-					}
-				}
-			}
-		}
-	}
-
-	public void tryBuy(Character buyer) {
-		if (this.holder == null) {
-			Entity[][] entities = buyer.room().entities();
-			for (int i = 0; i < entities.length; ++i) {
-				for (int j = 0; j < entities.length; ++j) {
-					if (entities[i][j] instanceof Character) {
-						Character ch = (Character) entities[i][j];
-						if (ch.getType().equals(Character.Type.VENDOR)) {
-							if (ch.getItems().contains(this.ID)) {
-								int amount = (int) (this.saleValue * (1.2 + ((double) ch.getRank()) / 10));
-								if (buyer.getGold() >= amount) {
-									buyer.buyItem(this, amount);
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -365,10 +294,12 @@ public class Item implements Buildable, Cloneable {
 	public Item clone() {
 		try {
 			return (Item) super.clone();
-		} catch (CloneNotSupportedException e) {
-
 		}
+
+		catch (CloneNotSupportedException e) {
+			Logging.logEvent(Item.class.getName(), Logging.Levels.WARNING, "Failed to clone an item");
+		}
+
 		return null;
 	}
-
 }

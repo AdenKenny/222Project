@@ -21,8 +21,6 @@ import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
 import gameWorld.objects.ObjectBuilder;
 import gameWorld.objects.ObjectModel;
-import util.AbstractBuilder;
-import util.Buildable;
 import util.Logging;
 
 /**
@@ -32,7 +30,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class XMLReader {
+public final class XMLReader implements XMLInteractable {
 
 	private Document doc;
 
@@ -103,6 +101,7 @@ public final class XMLReader {
 				build.setValue(value); // Set the value.
 
 				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
+								
 				build.setBuildItems(buildItems); // Set items.
 
 				String description = e.getElementsByTagName("description").item(0).getTextContent();

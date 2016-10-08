@@ -4,7 +4,6 @@ import java.util.Map;
 
 import clientServer.ServerSideGame;
 import gameWorld.Floor;
-import gameWorld.Room;
 import gameWorld.World;
 import gameWorld.characters.Character;
 

@@ -5,7 +5,7 @@
     <name>table</name>
     <type>FURNITURE</type>
     <value>-1</value>
-    <items/>
+    <items>-1</items>
     <description>A table.</description>
   </object>
   <object>
@@ -13,7 +13,31 @@
     <name>chest</name>
     <type>CHEST</type>
     <value>-1</value>
-    <items>32, 15, 51, 52</items>
-    <description>A wooden chest.</description>
+    <items>0</items>
+    <description>A chest that contains loot.</description>
+  </object>
+  <object>
+    <ID>231211</ID>
+    <name>chair</name>
+    <type>FURNITURE</type>
+    <value>-1</value>
+    <items>-1</items>
+    <description>A wooden chair.</description>
+  </object>
+  <object>
+    <ID>232112</ID>
+    <name>bench</name>
+    <type>FURNITURE</type>
+    <value>-1</value>
+    <items>-1</items>
+    <description>A wooden bench.</description>
+  </object>
+  <object>
+    <ID>231113</ID>
+    <name>cauldron</name>
+    <type>FURNITURE</type>
+    <value>-1</value>
+    <items>-1</items>
+    <description>An iron cauldron.</description>
   </object>
 </objects>
