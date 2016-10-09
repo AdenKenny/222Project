@@ -91,7 +91,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private Entity calculateClickedEntity(int y, int x){
         // Calculate the upper most bound of all rendered items
-        int yOrigin = getHeight() / 2 - squarePixelHeight;
+        int yOrigin = (getHeight() / 3) - (squarePixelHeight * 2);
         // If click was above the maximum location, then then it cannot be a click on an entity.
         if (y < yOrigin){
             return null;
@@ -104,13 +104,17 @@ public class GraphicsPanel extends JPanel implements MouseListener {
             Entity result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                     sideDelta, forwardDelta));
             //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
-            if (result == null){
-                forwardDelta += 1;
-                //Check that the target object is in view.
-                if (forwardDelta < viewDistance){
-                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
-                            sideDelta, forwardDelta));
-                }
+            //Then check again if still null, to check the square behind that.
+            for (int i = 0; i < 2; ++i){
+	            if (result == null){
+	                forwardDelta += 1;
+	                //Check that the target object is in view.
+	                if (forwardDelta < viewDistance){
+	                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+	                            sideDelta, forwardDelta));
+	                }
+	
+	            }
             }
             return result;
         }
@@ -124,7 +128,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void render(Character character, Graphics graphics){
     	Room room = character.room();
         // Refresh the size of a square.
-        squarePixelHeight = (getHeight() / 2) / viewDistance;
+    	int height = getHeight();
+        squarePixelHeight = (height - (height / 3)) / (viewDistance - 1);
         squarePixelWidth = getWidth() / (viewWidth * 2);
         renderCeiling(graphics);
         renderFloor(graphics);
@@ -150,16 +155,18 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void renderFloor(Graphics graphics){
         try {
             Image image = cache.getImage("/resources/graphics/floor.png");
-            graphics.drawImage(image, 0, getHeight() / 2, getWidth(), getHeight() / 2,  null);
+            int height = getHeight();
+            graphics.drawImage(image, 0, height / 3, getWidth(), height - (height / 3),  null);
         } catch (IOException ioe){
         }
     }
 
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
-        if (absoluteTarget)
         if (isLocationWall(absoluteTarget, room)){
         	renderWall(sideDelta, forwardDelta, graphics);
+        } else if (isLocationBlackSpace(absoluteTarget, room)){
+        	renderBlackSpace(sideDelta, forwardDelta, graphics);
         } else {
 	        Entity entity = getEntityAtLocation(room, absoluteTarget);
 	        if (entity != null) {
@@ -171,7 +178,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 	        	}
 	            int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
+	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 3, null);
 	        }
         }
     }
@@ -180,11 +187,15 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
     	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
-    	if ()
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, squarePixelHeight * 2, null);
+			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, squarePixelHeight * 3, null);
 		} catch (IOException e) {
 		}
+    }
+    
+    private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics){
+    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+    	graphics.fillRect(location[1], location[0], squarePixelWidth, squarePixelHeight * 3);
     }
     
     private Image loadImage(String name, Side side){
@@ -227,7 +238,11 @@ public class GraphicsPanel extends JPanel implements MouseListener {
   
     
     private boolean isLocationWall(int[] location, Room room){
-    	return location[0] < 0 || location[0] >= room.entities().length || location[1] < 0 || location[1] >= room.entities()[0].length;
+    	return !isLocationBlackSpace(location, room) && (location[0] == -1 || location[0] == room.entities().length || location[1] == -1 || location[1] == room.entities()[0].length);
+    }
+    
+    private boolean isLocationBlackSpace(int[] location, Room room){
+    	return location[0] < -1 || location[0] > room.entities().length ||location[1] < -1 || location[1] > room.entities()[0].length;
     }
     
 
@@ -359,14 +374,14 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @return
      */
     private int[] calculateOriginPixelFromRelativeDelta(int sideDelta, int forwardDelta){
-        int halfHeight = getHeight() / 2;
+        int halfHeight = getHeight() / 3;
         // Calculate the origin pixel of the entity on the far left.
         // Translate sideOffset from 0 is center to zero is far left.
         sideDelta += viewWidth;
         // Invert forward offset, as the maximum distance should be far Y;
         forwardDelta = viewDistance - forwardDelta;
         // The origin of the image is two square heights above the bottom left.
-        return new int[] {halfHeight + (forwardDelta * squarePixelHeight) - (2 * squarePixelHeight) , sideDelta * squarePixelWidth};
+        return new int[] {halfHeight + (forwardDelta * squarePixelHeight) - (3 * squarePixelHeight) , sideDelta * squarePixelWidth};
     }
 
     protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
