@@ -97,6 +97,7 @@ public class ServerSideGame implements Game {
 		}
 		Character character = player.getCharacter();
 		world.removePlayer(character);
+		character.slay();
 		Room room = character.room();
 		if (room != null) {
 			room.entities()[character.yPos()][character.xPos()] = null;
