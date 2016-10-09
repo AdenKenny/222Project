@@ -12,12 +12,13 @@ import gameWorld.World.Direction;
 /**
  * A class to represent a Room within a Floor. Each Room is made up of a grid of
  * Entities.
- * 
+ *
  * @author Louis
  */
 public class Room {
 	protected Floor floor;
 	protected HashMap<Direction, Room> neighbours;
+	protected HashMap<Direction, Boolean> doors;
 	protected Entity[][] entities;
 	protected int xPos;
 	protected int yPos;
@@ -68,6 +69,17 @@ public class Room {
 	}
 
 	/**
+	 * Checks whether this Room has a door on the wall in the given Direction.
+	 *
+	 * @param direction
+	 *            The Direction to check
+	 * @return Whether there is a door on the specified wall
+	 */
+	public boolean hasDoor(Direction direction) {
+		return this.doors.get(direction);
+	}
+
+	/**
 	 * Sets the neighbouring Room in the specified Direction to neighbour.
 	 *
 	 * @param direction
@@ -75,6 +87,20 @@ public class Room {
 	 */
 	public void setNeighbour(Direction direction, Room neighbour) {
 		this.neighbours.put(direction, neighbour);
+		this.doors.put(direction, (Boolean) (neighbour != null));
+	}
+
+	/**
+	 * Sets whether this Room has a door on the wall in the given Direction or
+	 * not.
+	 *
+	 * @param direction
+	 *            The Direction of the wall
+	 * @param hasDoor
+	 *            Whether the wall has a door or not
+	 */
+	public void setDoor(Direction direction, boolean hasDoor) {
+		this.doors.put(direction, (Boolean) hasDoor);
 	}
 
 	/**
@@ -89,7 +115,7 @@ public class Room {
 
 	/**
 	 * Returns all the Sendables contained within this Room.
-	 * 
+	 *
 	 * @return The Sendables in this Room.
 	 */
 	public Set<Sendable> getSendables() {
@@ -133,7 +159,7 @@ public class Room {
 
 	/**
 	 * Returns the ID of this Room.
-	 * 
+	 *
 	 * @return This Room's ID
 	 */
 	public int getID() {
@@ -154,7 +180,7 @@ public class Room {
 	 * Direction is relative, moves the Entity relative to the Direction it is
 	 * currently facing, otherwise moves the Entity in the absolute Direction
 	 * that is specified. Returns true if the move succeeds, false otherwise.
-	 * 
+	 *
 	 * @param entity
 	 *            The Entity to move
 	 * @param dir
