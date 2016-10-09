@@ -141,4 +141,9 @@ public final class CharacterBuilder implements AbstractBuilder {
 		return null;
 	}
 
+	@Override
+	public void setSaleValue(String value) {
+		throw new AssertionError();
+	}
+
 }

@@ -4,12 +4,7 @@ package util;
  * An interface implemented by builders that build abstract concepts in the game
  * such as an item or a character model. The object that a builder that
  * implements this interface should implement 'Buildable' as all objects built
- * by objects must be buildable.
- *
- * Note: No set itemValue or items as implementation differs between items and
- * characters.
- *
- * Note: No type as implementation differs between items and characters.
+ * by builders must be buildable.
  *
  * @author Aden
  */
@@ -65,11 +60,18 @@ public interface AbstractBuilder {
 	 * @return An int representing the ID of the object.
 	 */
 	
-	void setItems(String s);
-
-
 	int getID();
 
+	/**
+	 * Sets the items that this object contains(?) (This is really generic as this is a generic interface).
+	 * 
+	 * @param items A string representing the items that will be set.
+	 * @throws AssertionError Thrown if this method is called in ItemBuilder as this is irrelevant there.
+	 */
+	
+	void setItems(String items) throws AssertionError;
+
+	
 	/**
 	 * Returns the name of an object that has been built.
 	 *
@@ -92,8 +94,20 @@ public interface AbstractBuilder {
 	 *
 	 * @param description A String representing the description of the object.
 	 */
-
+	
 	void setDescription(String description);
+
+	/**
+	 * Sets the sale value of an object.
+	 * 
+	 * Note: This should only be called in ItemBuilder as the sale value is irrelevant anywhere else.
+	 * 
+	 * @param value A string representing the value of an object.
+	 * @throws AssertionError Thrown when this is called anywhere but ItemBuilder.
+	 */
+
+	void setSaleValue(String value) throws AssertionError;
+	
 
 	/**
 	 * Gets the description of an object that has been built.
@@ -114,5 +128,6 @@ public interface AbstractBuilder {
 	 */
 
 	Buildable build();
+
 
 }

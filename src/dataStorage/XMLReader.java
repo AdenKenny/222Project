@@ -15,12 +15,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import gameWorld.characters.CharacterBuilder;
 import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
-import gameWorld.item.ItemBuilder;
-import gameWorld.objects.ObjectBuilder;
 import gameWorld.objects.ObjectModel;
+import util.BuilderBuilder;
 import util.Logging;
 
 /**
@@ -68,8 +66,8 @@ public final class XMLReader implements XMLInteractable {
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			this.doc = builder.parse(file);
+			DocumentBuilder dBuilder = factory.newDocumentBuilder();
+			this.doc = dBuilder.parse(file);
 
 			this.doc.getDocumentElement().normalize();
 
@@ -82,28 +80,16 @@ public final class XMLReader implements XMLInteractable {
 
 				Element e = (Element) node;
 
-				ObjectBuilder build = new ObjectBuilder();
-
-				String itemID = e.getElementsByTagName("ID").item(0).getTextContent();
-				build.setID(itemID); // Set the ID.
-
-				String name = e.getElementsByTagName("name").item(0).getTextContent();
-				build.setName(name); // Set the name.
-
-				String type = e.getElementsByTagName("type").item(0).getTextContent();
-				build.setType(type); // Set the type.
-
-				String value = e.getElementsByTagName("value").item(0).getTextContent();
-				build.setValue(value); // Set the value.
-
-				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
-
-				build.setItems(buildItems); // Set items.
-
-				String description = e.getElementsByTagName("description").item(0).getTextContent();
-				build.setDescription(description);
-
-				ObjectModel object = build.build();
+				BuilderBuilder builder = new BuilderBuilder("Object");
+				
+				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
+				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
+				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
+				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
+				builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
+				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
+				
+				ObjectModel object = (ObjectModel) builder.build().build();
 
 				map.put(object.getID(), object);
 
@@ -139,8 +125,8 @@ public final class XMLReader implements XMLInteractable {
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			this.doc = builder.parse(file);
+			DocumentBuilder dBuilder = factory.newDocumentBuilder();
+			this.doc = dBuilder.parse(file);
 
 			this.doc.getDocumentElement().normalize();
 
@@ -151,33 +137,20 @@ public final class XMLReader implements XMLInteractable {
 			for (int i = 0; i < list.getLength(); ++i) {
 				Node node = list.item(i);
 
-				Element e = (Element) node; // This should be the base node of
-											// an item.
+				Element e = (Element) node; // This should be the base node of an item.
 
-				ItemBuilder build = new ItemBuilder(); // Build an item.
-
-				String itemID = e.getElementsByTagName("ID").item(0).getTextContent();
-				build.setID(itemID); // Set the ID.
-
-				String name = e.getElementsByTagName("name").item(0).getTextContent();
-				build.setName(name); // Set the name.
-
-				String type = e.getElementsByTagName("type").item(0).getTextContent();
-				build.setType(type); // Set the type.
-
-				String value = e.getElementsByTagName("value").item(0).getTextContent();
-				build.setValue(value); // Set the value.
-
-				String saleValue = e.getElementsByTagName("saleValue").item(0).getTextContent();
-				build.setSaleValue(saleValue); // Set sale value.
-
-				String description = e.getElementsByTagName("description").item(0).getTextContent();
-				build.setDescription(description);
-
-				Item item = build.build(); // Build the item.
-
-				map.put(item.getID(), item); // Put item in map with
-												// ID as key.
+				BuilderBuilder builder = new BuilderBuilder("Item");
+				
+				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
+				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
+				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
+				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
+				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
+				builder.addField("saleValue", e.getElementsByTagName("saleValue").item(0).getTextContent());
+						
+				Item item = (Item) builder.build().build(); // Build the item.
+				
+				map.put(item.getID(), item); // Put item in map with ID as key.
 			}
 
 			return map;
@@ -211,8 +184,8 @@ public final class XMLReader implements XMLInteractable {
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			this.doc = builder.parse(file);
+			DocumentBuilder dBuilder = factory.newDocumentBuilder();
+			this.doc = dBuilder.parse(file);
 
 			this.doc.getDocumentElement().normalize();
 
@@ -226,29 +199,16 @@ public final class XMLReader implements XMLInteractable {
 				Element e = (Element) node; // This should be the base node of
 											// an item.
 
-				CharacterBuilder build = new CharacterBuilder(); // Build an
-																	// item.
-
-				String itemID = e.getElementsByTagName("ID").item(0).getTextContent();
-				build.setID(itemID); // Set the ID.
-
-				String name = e.getElementsByTagName("name").item(0).getTextContent();
-				build.setName(name); // Set the name.
-
-				String type = e.getElementsByTagName("type").item(0).getTextContent();
-				build.setType(type); // Set the type.
-
-				String value = e.getElementsByTagName("value").item(0).getTextContent();
-				build.setValue(value); // Set the value.
-
-				String buildItems = e.getElementsByTagName("items").item(0).getTextContent();
-				build.setItems(buildItems); // Set items.
-
-				String description = e.getElementsByTagName("description").item(0).getTextContent();
-				build.setDescription(description);
-
-				CharacterModel character = build.build(); // Build the
-															// character.
+				BuilderBuilder builder = new BuilderBuilder("Character");
+				
+				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
+				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
+				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
+				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
+				builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
+				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
+				
+				CharacterModel character = (CharacterModel) builder.build().build();
 
 				map.put(character.getID(), character); // Put char in map with
 				// ID as key.

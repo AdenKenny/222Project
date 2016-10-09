@@ -118,4 +118,9 @@ public class ObjectBuilder implements AbstractBuilder {
 		return null;
 	}
 
+	@Override
+	public void setSaleValue(String value) {
+		throw new AssertionError();
+	}
+
 }

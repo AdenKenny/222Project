@@ -39,6 +39,7 @@ public class ServerSideGame implements Game {
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 		this.byteArrays = new HashMap<>();
+		
 	}
 
 	@Override
@@ -97,6 +98,7 @@ public class ServerSideGame implements Game {
 		}
 		Character character = player.getCharacter();
 		world.removePlayer(character);
+		character.slay();
 		Room room = character.room();
 		if (room != null) {
 			room.entities()[character.yPos()][character.xPos()] = null;
