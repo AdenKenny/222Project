@@ -316,7 +316,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setRoom(this.game.getRoom().depth());
 		
 		//Load graphics panel
-		this.display = new GraphicsPanel(this.game.getPlayer(), this.game.getRoom());
+		this.display = new GraphicsPanel(this.game.getPlayer());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
 		add(gfx,BorderLayout.CENTER);
