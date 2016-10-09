@@ -279,8 +279,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	private void setFields() {
-		if (this.items == null)
+		if (this.items == null) {
 			this.items = new ArrayList<>();
+		}
 
 		if (this.type.equals(Type.VENDOR)) {
 			this.maxHealth = -1;
