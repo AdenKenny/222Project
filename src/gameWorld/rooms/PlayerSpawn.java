@@ -8,6 +8,11 @@ import gameWorld.World;
 import gameWorld.characters.Character;
 import util.Buildable;
 
+/**
+ * A class to represent Rooms which can spawn player Characters.
+ * 
+ * @author Louis
+ */
 public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
 
 	private Set<Character> players;
@@ -28,7 +33,7 @@ public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
 	public void tick() {
 		for (Character player : this.players) {
 			if (!player.isAlive()) {
-				int x = this.width/2, y = this.depth/2;
+				int x = this.width / 2, y = this.depth / 2;
 				World.Direction facing = World.Direction.NORTH;
 
 				while (this.entities[y][x] != null) {
