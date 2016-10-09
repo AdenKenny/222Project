@@ -2,7 +2,7 @@
 <game>
   <players>
     <player>
-      <username>Arthas</username>
+      <username>Aden</username>
       <UID>10</UID>
       <type>PLAYER</type>
       <items>-1</items>
@@ -26,4 +26,4 @@
   </players>
   <monsters/>
   <vendors/>
-</game>
+</game>

@@ -16,7 +16,7 @@ import gameWorld.objects.ObjectBuilder;
  * @author Aden
  */
 
-public final class BuilderBuilder {
+public final class BuilderBuilder implements AbstractBuilderBuilder {
 	
 	private Map<String, String> fields; //A map representing the fields in the builder that will be built.
 	private String type; //The type of the builder we will build with this class.
@@ -40,6 +40,7 @@ public final class BuilderBuilder {
 	 * @param value A string representing the value of the field we are building.
 	 */
 	
+	@Override
 	public void addField(String key, String value) {
 		this.fields.put(key, value);
 	}
@@ -53,7 +54,7 @@ public final class BuilderBuilder {
 	 * 										 built this way. Should be caught by a method calling this method.
 	 */
 	
-	private AbstractBuilder getType() throws UnsupportedOperationException {
+	public AbstractBuilder getType() throws UnsupportedOperationException {
 		switch(this.type) { 
 		case "Object":
 			return new ObjectBuilder();

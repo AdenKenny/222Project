@@ -5,6 +5,7 @@ import java.util.List;
 
 import gameWorld.characters.Character.Type;
 import util.AbstractBuilder;
+import util.AlsoBuildable;
 import util.Logging;
 
 /**
@@ -13,7 +14,7 @@ import util.Logging;
  * @author Aden
  */
 
-public final class PlayerBuilder implements AbstractBuilder {
+public final class PlayerBuilder implements AbstractBuilder, AlsoBuildable {
 
 	private String buildUsername;
 	private String buildID;
