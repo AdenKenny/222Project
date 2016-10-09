@@ -1,5 +1,6 @@
 package Graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -14,6 +15,8 @@ import javax.swing.SwingUtilities;
 import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.characters.Character;
+import gameWorld.item.Item;
+import gameWorld.item.ItemBuilder;
 import gameWorld.rooms.Room;
 
 /**
@@ -24,7 +27,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     // The number of squares the character can see to either side.
     private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
-    private static final int viewDistance = 10;
+    private static final int viewDistance = 5;
 
     private GraphicsClickListener clickListener;
 
@@ -49,6 +52,9 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Character viewer;
     
     private ImageCache cache;
+    
+    //An entity for rendering the walls.
+    private Entity wallEntity;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -135,11 +141,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     private void renderCeiling(Graphics graphics){
-        try {
-            Image image = cache.getImage("/resources/graphics/ceiling.png");
-            graphics.drawImage(image, 0, 0,getWidth(), getHeight() / 2,  null);
-        } catch (IOException ioe){
-        }
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0,getWidth(), getHeight() / 2);
     }
 
     private void renderFloor(Graphics graphics){
@@ -152,20 +155,32 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
-        Entity entity = getEntityAtLocation(room, absoluteTarget);
-        if (entity != null) {
-        	String name;
-        	if (entity.isPlayer()){
-        		name = "player";
-        	} else {
-        		name = entity.name();
-        	}
-            int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
-            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
+        if (isLocationWall(absoluteTarget, room)){
+        	renderWall(sideDelta, forwardDelta, graphics);
+        } else {
+	        Entity entity = getEntityAtLocation(room, absoluteTarget);
+	        if (entity != null) {
+	        	String name;
+	        	if (entity.isPlayer()){
+	        		name = "player";
+	        	} else {
+	        		name = entity.name();
+	        	}
+	            int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
+	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
+	        }
         }
     }
 
+    private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
+    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+    	try {
+			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, squarePixelHeight * 2, null);
+		} catch (IOException e) {
+		}
+    }
+    
     private Image loadImage(String name, Side side){
         try {
             return cache.getImage(resolveImageName(name, side));
@@ -201,6 +216,12 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         } else {
             return locations[location[0]][location[1]];
         }
+    }
+    
+  
+    
+    private boolean isLocationWall(int[] location, Room room){
+    	return location[0] < 0 || location[0] >= room.entities().length || location[1] < 0 || location[1] >= room.entities()[0].length;
     }
 
     /**
@@ -365,7 +386,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         } else if (absDeltaX > absDeltaY){
             return calculateEWPerspective(deltaX);
         } else {
-        	System.out.println("Selecting from observerDirection");
             return perspectiveFromViewerDirection(observerDirection);
         }
     }
