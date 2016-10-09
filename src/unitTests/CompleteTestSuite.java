@@ -11,9 +11,11 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+    	unitTests.ClientServerTests.class,
         unitTests.DataTests.class,
-        unitTests.UserTests.class,
+        unitTests.GraphicsTests.class,
         unitTests.MiscTests.class,
+        unitTests.UserTests.class,
 })
 public class CompleteTestSuite {
 }
