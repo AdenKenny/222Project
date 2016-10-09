@@ -10,7 +10,18 @@ import ui.appwindow.MainWindow;
 import util.Buildable;
 import util.Logging;
 
+/**
+ * A class to represent an Item that is never physically present in the game on
+ * its own.
+ * 
+ * @author Louis
+ */
 public class Item implements Buildable, Cloneable {
+	/**
+	 * An enumeration to represent the different types of Items that there are.
+	 * 
+	 * @author Louis
+	 */
 	public enum Type {
 		WEAPON, SHIELD, ARMOR, HELMET, POTION, QUEST, TRASH
 	}
@@ -50,6 +61,10 @@ public class Item implements Buildable, Cloneable {
 		addActions();
 	}
 
+	/**
+	 * Adds all relevant Actions to this Item's List of Actions, so that they
+	 * may then be performed on this Item.
+	 */
 	private void addActions() {
 		this.actions.add(new Action() {
 
@@ -148,6 +163,7 @@ public class Item implements Buildable, Cloneable {
 			});
 			break;
 		case POTION:
+			// TODO: add drink/use action
 		case QUEST:
 		case TRASH:
 		default:
@@ -182,12 +198,24 @@ public class Item implements Buildable, Cloneable {
 
 	}
 
+	/**
+	 * Tries to equip this Item to the specified Character.
+	 * 
+	 * @param equipper
+	 *            The Character to equip to.
+	 */
 	public void tryEquip(Character equipper) {
 		if (equipper.equals(this.holder)) {
 			this.holder.equip(this);
 		}
 	}
 
+	/**
+	 * Tries to make the specified Character pick up this item.
+	 * 
+	 * @param pickerUpperer
+	 *            The Character doing the picking up.
+	 */
 	public void tryPickUp(Character pickerUpperer) {
 		if (this.holder == null) {
 			pickerUpperer.pickUp(this);
@@ -205,6 +233,11 @@ public class Item implements Buildable, Cloneable {
 		return this.name;
 	}
 
+	/**
+	 * Returns a nicer, more readable version of this Item's name.
+	 * 
+	 * @return A nicer version of this Item's name
+	 */
 	public String getNiceName() {
 		String niceName = name;
 
@@ -220,6 +253,11 @@ public class Item implements Buildable, Cloneable {
 		return niceName;
 	}
 
+	/**
+	 * Returns the Type of Item that this Item is.
+	 * 
+	 * @return This Item's Type.
+	 */
 	public Type getType() {
 		return this.type;
 	}
@@ -229,6 +267,13 @@ public class Item implements Buildable, Cloneable {
 		return this.value;
 	}
 
+	/**
+	 * Returns this Item's ideal sale value. This is not necessarily how much it
+	 * should be bought or sold for, but it is how much it is worth, objectively
+	 * speaking.
+	 * 
+	 * @return This Item's sale value
+	 */
 	public int getSaleValue() {
 		return this.saleValue;
 	}

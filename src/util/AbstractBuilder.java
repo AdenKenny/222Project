@@ -11,7 +11,7 @@ package util;
 
 public interface AbstractBuilder {
 
-	/*
+	/**
 	 * Sets the ID of something being built. Should probably use
 	 * Integer.parseInt().
 	 *
@@ -27,7 +27,6 @@ public interface AbstractBuilder {
 	 * @param name
 	 *            A string representing the name. Should be read from a file.
 	 */
-
 	void setName(String name);
 
 	/**
@@ -39,7 +38,6 @@ public interface AbstractBuilder {
 	 *            A string representing the type i.e. MONSTER =
 	 *            Characters.type.MONSTER.
 	 */
-
 	void setType(String type);
 
 	/**
@@ -51,7 +49,6 @@ public interface AbstractBuilder {
 	 *            A string representing the value. This will be a string read
 	 *            from a file.
 	 */
-
 	void setValue(String value);
 
 	/**
@@ -59,7 +56,6 @@ public interface AbstractBuilder {
 	 *
 	 * @return An int representing the ID of the object.
 	 */
-	
 	int getID();
 
 	/**
@@ -77,7 +73,6 @@ public interface AbstractBuilder {
 	 *
 	 * @return A string representing the name of the object.
 	 */
-
 	String getName();
 
 	/**
@@ -85,16 +80,15 @@ public interface AbstractBuilder {
 	 *
 	 * @return An int representing the value of an object.
 	 */
-
 	int getValue();
 
 	/**
-	 * Sets the description of an object. This will be displayed to users in game when
-	 * examining the object.
+	 * Sets the description of an object. This will be displayed to users in
+	 * game when examining the object.
 	 *
-	 * @param description A String representing the description of the object.
+	 * @param description
+	 *            A String representing the description of the object.
 	 */
-	
 	void setDescription(String description);
 
 	/**
@@ -114,7 +108,6 @@ public interface AbstractBuilder {
 	 *
 	 * @return A string representing the description of an object.
 	 */
-
 	String getDescription();
 
 	/**
@@ -126,7 +119,6 @@ public interface AbstractBuilder {
 	 * @return The object that has been built by the builder. This must
 	 *         implement 'Buildable'.
 	 */
-
 	Buildable build();
 
 

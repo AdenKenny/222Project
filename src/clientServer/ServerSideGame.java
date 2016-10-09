@@ -83,6 +83,7 @@ public class ServerSideGame implements Game {
 			character = new Character(username);
 			players.put(username, character);
 		}
+		world.addPlayer(character);
 		this.connectedPlayers.put(uid, new Player(user, character));
 		world.addPlayer(character);
 	}
