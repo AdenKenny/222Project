@@ -15,8 +15,18 @@ import ui.appwindow.MainWindow;
 import util.Buildable;
 import util.Logging;
 
+/**
+ * A class which represents all non-object Entities.
+ * 
+ * @author Louis
+ */
 public class Character extends Entity implements Buildable, Sendable, Cloneable {
 
+	/**
+	 * An enumeration representing the different types of Characters that exist. 
+	 * 
+	 * @author Louis
+	 */
 	public enum Type {
 		MONSTER(45, Types.MONSTER), VENDOR(-1, Types.VENDOR), PLAYER(100, Types.PLAYER);
 
@@ -28,22 +38,24 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			this.sendableType = sendableType;
 		}
 
+		/**
+		 * Returns the base XP of this type of Character.
+		 * 
+		 * @return	the base XP for this Type
+		 */
 		public int getBaseXP() {
 			return this.baseXP;
 		}
 		
+		/**
+		 * Returns the type of Sendable that this Type is associated with.
+		 * 
+		 * @return	the corresponding Sendable.Types
+		 */
 		public Types sendableType() {
 			return this.sendableType;
 		}
 	}
-
-	/*
-	 * All Characters have names, items Vendors and Monsters have ranks and
-	 * modelIDs Players and Monsters have gold, xp, health (& max health) and
-	 * damage Players have level, as well as scaling factors for their various
-	 * stats Players also have a value for xp to next level, which does not take
-	 * into account the amount of xp already earned this level
-	 */
 
 	/* Constants for Player leveling calculations */
 	// xpForLevel = BASE_XP + (level-1)^XP_FACTOR
@@ -82,13 +94,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	private int level;
 	private int xpForLevel;
 
+	// TODO: find some way of actually getting equipment to work
 	private List<Item> equips;
-
-	/*
-	 * public Character(Room room, int xPos, int yPos, String name, String
-	 * description, Direction facing) { super(room, xPos, yPos, name,
-	 * description, facing); }
-	 */
 
 	public Character(Room room, int xPos, int yPos, String description, Direction facing, int level,
 			CharacterModel model) {
@@ -112,6 +119,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		super(null, -1, -1, builder.getName(), builder.getDescription(), null);
 
 		this.ID = builder.getID();
+		adjustIDCount(this.ID);
 		this.name = builder.getName();
 		this.level = builder.getValue();
 		this.items = builder.getItems();
