@@ -4,10 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
+import gameWorld.characters.Character;
 import javax.swing.JPanel;
 
-import gameWorld.characters.Character;
 import gameWorld.item.Item;
 
 /**
@@ -43,7 +42,7 @@ public class BottomPanel extends JPanel{
 	}
 	
 	public void loadPlayerStats(Character currentPlayer){
-				
+		
 		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
 		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
 		setStat(StatsPane.EXP, currentPlayer.getXp());
