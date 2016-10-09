@@ -25,6 +25,7 @@ import clientServer.PackageCode;
 import clientServer.Slave;
 import gameWorld.Action;
 import gameWorld.Entity;
+import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
 
@@ -237,8 +238,31 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		int code = e.getKeyCode();
 
+		if (code == KeyEvent.VK_W) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_W.value());
+		}
+
+		else if (code == KeyEvent.VK_A) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_A.value());
+		}
+
+		else if (code == KeyEvent.VK_S) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_S.value());
+		}
+
+		else if (code == KeyEvent.VK_D) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_D.value());
+		}
+
+		else if (code == KeyEvent.VK_Q) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_Q.value());
+		}
+
+		else if (code == KeyEvent.VK_E) {
+			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
+		}
 	}
 
 	@Override
@@ -310,6 +334,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {}
 		}
+		
+		this.addKeyListener(this);
 		
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
