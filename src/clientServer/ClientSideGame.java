@@ -1,6 +1,7 @@
 package clientServer;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import gameWorld.rooms.Room;
 
 public class ClientSideGame extends Thread implements Game {
 	private final Map<Integer, Sendable> sendables;
+	private final Map<Integer, Boolean> receivedSendables;
 	private Room room;
 	private Character player;
 	private String username;
@@ -22,6 +24,7 @@ public class ClientSideGame extends Thread implements Game {
 	public ClientSideGame(String username) {
 		this.username = username;
 		this.sendables = new HashMap<>();
+		this.receivedSendables = new HashMap<>();
 		this.doors = new HashMap<>();
 	}
 
@@ -42,6 +45,19 @@ public class ClientSideGame extends Thread implements Game {
 		doorCode = doorCode / 2;
 		this.doors.put(Direction.NORTH, doorCode % 2 == 1);
 		integrationGraphics.GraphicsPanel.moveRoom();
+	}
+	
+	public void endSendables() {
+		for (int key : this.receivedSendables.keySet()) {
+			if (this.receivedSendables.put(key, false) == false) {
+				this.receivedSendables.remove(key);
+				Sendable s = this.sendables.remove(key);
+				if (s instanceof Character) {
+					Character c = (Character)s;
+					this.room.entities()[c.yPos()][c.xPos()] = null;
+				}
+			}
+		}
 	}
 
 	public void addSendable(byte[] received) {
@@ -105,6 +121,7 @@ public class ClientSideGame extends Thread implements Game {
 
 	public void updateSendable(byte[] received) {
 		int id = Sendable.bytesToInt(received, 4);
+		this.receivedSendables.put(id, true);
 		Sendable toUpdate = this.sendables.get(id);
 		if (toUpdate == null) {
 			addSendable(received);

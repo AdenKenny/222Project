@@ -57,11 +57,13 @@ public class ServerSideGame implements Game {
 		for (Room[] rooms : current.rooms()) {
 			for (Room room : rooms) {
 				Set<Sendable> sendables = room.getSendables();
-				byte[][] data = new byte[sendables.size()][];
+				byte[][] data = new byte[sendables.size() + 1][];
 				int i = 0;
 				for (Sendable s : sendables) {
 					data[i++] = s.toSend();
 				}
+				data[data.length - 1] = new byte[1];
+				data[data.length - 1][0] = PackageCode.Codes.GAME_SENDABLE_END.value();
 				this.byteArrays.put(room, data);
 			}
 		}
