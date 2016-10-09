@@ -95,7 +95,10 @@ public class ServerSideGame implements Game {
 			return;
 		}
 		Character character = player.getCharacter();
-		character.room().entities()[character.yPos()][character.xPos()] = null;
+		Room room = character.room();
+		if (room != null) {
+			room.entities()[character.yPos()][character.xPos()] = null;
+		}
 	}
 
 	/**

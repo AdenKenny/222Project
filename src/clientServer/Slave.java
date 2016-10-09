@@ -95,8 +95,10 @@ public class Slave extends Thread {
 			this.connected = false;
 		} catch (IOException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
+			this.connected = false;
 		} catch (InterruptedException e) {
 			System.out.println(e);
+			this.connected = false;
 		}
 	}
 
@@ -179,7 +181,7 @@ public class Slave extends Thread {
 		new Tick(this.game).start();
 	}
 
-	public ClientSideGame getGame() {
+	public synchronized ClientSideGame getGame() {
 		return this.game;
 	}
 
