@@ -4,11 +4,10 @@ import util.AbstractBuilder;
 import util.Logging;
 
 /**
- * A class to build an item.
+ * A class to build an Item.
  *
  * @author Aden and Louis
  */
-
 public final class ItemBuilder implements AbstractBuilder {
 	private String buildID;
 	private String buildName;
@@ -44,6 +43,13 @@ public final class ItemBuilder implements AbstractBuilder {
 		this.buildValue = buildValue;
 	}
 
+	/**
+	 * Sets the sale value of the Item that is being built. This value will be
+	 * read from a file.
+	 * 
+	 * @param buildSaleValue
+	 *            The sale value of the Item being built.
+	 */
 	@Override
 	public void setSaleValue(String buildSaleValue) {
 		this.buildSaleValue = buildSaleValue;
@@ -64,6 +70,11 @@ public final class ItemBuilder implements AbstractBuilder {
 		return this.name;
 	}
 
+	/**
+	 * Returns the Type of the Item that is being built.
+	 * 
+	 * @return The Type of the Item being built.
+	 */
 	public Item.Type getType() {
 		return this.type;
 	}
@@ -73,6 +84,11 @@ public final class ItemBuilder implements AbstractBuilder {
 		return this.value;
 	}
 
+	/**
+	 * Returns the sale value of the Item that is being built.
+	 * 
+	 * @return The sale value of the Item being built.
+	 */
 	public int getSaleValue() {
 		return this.saleValue;
 	}
@@ -85,8 +101,7 @@ public final class ItemBuilder implements AbstractBuilder {
 	@Override
 	public Item build() {
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
-		   || this.buildSaleValue == null || this.buildDescription == null) {
-						
+				|| this.buildSaleValue == null || this.buildDescription == null) {
 			return null;
 		}
 		try {
@@ -110,6 +125,6 @@ public final class ItemBuilder implements AbstractBuilder {
 
 	@Override
 	public void setItems(String s) {
-		throw new AssertionError(); //This shouldn't ever be called.
+		throw new AssertionError(); // This shouldn't ever be called.
 	}
 }

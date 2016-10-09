@@ -9,6 +9,12 @@ import gameWorld.Floor;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 
+/**
+ * A class to represent a Room within a Floor. Each Room is made up of a grid of
+ * Entities.
+ * 
+ * @author Louis
+ */
 public class Room {
 	protected Floor floor;
 	protected HashMap<Direction, Room> neighbours;
@@ -19,15 +25,6 @@ public class Room {
 	protected int width;
 	protected int depth;
 
-	/**
-	 * Constructs a Room containing a grid of Locations which has the specified width and depth.
-	 *
-	 * @param floor
-	 * @param xPos
-	 * @param yPos
-	 * @param width
-	 * @param depth
-	 */
 	public Room(Floor floor, int xPos, int yPos, int width, int depth) {
 		this.ID = Entity.getNewID();
 		this.floor = floor;
@@ -60,7 +57,8 @@ public class Room {
 	}
 
 	/**
-	 * Returns the Room immediately adjacent to this Room in the specified Direction.
+	 * Returns the Room immediately adjacent to this Room in the specified
+	 * Direction.
 	 *
 	 * @param direction
 	 * @return the Room in the Direction specified
@@ -80,7 +78,8 @@ public class Room {
 	}
 
 	/**
-	 * Returns the grid of Entities as a 2D array of Entities, with depth x width Entities.
+	 * Returns the grid of Entities as a 2D array of Entities, with depth x
+	 * width Entities.
 	 *
 	 * @return the Entities in this Room
 	 */
@@ -88,6 +87,11 @@ public class Room {
 		return this.entities;
 	}
 
+	/**
+	 * Returns all the Sendables contained within this Room.
+	 * 
+	 * @return The Sendables in this Room.
+	 */
 	public Set<Sendable> getSendables() {
 		Set<Sendable> sendables = new HashSet<>();
 		for (Entity[] es : this.entities) {
@@ -127,6 +131,11 @@ public class Room {
 		return this.width;
 	}
 
+	/**
+	 * Returns the ID of this Room.
+	 * 
+	 * @return This Room's ID
+	 */
 	public int getID() {
 		return this.ID;
 	}
@@ -140,6 +149,18 @@ public class Room {
 		return this.depth;
 	}
 
+	/**
+	 * Attempts to move the given Entity in the given Direction. If the given
+	 * Direction is relative, moves the Entity relative to the Direction it is
+	 * currently facing, otherwise moves the Entity in the absolute Direction
+	 * that is specified. Returns true if the move succeeds, false otherwise.
+	 * 
+	 * @param entity
+	 *            The Entity to move
+	 * @param dir
+	 *            The Direction to move in
+	 * @return Whether the move succeeded or not
+	 */
 	public boolean move(Entity entity, Direction dir) {
 		if (entity == null || entity.room() == null || dir == null)
 			return false;
@@ -188,8 +209,7 @@ public class Room {
 			default:
 				break;
 			}
-		}
-		else {
+		} else {
 			// handling for North, East, South, West
 			switch (dir) {
 			case NORTH:
@@ -225,8 +245,7 @@ public class Room {
 				}
 			}
 			return false;
-		}
-		else if (targetX >= this.width) {
+		} else if (targetX >= this.width) {
 			if (targetY == depth / 2) {
 				Room targetRoom = this.neighbours.get(Direction.EAST);
 				if (targetRoom != null) {
@@ -240,8 +259,7 @@ public class Room {
 				}
 			}
 			return false;
-		}
-		else if (targetY < 0) {
+		} else if (targetY < 0) {
 			if (targetX == width / 2) {
 				Room targetRoom = this.neighbours.get(Direction.NORTH);
 				if (targetRoom != null) {
@@ -255,8 +273,7 @@ public class Room {
 				}
 			}
 			return false;
-		}
-		else if (targetY >= this.depth) {
+		} else if (targetY >= this.depth) {
 			if (targetX == width / 2) {
 				Room targetRoom = this.neighbours.get(Direction.SOUTH);
 				if (targetRoom != null) {

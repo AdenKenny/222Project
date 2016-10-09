@@ -17,10 +17,12 @@ public class ClientSideGame extends Thread implements Game {
 	private Room room;
 	private Character player;
 	private String username;
+	private final Map<Direction, Boolean> doors;
 
 	public ClientSideGame(String username) {
 		this.username = username;
 		this.sendables = new HashMap<>();
+		this.doors = new HashMap<>();
 	}
 
 	@Override
@@ -32,6 +34,13 @@ public class ClientSideGame extends Thread implements Game {
 		this.sendables.clear();
 		this.player = null;
 		this.room = new Room(null, -1, -1, received[1], received[2]);
+		this.doors.put(Direction.WEST, received[3] % 2 == 1);
+		int doorCode = received[3] / 2;
+		this.doors.put(Direction.SOUTH, doorCode % 2 == 1);
+		doorCode = doorCode / 2;
+		this.doors.put(Direction.EAST, doorCode % 2 == 1);
+		doorCode = doorCode / 2;
+		this.doors.put(Direction.NORTH, doorCode % 2 == 1);
 		integrationGraphics.GraphicsPanel.moveRoom();
 	}
 
@@ -90,6 +99,7 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setYPos(yPos);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
+			toAdd.setRoom(this.room);
 		}
 	}
 
@@ -154,5 +164,9 @@ public class ClientSideGame extends Thread implements Game {
 
 	public synchronized Character getPlayer() {
 		return this.player;
+	}
+	
+	public synchronized Map<Direction, Boolean> getDoors() {
+		return this.doors;
 	}
 }

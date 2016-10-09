@@ -56,6 +56,13 @@ public final class PlayerBuilder implements AbstractBuilder {
 		this.buildLevel = value;
 	}
 
+	/**
+	 * Sets the amount of gold that the Character that is being built has. This
+	 * will be a value that is read from a file.
+	 * 
+	 * @param gold
+	 *            The amount of gold that the Character being built has.
+	 */
 	public void setGold(String gold) {
 		this.buildGold = gold;
 	}
@@ -65,14 +72,35 @@ public final class PlayerBuilder implements AbstractBuilder {
 		this.buildItems = items;
 	}
 
+	/**
+	 * Sets the amount of health that the Character that is being built has.
+	 * This will be a value that is read from a file.
+	 * 
+	 * @param health
+	 *            The amount of health that the Character being built has.
+	 */
 	public void setHealth(String health) {
 		this.buildHealth = health;
 	}
 
+	/**
+	 * Sets the equipment that the Character that is being built has. This will
+	 * be a value that is read from a file.
+	 * 
+	 * @param equips
+	 *            The equipment that the Character being built has.
+	 */
 	public void setEquips(String equips) {
 		this.buildEquips = equips;
 	}
 
+	/**
+	 * Sets the amount of XP that the Character that is being built has. This
+	 * will be a value that is read from a file.
+	 * 
+	 * @param xp
+	 *            The amount of XP that the Character being built has.
+	 */
 	public void setXp(String xp) {
 		this.buildXp = xp;
 	}
@@ -82,6 +110,12 @@ public final class PlayerBuilder implements AbstractBuilder {
 		this.description = description;
 	}
 
+	/**
+	 * Returns a List of Integers containing the IDs of the Items that the
+	 * Character that is being built has.
+	 * 
+	 * @return The List of Item IDs of the Character being built.
+	 */
 	public List<Integer> getItems() {
 		return this.items;
 	}
@@ -106,15 +140,59 @@ public final class PlayerBuilder implements AbstractBuilder {
 		return this.description;
 	}
 
+	/**
+	 * Returns a List of Integers containing the IDs of the Items that the
+	 * Character that is being built has equipped.
+	 * 
+	 * @return The IDs of the Items that the Character being built has equipped.
+	 */
 	public List<Integer> getEquips() {
 		return this.equips;
+	}
+
+	/**
+	 * Returns the Type of the Character that is being built. Since this is a
+	 * PlayerBuilder, this should always be Type.PLAYER.
+	 * 
+	 * @return The Type of the Character being built.
+	 */
+	public Type getType() {
+		return type;
+	}
+
+	/**
+	 * Returns the health of the Character that is being built.
+	 * 
+	 * @return The health of the Character being built.
+	 */
+	public int getHealth() {
+		return health;
+	}
+
+	/**
+	 * Returns the XP of the Character that is being built.
+	 * 
+	 * @return The XP of the Character being built.
+	 */
+	public int getXp() {
+		return xp;
+	}
+
+	/**
+	 * Returns the amount of gold that the Character that is being built has.
+	 * 
+	 * @return The gold of the Character being built.
+	 */
+	public int getGold() {
+		return gold;
 	}
 
 	@Override
 	public Character build() {
 
 		if (this.buildUsername == null || this.buildID == null || this.buildType == null || this.buildItems == null
-				|| this.buildXp == null || this.buildGold == null || this.buildLevel == null || this.buildEquips == null) {
+				|| this.buildXp == null || this.buildGold == null || this.buildLevel == null
+				|| this.buildEquips == null) {
 
 			return null;
 		}

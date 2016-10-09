@@ -53,15 +53,16 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 		this.buildItems = buildItems.replace(",", ""); // Remove commas.
 
-		String[] itemValues = this.buildItems.split(" "); // Split into unique strings.
+		String[] itemValues = this.buildItems.split(" "); // Split into unique
+															// strings.
 
 		this.setOfItems = new HashSet<>(); // Set to put item IDs in.
 
 		try {
 
-			for(String string : itemValues) {
+			for (String string : itemValues) {
 				int valueS = Integer.parseInt(string);
-				this.setOfItems.add(valueS); //Add the id to the set.
+				this.setOfItems.add(valueS); // Add the id to the set.
 			}
 		}
 
@@ -81,25 +82,26 @@ public final class CharacterBuilder implements AbstractBuilder {
 		return this.name;
 	}
 
+	/**
+	 * Returns the Type of the Character being built.
+	 * 
+	 * @return The Type of the Character being built.
+	 */
 	public Character.Type getType() {
 		return this.type;
 	}
-
-	/**
-	 * <pre>
-	 * {@code
-	* Set<String> s;
-	* System.out.println(s);
-	* }
-	 * 
-	 * </pre>
-	 **/
 
 	@Override
 	public int getValue() {
 		return this.value;
 	}
 
+	/**
+	 * Returns a Set of Integers representing the Items that the Character being
+	 * built has.
+	 * 
+	 * @return The Items of the Character being built.
+	 */
 	public Set<Integer> getSetOfItems() {
 		return this.setOfItems;
 	}
@@ -117,8 +119,8 @@ public final class CharacterBuilder implements AbstractBuilder {
 	@Override
 	public CharacterModel build() {
 
-		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null || this.buildItems == null
-				|| this.buildDescription == null) {
+		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
+				|| this.buildItems == null || this.buildDescription == null) {
 			return null;
 		}
 
@@ -134,7 +136,8 @@ public final class CharacterBuilder implements AbstractBuilder {
 		}
 
 		catch (NumberFormatException e) {
-			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.WARNING, "Improperly formatted XML file on item loading.");
+			Logging.logEvent(CharacterBuilder.class.getName(), Logging.Levels.WARNING,
+					"Improperly formatted XML file on item loading.");
 
 		}
 
