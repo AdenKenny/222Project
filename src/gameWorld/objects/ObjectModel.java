@@ -8,14 +8,14 @@ import gameWorld.objects.StationaryObject.Type;
 import util.Buildable;
 
 public class ObjectModel implements Buildable {
-	
+
 	private String name;
 	private int ID;
 	private int value;
 	private String description;
 	private Type type;
 	private Set<Integer> items;
-	
+
 	public ObjectModel(ObjectBuilder builder) {
 		this.name = builder.getName();
 		this.ID = builder.getID();
@@ -44,15 +44,31 @@ public class ObjectModel implements Buildable {
 	public String getDescription() {
 		return this.description;
 	}
-	
+
+	/**
+	 * Returns the Type of the StationaryObject that this model represents.
+	 * 
+	 * @return The Type of the StationaryObject that this model represents.
+	 */
 	public Type getType() {
 		return this.type;
 	}
-	
+
+	/**
+	 * Returns the IDs of the Items in the StationaryObject that this model represents.
+	 * 
+	 * @return The IDs of the Items in the StationaryObject that this model represents.
+	 */
 	public Set<Integer> getItems() {
 		return this.items;
 	}
-	
+
+	/**
+	 * Sets the IDs of the Items in the StationaryObject that this model represents.
+	 * 
+	 * @param items
+	 *            The IDs of the Items in the StationaryObject that this model represents.
+	 */
 	public void setItems(List<Integer> items) {
 		this.items = new HashSet<>();
 		for (Integer i : items) {
