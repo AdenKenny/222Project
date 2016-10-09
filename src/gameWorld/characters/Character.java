@@ -69,6 +69,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	private static final double DAMAGE_FACTOR = 1.974;
 	// scale factor for Monster and Vendor ranks
 	private static final double RANK_SCALE_FACTOR = 0.3;
+	// base gold value for monsters
+	private static final int BASE_GOLD = 8;
 
 	// Would prefer not to have this hard-coded, but for now this is simplest
 	private static final int ATTACK_SPEED = 1000; // ms
@@ -301,7 +303,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			this.health = this.maxHealth;
 			this.damage = (int) (Math.pow(BASE_DAMAGE, 1 + 1 * ((this.level - 1) / 100))
 					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
-			this.gold = (int) (Math.pow(2, 1 + 1 * ((this.level - 1) / 100))
+			this.gold = (int) (Math.pow(BASE_GOLD, 1 + 1 * ((this.level - 1) / 100))
 					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
 			this.xp = (int) (Math.pow(this.baseXP, 1 + 1 * ((this.level - 1) / 100))
 					* (0.45 * (1 + RANK_SCALE_FACTOR * (this.rank - 1))));
