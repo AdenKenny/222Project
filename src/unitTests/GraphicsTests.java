@@ -98,4 +98,44 @@ public class GraphicsTests extends GraphicsPanel {
 		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.WEST, new int[] {8, 5}, new int[] {4, 5}), Side.Left);
 	}
 	
+	@Test
+	public void testWestNorth() {
+		assertEquals(calculateSide(World.Direction.WEST, World.Direction.NORTH, new int[] {8, 5}, new int[] {4, 5}), Side.Back);
+	}
+	
+	@Test
+	public void testWestNorth2() {
+		assertEquals(calculateSide(World.Direction.WEST, World.Direction.NORTH, new int[] {8, 4}, new int[] {4, 5}), Side.Back);
+	}
+	
+	@Test
+	public void testWestEast() {
+		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.EAST, new int[] {8, 5}, new int[] {4, 5}), Side.Right);
+	}
+	
+	@Test
+	public void testWestEast2() {
+		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.EAST, new int[] {9, 4}, new int[] {4, 5}), Side.Right);
+	}
+	
+	@Test
+	public void testWestSouth() {
+		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.SOUTH, new int[] {8, 5}, new int[] {4, 5}), Side.Front);
+	}
+	
+	@Test
+	public void testWestSouth2() {
+		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.SOUTH, new int[] {10, 7}, new int[] {4, 5}), Side.Front);
+	}
+
+	@Test
+	public void testWestWest() {
+		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.WEST, new int[] {8, 5}, new int[] {4, 5}), Side.Left);
+	}
+	
+	@Test
+	public void testWestWest2() {
+		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.WEST, new int[] {8, 5}, new int[] {4, 5}), Side.Left);
+	}
+	
 }

@@ -83,6 +83,7 @@ public class ServerSideGame implements Game {
 			players.put(username, character);
 		}
 		this.connectedPlayers.put(uid, new Player(user, character));
+		world.addPlayer(character);
 	}
 
 	/**
@@ -95,7 +96,11 @@ public class ServerSideGame implements Game {
 			return;
 		}
 		Character character = player.getCharacter();
-		character.room().entities()[character.yPos()][character.xPos()] = null;
+		world.removePlayer(character);
+		Room room = character.room();
+		if (room != null) {
+			room.entities()[character.yPos()][character.xPos()] = null;
+		}
 	}
 
 	/**
@@ -131,14 +136,12 @@ public class ServerSideGame implements Game {
 	 * @return
 	 */
 	public synchronized byte[][] toByteArray(long uid) {
-		byte[][] data;
-		try {
-			data = this.byteArrays.get(this.connectedPlayers.get(uid).getCharacter().room());
-		}
-		catch(NullPointerException e) {
+		Room room = this.connectedPlayers.get(uid).getCharacter().room();
+		if (room == null) {
+			System.out.println("room null");
 			return null;
 		}
-		return data;
+		return this.byteArrays.get(room);
 	}
 
 	public synchronized byte[] checkNewlyEntered(long uid) {
