@@ -36,6 +36,7 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public void addSendable(byte[] received) {
+		System.out.println("add sendable");
 		Types type = Types.values()[received[1]];
 
 		if (type.equals(Types.MONSTER)) {
@@ -152,14 +153,7 @@ public class ClientSideGame extends Thread implements Game {
 		return this.room;
 	}
 
-	public Character getPlayer() {
-<<<<<<< HEAD
-=======
-		if (this.room == null) return null;
-
->>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
+	public synchronized Character getPlayer() {
 		return this.player;
 	}
-
-
 }

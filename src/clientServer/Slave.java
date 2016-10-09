@@ -11,15 +11,12 @@ import java.net.UnknownHostException;
 import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {
-
 	private static final int BROADCAST_CLOCK = 50;
-
 	private Socket socket;
 	private DataOutputStream output;
 	private boolean connected;
 	private ClientSideGame game;
 	private MainWindow mainWindow;
-
 	private String username;
 
 	public Slave(MainWindow mainWindow) {
@@ -28,11 +25,14 @@ public class Slave extends Thread {
 			this.socket = new Socket("127.0.0.1", 5000);
 			this.output = new DataOutputStream(this.socket.getOutputStream());
 			this.connected = true;
-		} catch (UnknownHostException e) {
+		}
+		catch (UnknownHostException e) {
 			e.printStackTrace();
-		} catch (ConnectException e) {
+		}
+		catch (ConnectException e) {
 			this.mainWindow.addGameChat("Unable to connect to server.");
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -43,7 +43,6 @@ public class Slave extends Thread {
 			return;
 		}
 		try(DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
-
 			while (true) {
 				// the size of the packet received
 				int amount = input.readInt();
@@ -90,30 +89,15 @@ public class Slave extends Thread {
 				
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-<<<<<<< HEAD
 		} catch(SocketException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
 		} catch (IOException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
-=======
-			
-			this.socket.close();
-		} 
-		
-		catch (SocketException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
 			this.connected = false;
-		}
-		
-		catch (IOException e) {
-			this.mainWindow.threadedMessage("Disconnected from server.");
->>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
-			this.connected = false;
-		} 
-		
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			System.out.println(e);
+			this.connected = false;
 		}
 	}
 
@@ -132,9 +116,7 @@ public class Slave extends Thread {
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
-
 		this.username = username;
-
 		send(toSend);
 	}
 
@@ -146,19 +128,14 @@ public class Slave extends Thread {
 		byte[] toSend = new byte[username.length() + password.length() + 2];
 		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value();
 		int i = 1;
-
 		for (char c : username.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
-
 		toSend[i++] = PackageCode.Codes.BREAK.value();
-
 		for (char c : password.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
-
 		this.username = username;
-
 		send(toSend);
 	}
 
@@ -166,10 +143,12 @@ public class Slave extends Thread {
 		try {
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
-		} catch(SocketException e) {
+		}
+		catch (SocketException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			System.out.println("Sending error");
 			e.printStackTrace();
 		}
@@ -196,7 +175,7 @@ public class Slave extends Thread {
 		new Tick(this.game).start();
 	}
 
-	public ClientSideGame getGame() {
+	public synchronized ClientSideGame getGame() {
 		return this.game;
 	}
 
@@ -215,8 +194,8 @@ public class Slave extends Thread {
 			send(disconnect);
 			this.socket.close();
 		}
-		catch(SocketException e) {
-			//nothing needs to be done, as the server connection is closed already
+		catch (SocketException e) {
+			// nothing needs to be done, as the server connection is closed already
 		}
 		catch (IOException e) {
 			System.out.println(e);
@@ -227,12 +206,12 @@ public class Slave extends Thread {
 		if (this.game == null) {
 			return null;
 		}
-		
-		return this.username;
+		else {
+			return this.username;
+		}
 	}
 
 	public static void main(String[] args) {
 		new Slave(null);
 	}
-
 }
