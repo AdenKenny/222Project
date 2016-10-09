@@ -83,6 +83,7 @@ public class ServerSideGame implements Game {
 			players.put(username, character);
 		}
 		this.connectedPlayers.put(uid, new Player(user, character));
+		world.addPlayer(character);
 	}
 
 	/**
@@ -95,6 +96,7 @@ public class ServerSideGame implements Game {
 			return;
 		}
 		Character character = player.getCharacter();
+		world.removePlayer(character);
 		Room room = character.room();
 		if (room != null) {
 			room.entities()[character.yPos()][character.xPos()] = null;
