@@ -176,7 +176,7 @@ public final class LoadGame implements XMLInteractable {
 		}
 
 		catch (SAXException e) {
-			e.printStackTrace();
+			System.out.println("Improperly formated XML file.");
 		}
 
 		catch (ParserConfigurationException e) {

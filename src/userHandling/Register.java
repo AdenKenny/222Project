@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 import util.Logging;
-import util.Logging.Levels;
 
 /**
  * A class which handles registering a user and stores them in the database of users.
