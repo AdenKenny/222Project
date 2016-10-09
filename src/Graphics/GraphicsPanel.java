@@ -47,6 +47,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private Character viewer;
     private Room room;
+    
+    private ImageCache cache;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -55,6 +57,10 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      */
     public GraphicsPanel(Character inViewer, Room initRoom){
         super();
+        cache = new ImageCache();
+        if (inViewer == null || initRoom == null){
+        	throw new IllegalArgumentException("Null is an unacceptable parameter!");
+        }
         viewer = inViewer;
         room = initRoom;
         addMouseListener(this);
@@ -141,7 +147,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderCeiling(Graphics graphics){
         try {
-            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/ceiling.png"));
+            Image image = cache.getImage("resources/graphics/ceiling.png");
             graphics.drawImage(image, 0, 0, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
@@ -149,7 +155,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderFloor(Graphics graphics){
         try {
-            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/floor.png"));
+            Image image = cache.getImage("resources/graphics/floor.png");
             graphics.drawImage(image, 0, getHeight() / 2, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
@@ -168,7 +174,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private Image loadImage(String name, Side side){
         try {
-            return ImageIO.read(this.getClass().getClassLoader().getResource(resolveImageName(name, side)));
+            return cache.getImage(resolveImageName(name, side));
         } catch (IOException ioe){
             return null;
         }
@@ -366,6 +372,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         } else if (absDeltaX > absDeltaY){
             return calculateEWPerspective(deltaX);
         } else {
+        	System.out.println("Selecting from observerDirection");
             return perspectiveFromViewerDirection(observerDirection);
         }
     }
@@ -389,13 +396,13 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Perspective perspectiveFromViewerDirection(World.Direction viewerDirection){
         switch (viewerDirection){
             case NORTH:
-                return Perspective.West;
-            case EAST:
                 return Perspective.South;
+            case EAST:
+                return Perspective.West;
             case SOUTH:
-                return Perspective.East;
-            case WEST:
                 return Perspective.North;
+            case WEST:
+                return Perspective.East;
             default:
                 return Perspective.South;
         }

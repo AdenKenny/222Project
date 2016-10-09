@@ -11,6 +11,9 @@ import javax.imageio.ImageIO;
 public class ImageCache {
 
 	
+	// The capacity - 1, because index 0.
+	private static final int finalIndex = 19;
+	
 	/* 
 	 * Guaranteed live references, stored in order of priority.
 	 * When a new Image is loaded from disk, the lowest priority
@@ -21,9 +24,10 @@ public class ImageCache {
 	 */
 	private Bundle[] hardCache;
 	private Map<String, WeakReference<Image>> softCache;
+
 	
 	public ImageCache(){
-		hardCache = new Bundle[10];
+		hardCache = new Bundle[finalIndex + 1];
 		softCache = new HashMap<>();
 	}
 	
@@ -73,13 +77,13 @@ public class ImageCache {
 	private void addImageToHardCache(String resourceName, Image image){
 		Bundle bundle = new Bundle(resourceName, image);
 		// Add displaced image to softCache.
-		if (hardCache[9] != null){
-			addToSoftCache(hardCache[9].resourceName, hardCache[9].image);
+		if (hardCache[finalIndex] != null){
+			addToSoftCache(hardCache[finalIndex].resourceName, hardCache[finalIndex].image);
 		}
 		// Insert new Image.
-		hardCache[9] = bundle;
+		hardCache[finalIndex] = bundle;
 		// Refresh the new Image's priority.
-		bubbleIndex(9);
+		bubbleIndex(finalIndex);
 	}
 	
 	private void addToSoftCache(String resourceName, Image image){
