@@ -155,10 +155,15 @@ public class ServerSideGame implements Game {
 				return null;
 			}
 			player.setNewlyEntered(false);
-			byte[] roomEntry = new byte[3];
+			byte[] roomEntry = new byte[4];
 			roomEntry[0] = PackageCode.Codes.GAME_NEW_ROOM.value();
 			roomEntry[1] = (byte)room.width();
 			roomEntry[2] = (byte)room.depth();
+			//get byte code for where doors are
+			int doorCode = room.neighbour(Direction.NORTH) == null ? 0 : 1;
+			doorCode = doorCode * 2 + (room.neighbour(Direction.EAST) == null ? 0 : 1);
+			doorCode = doorCode * 2 + (room.neighbour(Direction.SOUTH) == null ? 0 : 1);
+			roomEntry[3] = (byte)(doorCode * 2 + (room.neighbour(Direction.WEST) == null ? 0 : 1));
 			return roomEntry;
 		}
 		return null;
