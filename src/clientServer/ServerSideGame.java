@@ -141,7 +141,9 @@ public class ServerSideGame implements Game {
 			System.out.println("room null");
 			return null;
 		}
-		return this.byteArrays.get(room);
+		byte[][] arrays = this.byteArrays.get(room);
+		System.out.println(arrays.length);
+		return arrays;
 	}
 
 	public synchronized byte[] checkNewlyEntered(long uid) {
