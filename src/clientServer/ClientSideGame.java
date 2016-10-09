@@ -90,6 +90,7 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setYPos(yPos);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
+			toAdd.setRoom(this.room);
 		}
 	}
 
