@@ -44,6 +44,7 @@ public final class ItemBuilder implements AbstractBuilder {
 		this.buildValue = buildValue;
 	}
 
+	@Override
 	public void setSaleValue(String buildSaleValue) {
 		this.buildSaleValue = buildSaleValue;
 	}
@@ -85,6 +86,7 @@ public final class ItemBuilder implements AbstractBuilder {
 	public Item build() {
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
 		   || this.buildSaleValue == null || this.buildDescription == null) {
+						
 			return null;
 		}
 		try {
@@ -94,7 +96,7 @@ public final class ItemBuilder implements AbstractBuilder {
 			this.value = Integer.parseInt(this.buildValue);
 			this.saleValue = Integer.parseInt(this.buildSaleValue);
 			this.description = this.buildDescription;
-
+			
 			return new Item(this);
 		}
 

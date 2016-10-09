@@ -39,6 +39,7 @@ public class ServerSideGame implements Game {
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 		this.byteArrays = new HashMap<>();
+		
 	}
 
 	@Override
