@@ -67,11 +67,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         viewer = inViewer;
         addMouseListener(this);
     }
-    
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(512, 1024);
-	}
 
     /**
      * Set the object that the GraphicsPanel will notify if there is a click.

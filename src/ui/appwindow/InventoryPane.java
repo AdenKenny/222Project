@@ -15,17 +15,15 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import Graphics.ImageCache;
 import gameWorld.item.Item;
 
 public class InventoryPane extends JPanel{
 	public static float WIDTH_RATIO = 0.34f;
-	public final int ROWS;
-	public final int COLS;
+	public static int ROWS;
+	public static int COLS;
 	private MainWindow client;
 	
 	private Item[][] items;
-	private ImageCache icons;
 	int colWidth;
 	int rowHeight;
 
@@ -34,7 +32,6 @@ public class InventoryPane extends JPanel{
 		COLS=4;
 		this.client = client;
 		this.items = new Item[ROWS][COLS];
-		this.icons = new ImageCache();
 		addMouseListener(new MouseListener() {
 
 			@Override
@@ -121,15 +118,9 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] != null){
 					//draw the item based on its name
-					try {
-						Image icon = icons.getImage(items[i][j].getName());
-						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}
-				//g.drawImage(MainWindow.itemIcons.get("diamondShortSword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null);
+				//TODO remove this later
+				g.drawImage(MainWindow.itemIcons.get("diamondShortSword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 			}
 		}
 
