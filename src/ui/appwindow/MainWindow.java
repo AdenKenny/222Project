@@ -32,6 +32,7 @@ import gameWorld.Entity;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
+import gameWorld.rooms.Room;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
@@ -222,8 +223,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void setRoom(int number) {
-		infoBar.setRoom(number);
+	public void setRoom(Room room) {
+		infoBar.setRoom(room);
 	}
 
 	@Override
@@ -344,7 +345,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
-		setRoom(this.game.getRoom().depth());
+		setRoom(this.game.getRoom());
 		
 		//Load graphics panel
 		this.display = new GraphicsPanel(this.game.getPlayer());
