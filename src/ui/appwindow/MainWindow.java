@@ -228,7 +228,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	@Override
 	public void performActionOnEntity(int itemId, int actionId) {
 		// TODO Auto-generated method stub
-
 	}
 	
 
