@@ -228,7 +228,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	@Override
 	public void performActionOnEntity(int itemId, int actionId) {
 		// TODO Auto-generated method stub
-
 	}
 	
 
@@ -292,7 +291,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	 */
 	
 	private void enterGame() {
-		while ((this.game = slave.getGame()) == null) {};
+		while (this.game == null) {
+			this.game = this.slave.getGame();
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {}
+		}
 		
 		if (this.display != null) {
 			this.display.setVisible(false);
@@ -306,19 +310,19 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {}
 		}
+		
 		bottomPanel.loadPlayerStats(player);
-		updateGold(game.getPlayer().getGold());
-		setRoom(game.getRoom().depth());
+		updateGold(this.game.getPlayer().getGold());
+		setRoom(this.game.getRoom().depth());
 		
 		//Load graphics panel
-		this.display = new GraphicsPanel(game.getPlayer(), game.getRoom());
+		this.display = new GraphicsPanel(this.game.getPlayer(), this.game.getRoom());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
 		add(gfx,BorderLayout.CENTER);
 		gfx.setVisible(true);
 		gfx.revalidate();
 		gfx.repaint();
-
 	}
 
 	public void setSlave(Slave slave) {
