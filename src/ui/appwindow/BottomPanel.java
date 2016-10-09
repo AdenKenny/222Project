@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.List;
+
 import gameWorld.characters.Character;
 import javax.swing.JPanel;
 
+import clientServer.Game;
 import gameWorld.item.Item;
 
 /**
@@ -87,5 +90,12 @@ public class BottomPanel extends JPanel{
 	public void addToInventory(Item item) {
 		inventoryPane.addItem(item);
 		
+	}
+
+	public void loadInventory(Character player) {
+		List<Integer> itemIDs = player.getItems();
+		for(Integer id : itemIDs){
+			inventoryPane.addItem(Game.mapOfItems.get(id));
+		}
 	}
 }

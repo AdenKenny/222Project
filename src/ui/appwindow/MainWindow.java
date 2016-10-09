@@ -34,7 +34,6 @@ import gameWorld.characters.Character;
 import gameWorld.item.Item;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
-	public static HashMap<String, Image> itemIcons;
 	private Slave slave;
 	private ClientSideGame game;
 	private InfoPane infoBar;
@@ -45,9 +44,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public MainWindow(){
 		super("RoomScape");
-		this.itemIcons = new HashMap<>();
-		loadIcons();
-		//reconnect();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Overridden
 		JFrame frame = this;
 		addWindowListener(new WindowListener() {
@@ -99,36 +95,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setFocusable(true);
 	}
 
-	private void loadIcons() {
-		try {
-			itemIcons.put("bronzeDagger", ImageIO.read(new File("resources/resources/graphics/bronzeDagger.png")));
-			itemIcons.put("bronzeLongSword", ImageIO.read(new File("resources/resources/graphics/bronzeLongSword.png")));
-			itemIcons.put("bronzeSabre", ImageIO.read(new File("resources/resources/graphics/bronzeSabre.png")));
-			itemIcons.put("bronzeShortSword", ImageIO.read(new File("resources/resources/graphics/bronzeShortSword.png")));
-			itemIcons.put("bronzeWarAxe", ImageIO.read(new File("resources/resources/graphics/bronzeWarAxe.png")));
-			itemIcons.put("diamondShortSword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
-			itemIcons.put("diamondDagger", ImageIO.read(new File("resources/resources/graphics/diamondDagger.png")));
-			itemIcons.put("diamondLongSword", ImageIO.read(new File("resources/resources/graphics/diamondLongSword.png")));
-			itemIcons.put("diamondSabre", ImageIO.read(new File("resources/resources/graphics/diamondSabre.png")));
-			itemIcons.put("diamondShortSword", ImageIO.read(new File("resources/resources/graphics/diamondShortSword.png")));
-			itemIcons.put("diamondWarAxe", ImageIO.read(new File("resources/resources/graphics/diamondWarAxe.png")));
-			itemIcons.put("ironDagger", ImageIO.read(new File("resources/resources/graphics/ironDagger.png")));
-			itemIcons.put("ironLongSword", ImageIO.read(new File("resources/resources/graphics/ironLongSword.png")));
-			itemIcons.put("ironSabre", ImageIO.read(new File("resources/resources/graphics/ironSabre.png")));
-			itemIcons.put("ironShortSword", ImageIO.read(new File("resources/resources/graphics/ironShortSword.png")));
-			itemIcons.put("ironWarAxe", ImageIO.read(new File("resources/resources/graphics/ironWarAxe.png")));
-			itemIcons.put("steelDagger", ImageIO.read(new File("resources/resources/graphics/steelDagger.png")));
-			itemIcons.put("steelLongSword", ImageIO.read(new File("resources/resources/graphics/steelLongSword.png")));
-			itemIcons.put("steelSabre", ImageIO.read(new File("resources/resources/graphics/steelSabre.png")));
-			itemIcons.put("steelShortSword", ImageIO.read(new File("resources/resources/graphics/steelShortSword.png")));
-			itemIcons.put("steelWarAxe", ImageIO.read(new File("resources/resources/graphics/steelWarAxe.png")));
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-	}
-
 	private void initComponents(){
 		//Add next level of components
 		infoBar = new InfoPane();
@@ -152,38 +118,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		revalidate();
 		setVisible(true);
 		this.optionsPane = new OptionsPane(this);
-		this.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				displayItemOptions(null, e.getX()-10, e.getY()-infoBar.HEIGHT);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
+
 	}
 
 	protected void setDisplay(JPanel display){
@@ -244,7 +180,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
 	}
 
 	@Override
@@ -281,8 +216,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void reconnect() {
@@ -343,10 +276,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			} catch (InterruptedException e) {}
 		}
 		
+		//player has loaded
 		bottomPanel.loadPlayerStats(player);
-		updateGold(this.game.getPlayer().getGold());
+		updateGold(player.getGold());
 		setRoom(this.game.getRoom().depth());
-		
+		bottomPanel.loadInventory(player);
 		//Load graphics panel
 		this.display = new GraphicsPanel(this.game.getPlayer());
 		GraphicsPanel gfx = (GraphicsPanel) display;
