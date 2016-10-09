@@ -1,5 +1,6 @@
 package Graphics;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -62,6 +63,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         }
         viewer = inViewer;
         addMouseListener(this);
+        this.setPreferredSize(new Dimension(512, 1024));
     }
 
     /**
