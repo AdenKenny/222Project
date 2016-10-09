@@ -42,7 +42,7 @@ public class Slave extends Thread {
 		if (!this.connected) {
 			return;
 		}
-		try (DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
+		try(DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
 			while (true) {
 				// the size of the packet received
 				int amount = input.readInt();
@@ -58,17 +58,20 @@ public class Slave extends Thread {
 					if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
 						this.game.newRoom(data);
 					}
+					
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE.value()) {
 						this.game.updateSendable(data);
 					}
+					
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
 						for (int i = 1; i < data.length; i++) {
-							message.append((char) data[i]);
+							message.append((char)data[i]);
 						}
 						this.mainWindow.addChat(message.toString());
 					}
 				}
+				
 				else {
 					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
@@ -83,19 +86,18 @@ public class Slave extends Thread {
 						this.mainWindow.accountResult(data[1]);
 					}
 				}
+				
 				Thread.sleep(BROADCAST_CLOCK);
 			}
-		}
-		catch (SocketException e) {
+		} catch(SocketException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			this.mainWindow.addGameChat("Disconnected from server.");
 			this.connected = false;
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			System.out.println(e);
+			this.connected = false;
 		}
 	}
 
@@ -173,7 +175,7 @@ public class Slave extends Thread {
 		new Tick(this.game).start();
 	}
 
-	public ClientSideGame getGame() {
+	public synchronized ClientSideGame getGame() {
 		return this.game;
 	}
 
