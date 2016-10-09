@@ -140,11 +140,9 @@ public class ServerSideGame implements Game {
 	public synchronized byte[][] toByteArray(long uid) {
 		Room room = this.connectedPlayers.get(uid).getCharacter().room();
 		if (room == null) {
-			System.out.println("room null");
 			return null;
 		}
 		byte[][] arrays = this.byteArrays.get(room);
-		System.out.println(arrays.length);
 		return arrays;
 	}
 
