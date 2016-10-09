@@ -22,7 +22,7 @@ import gameWorld.rooms.Room;
 public class GraphicsPanel extends JPanel implements MouseListener {
 
     // The number of squares the character can see to either side.
-    private static final int viewWidth = 10;
+    private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
     private static final int viewDistance = 10;
 
@@ -63,7 +63,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         }
         viewer = inViewer;
         addMouseListener(this);
-        this.setPreferredSize(new Dimension(512, 1024));
     }
 
     /**
@@ -71,7 +70,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @param input
      */
     public void setGraphicsClickListener(GraphicsClickListener input){
-    	System.out.println("Added click listener");
         clickListener = input;
     }
 
@@ -112,13 +110,11 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     @Override
     public void paintComponent(Graphics graphics) {
-    	System.out.println("Paint called");
         render(viewer,graphics);
     }
 
     private void render(Character character, Graphics graphics){
     	Room room = character.room();
-    	System.out.println("Render called");
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
@@ -128,7 +124,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         // If player is found, render.
         if (viewerLocation[0] >= 0) {
             for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta) {
-                for (int absSideDelta = viewWidth; absSideDelta > 0; --absSideDelta) {
+                for (int absSideDelta = viewWidth; absSideDelta >= 0; --absSideDelta) {
                     //Render right
                     renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta, room, graphics);
                     //Render left
@@ -158,10 +154,15 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         Entity entity = getEntityAtLocation(room, absoluteTarget);
         if (entity != null) {
-            System.out.println(entity.name());
+        	String name;
+        	if (entity.isPlayer()){
+        		name = "player";
+        	} else {
+        		name = entity.name();
+        	}
             int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
             Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-            graphics.drawImage(loadImage(entity.name(), side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
+            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
         }
     }
 
@@ -298,7 +299,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                 };
             case WEST:
                 return new int[] {
-                        0
+                        0,
                         -forwardDelta
                 };
             default:
@@ -337,7 +338,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         // Invert forward offset, as the maximum distance should be far Y;
         forwardDelta = viewDistance - forwardDelta;
         // The origin of the image is two square heights above the bottom left.
-        return new int[] {halfHeight + (forwardDelta * squarePixelHeight) + (2 * squarePixelHeight) , sideDelta * squarePixelWidth};
+        return new int[] {halfHeight + (forwardDelta * squarePixelHeight) - (2 * squarePixelHeight) , sideDelta * squarePixelWidth};
     }
 
     protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {

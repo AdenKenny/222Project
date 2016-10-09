@@ -14,6 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -92,6 +96,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setPreferredSize(new Dimension(width, height));
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setResizable(true);
+		setFocusable(true);
 	}
 
 	private void loadIcons() {
@@ -134,6 +139,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		add(bottomPanel, BorderLayout.PAGE_END);
 		infoBar.initComponents();
 
+		this.addKeyListener(this);
+		
 		Login login = (Login) display;
 		login.initComponents();
 
@@ -177,7 +184,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
 		});
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
-
 	}
 
 	protected void setDisplay(JPanel display){
@@ -238,6 +244,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("A key was pressed!");
 		int code = e.getKeyCode();
 
 		if (code == KeyEvent.VK_W) {
@@ -263,12 +275,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		else if (code == KeyEvent.VK_E) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		Character player = this.slave.getGame().getPlayer();
+		System.out.println(String.format("Facing: %s, x: %d, y: %d", player.facing(), player.xPos(), player.yPos()));
 	}
 
 	@Override
@@ -335,8 +343,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			} catch (InterruptedException e) {}
 		}
 		
-		this.addKeyListener(this);
-		
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
 		setRoom(this.game.getRoom().depth());
@@ -348,7 +354,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		add(gfx,BorderLayout.CENTER);
 		gfx.setVisible(true);
 		gfx.revalidate();
-		gfx.repaint();
+		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		scheduler.scheduleAtFixedRate(new Runnable(){
+			public void run(){
+				gfx.repaint();
+			}
+		}, 0, 33, TimeUnit.MILLISECONDS);
+		
 	}
 
 	public void setSlave(Slave slave) {
