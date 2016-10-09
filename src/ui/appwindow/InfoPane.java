@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import gameWorld.rooms.Room;
+
 /**
  * Container for display Game information along top of window.
  *
@@ -93,8 +95,8 @@ public class InfoPane extends JPanel{
 		return new Dimension(getParent().getWidth(),HEIGHT);
 	}
 
-	public void setRoom(int room){
-		floorLabel.setText("Room: " + room);
+	public void setRoom(Room room){
+		floorLabel.setText("Room (" + room.xPos() + ", " + room.yPos() + ")");
 	}
 
 	public void updateGold(int amount){

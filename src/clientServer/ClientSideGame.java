@@ -19,13 +19,11 @@ public class ClientSideGame extends Thread implements Game {
 	private Room room;
 	private Character player;
 	private String username;
-	private final Map<Direction, Boolean> doors;
 
 	public ClientSideGame(String username) {
 		this.username = username;
 		this.sendables = new HashMap<>();
 		this.receivedSendables = new HashMap<>();
-		this.doors = new HashMap<>();
 	}
 
 	@Override
@@ -36,17 +34,18 @@ public class ClientSideGame extends Thread implements Game {
 	public void newRoom(byte[] received) {
 		this.sendables.clear();
 		this.player = null;
-		this.room = new Room(null, -1, -1, received[1], received[2]);
-		this.doors.put(Direction.WEST, received[3] % 2 == 1);
-		int doorCode = received[3] / 2;
-		this.doors.put(Direction.SOUTH, doorCode % 2 == 1);
+		this.room = new Room(null, received[1], received[2], received[3], received[4]);
+		int doorCode = received[5];
+		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
-		this.doors.put(Direction.EAST, doorCode % 2 == 1);
+		this.room.setDoor(Direction.SOUTH, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
-		this.doors.put(Direction.NORTH, doorCode % 2 == 1);
+		this.room.setDoor(Direction.EAST, doorCode % 2 == 1);
+		doorCode = doorCode / 2;
+		this.room.setDoor(Direction.NORTH, doorCode % 2 == 1);
 		integrationGraphics.GraphicsPanel.moveRoom();
 	}
-	
+
 	public void endSendables() {
 		for (int key : this.receivedSendables.keySet()) {
 			if (this.receivedSendables.put(key, false) == false) {
@@ -73,7 +72,7 @@ public class ClientSideGame extends Thread implements Game {
 			int xPos = Sendable.bytesToInt(received, 20);
 			int yPos = Sendable.bytesToInt(received, 24);
 			CharacterModel model = mapOfCharacters.get(modelId);
-			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, level, model);
+			Character toAdd = new Character(this.room, xPos, yPos, facing, level, model);
 			toAdd.setAlive(isAlive);
 			toAdd.setHealth(health);
 			this.sendables.put(ID, toAdd);
@@ -86,7 +85,7 @@ public class ClientSideGame extends Thread implements Game {
 			int xPos = Sendable.bytesToInt(received, 12);
 			int yPos = Sendable.bytesToInt(received, 16);
 			CharacterModel model = mapOfCharacters.get(modelId);
-			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, -1, model);
+			Character toAdd = new Character(this.room, xPos, yPos, facing, -1, model);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 		}
@@ -181,9 +180,5 @@ public class ClientSideGame extends Thread implements Game {
 
 	public synchronized Character getPlayer() {
 		return this.player;
-	}
-	
-	public synchronized Map<Direction, Boolean> getDoors() {
-		return this.doors;
 	}
 }
