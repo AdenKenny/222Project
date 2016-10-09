@@ -54,11 +54,11 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @param inViewer
      * @param initRoom
      */
-    public GraphicsPanel(Character inViewer, Room initRoom){
+    public GraphicsPanel(Character inViewer){
         super();
         cache = new ImageCache();
-        if (inViewer == null || initRoom == null){
-        	throw new IllegalArgumentException("Null is an unacceptable parameter!");
+        if (inViewer == null){
+        	throw new IllegalArgumentException("Null is an unacceptable parameter for inViewer!");
         }
         viewer = inViewer;
         addMouseListener(this);
@@ -93,14 +93,14 @@ public class GraphicsPanel extends JPanel implements MouseListener {
             // Convert from absolute to relative.
             int sideDelta = (x / squarePixelWidth) - viewDistance;
             // Find the entity at the calculated location.
-            Entity result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+            Entity result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                     sideDelta, forwardDelta));
             //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
             if (result == null){
                 forwardDelta += 1;
                 //Check that the target object is in view.
                 if (forwardDelta < viewDistance){
-                    result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                             sideDelta, forwardDelta));
                 }
             }

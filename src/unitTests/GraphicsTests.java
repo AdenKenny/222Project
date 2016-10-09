@@ -15,7 +15,7 @@ import gameWorld.rooms.Room;
 public class GraphicsTests extends GraphicsPanel {
 
 	public GraphicsTests() {
-		super(null, null);
+		super(null);
 	}
 
 	@Test
