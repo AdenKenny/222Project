@@ -141,7 +141,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void renderCeiling(Graphics graphics){
         try {
             Image image = cache.getImage("/resources/graphics/ceiling.png");
-            graphics.drawImage(image, 0, 0, getWidth(),getHeight() / 2, null);
+            graphics.drawImage(image, 0, 0, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
     }
@@ -149,7 +149,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void renderFloor(Graphics graphics){
         try {
             Image image = cache.getImage("/resources/graphics/floor.png");
-            graphics.drawImage(image, 0, getHeight() / 2, getWidth(),getHeight() / 2, null);
+            graphics.drawImage(image, 0, getHeight() / 2, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
     }

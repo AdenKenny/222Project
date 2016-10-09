@@ -51,7 +51,6 @@ public class ImageCache {
 		}
 		// Everything has fallen through, must load from disk.
 		Image newImage;
-		System.out.println(this.getClass().getResource(resourceName));
 		newImage = ImageIO.read(this.getClass().getResource(resourceName));
 		addImageToHardCache(resourceName, newImage);
 		return newImage;
