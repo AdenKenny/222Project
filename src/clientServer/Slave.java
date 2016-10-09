@@ -59,6 +59,10 @@ public class Slave extends Thread {
 						this.game.newRoom(data);
 					}
 					
+					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_END.value()) {
+						this.game.endSendables();
+					}
+					
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE.value()) {
 						this.game.updateSendable(data);
 					}

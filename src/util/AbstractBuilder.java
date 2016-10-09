@@ -120,6 +120,4 @@ public interface AbstractBuilder {
 	 *         implement 'Buildable'.
 	 */
 	Buildable build();
-
-
 }
