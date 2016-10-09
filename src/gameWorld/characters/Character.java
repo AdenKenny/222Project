@@ -97,9 +97,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	// TODO: find some way of actually getting equipment to work
 	private List<Item> equips;
 
-	public Character(Room room, int xPos, int yPos, String description, Direction facing, int level,
+	public Character(Room room, int xPos, int yPos, Direction facing, int level,
 			CharacterModel model) {
-		super(room, xPos, yPos, model.getName(), description, facing);
+		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
 
 		this.modelID = model.getID();
 		this.items = new ArrayList<>(model.getSetOfItems());
@@ -131,6 +131,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			this.equips.add(Game.mapOfItems.get(i));
 		}
 
+		this.baseXP = this.type.getBaseXP();
 		this.rank = -1;
 		this.isAlive = false;
 		this.health = this.maxHealth = (int) Math.pow(BASE_HEALTH, 1 + HEALTH_FACTOR * ((this.level - 1) / 100));

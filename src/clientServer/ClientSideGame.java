@@ -48,7 +48,7 @@ public class ClientSideGame extends Thread implements Game {
 			int xPos = Sendable.bytesToInt(received, 20);
 			int yPos = Sendable.bytesToInt(received, 24);
 			CharacterModel model = mapOfCharacters.get(modelId);
-			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, level, model);
+			Character toAdd = new Character(this.room, xPos, yPos, facing, level, model);
 			toAdd.setAlive(isAlive);
 			toAdd.setHealth(health);
 			this.sendables.put(ID, toAdd);
@@ -61,7 +61,7 @@ public class ClientSideGame extends Thread implements Game {
 			int xPos = Sendable.bytesToInt(received, 12);
 			int yPos = Sendable.bytesToInt(received, 16);
 			CharacterModel model = mapOfCharacters.get(modelId);
-			Character toAdd = new Character(this.room, xPos, yPos, model.getDescription(), facing, -1, model);
+			Character toAdd = new Character(this.room, xPos, yPos, facing, -1, model);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 		}
