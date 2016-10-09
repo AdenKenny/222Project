@@ -46,7 +46,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     int squarePixelWidth;
 
     private Character viewer;
-    private Room room;
     
     private ImageCache cache;
 
@@ -62,16 +61,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         	throw new IllegalArgumentException("Null is an unacceptable parameter!");
         }
         viewer = inViewer;
-        room = initRoom;
         addMouseListener(this);
-    }
-
-	/**
-     * Change the display to a new room.
-     * @param newRoom
-     */
-    public void setRoom(Room newRoom){
-        room = newRoom;
     }
 
     /**
@@ -121,17 +111,18 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     @Override
     public void paintComponent(Graphics graphics) {
     	System.out.println("Paint called");
-        render(viewer, room, graphics);
+        render(viewer,graphics);
     }
 
-    private void render(Character character, Room room, Graphics graphics){
+    private void render(Character character, Graphics graphics){
+    	Room room = character.room();
     	System.out.println("Render called");
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
         renderCeiling(graphics);
         renderFloor(graphics);
-        int[] viewerLocation = locateEntityInRoom(character, room);
+        int[] viewerLocation = locateViewer(character);
         // If player is found, render.
         if (viewerLocation[0] >= 0) {
             for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta) {
@@ -147,7 +138,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderCeiling(Graphics graphics){
         try {
-            Image image = cache.getImage("resources/graphics/ceiling.png");
+            Image image = cache.getImage("/resources/graphics/ceiling.png");
             graphics.drawImage(image, 0, 0, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
@@ -155,7 +146,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderFloor(Graphics graphics){
         try {
-            Image image = cache.getImage("resources/graphics/floor.png");
+            Image image = cache.getImage("/resources/graphics/floor.png");
             graphics.drawImage(image, 0, getHeight() / 2, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
@@ -181,7 +172,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     private String resolveImageName(String name, Side side){
-        return String.format("resources/graphics/%s/%s.png", name, resolveSideComponent(side));
+        return String.format("/resources/graphics/%s/%s.png", name, resolveSideComponent(side));
     }
 
     private String resolveSideComponent(Side side){
@@ -210,17 +201,16 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Returns the location of the entity in the room as an array in the form {y, x}.
-     * If the entity is not present, y and x will be less than 0.
+     * Returns the location of the viewer in their current room.
      * @param entity
      * @param room
      * @return {y, x}
      */
-    private int[] locateEntityInRoom(Entity entity, Room room){
-        if (entity.getRoomID() == room.getID()){
-            return new int[] {entity.yPos(), entity.xPos()};
+    private int[] locateViewer(Character viewer){
+        if (viewer == null){
+        	return new int[] {-1, -1};
         } else {
-            return new int[]{-1, -1};
+        	return new int[] { viewer.yPos(), viewer.xPos()};
         }
     }
 

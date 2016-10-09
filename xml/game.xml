@@ -14,7 +14,7 @@
     </player>
     <player>
       <username>janef</username>
-      <UID>9</UID>
+      <UID>10</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
@@ -26,4 +26,4 @@
   </players>
   <monsters/>
   <vendors/>
-</game>
+</game>
