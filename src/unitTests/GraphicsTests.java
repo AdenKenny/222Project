@@ -11,7 +11,7 @@ import gameWorld.rooms.Room;
 
 public class GraphicsTests extends GraphicsPanel {
 
-	public GraphicsTests(Character inViewer, Room initRoom) {
+	/*public GraphicsTests(Character inViewer, Room initRoom) {
 		super(new Character(initRoom, squarePixelHeight, squarePixelHeight, name, null, squarePixelHeight, null), new Room());
 	}
 
@@ -19,5 +19,5 @@ public class GraphicsTests extends GraphicsPanel {
 	public void test() {
 		fail("Not yet implemented");
 	}
-
+*/
 }

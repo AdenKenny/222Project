@@ -156,6 +156,4 @@ public class ClientSideGame extends Thread implements Game {
 	public synchronized Character getPlayer() {
 		return this.player;
 	}
-
-
 }
