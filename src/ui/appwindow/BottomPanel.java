@@ -20,7 +20,7 @@ import gameWorld.item.Item;
  */
 public class BottomPanel extends JPanel{
 	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
-	private MainWindow parent;
+	protected MainWindow parent;
 	private ChatPane chatPane;
 	private StatsPane statPane;
 	private InventoryPane inventoryPane;
@@ -51,6 +51,7 @@ public class BottomPanel extends JPanel{
 		setStat(StatsPane.EXP, currentPlayer.getXp());
 		setStat(StatsPane.HEALTH, currentPlayer.getXpForLevel());
 		setStat(StatsPane.LEVEL, currentPlayer.getLevel());
+		setStat(StatsPane.DAMAGE, currentPlayer.getDamage());
 		statPane.initComponents();
 	}
 	
