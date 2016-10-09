@@ -295,4 +295,19 @@ public abstract class Entity {
 	 */
 	public abstract boolean isPlayer();
 
+	/**
+	 * Makes sure that IDs are kept unique by increasing the ID count to be
+	 * larger than the highest ID stored by the server at any point in time. To
+	 * do this, it checks the ID that is passed in, and increases the ID count
+	 * appropriately if needed.
+	 * 
+	 * @param id
+	 *            the ID to check
+	 */
+	public void adjustIDCount(int id) {
+		if (IDCount < id) {
+			IDCount = id + 1;
+		}
+	}
+
 }

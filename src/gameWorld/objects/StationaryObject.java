@@ -19,8 +19,8 @@ public class StationaryObject extends Entity {
 	private Set<Integer> items;
 	private int modelID;
 
-	//private boolean isOpen;
-	//private long openTime;
+	// private boolean isOpen;
+	// private long openTime;
 
 	public StationaryObject(ObjectModel model, Room room, int xPos, int yPos, Direction facing) {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
@@ -29,9 +29,9 @@ public class StationaryObject extends Entity {
 		this.items = model.getItems();
 		this.modelID = model.getID();
 
-		//this.isOpen = false;
+		// this.isOpen = false;
 
-		if (this.type.equals(Type.CHEST)) {
+		if (this.type.equals(Type.CHEST) || this.type.equals(Type.DROP)) {
 			this.actions.add(new Action() {
 				@Override
 				public String name() {
@@ -61,36 +61,45 @@ public class StationaryObject extends Entity {
 		}
 	}
 
+	/**
+	 * Opens this StationaryObject and removes it from the game, then returns
+	 * the ID of an Item that was contained within it. Should only be called on
+	 * StationaryObjects of Types CHEST or DROP.
+	 * 
+	 * @return The ID of the Item in this StationaryObject
+	 */
 	public Integer open() {
-		//this.isOpen = true;
 		this.room.entities()[this.yPos][this.xPos] = null;
-		//this.openTime = System.currentTimeMillis();
-		return getRandomItem();
+		return this.items.toArray(new Integer[this.items.size()])[0];
 	}
 
-	private Integer getRandomItem() {
-		if (this.type.equals(Type.CHEST)) {
-			Integer[] ints = this.items.toArray(new Integer[this.items.size()]);
-			return ints[(int) (Math.random() * ints.length)];
-		}
-		return null;
-	}
-
+	/**
+	 * Returns the Type of this StationaryObject.
+	 * 
+	 * @return This StationaryObject's Type.
+	 */
 	public Type getType() {
 		return this.type;
 	}
 
+	/**
+	 * Returns the Set of Integer containing all the IDs representing the Items
+	 * in this StationaryObject.
+	 * 
+	 * @return This StationaryObject's Items.
+	 */
 	public Set<Integer> getItems() {
 		return this.items;
 	}
 
+	/**
+	 * Returns the ID of the model that this StationaryObject is based on.
+	 * 
+	 * @return This StationaryObject's model's ID.
+	 */
 	public int getModelID() {
 		return this.modelID;
 	}
-
-	/*public boolean isOpen() {
-		return this.isOpen;
-	}*/
 
 	@Override
 	public boolean isPlayer() {

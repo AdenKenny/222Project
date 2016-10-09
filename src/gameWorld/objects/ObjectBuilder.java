@@ -42,22 +42,22 @@ public class ObjectBuilder implements AbstractBuilder {
 
 	@Override
 	public void setItems(String buildItems) {
-				
-		String temp = buildItems.replace(",", ""); //Remove commas.
 
-		String[] itemValues = temp.split(" "); //Split into unique strings.
+		String temp = buildItems.replace(",", ""); // Remove commas.
 
-		this.setOfItems = new HashSet<>(); //Set to put item IDs in.
+		String[] itemValues = temp.split(" "); // Split into unique strings.
+
+		this.setOfItems = new HashSet<>(); // Set to put item IDs in.
 
 		try {
 
-			for(String string : itemValues) {
+			for (String string : itemValues) {
 				int itemVal = Integer.parseInt(string);
-				this.setOfItems.add(itemVal); //Add the id to the set.
+				this.setOfItems.add(itemVal); // Add the id to the set.
 			}
 		}
 
-		catch (NumberFormatException e){
+		catch (NumberFormatException e) {
 			Logging.logEvent(ObjectBuilder.class.getName(), Logging.Levels.SEVERE, "Failed to build object.");
 			e.printStackTrace();
 		}
@@ -88,10 +88,21 @@ public class ObjectBuilder implements AbstractBuilder {
 		return this.description;
 	}
 
+	/**
+	 * Returns the Type of the StationaryObject that is being built.
+	 * 
+	 * @return The Type of the StationaryObject being built.
+	 */
 	public Type getType() {
 		return this.type;
 	}
 
+	/**
+	 * Returns the Set of Integers containing the IDs of the Items in the
+	 * StationaryObject that is being built.
+	 * 
+	 * @return The IDs of the Items in the StationaryObject being built.
+	 */
 	public Set<Integer> getSetOfItems() {
 		return this.setOfItems;
 	}
@@ -100,7 +111,7 @@ public class ObjectBuilder implements AbstractBuilder {
 	public ObjectModel build() {
 		if (this.buildID == null || this.buildType == null || this.buildValue == null || this.name == null
 				|| this.description == null || this.setOfItems == null) {
-			
+
 			return null;
 		}
 

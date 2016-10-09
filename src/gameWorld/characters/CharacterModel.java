@@ -11,7 +11,6 @@ import util.Buildable;
  *
  * @author Aden
  */
-
 public final class CharacterModel implements Buildable {
 
 	private int ID;
