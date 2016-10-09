@@ -4,12 +4,7 @@ package util;
  * An interface implemented by builders that build abstract concepts in the game
  * such as an item or a character model. The object that a builder that
  * implements this interface should implement 'Buildable' as all objects built
- * by objects must be buildable.
- *
- * Note: No set itemValue or items as implementation differs between items and
- * characters.
- *
- * Note: No type as implementation differs between items and characters.
+ * by builders must be buildable.
  *
  * @author Aden
  */
@@ -57,23 +52,22 @@ public interface AbstractBuilder {
 	void setValue(String value);
 
 	/**
-	 * Sets the items of the object being built. This represents the items that
-	 * a character has. This value will be parsed from a string read from the
-	 * file, then transformed into a list of integers.
-	 * 
-	 * @param s
-	 *            A string representing the items. This will be a string read
-	 *            from a file.
-	 */
-	void setItems(String s);
-
-	/**
 	 * Returns the ID of an object that has been built.
 	 *
 	 * @return An int representing the ID of the object.
 	 */
 	int getID();
 
+	/**
+	 * Sets the items that this object contains(?) (This is really generic as this is a generic interface).
+	 * 
+	 * @param items A string representing the items that will be set.
+	 * @throws AssertionError Thrown if this method is called in ItemBuilder as this is irrelevant there.
+	 */
+	
+	void setItems(String items) throws AssertionError;
+
+	
 	/**
 	 * Returns the name of an object that has been built.
 	 *
@@ -98,6 +92,18 @@ public interface AbstractBuilder {
 	void setDescription(String description);
 
 	/**
+	 * Sets the sale value of an object.
+	 * 
+	 * Note: This should only be called in ItemBuilder as the sale value is irrelevant anywhere else.
+	 * 
+	 * @param value A string representing the value of an object.
+	 * @throws AssertionError Thrown when this is called anywhere but ItemBuilder.
+	 */
+
+	void setSaleValue(String value) throws AssertionError;
+	
+
+	/**
 	 * Gets the description of an object that has been built.
 	 *
 	 * @return A string representing the description of an object.
@@ -114,5 +120,6 @@ public interface AbstractBuilder {
 	 *         implement 'Buildable'.
 	 */
 	Buildable build();
+
 
 }

@@ -1,9 +1,5 @@
 231321 table FURNITURE -1 {-1} (A table.)
 321323 chest CHEST -1 {0} (A chest that contains loot.)
-<<<<<<< HEAD
 231211 chair FURNITURE -1 {-1} (A wooden chair.)
-=======
-231211 chair FURNITURE - 1 {-1} (A wooden chair.)
->>>>>>> 6c12a9b86a348da60b5d3d2f1fe7b33f229bc604
 232112 bench FURNITURE -1 {-1} (A wooden bench.)
 231113 cauldron FURNITURE -1 {-1} (An iron cauldron.)

@@ -1,5 +1,6 @@
 package Graphics;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -46,26 +47,23 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     int squarePixelWidth;
 
     private Character viewer;
-    private Room room;
+    
+    private ImageCache cache;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
      * @param inViewer
      * @param initRoom
      */
-    public GraphicsPanel(Character inViewer, Room initRoom){
+    public GraphicsPanel(Character inViewer){
         super();
+        cache = new ImageCache();
+        if (inViewer == null){
+        	throw new IllegalArgumentException("Null is an unacceptable parameter for inViewer!");
+        }
         viewer = inViewer;
-        room = initRoom;
         addMouseListener(this);
-    }
-
-	/**
-     * Change the display to a new room.
-     * @param newRoom
-     */
-    public void setRoom(Room newRoom){
-        room = newRoom;
+        this.setPreferredSize(new Dimension(512, 1024));
     }
 
     /**
@@ -97,14 +95,14 @@ public class GraphicsPanel extends JPanel implements MouseListener {
             // Convert from absolute to relative.
             int sideDelta = (x / squarePixelWidth) - viewDistance;
             // Find the entity at the calculated location.
-            Entity result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+            Entity result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                     sideDelta, forwardDelta));
             //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
             if (result == null){
                 forwardDelta += 1;
                 //Check that the target object is in view.
                 if (forwardDelta < viewDistance){
-                    result = getEntityAtLocation(room, calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                             sideDelta, forwardDelta));
                 }
             }
@@ -115,17 +113,18 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     @Override
     public void paintComponent(Graphics graphics) {
     	System.out.println("Paint called");
-        render(viewer, room, graphics);
+        render(viewer,graphics);
     }
 
-    private void render(Character character, Room room, Graphics graphics){
+    private void render(Character character, Graphics graphics){
+    	Room room = character.room();
     	System.out.println("Render called");
         // Refresh the size of a square.
         squarePixelHeight = (getHeight() / 2) / viewDistance;
         squarePixelWidth = getWidth() / (viewWidth * 2);
         renderCeiling(graphics);
         renderFloor(graphics);
-        int[] viewerLocation = locateEntityInRoom(character, room);
+        int[] viewerLocation = locateViewer(character);
         // If player is found, render.
         if (viewerLocation[0] >= 0) {
             for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta) {
@@ -141,7 +140,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderCeiling(Graphics graphics){
         try {
-            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/ceiling.png"));
+            Image image = cache.getImage("/resources/graphics/ceiling.png");
             graphics.drawImage(image, 0, 0, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
@@ -149,7 +148,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderFloor(Graphics graphics){
         try {
-            Image image = ImageIO.read(this.getClass().getClassLoader().getResource("resources/graphics/floor.png"));
+            Image image = cache.getImage("/resources/graphics/floor.png");
             graphics.drawImage(image, 0, getHeight() / 2, getHeight() / 2, getWidth(), null);
         } catch (IOException ioe){
         }
@@ -168,14 +167,14 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private Image loadImage(String name, Side side){
         try {
-            return ImageIO.read(this.getClass().getClassLoader().getResource(resolveImageName(name, side)));
+            return cache.getImage(resolveImageName(name, side));
         } catch (IOException ioe){
             return null;
         }
     }
 
     private String resolveImageName(String name, Side side){
-        return String.format("resources/graphics/%s/%s.png", name, resolveSideComponent(side));
+        return String.format("/resources/graphics/%s/%s.png", name, resolveSideComponent(side));
     }
 
     private String resolveSideComponent(Side side){
@@ -204,17 +203,16 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Returns the location of the entity in the room as an array in the form {y, x}.
-     * If the entity is not present, y and x will be less than 0.
+     * Returns the location of the viewer in their current room.
      * @param entity
      * @param room
      * @return {y, x}
      */
-    private int[] locateEntityInRoom(Entity entity, Room room){
-        if (entity.getRoomID() == room.getID()){
-            return new int[] {entity.yPos(), entity.xPos()};
+    private int[] locateViewer(Character viewer){
+        if (viewer == null){
+        	return new int[] {-1, -1};
         } else {
-            return new int[]{-1, -1};
+        	return new int[] { viewer.yPos(), viewer.xPos()};
         }
     }
 
@@ -342,7 +340,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         return new int[] {halfHeight + (forwardDelta * squarePixelHeight) + (2 * squarePixelHeight) , sideDelta * squarePixelWidth};
     }
 
-    private Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
+    protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
         return sideFromPerspectiveAndDirection(
                 calculatePerspective(
                         viewerDirection,
@@ -366,6 +364,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         } else if (absDeltaX > absDeltaY){
             return calculateEWPerspective(deltaX);
         } else {
+        	System.out.println("Selecting from observerDirection");
             return perspectiveFromViewerDirection(observerDirection);
         }
     }
@@ -389,13 +388,13 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Perspective perspectiveFromViewerDirection(World.Direction viewerDirection){
         switch (viewerDirection){
             case NORTH:
-                return Perspective.West;
-            case EAST:
                 return Perspective.South;
+            case EAST:
+                return Perspective.West;
             case SOUTH:
-                return Perspective.East;
-            case WEST:
                 return Perspective.North;
+            case WEST:
+                return Perspective.East;
             default:
                 return Perspective.South;
         }

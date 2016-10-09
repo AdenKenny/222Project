@@ -39,6 +39,7 @@ public class ServerSideGame implements Game {
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 		this.byteArrays = new HashMap<>();
+		
 	}
 
 	@Override
@@ -84,6 +85,7 @@ public class ServerSideGame implements Game {
 		}
 		world.addPlayer(character);
 		this.connectedPlayers.put(uid, new Player(user, character));
+		world.addPlayer(character);
 	}
 
 	/**
@@ -97,7 +99,11 @@ public class ServerSideGame implements Game {
 		}
 		Character character = player.getCharacter();
 		world.removePlayer(character);
-		character.room().entities()[character.yPos()][character.xPos()] = null;
+		character.slay();
+		Room room = character.room();
+		if (room != null) {
+			room.entities()[character.yPos()][character.xPos()] = null;
+		}
 	}
 
 	/**
@@ -133,14 +139,12 @@ public class ServerSideGame implements Game {
 	 * @return
 	 */
 	public synchronized byte[][] toByteArray(long uid) {
-		byte[][] data;
-		try {
-			data = this.byteArrays.get(this.connectedPlayers.get(uid).getCharacter().room());
-		}
-		catch(NullPointerException e) {
+		Room room = this.connectedPlayers.get(uid).getCharacter().room();
+		if (room == null) {
 			return null;
 		}
-		return data;
+		byte[][] arrays = this.byteArrays.get(room);
+		return arrays;
 	}
 
 	public synchronized byte[] checkNewlyEntered(long uid) {

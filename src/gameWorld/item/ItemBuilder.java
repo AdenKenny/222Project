@@ -50,6 +50,7 @@ public final class ItemBuilder implements AbstractBuilder {
 	 * @param buildSaleValue
 	 *            The sale value of the Item being built.
 	 */
+	@Override
 	public void setSaleValue(String buildSaleValue) {
 		this.buildSaleValue = buildSaleValue;
 	}
@@ -110,7 +111,7 @@ public final class ItemBuilder implements AbstractBuilder {
 			this.value = Integer.parseInt(this.buildValue);
 			this.saleValue = Integer.parseInt(this.buildSaleValue);
 			this.description = this.buildDescription;
-
+			
 			return new Item(this);
 		}
 
