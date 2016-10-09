@@ -134,14 +134,12 @@ public class ServerSideGame implements Game {
 	 * @return
 	 */
 	public synchronized byte[][] toByteArray(long uid) {
-		byte[][] data;
-		try {
-			data = this.byteArrays.get(this.connectedPlayers.get(uid).getCharacter().room());
-		}
-		catch(NullPointerException e) {
+		Room room = this.connectedPlayers.get(uid).getCharacter().room();
+		if (room == null) {
+			System.out.println("room null");
 			return null;
 		}
-		return data;
+		return this.byteArrays.get(room);
 	}
 
 	public synchronized byte[] checkNewlyEntered(long uid) {
