@@ -342,7 +342,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         return new int[] {halfHeight + (forwardDelta * squarePixelHeight) + (2 * squarePixelHeight) , sideDelta * squarePixelWidth};
     }
 
-    private Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
+    protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
         return sideFromPerspectiveAndDirection(
                 calculatePerspective(
                         viewerDirection,
