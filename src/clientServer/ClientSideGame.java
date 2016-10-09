@@ -36,7 +36,6 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public void addSendable(byte[] received) {
-		System.out.println("add sendable");
 		Types type = Types.values()[received[1]];
 
 		if (type.equals(Types.MONSTER)) {
