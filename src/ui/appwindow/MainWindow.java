@@ -32,7 +32,6 @@ import gameWorld.Entity;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
-import gameWorld.rooms.Room;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private Slave slave;
@@ -155,8 +154,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void setRoom(Room room) {
-		infoBar.setRoom(room);
+	public void setRoom(int number) {
+		infoBar.setRoom(number);
 	}
 
 	@Override
@@ -185,34 +184,34 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (System.currentTimeMillis() < this.moveTimer + MOVE_SPEED);
-		
+		System.out.println("A key was pressed!");
 		int code = e.getKeyCode();
-		boolean moved = false;
 
 		if (code == KeyEvent.VK_W) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_W.value());
-			moved = true;
-		} else if (code == KeyEvent.VK_A) {
+		}
+
+		else if (code == KeyEvent.VK_A) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_A.value());
-			moved = true;
-		} else if (code == KeyEvent.VK_S) {
+		}
+
+		else if (code == KeyEvent.VK_S) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_S.value());
-			moved = true;
-		} else if (code == KeyEvent.VK_D) {
+		}
+
+		else if (code == KeyEvent.VK_D) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_D.value());
-			moved = true;
-		} else if (code == KeyEvent.VK_Q) {
+		}
+
+		else if (code == KeyEvent.VK_Q) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_Q.value());
-			moved = true;
-		} else if (code == KeyEvent.VK_E) {
+		}
+
+		else if (code == KeyEvent.VK_E) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
-			moved = true;
 		}
-		
-		if (moved) {
-			this.moveTimer = System.currentTimeMillis();
-		}
+		Character player = this.slave.getGame().getPlayer();
+		System.out.println(String.format("Facing: %s, x: %d, y: %d", player.facing(), player.xPos(), player.yPos()));
 	}
 
 	@Override
