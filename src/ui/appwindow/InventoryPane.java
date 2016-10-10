@@ -15,6 +15,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import Graphics.ImageCache;
 import gameWorld.item.Item;
 
 public class InventoryPane extends JPanel{
@@ -24,6 +25,7 @@ public class InventoryPane extends JPanel{
 	private MainWindow client;
 	
 	private Item[][] items;
+	private ImageCache icons;
 	int colWidth;
 	int rowHeight;
 
@@ -32,6 +34,7 @@ public class InventoryPane extends JPanel{
 		COLS=4;
 		this.client = client;
 		this.items = new Item[ROWS][COLS];
+		this.icons = new ImageCache();
 		addMouseListener(new MouseListener() {
 
 			@Override
@@ -77,7 +80,7 @@ public class InventoryPane extends JPanel{
 	 * Uses the item clicked on to call for an options list to be displayed.
 	 */
 	private void showOptions(Item item, int x, int y) {
-		client.displayItemOptions(null, x, y);
+		client.displayItemOptions(null, x, y); //TODO: fix to deal with Item instead of entity
 	}
 
 	/*
@@ -118,9 +121,14 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] != null){
 					//draw the item based on its name
+					try {
+						Image icon = icons.getImage(items[i][j].getName());
+						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				//TODO remove this later
-				g.drawImage(MainWindow.itemIcons.get("diamondShortSword"), colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 			}
 		}
 
