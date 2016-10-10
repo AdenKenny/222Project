@@ -26,7 +26,7 @@ import gameWorld.rooms.Room;
 public class GraphicsPanel extends JPanel implements MouseListener {
 
     // The number of squares the character can see to either side.
-    private static final int viewWidth = 5;
+    private static final int viewWidth = 4;
     // The number of squares the character can see ahead of them.
     private static final int viewDistance = 5;
 
@@ -53,9 +53,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Character viewer;
     
     private ImageCache cache;
-    
-    //An entity for rendering the walls.
-    private Entity wallEntity;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -273,6 +270,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     		return room.hasDoor(Direction.WEST);
     	} else return false;
     }
+    
 
     /**
      * Returns the location of the viewer in their current room.

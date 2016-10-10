@@ -32,6 +32,7 @@ import gameWorld.Entity;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
+import gameWorld.rooms.Room;
 
 public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	
@@ -222,8 +223,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void setRoom(int number) {
-		infoBar.setRoom(number);
+	public void setRoom(Room room) {
+		infoBar.setRoom(room);
 	}
 
 	@Override
@@ -251,34 +252,34 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("A key was pressed!");
+		if (System.currentTimeMillis() < this.moveTimer + MOVE_SPEED);
+		
 		int code = e.getKeyCode();
+		boolean moved = false;
 
 		if (code == KeyEvent.VK_W) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_W.value());
-		}
-
-		else if (code == KeyEvent.VK_A) {
+			moved = true;
+		} else if (code == KeyEvent.VK_A) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_A.value());
-		}
-
-		else if (code == KeyEvent.VK_S) {
+			moved = true;
+		} else if (code == KeyEvent.VK_S) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_S.value());
-		}
-
-		else if (code == KeyEvent.VK_D) {
+			moved = true;
+		} else if (code == KeyEvent.VK_D) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_D.value());
-		}
-
-		else if (code == KeyEvent.VK_Q) {
+			moved = true;
+		} else if (code == KeyEvent.VK_Q) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_Q.value());
-		}
-
-		else if (code == KeyEvent.VK_E) {
+			moved = true;
+		} else if (code == KeyEvent.VK_E) {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
+			moved = true;
 		}
-		Character player = this.slave.getGame().getPlayer();
-		System.out.println(String.format("Facing: %s, x: %d, y: %d", player.facing(), player.xPos(), player.yPos()));
+		
+		if (moved) {
+			this.moveTimer = System.currentTimeMillis();
+		}
 	}
 
 	@Override

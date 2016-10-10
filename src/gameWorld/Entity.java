@@ -47,7 +47,7 @@ public abstract class Entity {
 		this.yPos = yPos;
 
 		this.name = name;
-		this.description = name;
+		this.description = description;
 
 		this.facing = (facing == null) ? Direction.NORTH : facing;
 
