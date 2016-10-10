@@ -35,6 +35,14 @@ public final class RoomBuilder {
 		this.floor = floor;
 	}
 
+	public RoomBuilder() {
+		
+	}
+	
+	public void setFloor(Floor floor) {
+		this.floor = floor;
+	}
+
 	/**
 	 * Sets the value for whether the Room that is being built is a PlayerSpawn
 	 * or not. This value will be read from a file.

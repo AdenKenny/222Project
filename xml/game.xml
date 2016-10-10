@@ -3,7 +3,7 @@
   <players>
     <player>
       <username>Arthas</username>
-      <UID>10</UID>
+      <UID>9</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
@@ -14,7 +14,18 @@
     </player>
     <player>
       <username>Simon</username>
-      <UID>29</UID>
+      <UID>37</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>100</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips>-1</equips>
+    </player>
+    <player>
+      <username>Test</username>
+      <UID>118</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
