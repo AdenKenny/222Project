@@ -1,7 +1,9 @@
 package gameWorld.characters;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import clientServer.Game;
 import clientServer.PackageCode;
@@ -17,14 +19,14 @@ import util.Logging;
 
 /**
  * A class which represents all non-object Entities.
- * 
+ *
  * @author Louis
  */
 public class Character extends Entity implements Buildable, Sendable, Cloneable {
 
 	/**
 	 * An enumeration representing the different types of Characters that exist.
-	 * 
+	 *
 	 * @author Louis
 	 */
 	public enum Type {
@@ -40,7 +42,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 		/**
 		 * Returns the base XP of this type of Character.
-		 * 
+		 *
 		 * @return the base XP for this Type
 		 */
 		public int getBaseXP() {
@@ -49,7 +51,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 		/**
 		 * Returns the type of Sendable that this Type is associated with.
-		 * 
+		 *
 		 * @return the corresponding Sendable.Types
 		 */
 		public Types sendableType() {
@@ -83,6 +85,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	private int rank;
 	private int modelID;
 
+	/* Field just for Monsters */
+	private Set<Character> attackers;
+
 	/* Fields for combat characters (Players, Monsters) */
 	private int health;
 	private int maxHealth; // *
@@ -99,8 +104,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	// TODO: find some way of actually getting equipment to work
 	private List<Item> equips;
 
-	public Character(Room room, int xPos, int yPos, Direction facing, int level,
-			CharacterModel model) {
+	public Character(Room room, int xPos, int yPos, Direction facing, int level, CharacterModel model) {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
 
 		this.modelID = model.getID();
@@ -110,8 +114,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.rank = model.getValue();
 		this.level = level;
 		this.xp = 0;
-		this.isAlive = true;
+		this.isAlive = false;
 		this.equips = new ArrayList<>();
+		this.attackers = new HashSet<>();
 
 		setFields();
 		addActions();
@@ -162,7 +167,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * Moves the Character to the specified Room, at the specified position,
 	 * facing the specified Direction. Also returns the Character to life and
 	 * fully heals the Character.
-	 * 
+	 *
 	 * @param room
 	 *            The Room to spawn in
 	 * @param x
@@ -314,7 +319,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Determines whether the attacker can attack this Character or not. If it
 	 * is possible, the attack will then be applied.
-	 * 
+	 *
 	 * @param attacker
 	 *            The Character that is attacking this one
 	 */
@@ -346,8 +351,36 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		}
 
 		int damageDone = attack - defense;
-		this.health = this.health - damageDone;
+		if (damageDone > 0) {
+			this.health = this.health - damageDone;
+		}
+
+		if (this.type.equals(Type.MONSTER)) {
+			if (!this.attackers.contains(attacker)) {
+				this.attackers.add(attacker);
+			}
+		}
+
 		attacker.startAttackTimer();
+
+		// lastly, check if this character has died from that attack
+		if (this.health <= 0) {
+			this.isAlive = false;
+			this.room.entities()[this.yPos][this.xPos] = null;
+
+			if (this.type.equals(Type.MONSTER)) {
+				// if this character is a monster, grant rewards to all
+				// characters that have attacked it so far
+				int xpAmount = (int) (((double) this.xp) * (this.attackers.size() + 1) / (this.attackers.size() * 2));
+				int goldAmount = (int) (((double) this.gold) * (this.attackers.size() + 1)
+						/ (this.attackers.size() * 2));
+
+				for (Character c : this.attackers) {
+					c.setXp(c.getXp() + xpAmount);
+					c.setGold(c.getGold() + goldAmount);
+				}
+			}
+		}
 	}
 
 	/**
@@ -362,7 +395,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * Returns the attack timer, which is used to check how long it has been
 	 * since this Character attacked, in order to enforce a maximum attack
 	 * speed. This attack timer is measured in UNIX time.
-	 * 
+	 *
 	 * @return The time at which the last attack occurred
 	 */
 	public long getAttackTimer() {
@@ -372,7 +405,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Attempts to equip the specified Item to this Character. Only works if the
 	 * Character is holding that Item.
-	 * 
+	 *
 	 * @param item
 	 *            The Item to equip
 	 */
@@ -387,7 +420,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Picks up the given Item and adds it to this Character's inventory.
-	 * 
+	 *
 	 * @param item
 	 *            The Item to pick up
 	 */
@@ -397,7 +430,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sells the Item corresponding to the given ID for the given amount.
-	 * 
+	 *
 	 * @param itemID
 	 *            The Item to sell
 	 * @param value
@@ -415,7 +448,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Buys the given Item for the given amount of money.
-	 * 
+	 *
 	 * @param item
 	 *            The Item to buy
 	 * @param value
@@ -428,7 +461,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Attempts to move in the given Direction.
-	 * 
+	 *
 	 * @param dir
 	 *            The Direction to move in
 	 */
@@ -440,7 +473,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Attempts to turn in or to the given Direction.
-	 * 
+	 *
 	 * @param dir
 	 *            The Direction to turn in/to
 	 */
@@ -516,7 +549,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Sets the Direction that this Character is facing to the specified
 	 * Direction.
-	 * 
+	 *
 	 * @deprecated Use the {@link #turn(Direction) turn} method instead.
 	 * @param facing
 	 *            The Direction to turn to
@@ -528,7 +561,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Returns the Type of Character that this Character is.
-	 * 
+	 *
 	 * @return This Character's Type
 	 */
 	public Type getType() {
@@ -537,7 +570,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets the Type of this Character to the specified Type.
-	 * 
+	 *
 	 * @param type
 	 *            The Type to set this Character to
 	 */
@@ -548,7 +581,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Gets the inventory of this Character, as a {@literal List<Integer>} of
 	 * Item IDs.
-	 * 
+	 *
 	 * @return a List of Item IDs
 	 */
 	public List<Integer> getItems() {
@@ -557,7 +590,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets the inventory of this Character to the specified List of Item IDs.
-	 * 
+	 *
 	 * @param items
 	 *            a List of Item IDs
 	 */
@@ -568,7 +601,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Returns the rank of this Character. Not applicable to Player-type
 	 * Characters.
-	 * 
+	 *
 	 * @return This Character's rank
 	 */
 	public int getRank() {
@@ -578,7 +611,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Returns the model ID of this Character. Not applicable to Player-type
 	 * Characters.
-	 * 
+	 *
 	 * @return This Character's model ID
 	 */
 	public int getModelID() {
@@ -587,7 +620,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Returns this Character's current health.
-	 * 
+	 *
 	 * @return This Character's health
 	 */
 	public int getHealth() {
@@ -596,7 +629,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets this Character's current health to the specified value.
-	 * 
+	 *
 	 * @param health
 	 *            The amount to set this Character's health to
 	 */
@@ -614,7 +647,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Returns the maximum health that this Character can have, given their
 	 * current level and (in the case of Monsters) rank.
-	 * 
+	 *
 	 * @return This Character's current maximum health
 	 */
 	public int getMaxHealth() {
@@ -623,7 +656,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets this Character's maximum health to the specified value.
-	 * 
+	 *
 	 * @param maxHealth
 	 *            The new value for this Character's maximum health
 	 */
@@ -634,7 +667,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Returns the total amount of damage an attack by this Character can do,
 	 * after taking into account any damage-increasing effects of items.
-	 * 
+	 *
 	 * @return the amount of damage done by one attack
 	 */
 	public int getAttack() {
@@ -650,7 +683,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Returns the amount of damage this Character has without taking into
 	 * account any damage-increasing effects of items.
-	 * 
+	 *
 	 * @return the amount of damage this Character can do
 	 */
 	public int getDamage() {
@@ -659,7 +692,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets this Character's base damage to the specified value.
-	 * 
+	 *
 	 * @param damage
 	 *            This Character's new damage
 	 */
@@ -669,7 +702,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Returns this Character's current XP.
-	 * 
+	 *
 	 * @return The current XP
 	 */
 	public int getXp() {
@@ -678,7 +711,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets this Characters current XP.
-	 * 
+	 *
 	 * @param xp
 	 *            The new amount of XP
 	 */
@@ -695,7 +728,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Returns this Character's current amount of gold.
-	 * 
+	 *
 	 * @return The current amount of gold
 	 */
 	public int getGold() {
@@ -704,7 +737,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets this Character's current amount of gold to the specified value.
-	 * 
+	 *
 	 * @param gold
 	 *            The new amount of gold
 	 */
@@ -716,7 +749,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Returns this Character's current level.
-	 * 
+	 *
 	 * @return The current level
 	 */
 	public int getLevel() {
@@ -725,7 +758,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets this Character's current level to the specified value.
-	 * 
+	 *
 	 * @param level
 	 *            The new level
 	 */
@@ -737,7 +770,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * Returns the amount of XP that is required for this Character to get to
 	 * the next level, not taking into account any progress that has been made
 	 * so far.
-	 * 
+	 *
 	 * @return The amount of XP until the next level
 	 */
 	public int getXpForLevel() {
@@ -747,7 +780,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Sets the amount of XP that is required for this Character to get to the
 	 * next level.
-	 * 
+	 *
 	 * @param xpForLevel
 	 *            The new amount of XP until the next level
 	 */
@@ -757,7 +790,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Checks whether this Character is alive or not.
-	 * 
+	 *
 	 * @return Whether this Character is alive
 	 */
 	public boolean isAlive() {
@@ -766,7 +799,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Sets whether this Character is a live or not.
-	 * 
+	 *
 	 * @param isAlive
 	 *            Whether this Character is alive
 	 */
@@ -776,7 +809,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/**
 	 * Returns a List of Items that this Character has equipped
-	 * 
+	 *
 	 * @return This Character's equipment
 	 */
 	public List<Item> getEquips() {
