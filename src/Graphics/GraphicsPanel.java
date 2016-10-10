@@ -25,7 +25,7 @@ import gameWorld.rooms.Room;
 public class GraphicsPanel extends JPanel implements MouseListener {
 
     // The number of squares the character can see to either side.
-    private static final int viewWidth = 4;
+    private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
     private static final int viewDistance = 5;
 
@@ -52,6 +52,9 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Character viewer;
     
     private ImageCache cache;
+    
+    //An entity for rendering the walls.
+    private Entity wallEntity;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -157,7 +160,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
-        if (absoluteTarget)
         if (isLocationWall(absoluteTarget, room)){
         	renderWall(sideDelta, forwardDelta, graphics);
         } else {
@@ -175,12 +177,9 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 	        }
         }
     }
-    
-    
 
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
     	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
-    	if ()
     	try {
 			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, squarePixelHeight * 2, null);
 		} catch (IOException e) {
@@ -229,7 +228,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private boolean isLocationWall(int[] location, Room room){
     	return location[0] < 0 || location[0] >= room.entities().length || location[1] < 0 || location[1] >= room.entities()[0].length;
     }
-    
 
     /**
      * Returns the location of the viewer in their current room.
