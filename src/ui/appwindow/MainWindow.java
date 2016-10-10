@@ -41,6 +41,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private BottomPanel bottomPanel;
 	private OptionsPane optionsPane;
 	private boolean enterGame;
+	private Compass compass;
 
 	public MainWindow(){
 		super("RoomScape");
@@ -97,6 +98,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	private void initComponents(){
 		//Add next level of components
+		this.compass = new Compass();
 		infoBar = new InfoPane();
 		display = new Login(this, slave);
 		bottomPanel = new BottomPanel(this);
@@ -104,7 +106,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		add(display, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.PAGE_END);
 		infoBar.initComponents();
-
+		
 		this.addKeyListener(this);
 		
 		Login login = (Login) display;
@@ -119,6 +121,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setVisible(true);
 		this.optionsPane = new OptionsPane(this);
 		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
+		getLayeredPane().add(compass, new Integer(200)); //Pop-up layer
 	}
 
 	protected void setDisplay(JPanel display){
@@ -200,9 +203,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_D.value());
 			moved = true;
 		} else if (code == KeyEvent.VK_Q) {
+			compass.rotateLeft();
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_Q.value());
 			moved = true;
 		} else if (code == KeyEvent.VK_E) {
+			compass.rotateRight();
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
 			moved = true;
 		}
@@ -277,7 +282,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		updateGold(this.game.getPlayer().getGold());
 		setRoom(this.game.getRoom());
 		bottomPanel.loadInventory(player);
-		
+		compass.setVisible(true);
 		//Load graphics panel
 		this.display = new GraphicsPanel(this.game.getPlayer());
 		GraphicsPanel gfx = (GraphicsPanel) display;
