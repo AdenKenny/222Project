@@ -1,22 +1,19 @@
 package Graphics;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import gameWorld.Entity;
 import gameWorld.World;
+import gameWorld.World.Direction;
 import gameWorld.characters.Character;
-import gameWorld.item.Item;
-import gameWorld.item.ItemBuilder;
 import gameWorld.rooms.Room;
 
 /**
@@ -27,8 +24,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     // The number of squares the character can see to either side.
     private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
-    private static final int viewDistance = 5;
-
+    private static final int viewDistance = 10;
+    
     private GraphicsClickListener clickListener;
 
     public enum Side {
@@ -52,9 +49,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Character viewer;
     
     private ImageCache cache;
-    
-    //An entity for rendering the walls.
-    private Entity wallEntity;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -88,8 +82,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     private Entity calculateClickedEntity(int y, int x){
-        // Calculate the upper most bound of all rendered items
-        int yOrigin = getHeight() / 2 - squarePixelHeight;
+        // Calculate the upper most bound of all rendered items.
+        int yOrigin = (getHeight() / 3) - (squarePixelHeight * 3);
         // If click was above the maximum location, then then it cannot be a click on an entity.
         if (y < yOrigin){
             return null;
@@ -102,13 +96,17 @@ public class GraphicsPanel extends JPanel implements MouseListener {
             Entity result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
                     sideDelta, forwardDelta));
             //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
-            if (result == null){
-                forwardDelta += 1;
-                //Check that the target object is in view.
-                if (forwardDelta < viewDistance){
-                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
-                            sideDelta, forwardDelta));
-                }
+            //Then check again if still null, to check the square behind that.
+            for (int i = 0; i < 3; ++i){
+	            if (result == null){
+	                forwardDelta += 1;
+	                //Check that the target object is in view.
+	                if (forwardDelta < viewDistance){
+	                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
+	                            sideDelta, forwardDelta));
+	                }
+	
+	            }
             }
             return result;
         }
@@ -122,7 +120,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void render(Character character, Graphics graphics){
     	Room room = character.room();
         // Refresh the size of a square.
-        squarePixelHeight = (getHeight() / 2) / viewDistance;
+    	int height = getHeight();
+        squarePixelHeight = (height - (height / 3)) / (viewDistance - 1);
         squarePixelWidth = getWidth() / (viewWidth * 2);
         renderCeiling(graphics);
         renderFloor(graphics);
@@ -142,43 +141,62 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderCeiling(Graphics graphics){
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0,getWidth(), getHeight() / 2);
+        graphics.fillRect(0, 0,getWidth(), getHeight());
     }
 
     private void renderFloor(Graphics graphics){
         try {
             Image image = cache.getImage("/resources/graphics/floor.png");
-            graphics.drawImage(image, 0, getHeight() / 2, getWidth(), getHeight() / 2,  null);
+            int height = getHeight();
+            //graphics.drawImage(image, 0, height / 3, getWidth(), height - (height / 3),  null);
         } catch (IOException ioe){
         }
     }
 
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
-        if (isLocationWall(absoluteTarget, room)){
+        if (isLocationDoor(absoluteTarget, room)){
+        	renderDoor(sideDelta, forwardDelta, graphics);
+        } if (isLocationWall(absoluteTarget, room)){
         	renderWall(sideDelta, forwardDelta, graphics);
+        } else if (isLocationBlackSpace(absoluteTarget, room)){
+        	renderBlackSpace(sideDelta, forwardDelta, graphics);
         } else {
 	        Entity entity = getEntityAtLocation(room, absoluteTarget);
-	        if (entity != null) {
+	        //Don't render null entities or the viewer.
+	        if (entity != null && entity != viewer) {
 	        	String name;
 	        	if (entity.isPlayer()){
 	        		name = "player";
 	        	} else {
 	        		name = entity.name();
 	        	}
-	            int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 2, null);
+	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
 	        }
         }
     }
-
+    
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
-    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, squarePixelHeight * 2, null);
+			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location.x, location.y, location.width, location.height, null);
 		} catch (IOException e) {
 		}
+    }
+    
+    private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics){
+    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+    	try {
+			graphics.drawImage(cache.getImage("/resources/graphics/door.png"), location.x, location.y, location.width, location.height, null);
+		} catch (IOException e) {
+		}
+    }
+    
+    private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics){
+    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+    	graphics.fillRect(location.x, location.y, location.width, location.height);
     }
     
     private Image loadImage(String name, Side side){
@@ -218,11 +236,30 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         }
     }
     
-  
-    
     private boolean isLocationWall(int[] location, Room room){
-    	return location[0] < 0 || location[0] >= room.entities().length || location[1] < 0 || location[1] >= room.entities()[0].length;
+    	return !isLocationBlackSpace(location, room) && (location[0] == -1 || location[0] == room.entities().length || location[1] == -1 || location[1] == room.entities()[0].length);
     }
+    
+    private boolean isLocationBlackSpace(int[] location, Room room){
+    	return location[0] < -1 || location[0] > room.entities().length ||location[1] < -1 || location[1] > room.entities()[0].length;
+    }
+    
+    private boolean isLocationDoor(int[] location, Room room){
+    	Entity[][] entities = room.entities();
+    	//Check for the north door.
+    	if (location[0] == -1 && location[1] == entities[0].length / 2){
+    		return room.hasDoor(Direction.NORTH);
+    	//Check for the East door
+    	} else if (location[1] == entities[0].length && location[0] == entities.length / 2){
+    		return room.hasDoor(Direction.EAST);
+    	//Check the south door.
+    	} else if (location[0] == entities.length && location[1] == entities[0].length / 2){
+    		return room.hasDoor(Direction.SOUTH);
+    	} else if (location[1] == -1 && location[0] == entities.length / 2){
+    		return room.hasDoor(Direction.WEST);
+    	} else return false;
+    }
+    
 
     /**
      * Returns the location of the viewer in their current room.
@@ -345,22 +382,45 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         return new int[] {y + delta[0], x + delta[1]};
     }
 
+    private class RenderData{
+    	final int y;
+    	final int x;
+    	final int height;
+    	final int width;
+    	
+    	public RenderData(int inY, int inX, int inHeight, int inWidth){
+    		y = inY;
+    		x = inX;
+    		height = inHeight;
+    		width = inWidth;
+    	}
+    }
+    
     /**
      * Calculate the origin pixel for the specified relative delta.
      * @param sideDelta
      * @param forwardDelta
-     * @return
+     * @return [y, x, spriteHeight, spriteWidth]
      */
-    private int[] calculateOriginPixelFromRelativeDelta(int sideDelta, int forwardDelta){
-        int halfHeight = getHeight() / 2;
+    private RenderData calculateRenderDataFromRelativeDelta(int sideDelta, int forwardDelta){
         // Calculate the origin pixel of the entity on the far left.
         // Translate sideOffset from 0 is center to zero is far left.
-        sideDelta += viewWidth;
-        // Invert forward offset, as the maximum distance should be far Y;
-        forwardDelta = viewDistance - forwardDelta;
-        // The origin of the image is two square heights above the bottom left.
-        return new int[] {halfHeight + (forwardDelta * squarePixelHeight) - (2 * squarePixelHeight) , sideDelta * squarePixelWidth};
+    	// the -1 compensates for never viewing forwardDelta 0
+    	int invertForwardDelta = viewDistance - forwardDelta;
+    	int height = getHeight();
+    	// Items further away should 
+    	int yScale = (int) (height * 0.025);
+    	int yPixel = yScale * forwardDelta;
+    	int spriteHeight = height - (2 * yScale * forwardDelta);
+    	int width = getWidth();
+    	int center = width / 2;
+    	int xScale = (int) (width + 0.025);
+    	//The sprite width at this distance.
+    	int spriteWidth = (int) ((width / (viewWidth * 2)) * (0.75 + (invertForwardDelta * (0.5 / viewDistance))));
+    	int xPixel = center + (spriteWidth * sideDelta) - (spriteWidth / 2);
+    	return new RenderData(yPixel, xPixel, spriteHeight, spriteWidth);
     }
+   
 
     protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
         return sideFromPerspectiveAndDirection(

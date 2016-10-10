@@ -2,8 +2,8 @@
 <game>
   <players>
     <player>
-      <username>Aden</username>
-      <UID>10</UID>
+      <username>Arthas</username>
+      <UID>9</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
@@ -13,11 +13,11 @@
       <equips>-1</equips>
     </player>
     <player>
-      <username>Simon</username>
-      <UID>8</UID>
+      <username>janef</username>
+      <UID>28</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>0</health>
+      <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>
@@ -26,4 +26,4 @@
   </players>
   <monsters/>
   <vendors/>
-</game>
+</game>

@@ -11,7 +11,7 @@ import gameWorld.rooms.TargetRoom;
 
 /**
  * A class which represents a Floor that contains various Rooms.
- * 
+ *
  * @author Louis
  */
 public class Floor {
@@ -27,7 +27,7 @@ public class Floor {
 	private int depth;
 
 	private int level;
-	
+
 	public Floor(String level, String width, String depth) {
 		try {
 			this.level = Integer.parseInt(level);
@@ -47,14 +47,31 @@ public class Floor {
 	public void setupNeighbours() {
 		for (int row = 0; row < this.depth; row++) {
 			for (int col = 0; col < this.width; col++) {
-				if (row > 0)
-					this.rooms[row][col].setNeighbour(Direction.NORTH, this.rooms[row - 1][col]);
-				if (row < this.depth - 1)
-					this.rooms[row][col].setNeighbour(Direction.SOUTH, this.rooms[row + 1][col]);
-				if (col > 0)
-					this.rooms[row][col].setNeighbour(Direction.WEST, this.rooms[row][col - 1]);
-				if (col < this.width - 1)
-					this.rooms[row][col].setNeighbour(Direction.EAST, this.rooms[row][col + 1]);
+				Room room = this.rooms[row][col];
+
+				if (row > 0) {
+					room.setNeighbour(Direction.NORTH, this.rooms[row - 1][col]);
+				} else {
+					room.setNeighbour(Direction.NORTH, null);
+				}
+
+				if (row < this.depth - 1) {
+					room.setNeighbour(Direction.SOUTH, this.rooms[row + 1][col]);
+				} else {
+					room.setNeighbour(Direction.SOUTH, null);
+				}
+
+				if (col > 0) {
+					room.setNeighbour(Direction.WEST, this.rooms[row][col - 1]);
+				} else {
+					room.setNeighbour(Direction.WEST, null);
+				}
+
+				if (col < this.width - 1) {
+					room.setNeighbour(Direction.EAST, this.rooms[row][col + 1]);
+				} else {
+					room.setNeighbour(Direction.EAST, null);
+				}
 			}
 		}
 	}
@@ -159,7 +176,7 @@ public class Floor {
 
 	/**
 	 * Returns the Room on this Floor which the players are trying to get to.
-	 * 
+	 *
 	 * @return this Floor's TargetRoom
 	 */
 	public TargetRoom getTargetRoom() {
@@ -168,7 +185,7 @@ public class Floor {
 
 	/**
 	 * Sets the TargetRoom of this Floor to the specified targetRoom.
-	 * 
+	 *
 	 * @param targetRoom
 	 *            this Floor's new TargetRoom
 	 */
@@ -179,7 +196,7 @@ public class Floor {
 	/**
 	 * Checks whether any player has reached this Floor's target room. Returns
 	 * true if they have, false otherwise.
-	 * 
+	 *
 	 * @return whether a player has reached the targetRoom
 	 */
 	public boolean targetReached() {
