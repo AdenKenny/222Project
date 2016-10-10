@@ -15,8 +15,9 @@ public class Compass extends JPanel {
 	
 	private Image compass;
 	private String direction = "N";
-	
-	public Compass() {
+	private MainWindow parent;
+	public Compass(MainWindow parent) {
+		this.parent = parent;
 		this.setVisible(false);
 		try {
 			compass = ImageIO.read(new File("resources/ui/Compass.png"));
@@ -25,7 +26,7 @@ public class Compass extends JPanel {
 		}
 		setOpaque(false);
 		setBackground(new Color(0,0,0,0));
-		setBounds(new Rectangle(0, 40, 50, 50));
+		setBounds(new Rectangle(parent.getWidth()-55, 50, 50, 50));
 	}
 	
 	@Override

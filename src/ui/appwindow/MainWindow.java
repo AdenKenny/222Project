@@ -98,7 +98,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	private void initComponents(){
 		//Add next level of components
-		this.compass = new Compass();
+		this.compass = new Compass(this);
 		infoBar = new InfoPane();
 		display = new Login(this, slave);
 		bottomPanel = new BottomPanel(this);
