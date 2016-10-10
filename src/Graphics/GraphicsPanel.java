@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -49,6 +51,11 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private Character viewer;
     
     private ImageCache cache;
+    
+    /**
+     * Records the onscreen positions of the entities.
+     */
+    private Map<Entity, RenderData> entityScreenLocations;
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -63,6 +70,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         }
         viewer = inViewer;
         addMouseListener(this);
+        entityScreenLocations = new HashMap();
     }
 
     /**
@@ -78,38 +86,26 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         int x = event.getX();
         int y = event.getY();
         Entity entity = calculateClickedEntity(y, x);
-        clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
+        if (entity != null){
+        	clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
+        }
     }
 
+    /**
+     * Calculates which entities has been clicked on.
+     * @param y
+     * @param x
+     * @return The entity that was clicked on, or null if not entity was clicked.
+     */
     private Entity calculateClickedEntity(int y, int x){
         // Calculate the upper most bound of all rendered items.
-        int yOrigin = (getHeight() / 3) - (squarePixelHeight * 3);
-        // If click was above the maximum location, then then it cannot be a click on an entity.
-        if (y < yOrigin){
-            return null;
-        } else {
-            int adjustedClickY = y - yOrigin;
-            int forwardDelta = adjustedClickY / squarePixelHeight;
-            // Convert from absolute to relative.
-            int sideDelta = (x / squarePixelWidth) - viewDistance;
-            // Find the entity at the calculated location.
-            Entity result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
-                    sideDelta, forwardDelta));
-            //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
-            //Then check again if still null, to check the square behind that.
-            for (int i = 0; i < 3; ++i){
-	            if (result == null){
-	                forwardDelta += 1;
-	                //Check that the target object is in view.
-	                if (forwardDelta < viewDistance){
-	                    result = getEntityAtLocation(viewer.room(), calculateCoordinatesFromRelativeDelta(viewer.facing(), viewer.yPos(), viewer.xPos(),
-	                            sideDelta, forwardDelta));
-	                }
-	
-	            }
-            }
-            return result;
+        for (Entity entity : entityScreenLocations.keySet()){
+        	RenderData data = entityScreenLocations.get(entity);
+        	if (y >= data.y && y <= data.y + data.height && x >= data.x && x <= data.x + data.width){
+        		return entity;
+        	}
         }
+        return null;
     }
 
     @Override
@@ -184,6 +180,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
 	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
+	            entityScreenLocations.put(entity, location);
 	        }
         }
     }
