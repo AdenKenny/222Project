@@ -41,10 +41,10 @@ public class ClientSideGame extends Thread implements Game {
 			this.room.entities()[this.player.yPos()][this.player.xPos()] = null;
 		}
 		this.room = new Room(null, received[1], received[2], received[3], received[4]);
-		/*if (this.player != null) {
+		if (this.player != null) {
 			this.sendables.put(this.characterID, this.player);
 			this.player.setRoom(this.room);
-		}*/
+		}
 
 		int doorCode = received[5];
 		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
@@ -123,26 +123,20 @@ public class ClientSideGame extends Thread implements Game {
 				name.append((char) received[i]);
 			}
 			String username = name.toString();
-			if (username.equals(this.username) && this.player != null) {
-				this.player.setXPos(xPos);
-				this.player.setYPos(yPos);
-				this.player.setRoom(this.room);
-				this.room.entities()[yPos][xPos] = this.player;
-			} else {
-				Character toAdd = new Character(username);
-				if (username.equals(this.username)) {
-					this.player = toAdd;
-				}
-				toAdd.setAlive(isAlive);
-				toAdd.turn(facing);
-				toAdd.setHealth(health);
-				toAdd.setLevel(level);
-				toAdd.setXPos(xPos);
-				toAdd.setYPos(yPos);
-				this.sendables.put(ID, toAdd);
-				this.room.entities()[yPos][xPos] = toAdd;
-				toAdd.setRoom(this.room);
+			Character toAdd = new Character(username);
+			if (this.player == null && username.equals(this.username)) {
+				this.player = toAdd;
+				this.characterID = ID;
 			}
+			toAdd.setAlive(isAlive);
+			toAdd.turn(facing);
+			toAdd.setHealth(health);
+			toAdd.setLevel(level);
+			toAdd.setXPos(xPos);
+			toAdd.setYPos(yPos);
+			this.sendables.put(ID, toAdd);
+			this.room.entities()[yPos][xPos] = toAdd;
+			toAdd.setRoom(this.room);
 		}
 	}
 
