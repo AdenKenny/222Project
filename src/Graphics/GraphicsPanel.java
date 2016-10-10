@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import gameWorld.Entity;
 import gameWorld.World;
+import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
 import gameWorld.item.ItemBuilder;
@@ -158,7 +159,9 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
-        if (isLocationWall(absoluteTarget, room)){
+        if (isLocationDoor(absoluteTarget, room)){
+        	renderDoor(sideDelta, forwardDelta, graphics);
+        } if (isLocationWall(absoluteTarget, room)){
         	renderWall(sideDelta, forwardDelta, graphics);
         } else if (isLocationBlackSpace(absoluteTarget, room)){
         	renderBlackSpace(sideDelta, forwardDelta, graphics);
@@ -188,6 +191,14 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
     	try {
 			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
+		} catch (IOException e) {
+		}
+    }
+    
+    private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics){
+    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+    	try {
+			graphics.drawImage(cache.getImage("/resources/graphics/door.png"), location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
 		} catch (IOException e) {
 		}
     }
@@ -242,6 +253,22 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     
     private boolean isLocationBlackSpace(int[] location, Room room){
     	return location[0] < -1 || location[0] > room.entities().length ||location[1] < -1 || location[1] > room.entities()[0].length;
+    }
+    
+    private boolean isLocationDoor(int[] location, Room room){
+    	Entity[][] entities = room.entities();
+    	//Check for the north door.
+    	if (location[0] == -1 && location[1] == entities[0].length / 2){
+    		return room.hasDoor(Direction.NORTH);
+    	//Check for the East door
+    	} else if (location[1] == entities[0].length && location[0] == entities.length / 2){
+    		return room.hasDoor(Direction.EAST);
+    	//Check the south door.
+    	} else if (location[0] == entities.length && location[1] == entities[0].length / 2){
+    		return room.hasDoor(Direction.SOUTH);
+    	} else if (location[1] == -1 && location[0] == entities.length / 2){
+    		return room.hasDoor(Direction.WEST);
+    	} else return false;
     }
     
 
