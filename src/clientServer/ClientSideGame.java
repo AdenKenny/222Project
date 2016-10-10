@@ -1,5 +1,6 @@
 package clientServer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -47,14 +48,20 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	public void endSendables() {
+		ArrayList<Integer> keysToRemove = new ArrayList<>();
+
 		for (int key : this.receivedSendables.keySet()) {
 			if (this.receivedSendables.put(key, false) == false) {
-				this.receivedSendables.remove(key);
-				Sendable s = this.sendables.remove(key);
-				if (s instanceof Character) {
-					Character c = (Character)s;
-					this.room.entities()[c.yPos()][c.xPos()] = null;
-				}
+				keysToRemove.add(key);
+			}
+		}
+
+		for (int key : keysToRemove) {
+			this.receivedSendables.remove(key);
+			Sendable s = this.sendables.remove(key);
+			if (s instanceof Character) {
+				Character c = (Character) s;
+				this.room.entities()[c.yPos()][c.xPos()] = null;
 			}
 		}
 	}
