@@ -1,14 +1,12 @@
 package Graphics;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -16,8 +14,6 @@ import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
-import gameWorld.item.Item;
-import gameWorld.item.ItemBuilder;
 import gameWorld.rooms.Room;
 
 /**
@@ -167,7 +163,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         	renderBlackSpace(sideDelta, forwardDelta, graphics);
         } else {
 	        Entity entity = getEntityAtLocation(room, absoluteTarget);
-	        if (entity != null) {
+	        //Don't render null entities or the viewer.
+	        if (entity != null && entity != viewer) {
 	        	String name;
 	        	if (entity.isPlayer()){
 	        		name = "player";
@@ -181,12 +178,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         }
     }
     
-    
-    private int calculateScaledSpriteHeight(int forwardDelta){
-    	return (int) (squarePixelHeight * (3 + (0.1 * (viewDistance - forwardDelta))));
-    }
-    
-
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
     	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
     	try {
@@ -244,8 +235,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
             return locations[location[0]][location[1]];
         }
     }
-    
-  
     
     private boolean isLocationWall(int[] location, Room room){
     	return !isLocationBlackSpace(location, room) && (location[0] == -1 || location[0] == room.entities().length || location[1] == -1 || location[1] == room.entities()[0].length);
@@ -400,14 +389,17 @@ public class GraphicsPanel extends JPanel implements MouseListener {
      * @return
      */
     private int[] calculateOriginPixelFromRelativeDelta(int sideDelta, int forwardDelta){
-        int halfHeight = getHeight() / 3;
         // Calculate the origin pixel of the entity on the far left.
         // Translate sideOffset from 0 is center to zero is far left.
         sideDelta += viewWidth;
         // Invert forward offset, as the maximum distance should be far Y;
         forwardDelta = viewDistance - forwardDelta;
         // The origin of the image is two square heights above the bottom left.
-        return new int[] {halfHeight + (forwardDelta * squarePixelHeight) - (3 * squarePixelHeight) , sideDelta * squarePixelWidth};
+        return new int[] {(int) ((forwardDelta * squarePixelHeight * 1) - squarePixelHeight * forwardDelta * 0.75), sideDelta * squarePixelWidth};
+    }
+    
+    private int calculateScaledSpriteHeight(int forwardDelta){
+    	return (int) ((squarePixelHeight * 3) + (0.75 * squarePixelHeight * (viewDistance - forwardDelta)));
     }
 
     protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {

@@ -34,7 +34,7 @@ public class ClientSideGame extends Thread implements Game {
 	public void newRoom(byte[] received) {
 		this.sendables.clear();
 		this.player = null;
-		this.room = new Room(null, received[1], received[2], received[3], received[4]);
+		this.room = new Room(null, received[1], received[2], received[3], received[3]);
 		int doorCode = received[5];
 		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;

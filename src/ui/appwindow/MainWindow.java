@@ -1,7 +1,6 @@
 package ui.appwindow;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -13,7 +12,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,13 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Graphics.GraphicsPanel;
-import IDGUI.MessageDialog;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
 import clientServer.Slave;
-import gameWorld.Action;
 import gameWorld.Entity;
-import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.item.Item;
 import gameWorld.rooms.Room;
