@@ -18,6 +18,7 @@ public class ClientSideGame extends Thread implements Game {
 	private final Map<Integer, Sendable> sendables;
 	private final Map<Integer, Boolean> receivedSendables;
 	private Room room;
+	private int characterID;
 	private Character player;
 	private String username;
 
@@ -34,8 +35,11 @@ public class ClientSideGame extends Thread implements Game {
 
 	public void newRoom(byte[] received) {
 		this.sendables.clear();
-		this.player = null;
-		this.room = new Room(null, received[1], received[2], received[3], received[3]);
+		this.room = new Room(null, received[1], received[2], received[3], received[4]);
+		if (this.player != null) {
+			this.sendables.put(this.characterID, this.player);
+			this.player.setRoom(this.room);
+		}
 		int doorCode = received[5];
 		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
@@ -110,8 +114,9 @@ public class ClientSideGame extends Thread implements Game {
 			}
 			String username = name.toString();
 			Character toAdd = new Character(username);
-			if (username.equals(this.username)) {
+			if (this.player == null && username.equals(this.username)) {
 				this.player = toAdd;
+				this.characterID = ID;
 			}
 			toAdd.setAlive(isAlive);
 			toAdd.setFacing(facing);
