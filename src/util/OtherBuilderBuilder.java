@@ -39,7 +39,7 @@ public final class OtherBuilderBuilder implements AbstractBuilderBuilder {
 		
 		return null;
 	}
-
+	
 	public AlsoBuildable build() throws UnsupportedOperationException, IllegalArgumentException {
 		
 		try {
@@ -83,7 +83,6 @@ public final class OtherBuilderBuilder implements AbstractBuilderBuilder {
 					break;
 				default:
 					break;
-			
 				}
 			}
 			

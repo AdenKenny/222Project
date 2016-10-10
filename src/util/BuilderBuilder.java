@@ -11,7 +11,7 @@ import gameWorld.objects.ObjectBuilder;
  * A class to build a builder that builds other items.
  * The builder that we build here must implement 'AbstractBuilder'. No other builders are supported.
  * 
- * I like builders okay?
+ * That's a lot of builders.
  * 
  * @author Aden
  */
@@ -22,7 +22,8 @@ public final class BuilderBuilder implements AbstractBuilderBuilder {
 	private String type; //The type of the builder we will build with this class.
 	
 	/**
-	 * Requires a string representing the type of object we want to build i.e "Character".
+	 * Creates a BuilderBuilder, an object that will create a Builder that implements 'AbstractBuilder'.
+	 * Requires a string representing the type of object we want to build i.e "Character" for a 'CharacterBuilder'.
 	 * 
 	 * @param type The type of object we want to build.
 	 */
@@ -77,7 +78,11 @@ public final class BuilderBuilder implements AbstractBuilderBuilder {
 	 * Builds a builder of the type specified when the BuilderBuilder was created. The builder
 	 * will build with the fields that we passed to it using the the 'addField()' method.
 	 * 
+	 * This method should catch lower level exceptions and then throw higher level exceptions that should be caught
+	 * in the XML classes. 
+	 * 
 	 * @return A builder with which we can use to build the object (that should implement 'Buildable') that we want to build.
+	 * 
 	 * @throws UnsupportedOperationException Thrown if we're using BuilderBuilder to create unsupported builders.
 	 * @throws IllegalArgumentException Thrown if we try to add fields that should not be added to a specific builder.
 	 */
@@ -126,7 +131,7 @@ public final class BuilderBuilder implements AbstractBuilderBuilder {
 		}
 		
 		catch (UnsupportedOperationException e) { //RoomBuilder or PlayerBuilder should not be built this way. 
-			throw new UnsupportedOperationException();
+			throw e;
 		}
 		
 		catch (IllegalArgumentException e) { //This is an irrelevant field for this builder.
