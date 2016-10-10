@@ -49,7 +49,7 @@ public class ServerSideGame implements Game {
 		}
 		Floor current = world.getCurrentFloor();
 		if (current.getSpawns() != null) {
-			for (SpawnRoom spawn : world.getCurrentFloor().getSpawns()) {
+			for (SpawnRoom spawn : current.getSpawns()) {
 				spawn.tick();
 			}
 		}
@@ -157,7 +157,7 @@ public class ServerSideGame implements Game {
 				return null;
 			}
 			player.setNewlyEntered(false);
-			byte[] roomEntry = new byte[6];
+			byte[] roomEntry = new byte[7];
 			roomEntry[0] = PackageCode.Codes.GAME_NEW_ROOM.value();
 			roomEntry[1] = (byte)room.xPos();
 			roomEntry[2] = (byte)room.yPos();
@@ -169,6 +169,7 @@ public class ServerSideGame implements Game {
 			doorCode = doorCode * 2 + (room.hasDoor(Direction.SOUTH) ? 1 : 0);
 			doorCode = doorCode * 2 + (room.hasDoor(Direction.WEST) ? 1 : 0);
 			roomEntry[5] = (byte) doorCode;
+			roomEntry[6] = (byte) room.floor().level();
 			return roomEntry;
 		}
 		return null;

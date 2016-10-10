@@ -218,8 +218,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void setRoom(Room room) {
-		infoBar.setRoom(room);
+	public void setRoom(int floor, Room room) {
+		infoBar.setRoom(floor, room);
 	}
 
 	@Override
@@ -340,7 +340,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
-		setRoom(this.game.getRoom());
+		setRoom(this.game.getFloor(), this.game.getRoom());
 		
 		//Load graphics panel
 		this.display = new GraphicsPanel(this.game.getPlayer());

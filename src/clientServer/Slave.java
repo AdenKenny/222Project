@@ -57,6 +57,7 @@ public class Slave extends Thread {
 				if (this.game != null) {
 					if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
 						this.game.newRoom(data);
+						this.mainWindow.setRoom(this.game.getFloor(), this.game.getRoom());
 					}
 					
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_END.value()) {

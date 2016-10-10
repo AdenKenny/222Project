@@ -19,7 +19,7 @@ public interface ClientUI {
 
 	public void setStat(int id, int value);
 
-	public void setRoom(Room room);
+	public void setRoom(int floor, Room room);
 
 	public void updateGold(int amount);
 

@@ -68,6 +68,7 @@ public class NPCSpawn extends Room implements SpawnRoom {
 							y = (int) (Math.random() * this.depth);
 						}
 						this.npc.respawn(this, x, y, Direction.NORTH);
+						this.entities[y][x] = this.npc;
 						this.deathTime = -1;
 						this.wasAlive = true;
 					}
