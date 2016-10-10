@@ -29,6 +29,7 @@ public class Room {
 		this.ID = Entity.getNewID();
 		this.floor = floor;
 		this.neighbours = new HashMap<>();
+		this.doors = new HashMap<>();
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.width = width;
@@ -40,6 +41,7 @@ public class Room {
 		this.floor = floor;
 		this.ID = Entity.getNewID();
 		this.neighbours = new HashMap<>();
+		this.doors = new HashMap<>();
 		this.xPos = builder.getxPos();
 		this.yPos = builder.getyPos();
 		this.width = builder.getWidth();
