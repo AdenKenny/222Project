@@ -2,6 +2,7 @@ package clientServer;
 
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.rooms.Room;
 import userHandling.User;
 
 public class Player {
@@ -50,7 +51,12 @@ public class Player {
 	
 	private void move() {
 		if (this.toMove != Direction.NONE) {
+			Room startRoom = this.character.room();
 			this.character.move(this.toMove);
+			Room endRoom = this.character.room();
+			if (startRoom.xPos() != endRoom.xPos() || startRoom.yPos() != endRoom.yPos()) {
+				this.newlyEntered = true;
+			}
 		}
 	}
 	
