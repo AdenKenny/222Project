@@ -405,8 +405,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private RenderData calculateRenderDataFromRelativeDelta(int sideDelta, int forwardDelta){
         // Calculate the origin pixel of the entity on the far left.
         // Translate sideOffset from 0 is center to zero is far left.
-    	// the -1 allows the whole screen to be used, even though forwardDelta == 0 never occurs.
-    	int invertForwardDelta = viewDistance - forwardDelta - 1;
+    	// the -1 compensates for never viewing forwardDelta 0
+    	int invertForwardDelta = viewDistance - forwardDelta;
     	int height = getHeight();
     	// Items further away should 
     	int yScale = (int) (height * 0.025);
@@ -416,7 +416,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     	int center = width / 2;
     	int xScale = (int) (width + 0.025);
     	//The sprite width at this distance.
-    	int spriteWidth = (int) ((width / (viewWidth * 2)) * (0.8 + (invertForwardDelta * (0.4 / viewDistance))));
+    	int spriteWidth = (int) ((width / (viewWidth * 2)) * (0.75 + (invertForwardDelta * (0.5 / viewDistance))));
     	int xPixel = center + (spriteWidth * sideDelta) - (spriteWidth / 2);
     	return new RenderData(yPixel, xPixel, spriteHeight, spriteWidth);
     }
