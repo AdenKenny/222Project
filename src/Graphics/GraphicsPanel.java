@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import Graphics.GraphicsPanel.RenderData;
 import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.World.Direction;
@@ -70,7 +71,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         }
         viewer = inViewer;
         addMouseListener(this);
-        entityScreenLocations = new HashMap();
+        entityScreenLocations = new HashMap<Entity, RenderData>();
     }
 
     /**
@@ -390,7 +391,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         return new int[] {y + delta[0], x + delta[1]};
     }
 
-    private class RenderData{
+    public class RenderData{
     	final int y;
     	final int x;
     	final int height;
