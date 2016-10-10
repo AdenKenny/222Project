@@ -22,10 +22,10 @@ import gameWorld.rooms.Room;
 public class GraphicsPanel extends JPanel implements MouseListener {
 
     // The number of squares the character can see to either side.
-    private static final int viewWidth = 4;
+    private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
-    private static final int viewDistance = 5;
-
+    private static final int viewDistance = 10;
+    
     private GraphicsClickListener clickListener;
 
     public enum Side {
@@ -141,14 +141,14 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     private void renderCeiling(Graphics graphics){
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0,getWidth(), getHeight() / 2);
+        graphics.fillRect(0, 0,getWidth(), getHeight());
     }
 
     private void renderFloor(Graphics graphics){
         try {
             Image image = cache.getImage("/resources/graphics/floor.png");
             int height = getHeight();
-            graphics.drawImage(image, 0, height / 3, getWidth(), height - (height / 3),  null);
+            //graphics.drawImage(image, 0, height / 3, getWidth(), height - (height / 3),  null);
         } catch (IOException ioe){
         }
     }
@@ -171,32 +171,32 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 	        	} else {
 	        		name = entity.name();
 	        	}
-	            int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
+	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
 	        }
         }
     }
     
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
-    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
+			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location.x, location.y, location.width, location.height, null);
 		} catch (IOException e) {
 		}
     }
     
     private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics){
-    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
+    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/door.png"), location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
+			graphics.drawImage(cache.getImage("/resources/graphics/door.png"), location.x, location.y, location.width, location.height, null);
 		} catch (IOException e) {
 		}
     }
     
     private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics){
-    	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
-    	graphics.fillRect(location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta));
+    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+    	graphics.fillRect(location.x, location.y, location.width, location.height);
     }
     
     private Image loadImage(String name, Side side){
@@ -382,25 +382,45 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         return new int[] {y + delta[0], x + delta[1]};
     }
 
+    private class RenderData{
+    	final int y;
+    	final int x;
+    	final int height;
+    	final int width;
+    	
+    	public RenderData(int inY, int inX, int inHeight, int inWidth){
+    		y = inY;
+    		x = inX;
+    		height = inHeight;
+    		width = inWidth;
+    	}
+    }
+    
     /**
      * Calculate the origin pixel for the specified relative delta.
      * @param sideDelta
      * @param forwardDelta
-     * @return
+     * @return [y, x, spriteHeight, spriteWidth]
      */
-    private int[] calculateOriginPixelFromRelativeDelta(int sideDelta, int forwardDelta){
+    private RenderData calculateRenderDataFromRelativeDelta(int sideDelta, int forwardDelta){
         // Calculate the origin pixel of the entity on the far left.
         // Translate sideOffset from 0 is center to zero is far left.
-        sideDelta += viewWidth;
-        // Invert forward offset, as the maximum distance should be far Y;
-        forwardDelta = viewDistance - forwardDelta;
-        // The origin of the image is two square heights above the bottom left.
-        return new int[] {(int) ((forwardDelta * squarePixelHeight * 1) - squarePixelHeight * forwardDelta * 0.75), sideDelta * squarePixelWidth};
+    	// the -1 allows the whole screen to be used, even though forwardDelta == 0 never occurs.
+    	int invertForwardDelta = viewDistance - forwardDelta - 1;
+    	int height = getHeight();
+    	// Items further away should 
+    	int yScale = (int) (height * 0.025);
+    	int yPixel = yScale * forwardDelta;
+    	int spriteHeight = height - (2 * yScale * forwardDelta);
+    	int width = getWidth();
+    	int center = width / 2;
+    	int xScale = (int) (width + 0.025);
+    	//The sprite width at this distance.
+    	int spriteWidth = (int) ((width / (viewWidth * 2)) * (0.8 + (invertForwardDelta * (0.4 / viewDistance))));
+    	int xPixel = center + (spriteWidth * sideDelta) - (spriteWidth / 2);
+    	return new RenderData(yPixel, xPixel, spriteHeight, spriteWidth);
     }
-    
-    private int calculateScaledSpriteHeight(int forwardDelta){
-    	return (int) ((squarePixelHeight * 3) + (0.75 * squarePixelHeight * (viewDistance - forwardDelta)));
-    }
+   
 
     protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
         return sideFromPerspectiveAndDirection(
