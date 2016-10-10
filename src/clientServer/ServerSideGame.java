@@ -39,7 +39,7 @@ public class ServerSideGame implements Game {
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
 		this.byteArrays = new HashMap<>();
-		
+
 	}
 
 	@Override
@@ -57,11 +57,13 @@ public class ServerSideGame implements Game {
 		for (Room[] rooms : current.rooms()) {
 			for (Room room : rooms) {
 				Set<Sendable> sendables = room.getSendables();
-				byte[][] data = new byte[sendables.size()][];
+				byte[][] data = new byte[sendables.size() + 1][];
 				int i = 0;
 				for (Sendable s : sendables) {
 					data[i++] = s.toSend();
 				}
+				data[data.length - 1] = new byte[1];
+				data[data.length - 1][0] = PackageCode.Codes.GAME_SENDABLE_END.value();
 				this.byteArrays.put(room, data);
 			}
 		}
@@ -155,15 +157,18 @@ public class ServerSideGame implements Game {
 				return null;
 			}
 			player.setNewlyEntered(false);
-			byte[] roomEntry = new byte[4];
+			byte[] roomEntry = new byte[6];
 			roomEntry[0] = PackageCode.Codes.GAME_NEW_ROOM.value();
-			roomEntry[1] = (byte)room.width();
-			roomEntry[2] = (byte)room.depth();
+			roomEntry[1] = (byte)room.xPos();
+			roomEntry[2] = (byte)room.yPos();
+			roomEntry[3] = (byte)room.width();
+			roomEntry[4] = (byte)room.depth();
 			//get byte code for where doors are
-			int doorCode = room.neighbour(Direction.NORTH) == null ? 0 : 1;
-			doorCode = doorCode * 2 + (room.neighbour(Direction.EAST) == null ? 0 : 1);
-			doorCode = doorCode * 2 + (room.neighbour(Direction.SOUTH) == null ? 0 : 1);
-			roomEntry[3] = (byte)(doorCode * 2 + (room.neighbour(Direction.WEST) == null ? 0 : 1));
+			int doorCode = room.hasDoor(Direction.NORTH) ? 1 : 0;
+			doorCode = doorCode * 2 + (room.hasDoor(Direction.EAST) ? 1 : 0);
+			doorCode = doorCode * 2 + (room.hasDoor(Direction.SOUTH) ? 1 : 0);
+			doorCode = doorCode * 2 + (room.hasDoor(Direction.WEST) ? 1 : 0);
+			roomEntry[5] = (byte) doorCode;
 			return roomEntry;
 		}
 		return null;

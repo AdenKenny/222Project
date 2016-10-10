@@ -5,6 +5,7 @@ import java.util.List;
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.item.Item;
+import gameWorld.rooms.Room;
 
 public interface ClientUI {
 
@@ -18,7 +19,7 @@ public interface ClientUI {
 
 	public void setStat(int id, int value);
 
-	public void setRoom(int number);
+	public void setRoom(Room room);
 
 	public void updateGold(int amount);
 
