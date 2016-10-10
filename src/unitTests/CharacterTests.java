@@ -1,19 +1,33 @@
 package unitTests;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import gameWorld.Entity;
 import gameWorld.World.Direction;
-import gameWorld.characters.*;
 import gameWorld.characters.Character;
 import gameWorld.characters.Character.Type;
+import gameWorld.characters.CharacterBuilder;
+import gameWorld.characters.CharacterModel;
+import gameWorld.characters.PlayerBuilder;
 
 public class CharacterTests {
+	
+	@Test
+	public void testBuilderBuilder() {
+		
+		//Builder
+		
+	}
 	
 	@Test
 	public void testPlayerBuilder() {

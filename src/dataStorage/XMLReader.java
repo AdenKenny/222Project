@@ -80,19 +80,44 @@ public final class XMLReader implements XMLInteractable {
 
 				Element e = (Element) node;
 
-				BuilderBuilder builder = new BuilderBuilder("Object");
-				
-				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
-				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
-				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
-				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
-				builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
-				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
-				
-				ObjectModel object = (ObjectModel) builder.build().build();
+				try {
+					BuilderBuilder builder = new BuilderBuilder("Player"); //Object
+					
+					builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
+					builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
+					builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
+					builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
+					builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
+					builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
+					
+					ObjectModel object = (ObjectModel) builder.build().build();
 
-				map.put(object.getID(), object);
-
+					map.put(object.getID(), object);
+				}
+				
+				catch (UnsupportedOperationException unOp) { //This was passed up the hierarchy.
+					Throwable thrown = unOp.getCause(); //Get the cause unOp.
+					
+					if(thrown == null) {
+						throw new NullPointerException();
+					}
+				
+					StackTraceElement[] stackEs = thrown.getStackTrace();
+					
+					for(StackTraceElement ele : stackEs) {
+						//System.out.println(ele);
+					}
+					
+					StackTraceElement stackEle = stackEs[2];
+					
+					String s = stackEle.getMethodName();
+					
+					System.out.println(s);
+				}
+				
+				catch (IllegalArgumentException ilArg) { //This was passed up the hierarchy.
+					ilArg.printStackTrace();
+				}		
 			}
 
 			return map;
@@ -329,7 +354,6 @@ public final class XMLReader implements XMLInteractable {
 					return null;
 				}
 			}
-
 		}
 	}
 }
