@@ -90,8 +90,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     }
 
     private Entity calculateClickedEntity(int y, int x){
-        // Calculate the upper most bound of all rendered items
-        int yOrigin = (getHeight() / 3) - (squarePixelHeight * 2);
+        // Calculate the upper most bound of all rendered items.
+        int yOrigin = (getHeight() / 3) - (squarePixelHeight * 3);
         // If click was above the maximum location, then then it cannot be a click on an entity.
         if (y < yOrigin){
             return null;
@@ -105,7 +105,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
                     sideDelta, forwardDelta));
             //If the result was null, check the square behind where there was a click, as an entity may have its lower half behind this upper half.
             //Then check again if still null, to check the square behind that.
-            for (int i = 0; i < 2; ++i){
+            for (int i = 0; i < 3; ++i){
 	            if (result == null){
 	                forwardDelta += 1;
 	                //Check that the target object is in view.
@@ -178,24 +178,28 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 	        	}
 	            int[] originPixel = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, squarePixelHeight * 3, null);
+	            graphics.drawImage(loadImage(name, side), originPixel[1], originPixel[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
 	        }
         }
     }
     
     
+    private int calculateScaledSpriteHeight(int forwardDelta){
+    	return (int) (squarePixelHeight * (3 + (0.1 * (viewDistance - forwardDelta))));
+    }
+    
 
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
     	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, squarePixelHeight * 3, null);
+			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta), null);
 		} catch (IOException e) {
 		}
     }
     
     private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics){
     	int[] location = calculateOriginPixelFromRelativeDelta(sideDelta, forwardDelta);
-    	graphics.fillRect(location[1], location[0], squarePixelWidth, squarePixelHeight * 3);
+    	graphics.fillRect(location[1], location[0], squarePixelWidth, calculateScaledSpriteHeight(forwardDelta));
     }
     
     private Image loadImage(String name, Side side){
