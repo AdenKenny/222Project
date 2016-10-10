@@ -77,22 +77,26 @@ public class NPCSpawn extends Room implements SpawnRoom {
 				if (this.npc.getAttackTimer() < System.currentTimeMillis()) {
 					int x = this.npc.xPos(), y = this.npc.yPos();
 					ArrayList<Entity> adjacents = new ArrayList<>(4);
-					if (this.entities[y - 1][x] instanceof Character) {
+					if (y - 1 > 0 && this.entities[y - 1][x] instanceof Character) {
 						adjacents.add(this.entities[y - 1][x]);
 					}
-					if (this.entities[y + 1][x] instanceof Character) {
+					if (y + 1 < this.depth && this.entities[y + 1][x] instanceof Character) {
 						adjacents.add(this.entities[y + 1][x]);
 					}
-					if (this.entities[y][x - 1] instanceof Character) {
+					if (x - 1 > 0 && this.entities[y][x - 1] instanceof Character) {
 						adjacents.add(this.entities[y][x - 1]);
 					}
-					if (this.entities[y][x + 1] instanceof Character) {
+					if (x + 1 < this.width && this.entities[y][x + 1] instanceof Character) {
 						adjacents.add(this.entities[y][x + 1]);
 					}
 					if (adjacents.isEmpty()) {
 						return;
 					}
 					Character attackChar = (Character) adjacents.get((int) (Math.random() * adjacents.size()));
+					// Yes, this looks weird. Originally this method wasn't
+					// meant to be called by another class like this, but this
+					// was the quickest and easiest way to try to implement a
+					// basic attacking AI.
 					attackChar.tryAttack(this.npc);
 				}
 			}

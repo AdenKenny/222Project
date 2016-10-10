@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+import gameWorld.characters.Character;
+
 /**
  * Displays players information
  *
@@ -139,5 +141,22 @@ public class StatsPane extends JPanel{
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((int) (getParent().getWidth()*WIDTH_RATIO), (int) (getParent().getHeight()));
+	}
+
+	/**
+	 * Updates the stats pane to reflect any changes to the specified
+	 * Character's statistics.
+	 * 
+	 * @param player
+	 *            The Character whose stats are being displayed
+	 */
+	public void updateStats(Character player) {
+		this.setHealth(player.getHealth());
+		this.setMaxHealth(player.getMaxHealth());
+		this.setLevel(player.getLevel());
+		this.setExp(player.getXp());
+		this.setTotalExp(player.getXpForLevel());
+		this.setDamage(player.getAttack());
+		this.repaint();
 	}
 }

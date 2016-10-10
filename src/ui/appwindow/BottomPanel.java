@@ -18,34 +18,34 @@ import gameWorld.item.Item;
  * @author Clinton
  * 
  */
-public class BottomPanel extends JPanel{
-	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
+public class BottomPanel extends JPanel {
+	public static float HEIGHT_RATIO = 0.2f; // height as proportion of window.
 	private MainWindow parent;
 	private ChatPane chatPane;
 	private StatsPane statPane;
 	private InventoryPane inventoryPane;
-	
+
 	public BottomPanel(MainWindow parent) {
 		this.parent = parent;
 		setLayout(new BorderLayout());
 		setVisible(true);
 	}
-	
-	public void initComponents(){
+
+	public void initComponents() {
 		this.chatPane = new ChatPane(this);
 		chatPane.initComponents();
 		this.statPane = new StatsPane();
 
 		this.inventoryPane = new InventoryPane(parent);
-		
+
 		add(chatPane, BorderLayout.WEST);
 		add(statPane, BorderLayout.CENTER);
 		add(inventoryPane, BorderLayout.EAST);
 		revalidate();
 	}
-	
-	public void loadPlayerStats(Character currentPlayer){
-		
+
+	public void loadPlayerStats(Character currentPlayer) {
+
 		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
 		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
 		setStat(StatsPane.EXP, currentPlayer.getXp());
@@ -54,7 +54,7 @@ public class BottomPanel extends JPanel{
 		setStat(StatsPane.DAMAGE, currentPlayer.getDamage());
 		statPane.initComponents();
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
@@ -66,37 +66,48 @@ public class BottomPanel extends JPanel{
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(getParent().getWidth(), (int) (getParent().getHeight()*HEIGHT_RATIO));
+		return new Dimension(getParent().getWidth(), (int) (getParent().getHeight() * HEIGHT_RATIO));
 	}
-	
-	public void addGameChat(String output){
+
+	public void addGameChat(String output) {
 		chatPane.addGameChat(output);
 	}
 
 	public void addChat(String text) {
 		chatPane.addChat(text);
-		
+
 	}
 
 	public void sendChat(String chatInput) {
 		parent.sendChat(chatInput);
-		
+
 	}
 
 	protected void setStat(int id, int value) {
 		statPane.setStat(id, value);
-		
+
 	}
 
 	public void addToInventory(Item item) {
 		inventoryPane.addItem(item);
-		
+
 	}
-	
+
 	public void loadInventory(Character player) {
 		List<Integer> itemIDs = player.getItems();
-		for(Integer id : itemIDs){
+		for (Integer id : itemIDs) {
 			inventoryPane.addItem(Game.mapOfItems.get(id));
 		}
+	}
+
+	/**
+	 * Updates the stats pane to reflect any changes to the specified
+	 * Character's statistics.
+	 * 
+	 * @param player
+	 *            The Character whose stats are being displayed
+	 */
+	public void updateStats(Character player) {
+		this.statPane.updateStats(player);
 	}
 }
