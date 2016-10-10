@@ -16,7 +16,7 @@ import gameWorld.objects.ObjectBuilder;
  * @author Aden
  */
 
-public final class BuilderBuilder implements AbstractBuilderBuilder {
+public final class BuilderBuilder {
 	
 	private Map<String, String> fields; //A map representing the fields in the builder that will be built.
 	private String type; //The type of the builder we will build with this class.
@@ -41,7 +41,6 @@ public final class BuilderBuilder implements AbstractBuilderBuilder {
 	 * @param value A string representing the value of the field we are building.
 	 */
 	
-	@Override
 	public void addField(String key, String value) {
 		this.fields.put(key, value);
 	}
