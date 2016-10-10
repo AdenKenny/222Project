@@ -1,14 +1,13 @@
 package gameWorld.rooms;
 
 import gameWorld.Floor;
-import util.AlsoBuildable;
 
 /**
  * A class to build an instance of a room.
  *
  * @author Aden
  */
-public final class RoomBuilder implements AlsoBuildable {
+public final class RoomBuilder {
 
 	private String buildPlayerSpawn;
 	private String buildNpcSpawn;
