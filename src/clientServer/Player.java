@@ -54,7 +54,7 @@ public class Player {
 			Room startRoom = this.character.room();
 			this.character.move(this.toMove);
 			Room endRoom = this.character.room();
-			if (startRoom.xPos() != endRoom.xPos() && startRoom.yPos() != endRoom.xPos()) {
+			if (startRoom.xPos() != endRoom.xPos() || startRoom.yPos() != endRoom.yPos()) {
 				this.newlyEntered = true;
 			}
 		}

@@ -36,15 +36,15 @@ public class ClientSideGame extends Thread implements Game {
 	public void newRoom(byte[] received) {
 		this.sendables.clear();
 		
-		/*// clean up room before moving to new room
+		// clean up room before moving to new room
 		if (this.room != null && this.player != null) {
 			this.room.entities()[this.player.yPos()][this.player.xPos()] = null;
-		}*/
+		}
 		this.room = new Room(null, received[1], received[2], received[3], received[4]);
-		if (this.player != null) {
+		/*if (this.player != null) {
 			this.sendables.put(this.characterID, this.player);
 			this.player.setRoom(this.room);
-		}
+		}*/
 
 		int doorCode = received[5];
 		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
