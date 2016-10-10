@@ -40,12 +40,13 @@ public class TargetRoom extends Room {
 			if (reachedTime + 10000 <= System.currentTimeMillis()) {
 				this.floor.finishFloor();
 			}
+			return;
 		}
 
 		// If there are any players in this room, return true
 		for (Entity[] es : entities) {
 			for (Entity e : es) {
-				if (e.isPlayer()) {
+				if (e != null && e.isPlayer()) {
 					this.reached = true;
 					this.reachedTime = System.currentTimeMillis();
 				}

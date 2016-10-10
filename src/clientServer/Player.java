@@ -33,6 +33,11 @@ public class Player {
 	}
 	
 	public void doMovement() {
+		// check whether the player was respawned, and if so, enter the new room
+		if (this.character.hasRespawned()) {
+			this.newlyEntered = true;
+		}
+		
 		if (this.order == Order.NONE) {
 			return;
 		}

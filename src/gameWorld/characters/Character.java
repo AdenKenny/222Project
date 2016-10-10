@@ -101,6 +101,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	private int level;
 	private int xpForLevel;
 
+	private boolean hasRespawned;
+
 	// TODO: find some way of actually getting equipment to work
 	private List<Item> equips;
 
@@ -117,6 +119,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.isAlive = false;
 		this.equips = new ArrayList<>();
 		this.attackers = new HashSet<>();
+		this.hasRespawned = false;
 
 		setFields();
 		addActions();
@@ -144,6 +147,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.health = this.maxHealth = (int) Math.pow(BASE_HEALTH, 1 + HEALTH_FACTOR * ((this.level - 1) / 100));
 		this.damage = (int) Math.pow(BASE_DAMAGE, 1 + DAMAGE_FACTOR * ((this.level - 1) / 100));
 		this.xpForLevel = this.baseXP + (int) Math.pow(this.level - 1, XP_FACTOR);
+		this.hasRespawned = false;
 	}
 
 	public Character(String username) {
@@ -158,6 +162,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.xp = 0;
 		this.isAlive = false;
 		this.equips = new ArrayList<>();
+		this.hasRespawned = false;
 
 		setFields();
 		addActions();
@@ -184,6 +189,11 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.facing = facing;
 		this.isAlive = true;
 		this.health = this.maxHealth;
+		
+		if (this.type.equals(Type.PLAYER)) {
+			// no need to do this for monsters or vendors
+			this.hasRespawned = true;
+		}
 	}
 
 	private void addActions() {
@@ -978,5 +988,15 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 */
 	public void slay() {
 		this.isAlive = false;
+	}
+
+	/**
+	 * Checks whether this Character has been respawned between the last time it
+	 * moved and the current time.
+	 * 
+	 * @return Whether this Character has been respawned
+	 */
+	public boolean hasRespawned() {
+		return this.hasRespawned;
 	}
 }
