@@ -351,6 +351,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		gfx.revalidate();
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		scheduler.scheduleAtFixedRate(new Runnable(){
+			@Override
 			public void run(){
 				gfx.repaint();
 			}
