@@ -127,17 +127,26 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.display = display;
 	}
 
+	/**
+	 * Adds player chat to the ui chatPane.
+	 */
 	@Override
 	public void addChat(String text) {
 		bottomPanel.addChat(text);
 	}
 
+	/**
+	 * Send chat to server for broadcast to all clients.
+	 */
 	@Override
 	public void sendChat(String chatInput) {
 		// send input to server for broadcast
 		slave.sendTextMessage(chatInput);
 	}
 
+	/**
+	 * add game chat to the ui chatPane.
+	 */
 	@Override
 	public void addGameChat(String output) {
 		while (bottomPanel == null) {
@@ -151,11 +160,17 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	}
 
+	/**
+	 * Add item to the inventory ui so that it is displayed.
+	 */
 	@Override
 	public void addToInventory(Item item) {
 		bottomPanel.addToInventory(item);
 	}
 
+	/**
+	 * update a particular to be displayed, id spcified by static fields in StatsPane.
+	 */
 	@Override
 	public void setStat(int id, int value) {
 		bottomPanel.setStat(id, value);
@@ -173,31 +188,49 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.updateGold(player.getGold());
 	}
 
+	/**
+	 * Updates the room number in InfoPane ui.
+	 */
 	@Override
 	public void setRoom(int floor, Room room) {
 		infoBar.setRoom(floor, room);
 	}
 
+	/**
+	 * Updates the gold displayed in ui InfoPane.
+	 */
 	@Override
 	public void updateGold(int amount) {
 		infoBar.updateGold(amount);
 	}
 
+	/**
+	 * Displays the actions of the given entity at x, y position.
+	 */
 	@Override
 	public void displayEntityOptions(Entity entity, int x, int y) {
 		optionsPane.displayAndDrawEntityList(x, y, entity);
 	}
 
+	/**
+	 * Displays the actions of the given item at x, y position.
+	 */
 	@Override
 	public void displayItemOptions(Item item, int x, int y) {
 		optionsPane.displayAndDrawItemList(x, y, item);
 	}
 
+	/**
+	 * Tells the server to process an action on the given entity.
+	 */
 	@Override
 	public void performActionOnEntity(Entity entity, String actionName) {
 		this.slave.performActionOnEntity(entity, actionName);
 	}
 
+	/**
+	 * Tells the server to process an action on the given Item.
+	 */
 	@Override
 	public void performActionOnItem(Item clickedItem, String name) {
 		// this.slave.performActionOnItem(clickedItem, name); //TODO: implement
@@ -207,10 +240,16 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	 * Methods for implementing key listener for game movement.
 	 */
 
+	/**
+	 * Does nothing
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	/**
+	 * Process key input to game.
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (System.currentTimeMillis() < this.moveTimer + MOVE_SPEED) {
@@ -251,6 +290,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		}
 	}
 
+	/**
+	 * Does nothing
+	 */
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
 	public void accountResult(byte result) {
 		String text = "";
 		if (result == PackageCode.Codes.LOGIN_SUCCESS.value()) {
@@ -273,8 +318,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	/*
 	 * Once a user has successfully logged in, load them into game.
+	 *
 	 */
-
 	private void enterGame() {
 		while (this.game == null) {
 			this.game = this.slave.getGame();
@@ -297,9 +342,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			} catch (InterruptedException e) {
 			}
 		}
-
 		player.addListener(audioHandler);
-
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
 		setRoom(this.game.getFloor(), this.game.getRoom());
@@ -319,7 +362,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 				gfx.repaint();
 			}
 		}, 0, 33, TimeUnit.MILLISECONDS);
-		//Start playing music to make the player feel that they are alone in a dark place in a different world, and they may never return.
+		//Start playing music to make the player feel that they are alone in a dark
+		//place in a different world, and they may never return.
 		audioHandler.playMusic("main");
 
 	}
@@ -368,12 +412,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.setSlave(slave);
 		main.initComponents();
 		main.waitForGame();
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
