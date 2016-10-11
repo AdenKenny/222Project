@@ -21,7 +21,6 @@ import gameWorld.item.Item;
 
 public class BottomPanel extends JPanel {
 	public static final float HEIGHT_RATIO = 0.2f; // height as proportion of window.
-
 	MainWindow parent;
 
 	private ChatPane chatPane;
