@@ -170,7 +170,7 @@ public class Item implements Buildable, Cloneable {
 			break;
 		}
 
-		this.actions.add(new Action() {
+		/*this.actions.add(new Action() {
 			@Override
 			public String name() {
 				return "Pick Up";
@@ -194,7 +194,7 @@ public class Item implements Buildable, Cloneable {
 			public boolean isClientAction() {
 				return false;
 			}
-		});
+		});*/
 
 	}
 
@@ -215,7 +215,7 @@ public class Item implements Buildable, Cloneable {
 	 */
 	public void tryEquip(Character equipper) {
 		if (equipper.equals(this.holder)) {
-			this.holder.equip(this);
+			this.holder.equip(this.ID);
 		}
 	}
 
@@ -227,7 +227,7 @@ public class Item implements Buildable, Cloneable {
 	 */
 	public void tryPickUp(Character pickerUpperer) {
 		if (this.holder == null) {
-			pickerUpperer.pickUp(this);
+			pickerUpperer.pickUp(this.ID);
 			this.holder = pickerUpperer;
 		}
 	}
@@ -358,5 +358,13 @@ public class Item implements Buildable, Cloneable {
 		}
 
 		return null;
+	}
+
+	public void performAction(String actionName, Character c) {
+		for (Action a : this.actions) {
+			if (a.name().equals(actionName)) {
+				a.perform(c);
+			}
+		}
 	}
 }

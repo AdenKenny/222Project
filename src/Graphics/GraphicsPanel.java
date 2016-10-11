@@ -308,7 +308,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 			return null;
 		}
     }
-    
+
     private String getItemImagePath(String resourceName){
     	return String.format("/resources/graphics/%s.png", resourceName);
     }

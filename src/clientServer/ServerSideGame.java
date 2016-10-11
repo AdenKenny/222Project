@@ -276,6 +276,19 @@ public class ServerSideGame implements Game {
 		entity.performAction(actionName, c);
 	}
 
+	public void performActionOnItem(long uid, byte[] input) {
+		Character c = this.connectedPlayers.get(uid).getCharacter();
+
+		int itemID = Sendable.bytesToInt(input, 1);
+
+		String actionName = "";
+		for (int i = 5, size = input.length; i < size; ++i) {
+			actionName += (char) input[i];
+		}
+
+		mapOfItems.get(itemID).performAction(actionName, c);
+	}
+
 	/**
 	 * Checks whether a particular user is currently online - that is, whether
 	 * the user is currently connected to the server.

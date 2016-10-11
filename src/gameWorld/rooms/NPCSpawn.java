@@ -47,8 +47,8 @@ public class NPCSpawn extends Room implements SpawnRoom {
 						// that died
 						int x = this.npc.xPos(), y = this.npc.yPos();
 						ObjectModel dropModel = Game.mapOfObjects.get(0);
-						List<Integer> items = this.npc.getItems();
-						int dropItem = items.get((int)(Math.random() * items.size()));
+						int[] items = this.npc.getItems();
+						int dropItem = items[(int)(Math.random() * items.length)];
 						dropModel.setItem(dropItem);
 						this.entities[y][x] = new StationaryObject(dropModel, this, x, y, Direction.NORTH);
 					}

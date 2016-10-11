@@ -95,6 +95,7 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] == null){
 					items[i][j] = item;
+					System.out.println("items["+i+"]["+j+"] = "+item.getName());
 					this.repaint();
 					return;
 				}
@@ -125,8 +126,7 @@ public class InventoryPane extends JPanel{
 				if(items[i][j] != null){
 					//draw the item based on its name
 					try {
-						System.out.println("/resources/graphics/"+ items[i][j].getName()+".png");
-						Image icon = icons.getResource("/resources/graphics/"+ items[i][j].getName()+".png");
+						Image icon = icons.getResource("/resources/graphics/"+items[i][j].getName()+".png");
 						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 					} catch (IOException e) {
 						e.printStackTrace();
