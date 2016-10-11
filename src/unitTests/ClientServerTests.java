@@ -23,7 +23,7 @@ public class ClientServerTests {
 	@Test
 	public void connect() {
 		MainWindow main = new MainWindow();
-		Slave slave = new Slave(main);
+		Slave slave = new Slave(main, null);
 		main.setSlave(slave);
 		slave.start();
 		slave.login("Simon", "hunter2".toCharArray());

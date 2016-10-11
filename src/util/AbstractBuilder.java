@@ -6,7 +6,7 @@ package util;
  * implements this interface should implement 'Buildable' as all objects built
  * by builders must be buildable.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public interface AbstractBuilder {
@@ -60,14 +60,14 @@ public interface AbstractBuilder {
 
 	/**
 	 * Sets the items that this object contains(?) (This is really generic as this is a generic interface).
-	 * 
+	 *
 	 * @param items A string representing the items that will be set.
 	 * @throws AssertionError Thrown if this method is called in ItemBuilder as this is irrelevant there.
 	 */
-	
+
 	void setItems(String items) throws AssertionError;
 
-	
+
 	/**
 	 * Returns the name of an object that has been built.
 	 *
@@ -93,15 +93,15 @@ public interface AbstractBuilder {
 
 	/**
 	 * Sets the sale value of an object.
-	 * 
+	 *
 	 * Note: This should only be called in ItemBuilder as the sale value is irrelevant anywhere else.
-	 * 
+	 *
 	 * @param value A string representing the value of an object.
 	 * @throws AssertionError Thrown when this is called anywhere but ItemBuilder.
 	 */
 
 	void setSaleValue(String value) throws AssertionError;
-	
+
 
 	/**
 	 * Gets the description of an object that has been built.

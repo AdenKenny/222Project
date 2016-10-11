@@ -296,7 +296,6 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-
 	public void accountResult(byte result) {
 		String text = "";
 		if (result == PackageCode.Codes.LOGIN_SUCCESS.value()) {
@@ -402,7 +401,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public static void main(String[] args) {
 		MainWindow main = new MainWindow();
-		Slave slave = new Slave(main);
+		Slave slave;
+		if (args.length == 2 && args[0].equals("-a")) {
+			slave = new Slave(main, args[1]);
+		}
+		else {
+			slave = new Slave(main, null);
+		}
 		slave.start();
 		main.setSlave(slave);
 		main.initComponents();

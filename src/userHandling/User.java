@@ -3,7 +3,7 @@ package userHandling;
 /**
  * A class representing a registered user.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class User implements Comparable<User>, Cloneable {
@@ -142,17 +142,17 @@ public final class User implements Comparable<User>, Cloneable {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public User clone() {
 		try {
 			return (User) super.clone();
 		}
 		catch (CloneNotSupportedException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 }

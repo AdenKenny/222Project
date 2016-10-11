@@ -24,7 +24,7 @@ import dataStorage.XMLReader;
 /**
  * A class for creating a .xml file.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class XMLWriter implements XMLInteractable {

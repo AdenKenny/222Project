@@ -5,7 +5,7 @@ package util;
  * that interface returns a type of 'Buildable' which must be either an 'Item', a 'Character',
  * an 'ObjectModel' or a'CharacterModel' as those are the classes that implement this interface.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public interface Buildable {

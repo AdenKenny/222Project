@@ -14,7 +14,9 @@ import gameWorld.characters.Character;
 import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {
+	private static final String DEFAULT_ADDRESS = "127.0.0.1";
 	private static final int BROADCAST_CLOCK = 50;
+
 	private Socket socket;
 	private DataOutputStream output;
 	private boolean connected;
@@ -22,10 +24,15 @@ public class Slave extends Thread {
 	private MainWindow mainWindow;
 	private String username;
 
-	public Slave(MainWindow mainWindow) {
+	public Slave(MainWindow mainWindow, String address) {
 		this.mainWindow = mainWindow;
 		try {
-			this.socket = new Socket("127.0.0.1", Server.PORT);
+			if (address == null) {
+				this.socket = new Socket(DEFAULT_ADDRESS, Server.PORT);
+			}
+			else {
+				this.socket = new Socket(address, Server.PORT);
+			}
 			this.output = new DataOutputStream(this.socket.getOutputStream());
 			this.connected = true;
 		}
