@@ -37,7 +37,8 @@ public final class PackageCode {
 		KEY_PRESS_D,
 		KEY_PRESS_Q,
 		KEY_PRESS_E,
-		PERFORM_ACTION;
+		PERFORM_ACTION,
+		GAME_WON;
 
 		public byte value() {
 			return (byte) ordinal();
