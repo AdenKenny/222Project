@@ -39,7 +39,7 @@
       <UID>29</UID>
       <type>PLAYER</type>
       <items>1, 2</items>
-      <health>85</health>
+      <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>
@@ -50,7 +50,7 @@
       <UID>298</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>45</health>
+      <health>100</health>
       <xp>81</xp>
       <gold>43</gold>
       <level>3</level>
