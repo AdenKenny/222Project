@@ -34,6 +34,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private BottomPanel bottomPanel;
 	private OptionsPane optionsPane;
 	private boolean enterGame;
+	private Compass compass;
 
 	public MainWindow() {
 		super("RoomScape");
@@ -88,8 +89,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setFocusable(true);
 	}
 
-	private void initComponents() {
-		// Add next level of components
+
+	private void initComponents(){
+		//Add next level of components
+		this.compass = new Compass(this);
 		infoBar = new InfoPane();
 		display = new Login(this, slave);
 		bottomPanel = new BottomPanel(this);
@@ -111,7 +114,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		revalidate();
 		setVisible(true);
 		this.optionsPane = new OptionsPane(this);
-		getLayeredPane().add(optionsPane, new Integer(300)); // Pop-up layer
+		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
+		getLayeredPane().add(compass, new Integer(200)); //Pop-up layer
 	}
 
 	protected void setDisplay(JPanel display) {
@@ -148,7 +152,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	/**
 	 * Updates the stats pane to reflect any changes to the specified
 	 * Character's statistics.
-	 * 
+	 *
 	 * @param player
 	 *            The Character whose stats are being displayed
 	 */
@@ -205,9 +209,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_D.value());
 			moved = true;
 		} else if (code == KeyEvent.VK_Q) {
+			compass.rotateLeft();
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_Q.value());
 			moved = true;
 		} else if (code == KeyEvent.VK_E) {
+			compass.rotateRight();
 			this.slave.sendKeyPress(PackageCode.Codes.KEY_PRESS_E.value());
 			moved = true;
 		}
@@ -280,8 +286,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		updateGold(this.game.getPlayer().getGold());
 		setRoom(this.game.getFloor(), this.game.getRoom());
 		bottomPanel.loadInventory(player);
-
-		// Load graphics panel
+		compass.setVisible(true);
+		//Load graphics panel
 		this.display = new GraphicsPanel(this.game.getPlayer());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));

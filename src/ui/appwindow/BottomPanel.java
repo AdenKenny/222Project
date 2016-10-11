@@ -14,13 +14,14 @@ import gameWorld.item.Item;
 
 /**
  * Container for holding bottom Items(chat/info/inventory).
- * 
+ *
  * @author Clinton
- * 
+ *
  */
-public class BottomPanel extends JPanel {
-	public static float HEIGHT_RATIO = 0.2f; // height as proportion of window.
-	private MainWindow parent;
+
+public class BottomPanel extends JPanel{
+	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
+	protected MainWindow parent;
 	private ChatPane chatPane;
 	private StatsPane statPane;
 	private InventoryPane inventoryPane;
@@ -30,6 +31,7 @@ public class BottomPanel extends JPanel {
 		setLayout(new BorderLayout());
 		setVisible(true);
 	}
+
 
 	public void initComponents() {
 		this.chatPane = new ChatPane(this);
@@ -44,8 +46,7 @@ public class BottomPanel extends JPanel {
 		revalidate();
 	}
 
-	public void loadPlayerStats(Character currentPlayer) {
-
+	public void loadPlayerStats(Character currentPlayer){
 		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
 		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
 		setStat(StatsPane.EXP, currentPlayer.getXp());
@@ -103,7 +104,7 @@ public class BottomPanel extends JPanel {
 	/**
 	 * Updates the stats pane to reflect any changes to the specified
 	 * Character's statistics.
-	 * 
+	 *
 	 * @param player
 	 *            The Character whose stats are being displayed
 	 */
