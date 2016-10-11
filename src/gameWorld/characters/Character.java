@@ -401,12 +401,6 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 				}
 			}
 		}
-
-		if (this.isAlive) {
-			event("damage");
-		} else {
-			event("death");
-		}
 	}
 
 	/**
@@ -689,13 +683,15 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 *            The amount to set this Character's health to
 	 */
 	public void setHealth(int health) {
+		if (health < this.health) {
+			this.event("damage");
+		}
 		this.health = health;
-		if (health > this.maxHealth)
-			health = this.maxHealth; // TODO The param is assigned here? Should
-										// this.health be assigned?
+		if (health > this.maxHealth) {
+			this.health = this.maxHealth;
+		}
 		if (health < 0) {
 			this.isAlive = false;
-			// TODO: die();
 		}
 	}
 
@@ -861,6 +857,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 */
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+		if (!isAlive) {
+			this.event("death");
+		}
 	}
 
 	/**
