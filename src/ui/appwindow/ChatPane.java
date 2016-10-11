@@ -65,7 +65,9 @@ public class ChatPane extends JPanel{
 					sendChat(ChatPane.this.inputBar.getText().trim());
 					ChatPane.this.inputBar.setText("");
 					ChatPane.this.inputBar.setCaretPosition(0);
+					ChatPane.this.parent.getParent().requestFocus();
 					ChatPane.this.parent.getParent().requestFocusInWindow(); //restore key input to game movement
+
 				}
 			}
 		});

@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Compass extends JPanel {
-	
+
 	private Image compass;
 	private String direction = "N";
 	private MainWindow parent;
@@ -26,9 +26,9 @@ public class Compass extends JPanel {
 		}
 		setOpaque(false);
 		setBackground(new Color(0,0,0,0));
-		setBounds(new Rectangle(parent.getWidth()-55, 50, 50, 50));
+		setBounds(new Rectangle(parent.getWidth()-55, 90, 50, 50));
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -38,7 +38,7 @@ public class Compass extends JPanel {
 		g.drawString(direction, getWidth()/2-5, getHeight()/2-5);
 
 	}
-	
+
 	public void rotateRight(){
 		if(direction.equals("N")) direction = "E";
 		else if(direction.equals("E")) direction = "S";
