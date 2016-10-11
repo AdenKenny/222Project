@@ -3,25 +3,14 @@
   <players>
     <player>
       <username>Aden</username>
-      <UID>18</UID>
+      <UID>27</UID>
       <type>PLAYER</type>
-      <items>-1</items>
-      <health>92</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
-      <username>Simon</username>
-      <UID>19</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
+      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>
-      <equips/>
+      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
   </players>
   <monsters/>
