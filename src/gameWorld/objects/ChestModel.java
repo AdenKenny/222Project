@@ -51,9 +51,10 @@ public class ChestModel extends ObjectModel {
 		return super.getItems();
 	}
 
-	@Override
 	public void setItems(List<Integer> items) {
-		super.setItems(items);
+		for (int i : items) {
+			super.setItem(i);
+		}
 	}
 
 }
