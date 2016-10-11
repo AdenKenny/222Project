@@ -78,14 +78,14 @@ public final class FileVerifier {
 		List<File> arrFiles = new ArrayList<>(Arrays.asList(listOfFiles)); //Convert to ArrayList.
 
 		if (arrFiles.size() > 0) { //See if any files already exist.
-			outer:
 			for (File file : arrFiles) {
 				String string = file.getName();
 
 				for (String s : fileNames) {
 
 					if (string.equals(s)) {
-						continue outer; //We don't need to make a new file.
+						System.out.println("test");
+						break;
 					}
 
 					File temp = new File(xmlPath2 + "/" + string); //The path of the needed path.

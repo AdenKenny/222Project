@@ -52,22 +52,22 @@ public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
 		}
 	}
 
+	/*
+	 * These methods should never be called.
+	 */
+
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new AssertionError();
 	}
 
 	@Override
 	public int getValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new AssertionError();
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new AssertionError();
 	}
-
 }

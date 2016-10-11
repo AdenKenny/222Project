@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 /**
  * An interface which allows Objects to be translated into byte arrays which can
  * be sent along a network, then parsed back from the bytes.
- * 
+ *
  * @author Simon
  */
 public interface Sendable {
@@ -13,7 +13,7 @@ public interface Sendable {
 	/**
 	 * An enumeration which represents the different types of Characters which
 	 * may be sent across the network.
-	 * 
+	 *
 	 * @author Simon & Louis
 	 */
 	public static enum Types {
@@ -26,7 +26,7 @@ public interface Sendable {
 
 	/**
 	 * Translates an integer value into a byte array.
-	 * 
+	 *
 	 * @param i
 	 *            The integer to translate
 	 * @return The translated byte array
@@ -37,7 +37,7 @@ public interface Sendable {
 
 	/**
 	 * Translates an arbitrary number of integer values into a byte array.
-	 * 
+	 *
 	 * @param is
 	 *            The integers to translate
 	 * @return The translated byte array
@@ -58,7 +58,7 @@ public interface Sendable {
 
 	/**
 	 * Parses a section of an array of bytes into an integer value.
-	 * 
+	 *
 	 * @param bytes
 	 *            The array to parse
 	 * @param start
@@ -80,4 +80,8 @@ public interface Sendable {
 	 * @return A byte packet.
 	 */
 	public byte[] toSend();
+
+	public int getID();
+
+	public String getName();
 }

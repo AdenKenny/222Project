@@ -9,7 +9,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.LoadGame;
-import dataStorage.SaveGame;
+import gameWorld.Action;
+import gameWorld.Entity;
 import gameWorld.Floor;
 import gameWorld.Sendable;
 import gameWorld.World;
@@ -18,6 +19,7 @@ import gameWorld.characters.Character;
 import gameWorld.rooms.Room;
 import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
+import util.FileVerifier;
 import util.Logging;
 
 public class ServerSideGame implements Game {
@@ -49,6 +51,8 @@ public class ServerSideGame implements Game {
 				players.put(c.getName(), c); // Loads players into game.
 			}
 		}
+
+		//FileVerifier.getInstance().checkFiles();
 
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
@@ -202,9 +206,7 @@ public class ServerSideGame implements Game {
 	 * @param uid
 	 * @param message
 	 */
-	public void textMessage(long uid, String message) { // TODO What the fuck?
-														// Why is a string
-														// passed here?
+	public void textMessage(long uid, String message) {
 		// add the users name to the start of the text message
 		message = this.connectedPlayers.get(uid).getCharacter().getName() + ": " + message;
 		this.textMessages.add(message);
@@ -222,6 +224,32 @@ public class ServerSideGame implements Game {
 			messages[i] = this.textMessages.get(i + messagesReceived);
 		}
 		return messages;
+	}
+
+	public void performActionOnEntity(long uid, byte[] input) {
+		Character c = this.connectedPlayers.get(uid).getCharacter();
+
+		int entityID = Sendable.bytesToInt(input, 1);
+		Entity[][] entities = c.room().entities();
+		Entity entity = null;
+
+		for (Entity[] es : entities) {
+			for (Entity e : es) {
+				if (e != null && e.ID() == entityID) {
+					entity = e;
+				}
+			}
+		}
+		if (entity == null) {
+			return;
+		}
+
+		String actionName = "";
+		for (int i = 5, size = input.length; i < size; ++i) {
+			actionName += (char) input[i];
+		}
+
+		entity.performAction(actionName, c);
 	}
 
 	/**
@@ -270,4 +298,4 @@ public class ServerSideGame implements Game {
 	public static Map<String, Character> getAllPlayers() {
 		return players;
 	}
-}
+}

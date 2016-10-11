@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -93,7 +94,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
         }
     }
-
+    
     /**
      * Calculates which entities has been clicked on.
      * @param y
@@ -113,7 +114,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
     @Override
     public void paintComponent(Graphics graphics) {
-    	if (toFlash == null){
+    	if (toFlash != null){
     		doFlash(toFlash, graphics);
     		//Overwrite toFlash so the flash is not repeated.
     		toFlash = null;
@@ -167,6 +168,8 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         graphics.fillRect(0, height, getWidth(), height);
     }
 
+    private static final int healthBarHeight = 20;
+    
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         if (isLocationDoor(absoluteTarget, room)){
@@ -194,418 +197,392 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		        if (entity instanceof Character){
 		        	//Calculate width of the healthbar.
 		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
-		        	int healthbarWidth = (int) (relativeHealth * location.width);
+		        	int healthBarWidth = (int) (relativeHealth * location.width);
 		        	//Draw the healthbar
 		        	graphics.setColor(Color.green);
-		        	graphics.fillRect(location.x, location.y - 20, healthbarWidth, 20);
+		        	graphics.fillRect(location.x, location.y - healthBarHeight, healthBarWidth, healthBarHeight);
+		        	//Calculate the location and width of the depleted section of the healthbar.
+		        	int depletedBarWidth = location.width - healthBarWidth;
+		        	int depletedBarX = location.x + healthBarWidth;
+		        	graphics.setColor(Color.red);
+		        	graphics.fillRect(depletedBarX, location.y - healthBarHeight, depletedBarWidth, healthBarHeight);
 		        }
 	        }
         }
     }
-    
-    private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
-    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
-    	try {
-			graphics.drawImage(cache.getResource("/resources/graphics/wall.png"), location.x, location.y, location.width, location.height, null);
+
+	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
+		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+		try {
+			graphics.drawImage(this.cache.getResource("/resources/graphics/wall.png"), location.x, location.y,
+					location.width, location.height, null);
 		} catch (IOException e) {
 		}
-    }
-    
-    private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics){
-    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
-    	try {
-			graphics.drawImage(cache.getResource("/resources/graphics/door.png"), location.x, location.y, location.width, location.height, null);
+	}
+
+	private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics) {
+		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+		try {
+			graphics.drawImage(this.cache.getResource("/resources/graphics/door.png"), location.x, location.y,
+					location.width, location.height, null);
 		} catch (IOException e) {
 		}
-    }
-    
-    private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics){
-    	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
-    	graphics.setColor(Color.BLACK);
-    	graphics.fillRect(location.x, location.y, location.width, location.height);
-    }
-    
-    /**
-     * In effect, shows an image on the entire screen. This is used to flash over the screen.
-     */
-    private void doFlash(String resourceName, Graphics graphics){
-    	String resourceURL = String.format("/resources/graphics/%s.png", resourceName);
-    	try {
-			graphics.drawImage(cache.getResource(resourceURL), 0, 0, getWidth(), getHeight(), null);
+	}
+	
+	private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics) {
+		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+		graphics.setColor(Color.BLACK);
+		graphics.fillRect(location.x, location.y, location.width, location.height);
+	}
+
+	private void doFlash(String toFlash, Graphics graphics){
+		try {
+			graphics.drawImage(cache.getResource(toFlash), 0, 0, getWidth(), getHeight(), null);
 		} catch (IOException e) {
 		}
-    }
-    
-    private Image loadImage(String name, Side side){
-        try {
-            return cache.getResource(resolveImageName(name, side));
-        } catch (IOException ioe){
-            return null;
-        }
-    }
+	}
+	
+	private Image loadImage(String name, Side side) {
+		try {
+			return this.cache.getResource(resolveImageName(name, side));
+		} catch (IOException ioe) {
+			return null;
+		}
+	}
 
-    private String resolveImageName(String name, Side side){
-        return String.format("/resources/graphics/%s/%s.png", name, resolveSideComponent(side));
-    }
+	private String resolveImageName(String name, Side side) {
+		return String.format("/resources/graphics/%s/%s.png", name, resolveSideComponent(side));
+	}
 
-    private String resolveSideComponent(Side side){
-        switch (side){
-            case Front:
-                return "front";
-            case Right:
-                return "right";
-            case Back:
-                return "back";
-            case Left:
-                return "left";
-            default:
-                return "front";
-        }
-    }
+	private String resolveSideComponent(Side side) {
+		switch (side) {
+		case Front:
+			return "front";
+		case Right:
+			return "right";
+		case Back:
+			return "back";
+		case Left:
+			return "left";
+		default:
+			return "front";
+		}
+	}
 
-    private Entity getEntityAtLocation(Room room, int[] location){
-        Entity[][] locations = room.entities();
-        // Check if location is in the room.
-        if (location[0] < 0 || location[0] >= locations.length || location[1] < 0 || location[1] >= locations[0].length){
-            return null;
-        } else {
-            return locations[location[0]][location[1]];
-        }
-    }
-    
-    private boolean isLocationWall(int[] location, Room room){
-    	return !isLocationBlackSpace(location, room) && (location[0] == -1 || location[0] == room.entities().length || location[1] == -1 || location[1] == room.entities()[0].length);
-    }
-    
-    private boolean isLocationBlackSpace(int[] location, Room room){
-    	return location[0] < -1 || location[0] > room.entities().length ||location[1] < -1 || location[1] > room.entities()[0].length;
-    }
-    
-    private boolean isLocationDoor(int[] location, Room room){
-    	Entity[][] entities = room.entities();
-    	//Check for the north door.
-    	if (location[0] == -1 && location[1] == entities[0].length / 2){
-    		return room.hasDoor(Direction.NORTH);
-    	//Check for the East door
-    	} else if (location[1] == entities[0].length && location[0] == entities.length / 2){
-    		return room.hasDoor(Direction.EAST);
-    	//Check the south door.
-    	} else if (location[0] == entities.length && location[1] == entities[0].length / 2){
-    		return room.hasDoor(Direction.SOUTH);
-    	} else if (location[1] == -1 && location[0] == entities.length / 2){
-    		return room.hasDoor(Direction.WEST);
-    	} else return false;
-    }
-    
+	private Entity getEntityAtLocation(Room room, int[] location) {
+		Entity[][] locations = room.entities();
+		// Check if location is in the room.
+		if (location[0] < 0 || location[0] >= locations.length || location[1] < 0
+				|| location[1] >= locations[0].length) {
+			return null;
+		} else {
+			return locations[location[0]][location[1]];
+		}
+	}
 
-    /**
-     * Returns the location of the viewer in their current room.
-     * @param entity
-     * @param room
-     * @return {y, x}
-     */
-    private int[] locateViewer(Character viewer){
-        if (viewer == null){
-        	return new int[] {-1, -1};
-        } else {
-        	return new int[] { viewer.yPos(), viewer.xPos()};
-        }
-    }
+	private boolean isLocationWall(int[] location, Room room) {
+		return !isLocationBlackSpace(location, room) && (location[0] == -1 || location[0] == room.entities().length
+				|| location[1] == -1 || location[1] == room.entities()[0].length);
+	}
 
-    /**
-     * Calculate a position from a delta that is relative to an entity's location and facing direction;
-     * For instance, a relative delta of -5, 3 is 5 units to the left of the viewer and 3 units in front of them.
-     * @param viewerDirection
-     * @param viewerY
-     * @param viewerX
-     * @param sideDelta negative is left, positive is right.
-     * @param forwardDelta
-     * @return {y, x}
-     */
-    private int[] calculateCoordinatesFromRelativeDelta(World.Direction viewerDirection, int viewerY, int viewerX,
-                                                         int sideDelta, int forwardDelta){
-        return applyDelta(
-                sumDelta(
-                        calculateAbsoluteSideDelta(viewerDirection, sideDelta),
-                        calculateAbsoluteForwardDelta(viewerDirection, forwardDelta)
-                )
-                ,viewerY
-                ,viewerX);
-    }
+	private boolean isLocationBlackSpace(int[] location, Room room) {
+		return location[0] < -1 || location[0] > room.entities().length || location[1] < -1
+				|| location[1] > room.entities()[0].length;
+	}
 
-    /**
-     * Convert from a direction and relative side delta to an absolute delta.
-     * @param viewerDirection
-     * @param sideDelta
-     * @return {delta y, delta x}
-     */
-    private int[] calculateAbsoluteSideDelta(World.Direction viewerDirection, int sideDelta){
-        switch(viewerDirection) {
-            case NORTH:
-                return new int[] {
-                        0,
-                        sideDelta
-                };
-            case EAST:
-                return new int[] {
-                    sideDelta,
-                    0
-                };
-            case SOUTH:
-                return new int[] {
-                    0,
-                    -sideDelta
-                };
-            case WEST:
-                return new int[] {
-                    -sideDelta,
-                    0
-                };
-            default:
-                return new int[]{
-                    0,
-                    0
-                };
-        }
-    }
+	private boolean isLocationDoor(int[] location, Room room) {
+		Entity[][] entities = room.entities();
+		// Check for the north door.
+		if (location[0] == -1 && location[1] == entities[0].length / 2) {
+			return room.hasDoor(Direction.NORTH);
+			// Check for the East door
+		} else if (location[1] == entities[0].length && location[0] == entities.length / 2) {
+			return room.hasDoor(Direction.EAST);
+			// Check the south door.
+		} else if (location[0] == entities.length && location[1] == entities[0].length / 2) {
+			return room.hasDoor(Direction.SOUTH);
+		} else if (location[1] == -1 && location[0] == entities.length / 2) {
+			return room.hasDoor(Direction.WEST);
+		} else
+			return false;
+	}
 
-    /**
-     * Calculates an absolute delta from a direction and a forward delta.
-     * @param viewerDirection
-     * @param forwardDelta
-     * @return {y, x}
-     */
-    private int[] calculateAbsoluteForwardDelta(World.Direction viewerDirection, int forwardDelta){
-        switch(viewerDirection) {
-            case NORTH:
-                return new int[] {
-                        -forwardDelta,
-                        0
-                };
-            case EAST:
-                return new int[] {
-                        0,
-                        forwardDelta
-                };
-            case SOUTH:
-                return new int[] {
-                        forwardDelta,
-                        0
-                };
-            case WEST:
-                return new int[] {
-                        0,
-                        -forwardDelta
-                };
-            default:
-                return new int[]{
-                        0,
-                        0
-                };
-        }
-    }
+	/**
+	 * Returns the location of the viewer in their current room.
+	 *
+	 * @param entity
+	 * @param room
+	 * @return {y, x}
+	 */
+	private int[] locateViewer(Character viewer) {
+		if (viewer == null) {
+			return new int[] { -1, -1 };
+		} else {
+			return new int[] { viewer.yPos(), viewer.xPos() };
+		}
+	}
 
-    /**
-     * Returns the sum of the two deltas.
-     * @param a {y, x}
-     * @param b {y, x}
-     * @return {y, x}
-     */
-    private int[] sumDelta(int[] a, int[] b){
-        return new int[] {a[0] + b[0], a[1] + b[1]};
-    }
+	/**
+	 * Calculate a position from a delta that is relative to an entity's location and facing direction; For instance, a relative delta of
+	 * -5, 3 is 5 units to the left of the viewer and 3 units in front of them.
+	 *
+	 * @param viewerDirection
+	 * @param viewerY
+	 * @param viewerX
+	 * @param sideDelta
+	 *            negative is left, positive is right.
+	 * @param forwardDelta
+	 * @return {y, x}
+	 */
+	private int[] calculateCoordinatesFromRelativeDelta(World.Direction viewerDirection, int viewerY, int viewerX,
+			int sideDelta, int forwardDelta) {
+		return applyDelta(sumDelta(calculateAbsoluteSideDelta(viewerDirection, sideDelta),
+				calculateAbsoluteForwardDelta(viewerDirection, forwardDelta)), viewerY, viewerX);
+	}
 
-    private int[] applyDelta(int[] delta, int y, int x){
-        return new int[] {y + delta[0], x + delta[1]};
-    }
+	/**
+	 * Convert from a direction and relative side delta to an absolute delta.
+	 *
+	 * @param viewerDirection
+	 * @param sideDelta
+	 * @return {delta y, delta x}
+	 */
+	private int[] calculateAbsoluteSideDelta(World.Direction viewerDirection, int sideDelta) {
+		switch (viewerDirection) {
+		case NORTH:
+			return new int[] { 0, sideDelta };
+		case EAST:
+			return new int[] { sideDelta, 0 };
+		case SOUTH:
+			return new int[] { 0, -sideDelta };
+		case WEST:
+			return new int[] { -sideDelta, 0 };
+		default:
+			return new int[] { 0, 0 };
+		}
+	}
 
-    public class RenderData{
-    	final int y;
-    	final int x;
-    	final int height;
-    	final int width;
-    	
-    	public RenderData(int inY, int inX, int inHeight, int inWidth){
-    		y = inY;
-    		x = inX;
-    		height = inHeight;
-    		width = inWidth;
-    	}
-    }
-    
-    /**
-     * Calculate the origin pixel for the specified relative delta.
-     * @param sideDelta
-     * @param forwardDelta
-     * @return [y, x, spriteHeight, spriteWidth]
-     */
-    private RenderData calculateRenderDataFromRelativeDelta(int sideDelta, int forwardDelta){
-        // Calculate the origin pixel of the entity on the far left.
-        // Translate sideOffset from 0 is center to zero is far left.
-    	// the -1 compensates for never viewing forwardDelta 0
-    	int invertForwardDelta = viewDistance - forwardDelta;
-    	int height = getHeight();
-    	// Items further away should 
-    	int yScale = (int) (height * 0.025);
-    	int yPixel = yScale * forwardDelta;
-    	int spriteHeight = height - (2 * yScale * forwardDelta);
-    	int width = getWidth();
-    	int center = width / 2;
-    	//The sprite width at this distance.
-    	int spriteWidth = (int) ((width / (viewWidth * 1.75)) * (0.75 + (invertForwardDelta * (0.5 / viewDistance))));
-    	int xPixel = (int) (center + (spriteWidth * sideDelta) - (spriteWidth / 2));
-    	return new RenderData(yPixel, xPixel, spriteHeight, spriteWidth);
-    }
-   
+	/**
+	 * Calculates an absolute delta from a direction and a forward delta.
+	 *
+	 * @param viewerDirection
+	 * @param forwardDelta
+	 * @return {y, x}
+	 */
+	private int[] calculateAbsoluteForwardDelta(World.Direction viewerDirection, int forwardDelta) {
+		switch (viewerDirection) {
+		case NORTH:
+			return new int[] { -forwardDelta, 0 };
+		case EAST:
+			return new int[] { 0, forwardDelta };
+		case SOUTH:
+			return new int[] { forwardDelta, 0 };
+		case WEST:
+			return new int[] { 0, -forwardDelta };
+		default:
+			return new int[] { 0, 0 };
+		}
+	}
 
-    protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer, int[] observed) {
-        return sideFromPerspectiveAndDirection(
-                calculatePerspective(
-                        viewerDirection,
-                        observer[1],
-                        observer[0],
-                        observed[1],
-                        observed[0]
-                ),
-                observedDirection
-        );
-    }
+	/**
+	 * Returns the sum of the two deltas.
+	 *
+	 * @param a
+	 *            {y, x}
+	 * @param b
+	 *            {y, x}
+	 * @return {y, x}
+	 */
+	private int[] sumDelta(int[] a, int[] b) {
+		return new int[] { a[0] + b[0], a[1] + b[1] };
+	}
 
-    // a is observer, b is observed
-    private Perspective calculatePerspective(World.Direction observerDirection, int ax, int ay, int bx, int by){
-        int deltaX = ax - bx;
-        int deltaY = ay - by;
-        int absDeltaX = Math.abs(deltaX);
-        int absDeltaY = Math.abs(deltaY);
-        if (absDeltaX < absDeltaY){
-            return calculateNSPerspective(deltaY);
-        } else if (absDeltaX > absDeltaY){
-            return calculateEWPerspective(deltaX);
-        } else {
-            return perspectiveFromViewerDirection(observerDirection);
-        }
-    }
+	private int[] applyDelta(int[] delta, int y, int x) {
+		return new int[] { y + delta[0], x + delta[1] };
+	}
 
-    private Perspective calculateNSPerspective(int deltaY){
-        if (deltaY > 0){
-             return Perspective.South;
-        } else {
-            return Perspective.North;
-        }
-    }
+	public class RenderData {
+		final int y;
+		final int x;
+		final int height;
+		final int width;
 
-    private Perspective calculateEWPerspective(int deltaX){
-        if (deltaX > 0){
-            return Perspective.East;
-        } else {
-            return Perspective.West;
-        }
-    }
+		public RenderData(int inY, int inX, int inHeight, int inWidth) {
+			this.y = inY;
+			this.x = inX;
+			this.height = inHeight;
+			this.width = inWidth;
+		}
+	}
 
-    private Perspective perspectiveFromViewerDirection(World.Direction viewerDirection){
-        switch (viewerDirection){
-            case NORTH:
-                return Perspective.South;
-            case EAST:
-                return Perspective.West;
-            case SOUTH:
-                return Perspective.North;
-            case WEST:
-                return Perspective.East;
-            default:
-                return Perspective.South;
-        }
-    }
+	/**
+	 * Calculate the origin pixel for the specified relative delta.
+	 *
+	 * @param sideDelta
+	 * @param forwardDelta
+	 * @return [y, x, spriteHeight, spriteWidth]
+	 */
+	private RenderData calculateRenderDataFromRelativeDelta(int sideDelta, int forwardDelta) {
+		// Calculate the origin pixel of the entity on the far left.
+		// Translate sideOffset from 0 is center to zero is far left.
+		// the -1 compensates for never viewing forwardDelta 0
+		int invertForwardDelta = viewDistance - forwardDelta;
+		int height = getHeight();
+		// Items further away should
+		int yScale = (int) (height * 0.025);
+		int yPixel = yScale * forwardDelta;
+		int spriteHeight = height - (2 * yScale * forwardDelta);
+		int width = getWidth();
+		int center = width / 2;
+		// The sprite width at this distance.
+		int spriteWidth = (int) ((width / (viewWidth * 1.75)) * (0.75 + (invertForwardDelta * (0.5 / viewDistance))));
+		int xPixel = (int) (center + (spriteWidth * sideDelta) - (spriteWidth / 2));
+		return new RenderData(yPixel, xPixel, spriteHeight, spriteWidth);
+	}
 
-    private Side sideFromPerspectiveAndDirection(Perspective viewerPerspective, World.Direction observedDirection){
-        switch (viewerPerspective){
-            case North:
-                    switch (observedDirection){
-                        case NORTH:
-                            return Side.Front;
-                        case EAST:
-                            return Side.Left;
-                        case SOUTH:
-                            return Side.Back;
-                        case WEST:
-                            return Side.Right;
-					default:
-						break;
-                    }
-                    break;
-            case East:
-                switch (observedDirection){
-                    case NORTH:
-                        return Side.Right;
-                    case EAST:
-                        return Side.Front;
-                    case SOUTH:
-                        return Side.Left;
-                    case WEST:
-                        return Side.Back;
-				default:
-					break;
-                }
-                break;
-            case South:
-                switch (observedDirection){
-                    case NORTH:
-                        return Side.Back;
-                    case EAST:
-                        return Side.Right;
-                    case SOUTH:
-                        return Side.Front;
-                    case WEST:
-                        return Side.Left;
-				default:
-					break;
-                }
-                break;
-            case West:
-                switch (observedDirection){
-                    case NORTH:
-                        return Side.Left;
-                    case EAST:
-                        return Side.Back;
-                    case SOUTH:
-                        return Side.Right;
-                    case WEST:
-                        return Side.Front;
-				default:
-					break;
-                }
-                break;
+	protected Side calculateSide(World.Direction viewerDirection, World.Direction observedDirection, int[] observer,
+			int[] observed) {
+		return sideFromPerspectiveAndDirection(
+				calculatePerspective(viewerDirection, observer[1], observer[0], observed[1], observed[0]),
+				observedDirection);
+	}
+
+	// a is observer, b is observed
+	private Perspective calculatePerspective(World.Direction observerDirection, int ax, int ay, int bx, int by) {
+		int deltaX = ax - bx;
+		int deltaY = ay - by;
+		int absDeltaX = Math.abs(deltaX);
+		int absDeltaY = Math.abs(deltaY);
+		if (absDeltaX < absDeltaY) {
+			return calculateNSPerspective(deltaY);
+		} else if (absDeltaX > absDeltaY) {
+			return calculateEWPerspective(deltaX);
+		} else {
+			return perspectiveFromViewerDirection(observerDirection);
+		}
+	}
+
+	private Perspective calculateNSPerspective(int deltaY) {
+		if (deltaY > 0) {
+			return Perspective.South;
+		} else {
+			return Perspective.North;
+		}
+	}
+
+	private Perspective calculateEWPerspective(int deltaX) {
+		if (deltaX > 0) {
+			return Perspective.East;
+		} else {
+			return Perspective.West;
+		}
+	}
+
+	private Perspective perspectiveFromViewerDirection(World.Direction viewerDirection) {
+		switch (viewerDirection) {
+		case NORTH:
+			return Perspective.South;
+		case EAST:
+			return Perspective.West;
+		case SOUTH:
+			return Perspective.North;
+		case WEST:
+			return Perspective.East;
+		default:
+			return Perspective.South;
+		}
+	}
+
+	private Side sideFromPerspectiveAndDirection(Perspective viewerPerspective, World.Direction observedDirection) {
+		switch (viewerPerspective) {
+		case North:
+			switch (observedDirection) {
+			case NORTH:
+				return Side.Front;
+			case EAST:
+				return Side.Left;
+			case SOUTH:
+				return Side.Back;
+			case WEST:
+				return Side.Right;
+			default:
+				break;
+			}
+			break;
+		case East:
+			switch (observedDirection) {
+			case NORTH:
+				return Side.Right;
+			case EAST:
+				return Side.Front;
+			case SOUTH:
+				return Side.Left;
+			case WEST:
+				return Side.Back;
+			default:
+				break;
+			}
+			break;
+		case South:
+			switch (observedDirection) {
+			case NORTH:
+				return Side.Back;
+			case EAST:
+				return Side.Right;
+			case SOUTH:
+				return Side.Front;
+			case WEST:
+				return Side.Left;
+			default:
+				break;
+			}
+			break;
+		case West:
+			switch (observedDirection) {
+			case NORTH:
+				return Side.Left;
+			case EAST:
+				return Side.Back;
+			case SOUTH:
+				return Side.Right;
+			case WEST:
+				return Side.Front;
+			default:
+				break;
+			}
+			break;
 		default:
 			break;
-        }
-        return Side.Front;
-    }
+		}
+		return Side.Front;
+	}
 
-    // These methods are required for the MouseListener interface, but do not do anything.
+	// These methods are required for the MouseListener interface, but do not do anything.
 
-    @Override
-    public void mousePressed(MouseEvent event){
-        // Do nothing
-    }
+	@Override
+	public void mousePressed(MouseEvent event) {
+		// Do nothing
+	}
 
-    @Override
-    public void mouseReleased(MouseEvent event){
-        // Do nothing
-    }
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		// Do nothing
+	}
 
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-        // Do nothing
-    }
+	@Override
+	public void mouseEntered(MouseEvent mouseEvent) {
+		// Do nothing
+	}
 
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-        // Do nothing
-    }
+	@Override
+	public void mouseExited(MouseEvent mouseEvent) {
+		// Do nothing
+	}
 
 	@Override
 	public void event(String eventName) {
-		toFlash = eventName;
+		// TODO Auto-generated method stub
+		
 	}
 
 }
