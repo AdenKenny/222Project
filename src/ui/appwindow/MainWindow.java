@@ -111,7 +111,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		revalidate();
 		setVisible(true);
 		this.optionsPane = new OptionsPane(this);
-		getLayeredPane().add(optionsPane, new Integer(300)); // Pop-up layer
+		getLayeredPane().add(optionsPane, Integer.valueOf(300)); // Pop-up layer
 	}
 
 	protected void setDisplay(JPanel display) {
@@ -148,7 +148,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	/**
 	 * Updates the stats pane to reflect any changes to the specified
 	 * Character's statistics.
-	 * 
+	 *
 	 * @param player
 	 *            The Character whose stats are being displayed
 	 */
@@ -186,8 +186,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (System.currentTimeMillis() < this.moveTimer + MOVE_SPEED)
-			;
+		if (System.currentTimeMillis() < this.moveTimer + MOVE_SPEED) {
+			/*for(long s = 0; s < 1000000000; s++) {
+
+			}*/
+		}
 
 		int code = e.getKeyCode();
 		boolean moved = false;

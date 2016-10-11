@@ -44,7 +44,7 @@ public class GraphicsPanel extends JPanel {
 		this.game = game;
 		this.username = username;
 
-		this.spawn = true;
+		GraphicsPanel.spawn = true;
 		this.wallColors = new HashMap<>();
 		this.wallColors.put(Direction.NORTH, Color.GREEN.darker());
 		this.wallColors.put(Direction.SOUTH, Color.BLUE.darker());

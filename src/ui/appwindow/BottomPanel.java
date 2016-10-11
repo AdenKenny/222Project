@@ -14,12 +14,12 @@ import gameWorld.item.Item;
 
 /**
  * Container for holding bottom Items(chat/info/inventory).
- * 
+ *
  * @author Clinton
- * 
+ *
  */
 public class BottomPanel extends JPanel {
-	public static float HEIGHT_RATIO = 0.2f; // height as proportion of window.
+	public static final float HEIGHT_RATIO = 0.2f; // height as proportion of window.
 	private MainWindow parent;
 	private ChatPane chatPane;
 	private StatsPane statPane;
@@ -103,7 +103,7 @@ public class BottomPanel extends JPanel {
 	/**
 	 * Updates the stats pane to reflect any changes to the specified
 	 * Character's statistics.
-	 * 
+	 *
 	 * @param player
 	 *            The Character whose stats are being displayed
 	 */
