@@ -12,13 +12,13 @@ public class Player {
 	private Direction toMove;
 	private Direction toTurn;
 	private Order order;
-	
+
 	private enum Order {
 		TURN,
 		MOVE,
 		NONE;
 	}
-	
+
 	public Player(User user, Character character) {
 		this.user = user;
 		this.character = character;
@@ -27,17 +27,18 @@ public class Player {
 		this.toTurn = Direction.NONE;
 		this.order = Order.NONE;
 	}
-	
+
 	public User getUser() {
 		return this.user;
 	}
-	
+
 	public void doMovement() {
 		// check whether the player was respawned, and if so, enter the new room
 		if (this.character.hasRespawned()) {
 			this.newlyEntered = true;
+			this.character.setRespawned(false);
 		}
-		
+
 		if (this.order == Order.NONE) {
 			return;
 		}
@@ -53,18 +54,18 @@ public class Player {
 		this.toTurn = Direction.NONE;
 		this.order = Order.NONE;
 	}
-	
+
 	private void move() {
 		if (this.toMove != Direction.NONE) {
 			Room startRoom = this.character.room();
 			this.character.move(this.toMove);
 			Room endRoom = this.character.room();
-			if (startRoom.xPos() != endRoom.xPos() || startRoom.yPos() != endRoom.yPos()) {
+			if (!startRoom.equals(endRoom)) {
 				this.newlyEntered = true;
 			}
 		}
 	}
-	
+
 	private void turn() {
 		if (this.toTurn == Direction.LEFT) {
 			this.character.turnLeft();
@@ -73,7 +74,7 @@ public class Player {
 			this.character.turnRight();
 		}
 	}
-	
+
 	public Character getCharacter() {
 		return this.character;
 	}
@@ -96,7 +97,7 @@ public class Player {
 			this.order = Order.MOVE;
 		}
 	}
-	
+
 	public Direction getToTurn() {
 		return this.toTurn;
 	}

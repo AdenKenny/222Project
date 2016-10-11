@@ -2,7 +2,6 @@ package clientServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,12 +14,26 @@ import gameWorld.characters.CharacterModel;
 import gameWorld.rooms.Room;
 
 public class ClientSideGame extends Thread implements Game {
+
+	//map of all items in the room sent by server: ID to object
 	private final Map<Integer, Sendable> sendables;
+
+	//map of whether an item in the room has been sent by server this iteration: ID to whether it has been sent
 	private final Map<Integer, Boolean> receivedSendables;
+
+	//the current room
 	private Room room;
+
+	//the current floor number
 	private int floor;
+
+	//ID of the character object of the player
 	private int characterID;
+
+	//player's character instance
 	private Character player;
+
+	//player's username
 	private String username;
 
 	public ClientSideGame(String username) {
@@ -31,22 +44,30 @@ public class ClientSideGame extends Thread implements Game {
 
 	@Override
 	public synchronized void tick() {
-
+		//might be needed in the future
 	}
 
+	/**
+	 * Whenever the character enters a new room, the server sends a packet indicating this.
+	 * This function is called by the slave when it receives that packet. This function
+	 * clears the map of sendables, and creates a new room with details based on the
+	 * information from the server.
+	 *
+	 * @param received a byte array from the server, containing information about the room
+	 */
 	public void newRoom(byte[] received) {
+		// clears the list of sendables, as those objects won't be in the new room
 		this.sendables.clear();
-		
-		// clean up room before moving to new room
-		if (this.room != null && this.player != null) {
-			this.room.entities()[this.player.yPos()][this.player.xPos()] = null;
-		}
+
 		this.room = new Room(null, received[1], received[2], received[3], received[4]);
+
+		//the player's character is retained, as we know they are going to be in the new room
 		if (this.player != null) {
 			this.sendables.put(this.characterID, this.player);
 			this.player.setRoom(this.room);
 		}
 
+		//deserialize where the doors are
 		int doorCode = received[5];
 		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
@@ -55,14 +76,22 @@ public class ClientSideGame extends Thread implements Game {
 		this.room.setDoor(Direction.EAST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
 		this.room.setDoor(Direction.NORTH, doorCode % 2 == 1);
-		
+
+		//set the floor number
 		this.floor = received[6];
-		
+
 		if (this.player != null) {
 			this.player.setRoom(this.room);
 		}
 	}
 
+	/**
+	 * After the server has sent all of its sendables, it sends a packet
+	 * saying so. This function is then called by the slave. This function
+	 * goes through the list of sendables and checks if any weren't received
+	 * since the last end packet, we know that that sendable is no longer in
+	 * the room.
+	 */
 	public void endSendables() {
 		ArrayList<Integer> keysToRemove = new ArrayList<>();
 
@@ -83,6 +112,13 @@ public class ClientSideGame extends Thread implements Game {
 		}
 	}
 
+	/**
+	 * When the slave receives a sendable information packet, it passes it
+	 * on to updateSendable. If the sendable isn't already in the list
+	 * of sendables, this is called to create the object.
+	 *
+	 * @param received the details of the sendable, sent from the server
+	 */
 	public void addSendable(byte[] received) {
 		Types type = Types.values()[received[1]];
 
@@ -202,7 +238,7 @@ public class ClientSideGame extends Thread implements Game {
 	public Room getRoom() {
 		return this.room;
 	}
-	
+
 	public int getFloor() {
 		return this.floor;
 	}
