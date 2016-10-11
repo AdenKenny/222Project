@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import gameWorld.Entity;
+import gameWorld.Sendable;
 import gameWorld.characters.Character;
 import ui.appwindow.MainWindow;
 
@@ -60,18 +62,18 @@ public class Slave extends Thread {
 						this.game.newRoom(data);
 						this.mainWindow.setRoom(this.game.getFloor(), this.game.getRoom());
 					}
-					
+
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_END.value()) {
 						this.game.endSendables();
 					}
-					
+
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE.value()) {
 						this.game.updateSendable(data);
 						if (data[1] == Character.Type.PLAYER.ordinal()) {
 							this.mainWindow.updateStats(this.game.getPlayer());
 						}
 					}
-					
+
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 						StringBuilder message = new StringBuilder();
 						for (int i = 1; i < data.length; i++) {
@@ -80,7 +82,7 @@ public class Slave extends Thread {
 						this.mainWindow.addChat(message.toString());
 					}
 				}
-				
+
 				else {
 					if (data[0] == PackageCode.Codes.LOGIN_RESULT.value()) {
 						if (data[1] == PackageCode.Codes.LOGIN_SUCCESS.value()) {
@@ -95,7 +97,7 @@ public class Slave extends Thread {
 						this.mainWindow.accountResult(data[1]);
 					}
 				}
-				
+
 				Thread.sleep(BROADCAST_CLOCK);
 			}
 		} catch(SocketException e) {
@@ -218,6 +220,27 @@ public class Slave extends Thread {
 		else {
 			return this.username;
 		}
+	}
+
+	public void performActionOnEntity(Entity entity, String actionName) {
+		if (!(entity instanceof Sendable)) {
+			return;
+		}
+
+		byte[] toSend = new byte[actionName.length() + 5];
+		toSend[0] = PackageCode.Codes.PERFORM_ACTION.value();
+
+		byte[] entityID = Sendable.intToBytes(entity.ID());
+		for (int i = 0; i < 4; ++i) {
+			toSend[i+1] = entityID[i];
+		}
+
+		int i = 5;
+		for (char c : actionName.toCharArray()) {
+			toSend[i++] = (byte) c;
+		}
+
+		send(toSend);
 	}
 
 	public static void main(String[] args) {

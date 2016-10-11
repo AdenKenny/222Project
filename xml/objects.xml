@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <objects>
   <object>
+    <ID>0</ID>
+    <name>drop</name>
+    <type>DROP</type>
+    <value>-1</value>
+    <items>-1</items>
+    <description>A reward dropped by the monster you just killed.</description>
+  </object>
+  <object>
     <ID>231321</ID>
     <name>table</name>
     <type>FURNITURE</type>
