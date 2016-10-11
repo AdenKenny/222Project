@@ -24,17 +24,6 @@
       <equips/>
     </player>
     <player>
-      <username>Simon</username>
-      <UID>29</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>50</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
       <username>Test</username>
       <UID>289</UID>
       <type>PLAYER</type>
@@ -44,7 +33,30 @@
       <gold>68</gold>
       <level>1</level>
       <equips/>
-    </player></players>
+    </player>
+    <player>
+      <username>Simon</username>
+      <UID>29</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>100</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips/>
+    </player>
+    <player>
+      <username>janef</username>
+      <UID>298</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>45</health>
+      <xp>52</xp>
+      <gold>8</gold>
+      <level>1</level>
+      <equips/>
+    </player>
+  </players>
   <monsters/>
   <vendors/>
 </game>
