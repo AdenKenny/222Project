@@ -15,6 +15,12 @@ import dataStorage.SaveGame;
 import gameWorld.characters.Character;
 import util.Logging;
 
+/**
+ * The frame the server runs in
+ *
+ * @author popesimo
+ *
+ */
 public class ConsoleWindow extends JFrame {
 
 	public ConsoleWindow() {

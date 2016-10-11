@@ -1,5 +1,11 @@
 package clientServer;
 
+/**
+ * This thread runs and calls the tick functions in games
+ *
+ * @author popesimo
+ *
+ */
 public class Tick extends Thread {
 
 	private static final int delay = 500;

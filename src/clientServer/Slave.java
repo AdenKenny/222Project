@@ -14,6 +14,12 @@ import gameWorld.characters.Character;
 import gameWorld.item.Item;
 import ui.appwindow.MainWindow;
 
+/**
+ * The client side connection to the server
+ *
+ * @author popesimo
+ *
+ */
 public class Slave extends Thread {
 	private static final String DEFAULT_ADDRESS = "127.0.0.1";
 	private static final int BROADCAST_CLOCK = 50;

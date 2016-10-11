@@ -5,6 +5,12 @@ import gameWorld.characters.Character;
 import gameWorld.rooms.Room;
 import userHandling.User;
 
+/**
+ * Stores all the information about a player
+ *
+ * @author popesimo
+ *
+ */
 public class Player {
 	private User user;
 	private Character character;

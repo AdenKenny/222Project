@@ -1,12 +1,5 @@
 # RoomScape
 ## Responsibilties:
-  
-**Game World:** Louis
 
-**Graphics:** Jane
-
-**Server:** Simon
-
-**UI:** Clinton
-
-**XML:** Aden
+In order to run a game, create a run the Server. Then run a MainWindow. Then you can
+register an account.

@@ -10,6 +10,12 @@ import userHandling.User;
 import userHandling.Verification;
 import util.Logging;
 
+/**
+ * The server side connection to the client
+ *
+ * @author popesimo
+ *
+ */
 public class Master extends Thread {
 
 	private static final int BROADCAST_CLOCK = 200;
