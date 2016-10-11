@@ -13,16 +13,12 @@ public class GuiGraphicsClickListener implements GraphicsClickListener {
 
 	@Override
 	public void onClick(Entity entity, boolean alt, int x, int y) {
-		System.out.println("Got graphics Click");
 		client.displayEntityOptions(entity, x, y);
-		if(entity==null) return;
+		if(entity==null) return; //should never happen
 
 		if(alt){
 			// display, then get the index of the selected option
-			client.displayEntityOptions(entity, x, y);
-			// check Action.isClientAction()
-			//		if true -> Action.perform(client) !needs to be MainWindow
-			//		else send to server
+			//client.displayEntityOptions(entity, x, y);
 		}
 		else{
 			//get default left click option for the entity
