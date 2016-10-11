@@ -92,12 +92,12 @@ public class ServerSideGame implements Game {
 		}
 		world.addPlayer(character);
 		this.connectedPlayers.put(uid, new Player(user, character));
-		world.addPlayer(character);
+		System.out.println(this.connectedPlayers.size());
 	}
 
 	/**
 	 * a connection has stopped, so remove the user from connected users
-	 * 
+	 *
 	 * @param uid
 	 */
 	public void disconnect(long uid) {
@@ -116,7 +116,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * parse actions made by a player
-	 * 
+	 *
 	 * @param uid
 	 * @param input
 	 */
@@ -139,7 +139,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * get a game state to send to the player
-	 * 
+	 *
 	 * @param uid
 	 * @return
 	 */
@@ -184,7 +184,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * add a message sent by a user to the list of sent messages
-	 * 
+	 *
 	 * @param uid
 	 * @param message
 	 */
@@ -198,7 +198,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * Send all unreceived messages to a user.
-	 * 
+	 *
 	 * @param messagesReceived
 	 * @return A String array of the messages that we send.
 	 */
@@ -213,7 +213,7 @@ public class ServerSideGame implements Game {
 	/**
 	 * Checks whether a particular user is currently online - that is, whether
 	 * the user is currently connected to the server.
-	 * 
+	 *
 	 * @param user
 	 *            The user to check for
 	 * @return Whether the user is online
