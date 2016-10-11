@@ -284,7 +284,6 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	int itemID = drop.getItem();
     	Item item = Game.mapOfItems.get(itemID);
     	if (item == null) {
-    		System.out.println("Item not found: " + itemID);
     		return;
     	}
     	String nameOfItem = item.getName();

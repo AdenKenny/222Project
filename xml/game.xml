@@ -3,13 +3,13 @@
   <players>
     <player>
       <username>Simon</username>
-      <UID>16</UID>
+      <UID>27</UID>
       <type>PLAYER</type>
-      <items>19, -1, -1, -1, -1, -1, -1, -1</items>
-      <health>60</health>
-      <xp>82</xp>
-      <gold>28</gold>
-      <level>2</level>
+      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
+      <health>65</health>
+      <xp>52</xp>
+      <gold>8</gold>
+      <level>1</level>
       <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
   </players>
