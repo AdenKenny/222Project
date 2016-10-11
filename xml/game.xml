@@ -49,11 +49,11 @@
       <username>janef</username>
       <UID>298</UID>
       <type>PLAYER</type>
-      <items>-1, 19</items>
+      <items>-1</items>
       <health>100</health>
-      <xp>76</xp>
-      <gold>27</gold>
-      <level>2</level>
+      <xp>81</xp>
+      <gold>43</gold>
+      <level>3</level>
       <equips/>
     </player>
   </players>
