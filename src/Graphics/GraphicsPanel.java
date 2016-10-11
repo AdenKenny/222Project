@@ -113,7 +113,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
     @Override
     public void paintComponent(Graphics graphics) {
-    	if (toFlash == null){
+    	if (toFlash != null){
     		doFlash(toFlash, graphics);
     		//Overwrite toFlash so the flash is not repeated.
     		toFlash = null;

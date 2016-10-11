@@ -17,11 +17,13 @@ public class ImageCache extends AbstractCache<Image> {
 
 	@Override
 	protected Image loadResource(String resourceName) throws IOException {
+		System.out.println(resourceName);
 		URL url = this.getClass().getResource(resourceName);
 		if (url == null){
+			System.out.println("File not found");
 			throw new IOException("File not found.");
 		}
-		return ImageIO.read(url);
+		return ImageIO.read(this.getClass().getResource(resourceName));
 	}
 	
 }
