@@ -48,4 +48,12 @@
     <items>-1</items>
     <description>An iron cauldron.</description>
   </object>
+  <object>
+  	<ID>23000</ID>
+  	<name>bush</name>
+  	<type>FURNITURE</type>
+  	<value>-1</value>
+  	<items>-1</items>
+  	<description>A small, green bush.</description>
+  </object>
 </objects>
