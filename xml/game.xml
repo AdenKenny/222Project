@@ -12,30 +12,7 @@
       <level>1</level>
       <equips>-1</equips>
     </player>
-    <player>
-      <username>Aden</username>
-      <UID>30</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
-    <player>
-      <username>Simon</username>
-      <UID>29</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>50</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
   </players>
->>>>>>> 4e21a90604aef1641c05dcc34dbde6ec35361248
   <monsters/>
   <vendors/>
 </game>
