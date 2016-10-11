@@ -89,6 +89,10 @@ public class Slave extends Thread {
 						}
 						this.mainWindow.addChat(message.toString());
 					}
+
+					else if (data[0] == PackageCode.Codes.GAME_WON.value()) {
+						this.game.gameWon();
+					}
 				}
 
 				else {
