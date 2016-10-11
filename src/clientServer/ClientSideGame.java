@@ -36,7 +36,7 @@ public class ClientSideGame extends Thread implements Game {
 
 	public void newRoom(byte[] received) {
 		this.sendables.clear();
-		
+
 		// clean up room before moving to new room
 		if (this.room != null && this.player != null) {
 			this.room.entities()[this.player.yPos()][this.player.xPos()] = null;
@@ -55,9 +55,9 @@ public class ClientSideGame extends Thread implements Game {
 		this.room.setDoor(Direction.EAST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
 		this.room.setDoor(Direction.NORTH, doorCode % 2 == 1);
-		
+
 		this.floor = received[6];
-		
+
 		if (this.player != null) {
 			this.player.setRoom(this.room);
 		}
@@ -76,7 +76,6 @@ public class ClientSideGame extends Thread implements Game {
 			this.receivedSendables.remove(key);
 			Sendable s = this.sendables.remove(key);
 			if (s instanceof Character) {
-				System.out.println("removing player");
 				Character c = (Character) s;
 				this.room.entities()[c.yPos()][c.xPos()] = null;
 			}
@@ -97,6 +96,7 @@ public class ClientSideGame extends Thread implements Game {
 			int yPos = Sendable.bytesToInt(received, 24);
 			CharacterModel model = mapOfCharacters.get(modelId);
 			Character toAdd = new Character(this.room, xPos, yPos, facing, level, model);
+			toAdd.setID(ID);
 			toAdd.setAlive(isAlive);
 			toAdd.setHealth(health);
 			this.sendables.put(ID, toAdd);
@@ -110,6 +110,7 @@ public class ClientSideGame extends Thread implements Game {
 			int yPos = Sendable.bytesToInt(received, 16);
 			CharacterModel model = mapOfCharacters.get(modelId);
 			Character toAdd = new Character(this.room, xPos, yPos, facing, -1, model);
+			toAdd.setID(ID);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 		}
@@ -118,11 +119,12 @@ public class ClientSideGame extends Thread implements Game {
 			Direction facing = Direction.values()[received[3]];
 			int ID = Sendable.bytesToInt(received, 4);
 			int health = Sendable.bytesToInt(received, 8);
-			int level = Sendable.bytesToInt(received, 12);
-			int xPos = Sendable.bytesToInt(received, 16);
-			int yPos = Sendable.bytesToInt(received, 20);
+			int xp = Sendable.bytesToInt(received, 12);
+			int level = Sendable.bytesToInt(received, 16);
+			int xPos = Sendable.bytesToInt(received, 20);
+			int yPos = Sendable.bytesToInt(received, 24);
 			StringBuilder name = new StringBuilder();
-			for (int i = 24; i < received.length; i++) {
+			for (int i = 28; i < received.length; i++) {
 				name.append((char) received[i]);
 			}
 			String username = name.toString();
@@ -134,9 +136,11 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setAlive(isAlive);
 			toAdd.turn(facing);
 			toAdd.setHealth(health);
+			toAdd.setXp(xp);
 			toAdd.setLevel(level);
 			toAdd.setXPos(xPos);
 			toAdd.setYPos(yPos);
+			toAdd.setID(ID);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 			toAdd.setRoom(this.room);
@@ -170,9 +174,10 @@ public class ClientSideGame extends Thread implements Game {
 				c.setAlive(received[2] == 1);
 				c.turn(Direction.values()[received[3]]);
 				c.setHealth(Sendable.bytesToInt(received, 8));
-				c.setLevel(Sendable.bytesToInt(received, 12));
-				c.setXPos(Sendable.bytesToInt(received, 16));
-				c.setYPos(Sendable.bytesToInt(received, 20));
+				c.setXp(Sendable.bytesToInt(received, 12));
+				c.setLevel(Sendable.bytesToInt(received, 16));
+				c.setXPos(Sendable.bytesToInt(received, 20));
+				c.setYPos(Sendable.bytesToInt(received, 24));
 			}
 
 			entities[c.yPos()][c.xPos()] = c;
@@ -202,7 +207,7 @@ public class ClientSideGame extends Thread implements Game {
 	public Room getRoom() {
 		return this.room;
 	}
-	
+
 	public int getFloor() {
 		return this.floor;
 	}

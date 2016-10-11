@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStorage.LoadGame;
+import gameWorld.Action;
+import gameWorld.Entity;
 import gameWorld.Floor;
 import gameWorld.Sendable;
 import gameWorld.World;
@@ -97,7 +99,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * a connection has stopped, so remove the user from connected users
-	 * 
+	 *
 	 * @param uid
 	 */
 	public void disconnect(long uid) {
@@ -116,7 +118,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * parse actions made by a player
-	 * 
+	 *
 	 * @param uid
 	 * @param input
 	 */
@@ -139,7 +141,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * get a game state to send to the player
-	 * 
+	 *
 	 * @param uid
 	 * @return
 	 */
@@ -184,13 +186,11 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * add a message sent by a user to the list of sent messages
-	 * 
+	 *
 	 * @param uid
 	 * @param message
 	 */
-	public void textMessage(long uid, String message) { // TODO What the fuck?
-														// Why is a string
-														// passed here?
+	public void textMessage(long uid, String message) {
 		// add the users name to the start of the text message
 		message = this.connectedPlayers.get(uid).getCharacter().getName() + ": " + message;
 		this.textMessages.add(message);
@@ -198,7 +198,7 @@ public class ServerSideGame implements Game {
 
 	/**
 	 * Send all unreceived messages to a user.
-	 * 
+	 *
 	 * @param messagesReceived
 	 * @return A String array of the messages that we send.
 	 */
@@ -210,10 +210,36 @@ public class ServerSideGame implements Game {
 		return messages;
 	}
 
+	public void performActionOnEntity(long uid, byte[] input) {
+		Character c = this.connectedPlayers.get(uid).getCharacter();
+
+		int entityID = Sendable.bytesToInt(input, 1);
+		Entity[][] entities = c.room().entities();
+		Entity entity = null;
+
+		for (Entity[] es : entities) {
+			for (Entity e : es) {
+				if (e != null && e.ID() == entityID) {
+					entity = e;
+				}
+			}
+		}
+		if (entity == null) {
+			return;
+		}
+
+		String actionName = "";
+		for (int i = 5, size = input.length; i < size; ++i) {
+			actionName += (char) input[i];
+		}
+
+		entity.performAction(actionName, c);
+	}
+
 	/**
 	 * Checks whether a particular user is currently online - that is, whether
 	 * the user is currently connected to the server.
-	 * 
+	 *
 	 * @param user
 	 *            The user to check for
 	 * @return Whether the user is online

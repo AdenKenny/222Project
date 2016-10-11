@@ -25,6 +25,6 @@ public interface ClientUI {
 
 	public void displayItemOptions(Entity entity, int x, int y);
 
-	public void performActionOnEntity(int itemId, int actionId);
+	public void performActionOnEntity(Entity entity, String actionName);
 
 }

@@ -148,12 +148,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	/**
 	 * Updates the stats pane to reflect any changes to the specified
 	 * Character's statistics.
-	 * 
+	 *
 	 * @param player
 	 *            The Character whose stats are being displayed
 	 */
 	public void updateStats(Character player) {
 		this.bottomPanel.updateStats(player);
+		this.updateGold(player.getGold());
 	}
 
 	@Override
@@ -172,8 +173,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void performActionOnEntity(int itemId, int actionId) {
-		// TODO Auto-generated method stub
+	public void performActionOnEntity(Entity entity, String actionName) {
+		this.slave.performActionOnEntity(entity, actionName);
 	}
 
 	/*

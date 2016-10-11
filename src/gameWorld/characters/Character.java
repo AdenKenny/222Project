@@ -189,7 +189,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.facing = facing;
 		this.isAlive = true;
 		this.health = this.maxHealth;
-		
+
 		if (this.type.equals(Type.PLAYER)) {
 			// no need to do this for monsters or vendors
 			this.hasRespawned = true;
@@ -334,6 +334,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 *            The Character that is attacking this one
 	 */
 	public void tryAttack(Character attacker) {
+		System.out.println(attacker.name + " is attacking " + this.name);
 		if (attacker.room().equals(this.room)) {
 			if ((attacker.xPos == this.xPos - 1 || attacker.xPos == this.xPos + 1) && attacker.yPos == this.yPos
 					|| (attacker.yPos == this.yPos - 1 || attacker.yPos == this.yPos + 1)
@@ -570,6 +571,18 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	/**
+	 * Sets the ID of this Character to the specified ID and makes sure that IDs
+	 * are appropriately incremented.
+	 *
+	 * @param ID
+	 *            The value to set this Character's ID to
+	 */
+	public void setID(int ID) {
+		this.ID = ID;
+		Entity.adjustIDCount(ID);
+	}
+
+	/**
 	 * Returns the Type of Character that this Character is.
 	 *
 	 * @return This Character's Type
@@ -683,6 +696,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public int getAttack() {
 		int attack = this.damage;
 		for (Item item : this.equips) {
+			System.out.println("THIS SHOULD NOT HAPPEN");
 			if (item.getType().equals(Item.Type.WEAPON)) {
 				attack += item.getValue();
 			}
@@ -855,13 +869,13 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			}
 			return bytes;
 		case PLAYER:
-			bytes = new byte[24 + this.name.length()];
+			bytes = new byte[28 + this.name.length()];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = this.type.sendableType().value();
 			bytes[2] = this.isAlive ? (byte) 1 : 0;
 			bytes[3] = this.facing.value();
 			i = 4;
-			for (byte b : Sendable.intsToBytes(this.ID, this.health, this.level, this.xPos, this.yPos)) {
+			for (byte b : Sendable.intsToBytes(this.ID, this.health, this.xp, this.level, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
 			for (char c : this.name.toCharArray()) {
@@ -896,76 +910,6 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (this.attackTimer ^ (this.attackTimer >>> 32));
-		result = prime * result + this.baseXP;
-		result = prime * result + this.damage;
-		result = prime * result + ((this.equips == null) ? 0 : this.equips.hashCode());
-		result = prime * result + this.gold;
-		result = prime * result + this.health;
-		result = prime * result + (this.isAlive ? 1231 : 1237);
-		result = prime * result + ((this.items == null) ? 0 : this.items.hashCode());
-		result = prime * result + this.level;
-		result = prime * result + this.maxHealth;
-		result = prime * result + this.modelID;
-		result = prime * result + this.rank;
-		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
-		result = prime * result + this.xp;
-		result = prime * result + this.xpForLevel;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Character other = (Character) obj;
-		if (this.attackTimer != other.attackTimer)
-			return false;
-		if (this.baseXP != other.baseXP)
-			return false;
-		if (this.damage != other.damage)
-			return false;
-		if (this.equips == null) {
-			if (other.equips != null)
-				return false;
-		} else if (!this.equips.equals(other.equips))
-			return false;
-		if (this.gold != other.gold)
-			return false;
-		if (this.health != other.health)
-			return false;
-		if (this.isAlive != other.isAlive)
-			return false;
-		if (this.items == null) {
-			if (other.items != null)
-				return false;
-		} else if (!this.items.equals(other.items))
-			return false;
-		if (this.level != other.level)
-			return false;
-		if (this.maxHealth != other.maxHealth)
-			return false;
-		if (this.modelID != other.modelID)
-			return false;
-		if (this.rank != other.rank)
-			return false;
-		if (this.type != other.type)
-			return false;
-		if (this.xp != other.xp)
-			return false;
-		if (this.xpForLevel != other.xpForLevel)
-			return false;
-		return true;
-	}
-
-	@Override
 	public Character clone() {
 		try {
 			return (Character) super.clone();
@@ -993,7 +937,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Checks whether this Character has been respawned between the last time it
 	 * moved and the current time.
-	 * 
+	 *
 	 * @return Whether this Character has been respawned
 	 */
 	public boolean hasRespawned() {

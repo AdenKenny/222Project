@@ -10,7 +10,7 @@ import ui.appwindow.MainWindow;
 
 /**
  * A class which represents anything that physically exists in the game's world.
- * 
+ *
  * @author Louis
  */
 public abstract class Entity {
@@ -103,7 +103,7 @@ public abstract class Entity {
 
 	/**
 	 * Gets the ID of this Entity's Room.
-	 * 
+	 *
 	 * @return This Entity's Room's ID.
 	 */
 	public int getRoomID() {
@@ -112,7 +112,7 @@ public abstract class Entity {
 
 	/**
 	 * Returns the Room of this Entity.
-	 * 
+	 *
 	 * @return This Entity's Room.
 	 */
 	public Room room() {
@@ -121,7 +121,7 @@ public abstract class Entity {
 
 	/**
 	 * Sets this Entity's Room to the specified Room.
-	 * 
+	 *
 	 * @param room
 	 *            The new Room for this Entity.
 	 */
@@ -132,7 +132,7 @@ public abstract class Entity {
 	/**
 	 * Returns this Entity's current x position. That is, this Entity's position
 	 * along the x-axis of its Room.
-	 * 
+	 *
 	 * @return this Entity's x position
 	 */
 	public int xPos() {
@@ -141,7 +141,7 @@ public abstract class Entity {
 
 	/**
 	 * Sets this Entity's x position to the specified value.
-	 * 
+	 *
 	 * @param xPos
 	 *            the new position
 	 */
@@ -152,7 +152,7 @@ public abstract class Entity {
 	/**
 	 * Returns this Entity's current y position. That is, this Entity's position
 	 * along the y-axis of its Room.
-	 * 
+	 *
 	 * @return this Entity's y position
 	 */
 	public int yPos() {
@@ -161,7 +161,7 @@ public abstract class Entity {
 
 	/**
 	 * Sets this Entity's y position to the specified value.
-	 * 
+	 *
 	 * @param yPos
 	 *            the new position
 	 */
@@ -237,14 +237,8 @@ public abstract class Entity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + this.ID;
-		result = prime * result + ((this.actions == null) ? 0 : this.actions.hashCode());
-		result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
-		result = prime * result + ((this.facing == null) ? 0 : this.facing.hashCode());
-		result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
-		result = prime * result + ((this.room == null) ? 0 : this.room.hashCode());
-		result = prime * result + this.xPos;
-		result = prime * result + this.yPos;
+		result = prime * result + ID;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -257,33 +251,12 @@ public abstract class Entity {
 		if (getClass() != obj.getClass())
 			return false;
 		Entity other = (Entity) obj;
-		if (this.ID != other.ID)
+		if (ID != other.ID)
 			return false;
-		if (this.actions == null) {
-			if (other.actions != null)
-				return false;
-		} else if (!this.actions.equals(other.actions))
-			return false;
-		if (this.description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!this.description.equals(other.description))
-			return false;
-		if (this.facing != other.facing)
-			return false;
-		if (this.name == null) {
+		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!this.name.equals(other.name))
-			return false;
-		if (this.room == null) {
-			if (other.room != null)
-				return false;
-		} else if (!this.room.equals(other.room))
-			return false;
-		if (this.xPos != other.xPos)
-			return false;
-		if (this.yPos != other.yPos)
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
@@ -300,11 +273,11 @@ public abstract class Entity {
 	 * larger than the highest ID stored by the server at any point in time. To
 	 * do this, it checks the ID that is passed in, and increases the ID count
 	 * appropriately if needed.
-	 * 
+	 *
 	 * @param id
 	 *            the ID to check
 	 */
-	public void adjustIDCount(int id) {
+	public static void adjustIDCount(int id) {
 		if (IDCount < id) {
 			IDCount = id + 1;
 		}

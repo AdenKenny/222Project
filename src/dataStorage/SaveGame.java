@@ -177,7 +177,7 @@ public final class SaveGame implements XMLInteractable {
 			return buildOut.substring(0, buildOut.length() - 2);
 		}
 
-		return "-1";
+		return "";
 	}
 
 	private Element createNode(String nodeName, String nodeValue) {
