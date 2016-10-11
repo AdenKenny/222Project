@@ -194,6 +194,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.slave.performActionOnEntity(entity, actionName);
 	}
 
+	@Override
 	public void performActionOnItem(Item clickedItem, String name) {
 		// this.slave.performActionOnItem(clickedItem, name); //TODO: implement
 	}

@@ -40,8 +40,8 @@ public final class XMLReader implements XMLInteractable {
 	private XMLReader() { // Singleton pattern.
 
 		this.mapOfItems = readItems(); // Get items.
-		this.mapOfCharacters = readCharacters();
-		this.mapOfObjects = readObjects();
+		this.mapOfCharacters = readCharacters(); //Characters.
+		this.mapOfObjects = readObjects(); //Objects.
 	}
 
 	/**
@@ -60,6 +60,12 @@ public final class XMLReader implements XMLInteractable {
 		return INSTANCE; // Already exists.
 	}
 
+	/**
+	 * Reads the objects from an xml file.
+	 *
+	 * @return A HashMap<Integer, ObjectModel> with the Integer representing the UID of the object.
+	 */
+
 	private Map<Integer, ObjectModel> readObjects() {
 		File file = new File("xml/" + "objects" + ".xml");
 
@@ -71,7 +77,7 @@ public final class XMLReader implements XMLInteractable {
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("object"); // Get all objects.
+			NodeList list = getNodes("Room"); // Get all objects.
 
 			HashMap<Integer, ObjectModel> map = new HashMap<>();
 
@@ -90,7 +96,7 @@ public final class XMLReader implements XMLInteractable {
 					builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
 					builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
 
-					ObjectModel object = (ObjectModel) builder.build().build();
+					ObjectModel object = (ObjectModel) builder.build().build(); //Build the builder that builds the builder that builds the item.
 
 					map.put(object.getID(), object);
 				}

@@ -18,8 +18,8 @@
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
+      <xp>26</xp>
+      <gold>4</gold>
       <level>1</level>
       <equips/>
     </player>
@@ -50,13 +50,13 @@
       <UID>298</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>35</health>
+      <health>100</health>
       <xp>78</xp>
       <gold>12</gold>
       <level>1</level>
       <equips/>
     </player>
-</players>
+  </players>
   <monsters/>
   <vendors/>
 </game>

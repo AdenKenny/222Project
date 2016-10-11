@@ -33,11 +33,15 @@ public final class SaveGame implements XMLInteractable {
 
 	private Document doc; //The document we'll be building on.
 
-	private Element root;
+	private Element root; //The root of the xml.
 
 	private Element players; //Base nodes for players.
 	private Element monsters; //For monsters.
 	private Element vendors; //For vendors.
+
+	/**
+	 * Constructor for a save game instance. Takes no arguments.
+	 */
 
 	public SaveGame() {
 
@@ -48,10 +52,10 @@ public final class SaveGame implements XMLInteractable {
 			this.players = this.doc.createElement("players"); //Initialise base node for players.
 			this.root.appendChild(this.players);
 
-			this.monsters = this.doc.createElement("monsters");
+			this.monsters = this.doc.createElement("monsters"); //Monsters.
 			this.root.appendChild(this.monsters);
 
-			this.vendors = this.doc.createElement("vendors");
+			this.vendors = this.doc.createElement("vendors"); //Vendors.
 			this.root.appendChild(this.vendors);
 
 		}
@@ -61,6 +65,10 @@ public final class SaveGame implements XMLInteractable {
 		}
 
 	}
+
+	/**
+	 * Saves the players and outputs them to an xml file.
+	 */
 
 	public void saveFile() {
 		transform("xml/game.xml"); //Transform, and actually output to XML.
@@ -159,43 +167,77 @@ public final class SaveGame implements XMLInteractable {
 
 	}
 
+	/**
+	 * Turns a list of items into a string that will be saved in an xml node. To be
+	 * read by the LoadGame class.
+	 *
+	 * @param list A list of Items that will be turned into a string.
+	 *
+	 * @return A string that represents the model ID of an item. Will return an empty string if empty list.
+	 */
+
 	private static String itemToString(List<Item> list) {
 		StringBuilder builder = new StringBuilder();
 
-		for(Item i : list) {
-			if (i == null) {
+		for(Item i : list) { //Go through the items.
+			if (i == null) { //Null item?
 				Logging.logEvent(Server.class.getName(), Logging.Levels.WARNING, "Saving error: an item was null.");
 				continue;
 			}
-			builder.append(i.getID());
-			builder.append(", ");
+			builder.append(i.getID()); //Append the item ID to the string.
+			builder.append(", "); //Append space and comma.
 		}
 
 		String buildOut = builder.toString();
 
-		if(buildOut.length() > 0) {
+		if(buildOut.length() > 0) { //Remove the comma and space at the end.
 			return buildOut.substring(0, buildOut.length() - 2);
 		}
 
-		return "";
+		return ""; //Return empty string as empty list.
 	}
 
+	/**
+	 * Creates an element that represents a node in the xml document. This will
+	 * create a text node as it takes a name and a child text node.
+	 *
+	 * @param nodeName The name of the node.
+	 * @param nodeValue The value of the child text node.
+	 *
+	 * @return An Element with the name and value that were passed to this method.
+	 */
+
 	private Element createNode(String nodeName, String nodeValue) {
-		Element element = this.doc.createElement(nodeName);
-		element.appendChild(this.doc.createTextNode(nodeValue));
+		Element element = this.doc.createElement(nodeName); //Create element.
+		element.appendChild(this.doc.createTextNode(nodeValue)); //Append value.
 
 		return element;
 	}
 
-	private Element getRoot(String fileName) throws ParserConfigurationException { //TODO is this broken.
+	/**
+	 * Gets a root for this document that we can work with appending child nodes.
+	 *
+	 * @param fileName A string representing the name of the root node.
+	 * @return An Element that will be the root of the tree structure.
+	 *
+	 * @throws ParserConfigurationException Thrown when we couldn't create the root.
+	 */
+
+	private Element getRoot(String fileName) throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder builder = factory.newDocumentBuilder();
 
-		this.doc = builder.newDocument();
+		this.doc = builder.newDocument(); //New doc that becomes the base document.
 
-		return this.doc.createElement(fileName);
+		return this.doc.createElement(fileName); //Create and return the root.
 	}
+
+	/**
+	 * Transforms the tree structure that represents the game into xml.
+	 *
+	 * @param fileName A string representing the name of the file we want to create.
+	 */
 
 	private void transform(String fileName) {
 
@@ -223,9 +265,4 @@ public final class SaveGame implements XMLInteractable {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) {
-		new SaveGame();
-	}
-
 }
