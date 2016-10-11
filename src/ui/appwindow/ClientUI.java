@@ -9,6 +9,8 @@ import gameWorld.rooms.Room;
 
 public interface ClientUI {
 
+	public void playMusic(String inMusicName);
+
 	public void addChat(String text);
 
 	public void sendChat(String input);

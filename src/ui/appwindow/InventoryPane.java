@@ -79,7 +79,7 @@ public class InventoryPane extends JPanel{
 	 * Uses the item clicked on to call for an options list to be displayed.
 	 */
 	private void showOptions(Item item, int x, int y) {
-		client.displayEntityOptions(null, x, y); //TODO: fix to deal with Item instead of entity
+		client.displayItemOptions(null, x, y); //TODO: fix to deal with Item instead of entity
 	}
 
 	/*

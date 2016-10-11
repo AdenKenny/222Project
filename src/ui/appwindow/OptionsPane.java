@@ -113,7 +113,7 @@ public class OptionsPane extends JPanel  {
 			if(clickedEntity!= null){
 				window.performActionOnEntity(clickedEntity, action.name());
 			}
-			else if(clickedItem !=null)
+			else if(clickedItem != null)
 				window.performActionOnItem(clickedItem, action.name());
 		}
 	}
