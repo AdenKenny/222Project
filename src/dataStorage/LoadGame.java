@@ -52,7 +52,7 @@ public final class LoadGame implements XMLInteractable {
 	}
 
 	public static synchronized LoadGame getInstance() { // Singleton.
-		if (INSTANCE == null) {
+		if (INSTANCE == null) { //Lazy.
 			INSTANCE = new LoadGame();
 		}
 
@@ -83,7 +83,7 @@ public final class LoadGame implements XMLInteractable {
 
 			this.doc = docBuilder.parse(file); // Parse the file to a document.
 
-			this.doc.getDocumentElement().normalize();
+			this.doc.getDocumentElement().normalize(); //This is apparently important.
 
 			NodeList list = getNodes("floor"); // Get a list of the floors.
 
@@ -99,11 +99,11 @@ public final class LoadGame implements XMLInteractable {
 
 				ServerSideGame.world.addFloor(floor);
 
-				NodeList rooms = e.getElementsByTagName("room");
+				NodeList rooms = e.getElementsByTagName("room"); //Get all the rooms.
 
-				for (int j = 0, length = rooms.getLength(); j < length; ++j) {
+				for (int j = 0, length = rooms.getLength(); j < length; ++j) { //Iterate through rooms in rooms.
 
-					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) {
+					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) { //Check cast.
 						Element child = (Element) rooms.item(j);
 
 						RoomBuilder build = new RoomBuilder(floor);
@@ -138,14 +138,17 @@ public final class LoadGame implements XMLInteractable {
 						String entities = child.getElementsByTagName("entities").item(0).getTextContent();
 						build.setEntities(entities);
 
-						Room room = build.build();
+						Room room = build.build(); //Build room with fields.
 
-						floor.addRoom(room, room.xPos(), room.yPos());
+						floor.addRoom(room, room.xPos(), room.yPos()); //Add the room to the floor.
 					}
 
+					else {
+						Logging.logEvent(LoadGame.class.getName(), Logging.Levels.SEVERE, "Improperly formated XML nodes in rooms");
+					}
 				}
 
-				floor.setupNeighbours();
+				floor.setupNeighbours(); //Calculate neighbours for floor.
 			}
 		}
 

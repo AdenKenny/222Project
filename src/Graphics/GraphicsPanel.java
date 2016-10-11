@@ -200,9 +200,25 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	        Entity entity = getEntityAtLocation(room, absoluteTarget);
 	        //Don't render null entities or the viewer.
 	        if (entity != null && entity != viewer) {
-	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+	            RenderData data = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            
+	            if (entity.isPlayer()){
+	            	renderPlayerEntity(entity, data, side, graphics);
+	            } else if (entity instanceof StationaryObject)  {
+	            	StationaryObject object = (StationaryObject) entity;
+	            	switch (object.getType()){
+	            		case DROP:
+	            			renderDrop(object, data, graphics);
+	            			break;
+	            		case CHEST:
+	            			renderChest(object, data, graphics);
+	            			break;
+	            		default:
+	            			renderStandardEntity(entity, data, side, graphics);
+	            	}
+	            } else {
+	            	renderStandardEntity(entity, data, side, graphics);
+	            }
 	        }
         }
     }
@@ -239,6 +255,12 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         renderHealthBar((Character) player, data, graphics);
     }
     
+    /**
+     * RenderData
+     * @param character
+     * @param data
+     * @param graphics
+     */
     private void renderHealthBar(Character character, RenderData data, Graphics graphics){
     	//Calculate width of the healthbar.
     	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
@@ -258,10 +280,20 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
     	int height = (int) (data.height * 0.25);
-    	String nameOfItem = Game.mapOfItems.get(/*TODO: REPLACE */ 1).getName();
+    	System.out.println(drop.getItem());
+    	String nameOfItem = Game.mapOfItems.get(drop.getItem()).getName();
     	graphics.drawImage(loadItemImage(nameOfItem), data.x, y, data.width, height, null);
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
+    }
+    
+    private void renderChest(StationaryObject chest, RenderData data, Graphics graphics){
+    	//Render in lower half of sprite's space.
+    	int y = (int) (data.y + data.height * 0.5);
+    	int height = (int) (data.height * 0.5);
+    	graphics.drawImage(loadItemImage("chest"), data.x, y, data.width, height, null);
+    	// Create new RenderData to reflect the peculiar rendering of drops.
+    	entityScreenLocations.add(new Bundle(chest, new RenderData(y, data.x, height, data.width)));
     }
     
     private Image loadItemImage(String resourceName){
