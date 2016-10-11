@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Graphics.AudioHandler;
 import Graphics.GraphicsPanel;
 import clientServer.ClientSideGame;
 import clientServer.PackageCode;
@@ -35,6 +36,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	private OptionsPane optionsPane;
 	private boolean enterGame;
 	private Compass compass;
+	private AudioHandler audioHandler;
 
 	public MainWindow() {
 		super("RoomScape");
@@ -89,9 +91,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setFocusable(true);
 	}
 
-
-	private void initComponents(){
-		//Add next level of components
+	private void initComponents() {
+		// Add next level of components
 		this.compass = new Compass(this);
 		infoBar = new InfoPane();
 		display = new Login(this, slave);
@@ -115,13 +116,18 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setVisible(true);
 		this.optionsPane = new OptionsPane(this);
 
-		getLayeredPane().add(optionsPane, new Integer(300)); //Pop-up layer
-		getLayeredPane().add(compass, new Integer(200)); //Pop-up layer
-
+		getLayeredPane().add(optionsPane, new Integer(300)); // Pop-up layer
+		getLayeredPane().add(compass, new Integer(200));
+		this.audioHandler = new AudioHandler();
 	}
 
 	protected void setDisplay(JPanel display) {
 		this.display = display;
+	}
+
+	@Override
+	public void playMusic(String inMusicName) {
+		audioHandler.playMusic(inMusicName);
 	}
 
 	@Override
@@ -174,13 +180,22 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void displayItemOptions(Entity entity, int x, int y) {
-		optionsPane.displayAndDrawList(x, y, entity);
+	public void displayEntityOptions(Entity entity, int x, int y) {
+		optionsPane.displayAndDrawEntityList(x, y, entity);
+	}
+
+	@Override
+	public void displayItemOptions(Item item, int x, int y) {
+		optionsPane.displayAndDrawItemList(x, y, item);
 	}
 
 	@Override
 	public void performActionOnEntity(Entity entity, String actionName) {
 		this.slave.performActionOnEntity(entity, actionName);
+	}
+
+	public void performActionOnItem(Item clickedItem, String name) {
+		// this.slave.performActionOnItem(clickedItem, name); //TODO: implement
 	}
 
 	/*
@@ -194,9 +209,11 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (System.currentTimeMillis() < this.moveTimer + MOVE_SPEED) {
-			/*for(long s = 0; s < 1000000000; s++) {
-
-			}*/
+			/*
+			 * for(long s = 0; s < 1000000000; s++) {
+			 *
+			 * }
+			 */
 		}
 
 		int code = e.getKeyCode();
@@ -293,7 +310,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		setRoom(this.game.getFloor(), this.game.getRoom());
 		bottomPanel.loadInventory(player);
 		compass.setVisible(true);
-		//Load graphics panel
+		// Load graphics panel
 		this.display = new GraphicsPanel(this.game.getPlayer());
 		GraphicsPanel gfx = (GraphicsPanel) display;
 		gfx.setGraphicsClickListener(new GuiGraphicsClickListener(this));
@@ -312,6 +329,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	public void setSlave(Slave slave) {
 		this.slave = slave;
+	}
+
+	public GraphicsPanel getGraphicsPanel() {
+		if (this.display instanceof GraphicsPanel) {
+			return (GraphicsPanel) this.display;
+		}
+		return null;
 	}
 
 	public void waitForGame() {
@@ -333,4 +357,5 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.initComponents();
 		main.waitForGame();
 	}
+
 }

@@ -1,6 +1,7 @@
 package gameWorld.rooms;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import clientServer.Game;
 import clientServer.ServerSideGame;
@@ -15,7 +16,7 @@ import gameWorld.objects.StationaryObject;
 
 /**
  * A class to represent Rooms which can spawn monster or vendor Characters.
- * 
+ *
  * @author Louis
  */
 public class NPCSpawn extends Room implements SpawnRoom {
@@ -46,7 +47,9 @@ public class NPCSpawn extends Room implements SpawnRoom {
 						// that died
 						int x = this.npc.xPos(), y = this.npc.yPos();
 						ObjectModel dropModel = Game.mapOfObjects.get(0);
-						dropModel.setItems(this.npc.getItems());
+						List<Integer> items = this.npc.getItems();
+						int dropItem = items.get((int)(Math.random() * items.size()));
+						dropModel.setItem(dropItem);
 						this.entities[y][x] = new StationaryObject(dropModel, this, x, y, Direction.NORTH);
 					}
 				} else {

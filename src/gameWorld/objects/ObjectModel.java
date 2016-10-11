@@ -47,7 +47,7 @@ public class ObjectModel implements Buildable {
 
 	/**
 	 * Returns the Type of the StationaryObject that this model represents.
-	 * 
+	 *
 	 * @return The Type of the StationaryObject that this model represents.
 	 */
 	public Type getType() {
@@ -56,24 +56,30 @@ public class ObjectModel implements Buildable {
 
 	/**
 	 * Returns the IDs of the Items in the StationaryObject that this model represents.
-	 * 
+	 * DO NOT USE THIS METHOD, USE getItems() INSTEAD!
+	 *
 	 * @return The IDs of the Items in the StationaryObject that this model represents.
 	 */
 	public Set<Integer> getItems() {
-		return this.items;
+		return null;
+	}
+
+	public int getItem() {
+		for (int i : this.items) {
+			return i;
+		}
+		return 0;
 	}
 
 	/**
-	 * Sets the IDs of the Items in the StationaryObject that this model represents.
-	 * 
+	 * Sets the ID of the Item in the StationaryObject that this model represents.
+	 *
 	 * @param items
 	 *            The IDs of the Items in the StationaryObject that this model represents.
 	 */
-	public void setItems(List<Integer> items) {
+	public void setItem(int item) {
 		this.items = new HashSet<>();
-		for (Integer i : items) {
-			this.items.add(i);
-		}
+		this.items.add(item);
 	}
 
 }
