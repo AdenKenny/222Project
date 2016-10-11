@@ -38,7 +38,9 @@ public class ServerSideGame implements Game {
 
 	public ServerSideGame() {
 
-		if (!debugMode) {
+		FileVerifier.getInstance().checkFiles();
+
+		if(!debugMode) {
 			for (Character c : LoadGame.getInstance().getPlayers()) {
 				players.put(c.getName(), c); // Loads players into game.
 			}
@@ -51,8 +53,6 @@ public class ServerSideGame implements Game {
 				players.put(c.getName(), c); // Loads players into game.
 			}
 		}
-
-		//FileVerifier.getInstance().checkFiles();
 
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
@@ -78,6 +78,10 @@ public class ServerSideGame implements Game {
 		this.byteArrays.clear();
 		for (Room[] rooms : current.rooms()) {
 			for (Room room : rooms) {
+				if(room == null) {
+					continue;
+				}
+
 				Set<Sendable> sendables = room.getSendables();
 				byte[][] data = new byte[sendables.size() + 1][];
 				int i = 0;
@@ -110,7 +114,6 @@ public class ServerSideGame implements Game {
 		}
 		world.addPlayer(character);
 		this.connectedPlayers.put(uid, new Player(user, character));
-		System.out.println(this.connectedPlayers.size());
 	}
 
 	/**

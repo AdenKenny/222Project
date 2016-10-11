@@ -728,7 +728,6 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public int getAttack() {
 		int attack = this.damage;
 		for (Item item : this.equips) {
-			System.out.println("THIS SHOULD NOT HAPPEN");
 			if (item.getType().equals(Item.Type.WEAPON)) {
 				attack += item.getValue();
 			}

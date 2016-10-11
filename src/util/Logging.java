@@ -31,6 +31,7 @@ public final class Logging {
 
 		private final int value;
 
+		@SuppressWarnings("hiding")
 		Levels(int value) {
 			this.value = value;
 		}
@@ -145,7 +146,7 @@ class LogEvent implements Comparable<LogEvent> {
 	private Levels level; // The level of the event.
 	private String message; // The message to be logged.
 	private String timeStamp; // The time that the event was logged.
-	private String className;
+	private String className; //The name of the class the event was logged in.
 
 	/**
 	 * Creates a LogEvent that can be outputed to the logging file. This LogEvent will contain the time that the event was logged, the
@@ -159,6 +160,7 @@ class LogEvent implements Comparable<LogEvent> {
 	 *            A string of the message to be logged.
 	 */
 
+	@SuppressWarnings("hiding")
 	LogEvent(String className, Levels levelEnum, String message) {
 
 		this.level = levelEnum;

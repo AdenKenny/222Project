@@ -1,6 +1,7 @@
 package dataStorage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +40,15 @@ public final class LoadGame implements XMLInteractable {
 
 	private LoadGame() {
 		this.setOfCharacters = readPlayers();
-		readRooms();
+
+		try {
+			readRooms();
+		}
+
+		catch (FileNotFoundException e) {
+			Logging.logEvent(LoadGame.class.getName(), Logging.Levels.SEVERE, "Failed to find world.xml");
+			e.printStackTrace();
+		}
 	}
 
 	public static synchronized LoadGame getInstance() { // Singleton.
@@ -64,13 +73,14 @@ public final class LoadGame implements XMLInteractable {
 	 * Reads the rooms from file to create floors that the game is played on.
 	 */
 
-	private synchronized void readRooms() {
+	private synchronized void readRooms() throws FileNotFoundException {
 		File file = new File("xml/world.xml"); // We will read the floors from
 												// this file.
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder(); // Builders.
+
 			this.doc = docBuilder.parse(file); // Parse the file to a document.
 
 			this.doc.getDocumentElement().normalize();
@@ -249,10 +259,6 @@ public final class LoadGame implements XMLInteractable {
 
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
-	}
-
-	public static void main(String[] args) {
-		new LoadGame();
 	}
 
 }

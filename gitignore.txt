@@ -1,8 +1,0 @@
-/bin/
-/doc/
-/.settings/
-/logs/
-/tests/
-/WorkingAreaForSprites/
-/out/
-/.idea/
