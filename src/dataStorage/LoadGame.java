@@ -73,59 +73,33 @@ public final class LoadGame implements XMLInteractable {
 			DocumentBuilder docBuilder = factory.newDocumentBuilder(); // Builders.
 			this.doc = docBuilder.parse(file); // Parse the file to a document.
 
-			this.doc.getDocumentElement().normalize(); // This is apparently
-														// important.
+			this.doc.getDocumentElement().normalize();
 
 			NodeList list = getNodes("floor"); // Get a list of the floors.
 
-			for (int i = 0, len = list.getLength(); i < len; ++i) { // Iterate
-																	// through
-																	// elements
-																	// of the
-																	// floor.
-
+			for (int i = 0, len = list.getLength(); i < len; ++i) {
 				Node node = list.item(i); // Get the node at position.
 
 				Element e = (Element) node; // Safe cast.
 
-				String level = e.getElementsByTagName("level").item(0).getTextContent(); // Get
-																							// the
-																							// level
-																							// of
-																							// the
-																							// floor.
+				String level = e.getElementsByTagName("level").item(0).getTextContent();
+				String width = e.getElementsByTagName("width").item(0).getTextContent();
+				String depth = e.getElementsByTagName("depth").item(0).getTextContent();
+				Floor floor = new Floor(level, width, depth);
 
-				String width = e.getElementsByTagName("width").item(0).getTextContent(); // The
-																							// width.
-
-				String depth = e.getElementsByTagName("depth").item(0).getTextContent(); // The
-																							// depth.
-
-				Floor floor = new Floor(level, width, depth); // Create a new
-																// floor with
-																// the values
-																// above.
-
-				ServerSideGame.world.addFloor(floor); // Add the floor to the
-														// world in server.
+				ServerSideGame.world.addFloor(floor);
 
 				NodeList rooms = e.getElementsByTagName("room");
 
 				for (int j = 0, length = rooms.getLength(); j < length; ++j) {
 
-					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) { // Check
-																			// cast.
-						Element child = (Element) rooms.item(j); // The cast is
-																	// safe.
+					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) {
+						Element child = (Element) rooms.item(j);
 
-						RoomBuilder build = new RoomBuilder(floor); // New room
-																	// builder.
+						RoomBuilder build = new RoomBuilder(floor);
 
 						String playerSpawn = child.getElementsByTagName("playerSpawn").item(0).getTextContent();
-						build.setBuildPlayerSpawn(playerSpawn); // Get values
-																// from tag and
-																// add values to
-																// builder.
+						build.setBuildPlayerSpawn(playerSpawn);
 
 						String npcSpawn = child.getElementsByTagName("npcSpawn").item(0).getTextContent();
 						build.setBuildNpcSpawn(npcSpawn);
@@ -154,16 +128,14 @@ public final class LoadGame implements XMLInteractable {
 						String entities = child.getElementsByTagName("entities").item(0).getTextContent();
 						build.setEntities(entities);
 
-						Room room = build.build(); // Build the builder,
-													// returning a room.
+						Room room = build.build();
 
 						floor.addRoom(room, room.xPos(), room.yPos());
 					}
 
 				}
 
-				floor.setupNeighbours(); // Work out the neighboring rooms for
-											// all the rooms in the floor.
+				floor.setupNeighbours();
 			}
 		}
 
