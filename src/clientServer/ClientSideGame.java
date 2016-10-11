@@ -95,6 +95,7 @@ public class ClientSideGame extends Thread implements Game {
 	public void endSendables() {
 		ArrayList<Integer> keysToRemove = new ArrayList<>();
 
+		//iterate through the map of IDs to see whether they've been received this tick or not
 		for (int key : this.receivedSendables.keySet()) {
 			if (this.receivedSendables.put(key, false) == false) {
 				keysToRemove.add(key);

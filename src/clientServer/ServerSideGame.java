@@ -17,6 +17,7 @@ import gameWorld.characters.Character;
 import gameWorld.rooms.Room;
 import gameWorld.rooms.SpawnRoom;
 import userHandling.User;
+import util.FileVerifier;
 import util.Logging;
 
 public class ServerSideGame implements Game {
@@ -35,6 +36,8 @@ public class ServerSideGame implements Game {
 		for (Character c : LoadGame.getInstance().getPlayers()) {
 			players.put(c.getName(), c); // Loads players into game.
 		}
+
+		FileVerifier.getInstance().checkFiles();
 
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
