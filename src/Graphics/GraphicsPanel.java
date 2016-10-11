@@ -167,6 +167,8 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         graphics.fillRect(0, height, getWidth(), height);
     }
 
+    private static final int healthBarHeight = 20;
+    
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         if (isLocationDoor(absoluteTarget, room)){
@@ -194,10 +196,15 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		        if (entity instanceof Character){
 		        	//Calculate width of the healthbar.
 		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
-		        	int healthbarWidth = (int) (relativeHealth * location.width);
+		        	int healthBarWidth = (int) (relativeHealth * location.width);
 		        	//Draw the healthbar
 		        	graphics.setColor(Color.green);
-		        	graphics.fillRect(location.x, location.y - 20, healthbarWidth, 20);
+		        	graphics.fillRect(location.x, location.y - healthBarHeight, healthBarWidth, healthBarHeight);
+		        	//Calculate the location and width of the depleted section of the healthbar.
+		        	int depletedBarWidth = location.width - healthBarWidth;
+		        	int depletedBarX = location.x + healthBarWidth;
+		        	graphics.setColor(Color.red);
+		        	graphics.fillRect(depletedBarX, location.y - healthBarHeight, depletedBarWidth, healthBarHeight);
 		        }
 	        }
         }
