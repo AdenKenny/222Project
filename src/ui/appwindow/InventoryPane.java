@@ -27,7 +27,9 @@ public class InventoryPane extends JPanel{
 	private MainWindow client;
 
 	private Item[][] items;
+	private boolean[][] isEquippedItem;
 	private ImageCache icons;
+
 	int colWidth;
 	int rowHeight;
 
@@ -36,6 +38,7 @@ public class InventoryPane extends JPanel{
 		COLS=4;
 		this.client = client;
 		this.items = new Item[ROWS][COLS];
+		this.isEquippedItem = new boolean[ROWS][COLS];
 		this.icons = new ImageCache();
 		addMouseListener(new MouseListener() {
 
@@ -89,7 +92,7 @@ public class InventoryPane extends JPanel{
 	 * Fills the first free space starting from top left to bottom right, moving left to right.
 	 * If no free spaces, no item will be added, although this method should not be called in that case.
 	 */
-	public void addItem(Item item){
+	protected void addItem(Item item){
 		System.out.println("Adding Item in InventoryPane");
 		for(int i=0; i<ROWS; i++ ){
 			for(int j=0; j<COLS; j++){
@@ -97,6 +100,17 @@ public class InventoryPane extends JPanel{
 					items[i][j] = item;
 					this.repaint();
 					return;
+				}
+			}
+		}
+	}
+
+	protected void addEquippedPosition(int itemIndex){
+		int position = 0;
+		for(int i=0; i<ROWS; i++ ){
+			for(int j=0; j<COLS; j++){
+				if(itemIndex == position){
+					isEquippedItem[i][j] = true;
 				}
 			}
 		}
@@ -128,6 +142,10 @@ public class InventoryPane extends JPanel{
 						System.out.println("/resources/graphics/"+ items[i][j].getName()+".png");
 						Image icon = icons.getResource("/resources/graphics/"+ items[i][j].getName()+".png");
 						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
+						if(isEquippedItem[i][j]){
+							Image equipIcon = icons.getResource("/resources/graphics/equip.png");
+							g.drawImage(icon, colWidth*j, rowHeight*i, 20, 20, null);
+						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
