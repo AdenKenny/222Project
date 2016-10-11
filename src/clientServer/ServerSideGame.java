@@ -35,7 +35,6 @@ public class ServerSideGame implements Game {
 
 	public ServerSideGame() {
 
-
 		if(!debugMode) {
 			for (Character c : LoadGame.getInstance().getPlayers()) {
 				players.put(c.getName(), c); // Loads players into game.
