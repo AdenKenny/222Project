@@ -2,16 +2,27 @@
 <game>
   <players>
     <player>
-      <username>Test</username>
-      <UID>10</UID>
+      <username>Aden</username>
+      <UID>18</UID>
       <type>PLAYER</type>
-      <items>3, 302, -1, -1, -1, -1, -1, -1</items>
-      <health>100</health>
-      <xp>52</xp>
-      <gold>528</gold>
+      <items>-1</items>
+      <health>92</health>
+      <xp>0</xp>
+      <gold>0</gold>
       <level>1</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-	</player>
+      <equips/>
+    </player>
+    <player>
+      <username>Simon</username>
+      <UID>19</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>100</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips/>
+    </player>
   </players>
   <monsters/>
   <vendors/>
