@@ -11,6 +11,7 @@
       <gold>0</gold>
       <level>1</level>
       <equips/>
+<<<<<<< HEAD
     </player>
     <player>
       <username>Aden</username>
@@ -37,6 +38,12 @@
     <player>
       <username>Test</username>
       <UID>289</UID>
+=======
+    </player>
+    <player>
+      <username>Aden</username>
+      <UID>30</UID>
+>>>>>>> 0d4be5e87b7febdf63c638f82ac89e26194becbb
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
@@ -54,7 +61,29 @@
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>
-      <equips>-1</equips>
+      <equips/>
+    </player>
+    <player>
+      <username>Simon</username>
+      <UID>29</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>50</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips/>
+    </player>
+    <player>
+      <username>Test</username>
+      <UID>289</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>100</health>
+      <xp>26</xp>
+      <gold>68</gold>
+      <level>1</level>
+      <equips/>
     </player>
   </players>
 >>>>>>> 4e21a90604aef1641c05dcc34dbde6ec35361248
