@@ -7,6 +7,12 @@ import gameWorld.objects.StationaryObject.Type;
 import util.AbstractBuilder;
 import util.Logging;
 
+/**
+ * A builder to build Objects in the game. An object is a piece of furniture or a decoration.
+ *
+ * @author Aden
+ */
+
 public class ObjectBuilder implements AbstractBuilder {
 
 	private String buildID;
@@ -90,7 +96,7 @@ public class ObjectBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the Type of the StationaryObject that is being built.
-	 * 
+	 *
 	 * @return The Type of the StationaryObject being built.
 	 */
 	public Type getType() {
@@ -100,12 +106,18 @@ public class ObjectBuilder implements AbstractBuilder {
 	/**
 	 * Returns the Set of Integers containing the IDs of the Items in the
 	 * StationaryObject that is being built.
-	 * 
+	 *
 	 * @return The IDs of the Items in the StationaryObject being built.
 	 */
 	public Set<Integer> getSetOfItems() {
 		return this.setOfItems;
 	}
+
+	/**
+	 * Builds an ObjectModel from the data that was read from XML.
+	 *
+	 * @return An ObjectModel that is fully loaded.
+	 */
 
 	@Override
 	public ObjectModel build() {
@@ -129,7 +141,12 @@ public class ObjectBuilder implements AbstractBuilder {
 		return null;
 	}
 
+	/**
+	 * This should never be called.
+	 */
+
 	@Override
+	@Deprecated
 	public void setSaleValue(String value) {
 		throw new AssertionError();
 	}

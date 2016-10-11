@@ -4,7 +4,7 @@ import util.AbstractBuilder;
 import util.Logging;
 
 /**
- * A class to build an Item.
+ * A class to build an Item from input read from XML.
  *
  * @author Aden and Louis
  */
@@ -46,7 +46,7 @@ public final class ItemBuilder implements AbstractBuilder {
 	/**
 	 * Sets the sale value of the Item that is being built. This value will be
 	 * read from a file.
-	 * 
+	 *
 	 * @param buildSaleValue
 	 *            The sale value of the Item being built.
 	 */
@@ -72,7 +72,7 @@ public final class ItemBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the Type of the Item that is being built.
-	 * 
+	 *
 	 * @return The Type of the Item being built.
 	 */
 	public Item.Type getType() {
@@ -86,7 +86,7 @@ public final class ItemBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the sale value of the Item that is being built.
-	 * 
+	 *
 	 * @return The sale value of the Item being built.
 	 */
 	public int getSaleValue() {
@@ -111,7 +111,7 @@ public final class ItemBuilder implements AbstractBuilder {
 			this.value = Integer.parseInt(this.buildValue);
 			this.saleValue = Integer.parseInt(this.buildSaleValue);
 			this.description = this.buildDescription;
-			
+
 			return new Item(this);
 		}
 
@@ -123,7 +123,12 @@ public final class ItemBuilder implements AbstractBuilder {
 		return null;
 	}
 
+	/**
+	 * This should never be called.
+	 */
+
 	@Override
+	@Deprecated
 	public void setItems(String s) {
 		throw new AssertionError(); // This shouldn't ever be called.
 	}

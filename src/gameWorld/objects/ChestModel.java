@@ -19,37 +19,11 @@ public class ChestModel extends ObjectModel {
 		super(builder);
 	}
 
-
-
-	@Override
-	public String getName() {
-		return super.getName();
-}
-	@Override
-	public int getID() {
-
-		return super.getID();
-	}
-
-	@Override
-	public int getValue() {
-		return super.getValue();
-	}
-
-	@Override
-	public String getDescription() {
-		return super.getDescription();
-	}
-
-	@Override
-	public Type getType() {
-		return super.getType();
-	}
-
-	@Override
-	public Set<Integer> getItems() {
-		return super.getItems();
-	}
+	/**
+	 * Sets the items in a chest.
+	 *
+	 * @param items A List<Integer>. The Integer represents the UID of the item that should be in the chest.
+	 */
 
 	public void setItems(List<Integer> items) {
 		for (int i : items) {

@@ -609,6 +609,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * @param ID
 	 *            The value to set this Character's ID to
 	 */
+	@Override
 	public void setID(int ID) {
 		this.ID = ID;
 		Entity.adjustIDCount(ID);

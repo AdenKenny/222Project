@@ -235,7 +235,12 @@ public final class PlayerBuilder implements AbstractBuilder {
 		return null;
 	}
 
+	/**
+	 * This should never be called.
+	 */
+
 	@Override
+	@Deprecated
 	public void setSaleValue(String value) {
 		throw new AssertionError();
 	}
