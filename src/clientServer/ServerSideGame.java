@@ -95,7 +95,7 @@ public class ServerSideGame implements Game {
 		}
 		world.addPlayer(character);
 		this.connectedPlayers.put(uid, new Player(user, character));
-		world.addPlayer(character);
+		System.out.println(this.connectedPlayers.size());
 	}
 
 	/**

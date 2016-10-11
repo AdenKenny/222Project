@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashSet;
+import java.util.Set;
 
 import util.Logging;
 
@@ -30,6 +32,8 @@ public class Server {
 			new Tick(this.game).start();
 			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The game tick has begun.");
 
+			Set<Master> masters = new HashSet<>();
+
 			int uid = 0;
 			//loop indefinitely
 			while(true) {
@@ -39,6 +43,7 @@ public class Server {
 					//create and run a master for that client
 					Master m = new Master(s, uid++, this.game);
 					m.start();
+					masters.add(m);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
