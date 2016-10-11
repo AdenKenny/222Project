@@ -122,7 +122,7 @@ public class InventoryPane extends JPanel{
 				if(items[i][j] != null){
 					//draw the item based on its name
 					try {
-						Image icon = icons.getResource(items[i][j].getName());
+						Image icon = icons.getResource("/resources/graphics/"+items[i][j].getName()+".png");
 						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 					} catch (IOException e) {
 						e.printStackTrace();

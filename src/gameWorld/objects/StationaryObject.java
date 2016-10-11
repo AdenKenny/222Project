@@ -60,8 +60,7 @@ public class StationaryObject extends Entity implements Sendable {
 					}
 
 					Character ch = (Character) caller;
-					List<Integer> chItems = ch.getItems();
-					chItems.add(open());
+					ch.pickUp(open());
 				}
 
 				@Override

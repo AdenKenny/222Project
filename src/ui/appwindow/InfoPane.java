@@ -100,6 +100,7 @@ public class InfoPane extends JPanel {
 
 	public void updateGold(int amount) {
 		goldLabel.setText("Gold: " + amount);
+		this.repaint();
 	}
 
 	public void showLogout() {

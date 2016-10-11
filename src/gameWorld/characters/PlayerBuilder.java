@@ -28,13 +28,13 @@ public final class PlayerBuilder implements AbstractBuilder {
 	private String username;
 	private int ID;
 	private Type type;
-	private List<Integer> items;
+	private int[] items;
 	private int health;
 	private int xp;
 	private int gold;
 	private int level;
 	private String description = "A player, just like you!";
-	private List<Integer> equips;
+	private int[] equips;
 
 	@Override
 	public void setID(String ID) {
@@ -116,7 +116,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	 *
 	 * @return The List of Item IDs of the Character being built.
 	 */
-	public List<Integer> getItems() {
+	public int[] getItems() {
 		return this.items;
 	}
 
@@ -146,7 +146,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	 *
 	 * @return The IDs of the Items that the Character being built has equipped.
 	 */
-	public List<Integer> getEquips() {
+	public int[] getEquipIndexes() {
 		return this.equips;
 	}
 
@@ -206,20 +206,24 @@ public final class PlayerBuilder implements AbstractBuilder {
 			this.gold = Integer.parseInt(this.buildGold);
 			this.level = Integer.parseInt(this.buildLevel);
 
-			this.items = new ArrayList<>();
+			this.items = new int[8];
+			int i = 0;
 			for (String s : this.buildItems.replaceAll(" ", "").split(",")) {
 				if (s.isEmpty()) {
 					continue;
 				}
-				this.items.add(Integer.parseInt(s));
+				this.items[i++] = Integer.parseInt(s);
+				if (i == 8) break;
 			}
 
-			this.equips = new ArrayList<>();
+			this.equips = new int[8];
+			i = 0;
 			for (String s : this.buildEquips.replaceAll(" ", "").split(",")) {
 				if (s.isEmpty()) {
 					continue;
 				}
-				this.equips.add(Integer.parseInt(s));
+				this.equips[i++] = Integer.parseInt(s);
+				if (i == 8) break;
 			}
 
 			return new Character(this);

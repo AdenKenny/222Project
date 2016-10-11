@@ -5,56 +5,56 @@
       <username>Arthas</username>
       <UID>9</UID>
       <type>PLAYER</type>
-      <items>-1</items>
+      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>
-      <equips/>
+      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
     <player>
       <username>Aden</username>
       <UID>307</UID>
       <type>PLAYER</type>
-      <items>-1</items>
+      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>26</xp>
       <gold>4</gold>
       <level>1</level>
-      <equips/>
+      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
     <player>
       <username>Test</username>
       <UID>289</UID>
       <type>PLAYER</type>
-      <items>-1</items>
+      <items>3, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>26</xp>
-      <gold>68</gold>
+      <gold>66</gold>
       <level>1</level>
-      <equips/>
+      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
     <player>
       <username>Simon</username>
       <UID>29</UID>
       <type>PLAYER</type>
-      <items>-1</items>
+      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
       <level>1</level>
-      <equips/>
+      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
     <player>
       <username>janef</username>
       <UID>298</UID>
       <type>PLAYER</type>
-      <items>-1</items>
+      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>30</xp>
       <gold>20</gold>
       <level>2</level>
-      <equips/>
+      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
   </players>
   <monsters/>

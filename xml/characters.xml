@@ -21,7 +21,7 @@
     <name>smith</name>
     <type>VENDOR</type>
     <value>3</value>
-    <items>22, 23, 21</items>
+    <items>2</items>
     <description>A dude who smiths stuff</description>
   </character>
 </characters>

@@ -94,7 +94,7 @@ public final class SaveGame implements XMLInteractable {
 		playerTag.appendChild(createNode("gold", player.getGold() + ""));
 
 		playerTag.appendChild(createNode("level", player.getLevel() + ""));
-		playerTag.appendChild(createNode("equips", itemToString(player.getEquips())));
+		playerTag.appendChild(createNode("equips", convertToString(player.getEquipIndexes())));
 
 		this.players.appendChild(playerTag);
 	}
@@ -148,11 +148,11 @@ public final class SaveGame implements XMLInteractable {
 	 * @return A string of the values that were in the list that are separated by commas.
 	 */
 
-	private static String convertToString(List<Integer> list) {
+	private static String convertToString(int[] array) {
 
 		StringBuilder builder = new StringBuilder();
 
-		for(Integer i : list) {
+		for(int i : array) {
 			builder.append(i);
 			builder.append(", "); //Comma separation.
 		}

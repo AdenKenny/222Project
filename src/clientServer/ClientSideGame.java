@@ -267,13 +267,15 @@ public class ClientSideGame extends Thread implements Game {
 			//remove the character from its old position on the grid
 			entities[c.yPos()][c.xPos()] = null;
 
-			//update shared fields, where type doesn't matter
-			c.setAlive(received[2] == 1);
-			c.turn(Direction.values()[received[3]]);
-			c.setXPos(Sendable.bytesToInt(received, 20));
-			c.setYPos(Sendable.bytesToInt(received, 24));
-
 			Character.Type type = Character.Type.values()[received[1]];
+
+			if (!type.equals(Character.Type.VENDOR)) {
+				//update shared fields, where type doesn't matter
+				c.setAlive(received[2] == 1);
+				c.turn(Direction.values()[received[3]]);
+				c.setXPos(Sendable.bytesToInt(received, 20));
+				c.setYPos(Sendable.bytesToInt(received, 24));
+			}
 
 			//change fields dependent on type
 			if (type.equals(Character.Type.MONSTER)) {

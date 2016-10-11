@@ -83,7 +83,10 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	/* Fields for all characters */
 	private Type type; // ?
-	private List<Integer> items;
+	private int[] items;
+	private int[] equipIndexes;
+	private int itemIter;
+	private int equipIter;
 
 	/* Fields for NPCs */
 	private int rank;
@@ -107,23 +110,30 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	private boolean hasRespawned;
 
-	// TODO: find some way of actually getting equipment to work
-	private List<Item> equips;
-
 	public Character(Room room, int xPos, int yPos, Direction facing, int level, CharacterModel model) {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
 
 		this.listeners = new ArrayList<>(2);
 
 		this.modelID = model.getID();
-		this.items = new ArrayList<>(model.getSetOfItems());
+		this.items = new int[8];
+		for (int i = 0; i < this.items.length; ++i) {
+			this.items[i] = -1;
+		}
+		this.itemIter = 0;
+		for (int item : model.getSetOfItems()) {
+			this.items[this.itemIter++] = item;
+		}
 		this.type = model.getType();
 		this.baseXP = this.type.getBaseXP();
 		this.rank = model.getValue();
 		this.level = level;
 		this.xp = 0;
-		this.isAlive = false;
-		this.equips = new ArrayList<>();
+		this.isAlive = this.type.equals(Type.VENDOR);
+		this.equipIndexes = new int[8];
+		for (int i = 0; i < this.equipIndexes.length; ++i) {
+			this.equipIndexes[i] = -1;
+		}
 		this.attackers = new HashSet<>();
 		this.hasRespawned = false;
 
@@ -143,10 +153,21 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.gold = builder.getGold();
 		this.xp = builder.getXp();
 		this.type = builder.getType();
-		this.items = builder.getItems();
-		this.equips = new ArrayList<>();
-		for (int i : builder.getEquips()) {
-			this.equips.add(Game.mapOfItems.get(i));
+		this.items = new int[8];
+		for (int i = 0; i < this.items.length; ++i) {
+			this.items[i] = -1;
+		}
+		this.itemIter = 0;
+		for (int item : builder.getItems()) {
+			this.items[this.itemIter++] = item;
+		}
+		this.equipIndexes = new int[8];
+		for (int i = 0; i < this.equipIndexes.length; ++i) {
+			this.equipIndexes[i] = -1;
+		}
+		this.equipIter = 0;
+		for (int index : builder.getEquipIndexes()) {
+			this.equipIndexes[this.equipIter++] = index;
 		}
 
 		this.baseXP = this.type.getBaseXP();
@@ -164,14 +185,20 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.listeners = new ArrayList<>(2);
 
 		this.modelID = -1;
-		this.items = new ArrayList<>();
+		this.items = new int[8];
+		for (int i = 0; i < this.items.length; ++i) {
+			this.items[i] = -1;
+		}
 		this.type = Type.PLAYER;
 		this.baseXP = this.type.getBaseXP();
 		this.rank = -1;
 		this.level = 1;
 		this.xp = 0;
 		this.isAlive = false;
-		this.equips = new ArrayList<>();
+		this.equipIndexes = new int[8];
+		for (int i = 0; i < this.items.length; ++i) {
+			this.equipIndexes[i] = -1;
+		}
 		this.hasRespawned = false;
 
 		setFields();
@@ -225,7 +252,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 					MainWindow mw = (MainWindow) caller;
 
-					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
+					Item sellItem = Game.mapOfItems.get(items[0]);
 
 					int saleValue = sellItem.getSaleValue();
 					int price = saleValue + (saleValue * (rank - 1) / 5);
@@ -258,12 +285,12 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 					Character ch = (Character) caller;
 
-					Item sellItem = Game.mapOfItems.get(items.toArray(new Integer[1])[0]);
+					Item sellItem = Game.mapOfItems.get(items[0]);
 
 					int saleValue = sellItem.getSaleValue();
 					int price = saleValue + (saleValue * (rank - 1) / 5);
 
-					ch.items.add(items.toArray(new Integer[1])[0]);
+					ch.pickUp(items[0]);
 					ch.setGold(ch.getGold() - price);
 				}
 
@@ -305,7 +332,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	private void setFields() {
 		if (this.items == null) {
-			this.items = new ArrayList<>();
+			this.items = new int[8];
 		}
 
 		if (this.type.equals(Type.VENDOR)) {
@@ -357,7 +384,12 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	private void applyAttack(Character attacker) {
 		int attack = attacker.getAttack(); // max ~1000
 		int defense = 0; // max 350
-		for (Item item : this.equips) {
+		for (int i : this.equipIndexes) {
+			if (i < 0) {
+				continue;
+			}
+			int itemId = this.items[i];
+			Item item = Game.mapOfItems.get(itemId);
 			switch (item.getType()) {
 			case ARMOR:
 			case SHIELD:
@@ -446,11 +478,20 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * @param item
 	 *            The Item to equip
 	 */
-	public void equip(Item item) {
-		for (Integer id : this.items) {
-			if (id == item.getID()) {
-				this.items.remove(id);
-				this.equips.add(new Item(item));
+	public void equip(int item) {
+		outer: for (int i = 0; i < this.itemIter; ++i) {
+			if (this.items[i] == item) {
+				// player holding item
+				for (int index : this.equipIndexes) {
+					// check items that are already equipped
+					if (index == i) {
+						// if item is already equipped, check next item
+						continue outer;
+					}
+				}
+				// equip item
+				this.equipIndexes[this.equipIter++] = item;
+				return;
 			}
 		}
 	}
@@ -461,8 +502,10 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * @param item
 	 *            The Item to pick up
 	 */
-	public void pickUp(Item item) {
-		this.items.add(item.getID());
+	public void pickUp(int item) {
+		if (itemIter < this.items.length) {
+			this.items[this.itemIter++] = item;
+		}
 	}
 
 	/**
@@ -474,13 +517,34 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 *            The amount to sell for
 	 */
 	public void sellItem(int itemID, int value) {
-		for (Integer id : this.items) {
-			if (id == itemID) {
-				this.items.remove(id);
-				this.gold += value;
-				return;
+		for (int i = 0; i < this.itemIter; ++i) {
+			if (this.items[i] == itemID) {
+				// player is holding item
+				for (int j = i; j < this.itemIter; ++j) {
+					if (j == 7) {
+						this.items[j] = -1;
+					} else {
+						this.items[j] = this.items[j + 1];
+					}
+				}
+				// remove from equips too
+				for (int j = 0; j < this.equipIter; ++j) {
+					if (this.equipIndexes[j] == i) {
+						for (int k = j; k < equipIter; ++k) {
+							if (k == 7) {
+								this.equipIndexes[k] = -1;
+							} else {
+								this.equipIndexes[k] = this.equipIndexes[k + 1];
+							}
+						}
+						break;
+					}
+				}
+				break;
 			}
 		}
+
+		this.gold += value;
 	}
 
 	/**
@@ -491,9 +555,11 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 * @param value
 	 *            The amount to buy for
 	 */
-	public void buyItem(Item item, int value) {
-		this.items.add(item.getID());
-		this.gold -= value;
+	public void buyItem(int item, int value) {
+		if (this.itemIter < 8) {
+			this.items[this.itemIter++] = item;
+			this.gold -= value;
+		}
 	}
 
 	/**
@@ -629,12 +695,11 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	/**
-	 * Gets the inventory of this Character, as a {@literal List<Integer>} of
-	 * Item IDs.
+	 * Gets the inventory of this Character, as an array of Item IDs.
 	 *
-	 * @return a List of Item IDs
+	 * @return an array of Item IDs
 	 */
-	public List<Integer> getItems() {
+	public int[] getItems() {
 		return this.items;
 	}
 
@@ -645,7 +710,10 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 *            a List of Item IDs
 	 */
 	public void setItems(List<Integer> items) {
-		this.items = items;
+		this.items = new int[8];
+		for (int i = 0; i < 8 && i < items.size(); ++i) {
+			this.items[i] = items.get(i);
+		}
 	}
 
 	/**
@@ -724,7 +792,11 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 */
 	public int getAttack() {
 		int attack = this.damage;
-		for (Item item : this.equips) {
+		for (int i = 0; i < this.equipIter; ++i) {
+			if (this.equipIndexes[i] < 0) {
+				continue;
+			}
+			Item item = Game.mapOfItems.get(this.items[this.equipIndexes[i]]);
 			if (item.getType().equals(Item.Type.WEAPON)) {
 				attack += item.getValue();
 			}
@@ -863,12 +935,13 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	}
 
 	/**
-	 * Returns a List of Items that this Character has equipped
+	 * Returns an array of indexes, corresponding to the indexes of those items
+	 * in this Character's items array which this Character has equipped.
 	 *
 	 * @return This Character's equipment
 	 */
-	public List<Item> getEquips() {
-		return this.equips;
+	public int[] getEquipIndexes() {
+		return this.equipIndexes;
 	}
 
 	@Override

@@ -222,7 +222,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	        }
         }
     }
-    
+
     /**
      * Default entity rendering method.
      * @param entity
@@ -239,7 +239,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	renderHealthBar((Character) entity, data, graphics);
         }
     }
-    
+
     /**
      * Rendering method for players.
      * @param player
@@ -254,7 +254,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         //Render a health bar.
         renderHealthBar((Character) player, data, graphics);
     }
-    
+
     /**
      * RenderData
      * @param character
@@ -264,7 +264,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     private void renderHealthBar(Character character, RenderData data, Graphics graphics){
     	//Calculate width of the healthbar.
     	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
-    	System.out.println(relativeHealth);
+    	//System.out.println(relativeHealth);
     	int healthBarWidth = (int) (relativeHealth * data.width);
     	//Draw the healthbar
     	graphics.setColor(Color.green);
@@ -286,7 +286,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
     }
-    
+
     private void renderChest(StationaryObject chest, RenderData data, Graphics graphics){
     	//Render in lower half of sprite's space.
     	int y = (int) (data.y + data.height * 0.5);
@@ -295,7 +295,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(chest, new RenderData(y, data.x, height, data.width)));
     }
-    
+
     private Image loadItemImage(String resourceName){
     	try {
 			return cache.getResource(resourceName);
@@ -303,7 +303,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 			return null;
 		}
     }
-    
+
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {

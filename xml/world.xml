@@ -19,7 +19,7 @@
 			<playerSpawn>false</playerSpawn>
 			<npcSpawn>true</npcSpawn>
 			<targetRoom>false</targetRoom>
-			<modelID>1001</modelID>
+			<modelID>2000</modelID>
 			<xPos>1</xPos>
 			<yPos>0</yPos>
 			<width>9</width>

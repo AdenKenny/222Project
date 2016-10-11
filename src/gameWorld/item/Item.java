@@ -215,7 +215,7 @@ public class Item implements Buildable, Cloneable {
 	 */
 	public void tryEquip(Character equipper) {
 		if (equipper.equals(this.holder)) {
-			this.holder.equip(this);
+			this.holder.equip(this.ID);
 		}
 	}
 
@@ -227,7 +227,7 @@ public class Item implements Buildable, Cloneable {
 	 */
 	public void tryPickUp(Character pickerUpperer) {
 		if (this.holder == null) {
-			pickerUpperer.pickUp(this);
+			pickerUpperer.pickUp(this.ID);
 			this.holder = pickerUpperer;
 		}
 	}
