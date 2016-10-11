@@ -124,13 +124,12 @@ public class Room {
 		for (Entity[] es : this.entities) {
 			for (Entity e : es) {
 				if (e instanceof Sendable) {
-					System.out.println(((Character)e).getName());
 					b = true;
 					sendables.add((Sendable) e);
 				}
 			}
 		}
-		if (b) System.out.println(sendables.size());
+		//if (b) System.out.println(sendables.size());
 		return sendables;
 	}
 
