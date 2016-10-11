@@ -18,6 +18,7 @@ import gameWorld.item.Item;
  * @author Clinton
  *
  */
+
 public class BottomPanel extends JPanel{
 	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
 	protected MainWindow parent;
@@ -31,7 +32,8 @@ public class BottomPanel extends JPanel{
 		setVisible(true);
 	}
 
-	public void initComponents(){
+
+	public void initComponents() {
 		this.chatPane = new ChatPane(this);
 		chatPane.initComponents();
 		this.statPane = new StatsPane();
@@ -45,7 +47,6 @@ public class BottomPanel extends JPanel{
 	}
 
 	public void loadPlayerStats(Character currentPlayer){
-
 		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
 		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
 		setStat(StatsPane.EXP, currentPlayer.getXp());
@@ -66,10 +67,10 @@ public class BottomPanel extends JPanel{
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(getParent().getWidth(), (int) (getParent().getHeight()*HEIGHT_RATIO));
+		return new Dimension(getParent().getWidth(), (int) (getParent().getHeight() * HEIGHT_RATIO));
 	}
 
-	public void addGameChat(String output){
+	public void addGameChat(String output) {
 		chatPane.addGameChat(output);
 	}
 
@@ -95,8 +96,19 @@ public class BottomPanel extends JPanel{
 
 	public void loadInventory(Character player) {
 		List<Integer> itemIDs = player.getItems();
-		for(Integer id : itemIDs){
+		for (Integer id : itemIDs) {
 			inventoryPane.addItem(Game.mapOfItems.get(id));
 		}
+	}
+
+	/**
+	 * Updates the stats pane to reflect any changes to the specified
+	 * Character's statistics.
+	 *
+	 * @param player
+	 *            The Character whose stats are being displayed
+	 */
+	public void updateStats(Character player) {
+		this.statPane.updateStats(player);
 	}
 }

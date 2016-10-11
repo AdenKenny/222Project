@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import gameWorld.characters.Character;
 import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {
@@ -57,6 +58,7 @@ public class Slave extends Thread {
 				if (this.game != null) {
 					if (data[0] == PackageCode.Codes.GAME_NEW_ROOM.value()) {
 						this.game.newRoom(data);
+						this.mainWindow.setRoom(this.game.getFloor(), this.game.getRoom());
 					}
 					
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE_END.value()) {
@@ -65,6 +67,9 @@ public class Slave extends Thread {
 					
 					else if (data[0] == PackageCode.Codes.GAME_SENDABLE.value()) {
 						this.game.updateSendable(data);
+						if (data[1] == Character.Type.PLAYER.ordinal()) {
+							this.mainWindow.updateStats(this.game.getPlayer());
+						}
 					}
 					
 					else if (data[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {

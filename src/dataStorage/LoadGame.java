@@ -51,8 +51,7 @@ public final class LoadGame implements XMLInteractable {
 	}
 
 	/**
-	 * Gets a set of Characters from the XML file that was specified when the
-	 * LoadGame class was initialised.
+	 * Gets a set of Characters from the XML file that was specified when the LoadGame class was initialised.
 	 *
 	 * @return A Set<Character> of characters that were loaded from file.
 	 */
@@ -130,7 +129,7 @@ public final class LoadGame implements XMLInteractable {
 
 						String npcSpawn = child.getElementsByTagName("npcSpawn").item(0).getTextContent();
 						build.setBuildNpcSpawn(npcSpawn);
-						
+
 						String targetRoom = child.getElementsByTagName("targetRoom").item(0).getTextContent();
 						build.setBuildTargetRoom(targetRoom);
 
@@ -152,16 +151,13 @@ public final class LoadGame implements XMLInteractable {
 						String roomLevel = child.getElementsByTagName("level").item(0).getTextContent();
 						build.setLevel(roomLevel);
 
+						String entities = child.getElementsByTagName("entities").item(0).getTextContent();
+						build.setEntities(entities);
+
 						Room room = build.build(); // Build the builder,
 													// returning a room.
 
-						floor.addRoom(room, room.xPos(), room.yPos()); // Add
-																		// the
-																		// newly
-																		// built
-																		// room
-																		// the
-																		// floor.
+						floor.addRoom(room, room.xPos(), room.yPos());
 					}
 
 				}
@@ -185,8 +181,7 @@ public final class LoadGame implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a Set<Character> from player entries in XML. These players are
-	 * built with a PlayerBuilder and values read from xml.
+	 * Returns a Set<Character> from player entries in XML. These players are built with a PlayerBuilder and values read from xml.
 	 *
 	 * @return A Set<Character> representing players that were loaded from XML.
 	 */

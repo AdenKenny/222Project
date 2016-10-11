@@ -18,6 +18,7 @@ public class ClientSideGame extends Thread implements Game {
 	private final Map<Integer, Sendable> sendables;
 	private final Map<Integer, Boolean> receivedSendables;
 	private Room room;
+	private int floor;
 	private int characterID;
 	private Character player;
 	private String username;
@@ -54,6 +55,8 @@ public class ClientSideGame extends Thread implements Game {
 		this.room.setDoor(Direction.EAST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
 		this.room.setDoor(Direction.NORTH, doorCode % 2 == 1);
+		
+		this.floor = received[6];
 		
 		if (this.player != null) {
 			this.player.setRoom(this.room);
@@ -198,6 +201,10 @@ public class ClientSideGame extends Thread implements Game {
 
 	public Room getRoom() {
 		return this.room;
+	}
+	
+	public int getFloor() {
+		return this.floor;
 	}
 
 	public synchronized Character getPlayer() {

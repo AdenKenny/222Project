@@ -17,7 +17,7 @@ import gameWorld.rooms.Room;
  * @author Clinton
  *
  */
-public class InfoPane extends JPanel{
+public class InfoPane extends JPanel {
 	public static int HEIGHT = 40;
 
 	private JButton logoutButton;
@@ -32,7 +32,7 @@ public class InfoPane extends JPanel{
 		setVisible(true);
 	}
 
-	public void initComponents(){
+	public void initComponents() {
 		logoutButton = new JButton("Logout");
 		logoutButton.setOpaque(true);
 		logoutButton.setForeground(Color.WHITE);
@@ -44,7 +44,6 @@ public class InfoPane extends JPanel{
 		floorLabel.setForeground(Color.WHITE);
 		floorLabel.setBackground(Color.DARK_GRAY);
 		floorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
 		goldLabel = new JLabel("");
 		goldLabel.setOpaque(true);
@@ -65,11 +64,11 @@ public class InfoPane extends JPanel{
 	/*
 	 * re-do calculations for relative positions of the components
 	 */
-	private void calculateLayoutConstraints(){
-		layout.putConstraint(SpringLayout.WEST, logoutButton,5, SpringLayout.WEST, this);
+	private void calculateLayoutConstraints() {
+		layout.putConstraint(SpringLayout.WEST, logoutButton, 5, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, logoutButton, 5, SpringLayout.NORTH, this);
 
-		layout.putConstraint(SpringLayout.WEST, floorLabel, 0, SpringLayout.HORIZONTAL_CENTER,this);
+		layout.putConstraint(SpringLayout.WEST, floorLabel, 0, SpringLayout.HORIZONTAL_CENTER, this);
 		layout.putConstraint(SpringLayout.NORTH, floorLabel, 10, SpringLayout.NORTH, this);
 
 		layout.putConstraint(SpringLayout.EAST, goldLabel, 0, SpringLayout.EAST, this);
@@ -81,8 +80,8 @@ public class InfoPane extends JPanel{
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0,0,getWidth(),getHeight());
-		if(logoutButton!=null && floorLabel!=null&&goldLabel!=null){
+		g.fillRect(0, 0, getWidth(), getHeight());
+		if (logoutButton != null && floorLabel != null && goldLabel != null) {
 			calculateLayoutConstraints();
 			logoutButton.repaint();
 			floorLabel.repaint();
@@ -92,22 +91,22 @@ public class InfoPane extends JPanel{
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(getParent().getWidth(),HEIGHT);
+		return new Dimension(getParent().getWidth(), HEIGHT);
 	}
 
-	public void setRoom(Room room){
-		floorLabel.setText("Room (" + room.xPos() + ", " + room.yPos() + ")");
+	public void setRoom(int floor, Room room) {
+		floorLabel.setText("Floor " + floor + ", Room (" + room.xPos() + ", " + room.yPos() + ")");
 	}
 
-	public void updateGold(int amount){
+	public void updateGold(int amount) {
 		goldLabel.setText("Gold: " + amount);
 	}
 
-	public void showLogout(){
+	public void showLogout() {
 		logoutButton.setVisible(true);
 	}
 
-	public void hideLogout(){
+	public void hideLogout() {
 		logoutButton.setVisible(false);
 	}
 }

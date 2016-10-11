@@ -59,7 +59,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Sets the amount of gold that the Character that is being built has. This
 	 * will be a value that is read from a file.
-	 * 
+	 *
 	 * @param gold
 	 *            The amount of gold that the Character being built has.
 	 */
@@ -75,7 +75,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Sets the amount of health that the Character that is being built has.
 	 * This will be a value that is read from a file.
-	 * 
+	 *
 	 * @param health
 	 *            The amount of health that the Character being built has.
 	 */
@@ -86,7 +86,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Sets the equipment that the Character that is being built has. This will
 	 * be a value that is read from a file.
-	 * 
+	 *
 	 * @param equips
 	 *            The equipment that the Character being built has.
 	 */
@@ -97,7 +97,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Sets the amount of XP that the Character that is being built has. This
 	 * will be a value that is read from a file.
-	 * 
+	 *
 	 * @param xp
 	 *            The amount of XP that the Character being built has.
 	 */
@@ -113,7 +113,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Returns a List of Integers containing the IDs of the Items that the
 	 * Character that is being built has.
-	 * 
+	 *
 	 * @return The List of Item IDs of the Character being built.
 	 */
 	public List<Integer> getItems() {
@@ -143,7 +143,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Returns a List of Integers containing the IDs of the Items that the
 	 * Character that is being built has equipped.
-	 * 
+	 *
 	 * @return The IDs of the Items that the Character being built has equipped.
 	 */
 	public List<Integer> getEquips() {
@@ -153,7 +153,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 	/**
 	 * Returns the Type of the Character that is being built. Since this is a
 	 * PlayerBuilder, this should always be Type.PLAYER.
-	 * 
+	 *
 	 * @return The Type of the Character being built.
 	 */
 	public Type getType() {
@@ -162,7 +162,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the health of the Character that is being built.
-	 * 
+	 *
 	 * @return The health of the Character being built.
 	 */
 	public int getHealth() {
@@ -171,7 +171,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the XP of the Character that is being built.
-	 * 
+	 *
 	 * @return The XP of the Character being built.
 	 */
 	public int getXp() {
@@ -180,7 +180,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the amount of gold that the Character that is being built has.
-	 * 
+	 *
 	 * @return The gold of the Character being built.
 	 */
 	public int getGold() {
@@ -208,11 +208,17 @@ public final class PlayerBuilder implements AbstractBuilder {
 
 			this.items = new ArrayList<>();
 			for (String s : this.buildItems.replaceAll(" ", "").split(",")) {
+				if (s.isEmpty()) {
+					continue;
+				}
 				this.items.add(Integer.parseInt(s));
 			}
 
 			this.equips = new ArrayList<>();
 			for (String s : this.buildEquips.replaceAll(" ", "").split(",")) {
+				if (s.isEmpty()) {
+					continue;
+				}
 				this.equips.add(Integer.parseInt(s));
 			}
 
@@ -231,7 +237,7 @@ public final class PlayerBuilder implements AbstractBuilder {
 
 	@Override
 	public void setSaleValue(String value) {
-		throw new AssertionError(); 
+		throw new AssertionError();
 	}
 
 }
