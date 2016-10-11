@@ -90,6 +90,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         viewer = inViewer;
         viewer.addListener(this);
         addMouseListener(this);
+        inViewer.addListener(this);
         entityScreenLocations = new ArrayList<>();
     }
 
@@ -264,7 +265,6 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     private void renderHealthBar(Character character, RenderData data, Graphics graphics){
     	//Calculate width of the healthbar.
     	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
-    	System.out.println(relativeHealth);
     	int healthBarWidth = (int) (relativeHealth * data.width);
     	//Draw the healthbar
     	graphics.setColor(Color.green);
@@ -674,6 +674,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
 	@Override
 	public void event(String eventName) {
+		System.out.println("An event!");
 		toFlash = eventName;
 	}
 
