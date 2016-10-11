@@ -39,9 +39,9 @@
       <UID>29</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>60</health>
-      <xp>56</xp>
-      <gold>24</gold>
+      <health>100</health>
+      <xp>82</xp>
+      <gold>28</gold>
       <level>2</level>
       <equips/>
     </player>

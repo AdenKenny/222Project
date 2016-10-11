@@ -198,7 +198,7 @@ public class ClientSideGame extends Thread implements Game {
 			int yPos = Sendable.bytesToInt(received, 24);
 
 			//get the items
-			int itemsSize = Sendable.bytesToInt(received, 28);
+			int itemsSize = received[28];
 			List<Integer> items = new ArrayList<>();
 			for (int i = 0; i < itemsSize * 4; i+=4) {
 				items.add(Sendable.bytesToInt(received, 29 + i));
@@ -295,12 +295,11 @@ public class ClientSideGame extends Thread implements Game {
 				c.setXp(Sendable.bytesToInt(received, 12));
 				c.setLevel(Sendable.bytesToInt(received, 16));
 				//get the items
-				int itemsSize = Sendable.bytesToInt(received, 28);
 				List<Integer> items = new ArrayList<>();
+				int itemsSize = received[28];
 				for (int i = 0; i < itemsSize * 4; i+=4) {
 					items.add(Sendable.bytesToInt(received, 29 + i));
 				}
-				c.setItems(items);
 			}
 
 			//add the character to its new position on the grid
