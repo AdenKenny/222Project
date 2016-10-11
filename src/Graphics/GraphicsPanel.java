@@ -6,7 +6,9 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -14,10 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import Graphics.GraphicsPanel.RenderData;
+import clientServer.Game;
 import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.objects.StationaryObject;
 import gameWorld.rooms.Room;
 
 /**
@@ -29,7 +33,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
     private static final int viewDistance = 10;
-    
+
     private GraphicsClickListener clickListener;
 
     public enum Side {
@@ -51,15 +55,26 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     int squarePixelWidth;
 
     private Character viewer;
-    
+
     private ImageCache cache;
-    
+
     private String toFlash;
-    
+
     /**
      * Records the onscreen positions of the entities.
      */
-    private Map<Entity, RenderData> entityScreenLocations;
+    private List<Bundle> entityScreenLocations;
+
+    private class Bundle {
+    	final Entity entity;
+    	final RenderData renderData;
+
+    	public Bundle(Entity inEntity, RenderData inRenderData){
+    		entity = inEntity;
+    		renderData = inRenderData;
+    	}
+
+    }
 
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
@@ -73,8 +88,9 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	throw new IllegalArgumentException("By passing this unacceptable null pointer, you have upset the dark ones, and they are now returning to enact vengeance upon humanity. You can only hope that Cthulthu eats you relatively quickly. \n \n (Just kidding, but null pointers are an unacceptable parameter for this constructor.)");
         }
         viewer = inViewer;
+        viewer.addListener(this);
         addMouseListener(this);
-        entityScreenLocations = new HashMap<Entity, RenderData>();
+        entityScreenLocations = new ArrayList<>();
     }
 
     /**
@@ -94,7 +110,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
         }
     }
-    
+
     /**
      * Calculates which entities has been clicked on.
      * @param y
@@ -103,10 +119,10 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
      */
     private Entity calculateClickedEntity(int y, int x){
         // Calculate the upper most bound of all rendered items.
-        for (Entity entity : entityScreenLocations.keySet()){
-        	RenderData data = entityScreenLocations.get(entity);
+        for (Bundle bundle : entityScreenLocations){
+        	RenderData data = bundle.renderData;
         	if (y >= data.y && y <= data.y + data.height && x >= data.x && x <= data.x + data.width){
-        		return entity;
+        		return bundle.entity;
         	}
         }
         return null;
@@ -124,6 +140,8 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     }
 
     private void render(Character character, Graphics graphics){
+    	//Refresh the entityScreenLocations list.
+    	entityScreenLocations = new ArrayList<>();
     	Room room = character.room();
         // Refresh the size of a square.
         renderCeiling(graphics);
@@ -142,7 +160,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
             }
         }
     }
-    
+
     /**
      * Draws two black bars on the top and bottom of the screen. These are cover up the floor and ceiling that is never covered
      * up entity drawing routine.
@@ -169,7 +187,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     }
 
     private static final int healthBarHeight = 20;
-    
+
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         if (isLocationDoor(absoluteTarget, room)){
@@ -182,39 +200,82 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	        Entity entity = getEntityAtLocation(room, absoluteTarget);
 	        //Don't render null entities or the viewer.
 	        if (entity != null && entity != viewer) {
-	        	String name;
-	        	if (entity.isPlayer()){
-	        		name = "player";
-	        	} else {
-	        		name = entity.name();
-	        	}
 	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
-	            //Record where the entity was rendered.
-	            entityScreenLocations.put(entity, location);
-		        //Render a health bar for characters.
-		        if (entity instanceof Character){
-		        	//Calculate width of the healthbar.
-		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
-		        	int healthBarWidth = (int) (relativeHealth * location.width);
-		        	//Draw the healthbar
-		        	graphics.setColor(Color.green);
-		        	graphics.fillRect(location.x, location.y - healthBarHeight, healthBarWidth, healthBarHeight);
-		        	//Calculate the location and width of the depleted section of the healthbar.
-		        	int depletedBarWidth = location.width - healthBarWidth;
-		        	int depletedBarX = location.x + healthBarWidth;
-		        	graphics.setColor(Color.red);
-		        	graphics.fillRect(depletedBarX, location.y - healthBarHeight, depletedBarWidth, healthBarHeight);
-		        }
+	            
 	        }
         }
     }
+    
+    /**
+     * Default entity rendering method.
+     * @param entity
+     * @param data
+     * @param side
+     * @param graphics
+     */
+    private void renderStandardEntity(Entity entity, RenderData data, Side side, Graphics graphics){
+    	graphics.drawImage(loadImage(entity.name(), side), data.x, data.y, data.width, data.height, null);
+        //Record where the entity was rendered.
+        entityScreenLocations.add(new Bundle(entity, data));
+        //Render a health bar for characters.
+        if (entity instanceof Character){
+        	renderHealthBar((Character) entity, data, graphics);
+        }
+    }
+    
+    /**
+     * Rendering method for players.
+     * @param player
+     * @param data
+     * @param side
+     * @param graphics
+     */
+    private void renderPlayerEntity(Entity player, RenderData data, Side side, Graphics graphics){
+    	graphics.drawImage(loadImage("player", side), data.x, data.y, data.width, data.height, null);
+        //Record where the player was rendered.
+        entityScreenLocations.add(new Bundle(player, data));
+        //Render a health bar.
+        renderHealthBar((Character) player, data, graphics);
+    }
+    
+    private void renderHealthBar(Character character, RenderData data, Graphics graphics){
+    	//Calculate width of the healthbar.
+    	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
+    	System.out.println(relativeHealth);
+    	int healthBarWidth = (int) (relativeHealth * data.width);
+    	//Draw the healthbar
+    	graphics.setColor(Color.green);
+    	graphics.fillRect(data.x, data.y - healthBarHeight, healthBarWidth, healthBarHeight);
+    	//Calculate the location and width of the depleted section of the healthbar.
+    	int depletedBarWidth = data.width - healthBarWidth;
+    	int depletedBarX = data.x + healthBarWidth;
+    	graphics.setColor(Color.red);
+    	graphics.fillRect(depletedBarX, data.y - healthBarHeight, depletedBarWidth, healthBarHeight);
+    }
 
+    private void renderDrop(StationaryObject drop, RenderData data, Graphics graphics){
+    	//Render in lower fourth of sprite's space.
+    	int y = (int) (data.y + data.height * 0.75);
+    	int height = (int) (data.height * 0.25);
+    	String nameOfItem = Game.mapOfItems.get(/*TODO: REPLACE */ 1).getName();
+    	graphics.drawImage(loadItemImage(nameOfItem), data.x, y, data.width, height, null);
+    	// Create new RenderData to reflect the peculiar rendering of drops.
+    	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
+    }
+    
+    private Image loadItemImage(String resourceName){
+    	try {
+			return cache.getResource(resourceName);
+		} catch (IOException e) {
+			return null;
+		}
+    }
+    
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {
-			graphics.drawImage(this.cache.getImage("/resources/graphics/wall.png"), location.x, location.y,
+			graphics.drawImage(this.cache.getResource("/resources/graphics/wall.png"), location.x, location.y,
 					location.width, location.height, null);
 		} catch (IOException e) {
 		}
@@ -223,7 +284,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {
-			graphics.drawImage(this.cache.getImage("/resources/graphics/door.png"), location.x, location.y,
+			graphics.drawImage(this.cache.getResource("/resources/graphics/door.png"), location.x, location.y,
 					location.width, location.height, null);
 		} catch (IOException e) {
 		}
@@ -235,13 +296,16 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		graphics.fillRect(location.x, location.y, location.width, location.height);
 	}
 
-	private void doFlash(String string, Graphics graphics){
-		
+	private void doFlash(String toFlash, Graphics graphics){
+		try {
+			graphics.drawImage(cache.getResource(toFlash), 0, 0, getWidth(), getHeight(), null);
+		} catch (IOException e) {
+		}
 	}
-	
+
 	private Image loadImage(String name, Side side) {
 		try {
-			return this.cache.getImage(resolveImageName(name, side));
+			return this.cache.getResource(resolveImageName(name, side));
 		} catch (IOException ioe) {
 			return null;
 		}
@@ -578,8 +642,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
 	@Override
 	public void event(String eventName) {
-		// TODO Auto-generated method stub
-		
+		toFlash = eventName;
 	}
 
 }

@@ -28,7 +28,7 @@ public class StationaryObject extends Entity implements Sendable {
 	}
 
 	private Type type;
-	private Set<Integer> items;
+	private int item;
 	private int modelID;
 
 	// private boolean isOpen;
@@ -38,7 +38,7 @@ public class StationaryObject extends Entity implements Sendable {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
 
 		this.type = model.getType();
-		this.items = model.getItems();
+		this.item = model.getItem();
 		this.modelID = model.getID();
 
 		// this.isOpen = false;
@@ -80,9 +80,9 @@ public class StationaryObject extends Entity implements Sendable {
 	 *
 	 * @return The ID of the Item in this StationaryObject
 	 */
-	public Integer open() {
+	public int open() {
 		this.room.entities()[this.yPos][this.xPos] = null;
-		return this.items.toArray(new Integer[this.items.size()])[0];
+		return this.item;
 	}
 
 	/**
@@ -100,8 +100,8 @@ public class StationaryObject extends Entity implements Sendable {
 	 *
 	 * @return This StationaryObject's Items.
 	 */
-	public Set<Integer> getItems() {
-		return this.items;
+	public int getItem() {
+		return this.item;
 	}
 
 	/**
@@ -147,4 +147,4 @@ public class StationaryObject extends Entity implements Sendable {
 		return this.name;
 	}
 
-}
+}
