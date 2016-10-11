@@ -94,6 +94,15 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         inViewer.addListener(this);
         entityScreenLocations = new ArrayList<>();
     }
+    
+    /**
+     * Protected constructor for testing purposes. The resulting GraphicsPanel is not in any way valid and should not be used
+     * under any circumstances, barring the testing purely functional aspects of the code.
+     */
+    protected GraphicsPanel(){
+    	super();
+    	//Do nothing.
+    }
 
     /**
      * Set the object that the GraphicsPanel will notify if there is a click.
@@ -281,9 +290,9 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
     	int height = (int) (data.height * 0.25);
-    	Item item = Game.mapOfItems.get(drop.getItem());
+    	int itemID = drop.getItem();
+    	Item item = Game.mapOfItems.get(itemID);
     	if (item == null) {
-    		System.out.println("Item not found.");
     		return;
     	}
     	String nameOfItem = item.getName();
@@ -433,7 +442,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	 * @param forwardDelta
 	 * @return {y, x}
 	 */
-	private int[] calculateCoordinatesFromRelativeDelta(World.Direction viewerDirection, int viewerY, int viewerX,
+	protected int[] calculateCoordinatesFromRelativeDelta(World.Direction viewerDirection, int viewerY, int viewerX,
 			int sideDelta, int forwardDelta) {
 		return applyDelta(sumDelta(calculateAbsoluteSideDelta(viewerDirection, sideDelta),
 				calculateAbsoluteForwardDelta(viewerDirection, forwardDelta)), viewerY, viewerX);

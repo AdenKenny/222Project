@@ -296,12 +296,14 @@ public class ClientSideGame extends Thread implements Game {
 				c.setHealth(Sendable.bytesToInt(received, 8));
 				c.setXp(Sendable.bytesToInt(received, 12));
 				c.setLevel(Sendable.bytesToInt(received, 16));
+
 				//get the items
-				List<Integer> items = new ArrayList<>();
 				int itemsSize = received[28];
+				List<Integer> items = new ArrayList<>();
 				for (int i = 0; i < itemsSize * 4; i+=4) {
 					items.add(Sendable.bytesToInt(received, 29 + i));
 				}
+				c.setItems(items);
 			}
 
 			//add the character to its new position on the grid
