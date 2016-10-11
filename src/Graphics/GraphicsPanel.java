@@ -117,7 +117,6 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void render(Character character, Graphics graphics){
     	Room room = character.room();
         // Refresh the size of a square.
-    	int height = getHeight();
         renderCeiling(graphics);
         renderFloor(graphics);
         drawCinematicBars(graphics);
@@ -425,7 +424,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     	int center = width / 2;
     	//The sprite width at this distance.
     	int spriteWidth = (int) ((width / (viewWidth * 1.75)) * (0.75 + (invertForwardDelta * (0.5 / viewDistance))));
-    	int xPixel = center + (spriteWidth * sideDelta) - (spriteWidth / 2);
+    	int xPixel = (int) (center + (spriteWidth * sideDelta) - (spriteWidth / 2));
     	return new RenderData(yPixel, xPixel, spriteHeight, spriteWidth);
     }
    
