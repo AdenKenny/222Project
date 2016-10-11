@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
-<<<<<<< HEAD
   <players>
     <player>
       <username>Arthas</username>
@@ -14,8 +13,8 @@
       <equips>-1</equips>
     </player>
     <player>
-      <username>Test</username>
-      <UID>45</UID>
+      <username>Simon</username>
+      <UID>54</UID>
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
@@ -28,9 +27,3 @@
   <monsters/>
   <vendors/>
 </game>
-=======
-  <players/>
-  <monsters/>
-  <vendors/>
-</game>
->>>>>>> 36fb8d07de7c263744c018dac075df914fcd042e
