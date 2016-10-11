@@ -2,6 +2,16 @@
 <game>
   <players>
     <player>
+      <username>Aden</username>
+      <UID>12</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>28</health>
+      <xp>64</xp>
+      <gold>10</gold>
+      <level>1</level>
+      <equips/>
+    </player>
       <username>Arthas</username>
       <UID>9</UID>
       <type>PLAYER</type>

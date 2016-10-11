@@ -129,10 +129,15 @@ public class World {
 	 * Moves the game to the next Floor.
 	 */
 	public void goUpFloor() {
+
 		++this.currentFloor;
+
+		if(this.currentFloor > this.floors.size()) {
+			System.out.println("YOU WIN!");
+		}
 		// Slay all players so that they get respawned in the new Floor's spawn
 		// room.
-		for (Character c : players) {
+		for (Character c : this.players) {
 			c.slay();
 		}
 	}
