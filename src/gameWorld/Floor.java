@@ -48,6 +48,9 @@ public class Floor {
 		for (int row = 0; row < this.depth; row++) {
 			for (int col = 0; col < this.width; col++) {
 				Room room = this.rooms[row][col];
+				if (room == null) {
+					continue;
+				}
 
 				if (row > 0) {
 					room.setNeighbour(Direction.NORTH, this.rooms[row - 1][col]);

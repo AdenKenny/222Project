@@ -13,13 +13,13 @@ import util.Logging;
 /**
  * A class to represent an Item that is never physically present in the game on
  * its own.
- * 
+ *
  * @author Louis
  */
 public class Item implements Buildable, Cloneable {
 	/**
 	 * An enumeration to represent the different types of Items that there are.
-	 * 
+	 *
 	 * @author Louis
 	 */
 	public enum Type {
@@ -199,8 +199,17 @@ public class Item implements Buildable, Cloneable {
 	}
 
 	/**
+	 * Returns the actions that may be performed on this Item.
+	 *
+	 * @return the List of actions
+	 */
+	public List<Action> actions() {
+		return this.actions;
+	}
+
+	/**
 	 * Tries to equip this Item to the specified Character.
-	 * 
+	 *
 	 * @param equipper
 	 *            The Character to equip to.
 	 */
@@ -212,7 +221,7 @@ public class Item implements Buildable, Cloneable {
 
 	/**
 	 * Tries to make the specified Character pick up this item.
-	 * 
+	 *
 	 * @param pickerUpperer
 	 *            The Character doing the picking up.
 	 */
@@ -235,7 +244,7 @@ public class Item implements Buildable, Cloneable {
 
 	/**
 	 * Returns a nicer, more readable version of this Item's name.
-	 * 
+	 *
 	 * @return A nicer version of this Item's name
 	 */
 	public String getNiceName() {
@@ -255,7 +264,7 @@ public class Item implements Buildable, Cloneable {
 
 	/**
 	 * Returns the Type of Item that this Item is.
-	 * 
+	 *
 	 * @return This Item's Type.
 	 */
 	public Type getType() {
@@ -271,7 +280,7 @@ public class Item implements Buildable, Cloneable {
 	 * Returns this Item's ideal sale value. This is not necessarily how much it
 	 * should be bought or sold for, but it is how much it is worth, objectively
 	 * speaking.
-	 * 
+	 *
 	 * @return This Item's sale value
 	 */
 	public int getSaleValue() {

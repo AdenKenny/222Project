@@ -36,16 +36,27 @@
     </player>
     <player>
       <username>Simon</username>
+      <UID>29</UID>
+      <type>PLAYER</type>
+      <items>-1</items>
+      <health>100</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
+      <equips/>
+    </player>
+    <player>
+      <username>janef</username>
       <UID>298</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>65</health>
+      <health>35</health>
       <xp>78</xp>
       <gold>12</gold>
       <level>1</level>
       <equips/>
     </player>
-  </players>
+</players>
   <monsters/>
   <vendors/>
 </game>

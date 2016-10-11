@@ -1,3 +1,5 @@
 1000 goblin MONSTER 2 {32, 15, 51, 52} (A small green creature)
 1001 spider MONSTER 1 {2, 50, 23} (An eight legged creature)
 2000 smith VENDOR 3 {22, 23, 21} (A dude who smiths stuff)
+1002 darkAcolyte MONSTER 4 {14, 21, 220} (A follower of an ancient cult) 
+1003 darkWarrior MONSTER 4 {404, 408, 400} (A warrior of an ancient cult)

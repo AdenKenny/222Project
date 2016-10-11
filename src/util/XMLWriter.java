@@ -37,9 +37,11 @@ public final class XMLWriter implements XMLInteractable {
 		VALUE(3, "value"),
 		SALE_VALUE(4, "saleValue");
 
+		@SuppressWarnings("unused")
 		private final int pos;
 		private final String name;
 
+		@SuppressWarnings("hiding")
 		Position(int pos, String name) {
 			this.pos = pos;
 			this.name = name;
@@ -48,7 +50,7 @@ public final class XMLWriter implements XMLInteractable {
 		String getName() {
 			return this.name;
 		}
-		
+
 		static Position getPos(int i) {
 			switch (i) {
 			case 0:
@@ -68,7 +70,7 @@ public final class XMLWriter implements XMLInteractable {
 	}
 
 	private Document doc;
-	
+
 	private static final boolean shouldLog = false; //If we should log creating xml.
 
 	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead, String objectsFile, String objectsRead) {
@@ -134,12 +136,12 @@ public final class XMLWriter implements XMLInteractable {
 					character.appendChild(description);
 
 					String name = character.getElementsByTagName("name").item(0).getTextContent();
-					
+
 					if(shouldLog) {
 						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
 
 					}
-					
+
 					root.appendChild(character); // Append the new char to the root.
 
 				}
@@ -207,16 +209,16 @@ public final class XMLWriter implements XMLInteractable {
 					item.appendChild(desc);
 
 					String name = item.getElementsByTagName("name").item(0).getTextContent();
-				
+
 					if(shouldLog) {
 						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
 
 					}
-					
+
 					root.appendChild(item); // Append the new item to the root.
 				}
-			} 
-			
+			}
+
 			catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -291,11 +293,11 @@ public final class XMLWriter implements XMLInteractable {
 					character.appendChild(description);
 
 					String name = character.getElementsByTagName("name").item(0).getTextContent();
-					
+
 					if(shouldLog) {
 						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
 					}
-					
+
 					root.appendChild(character); // Append the new char to the root.
 				}
 			}
