@@ -45,8 +45,8 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns the instance of this (XMLReader) class as there can only be one as this class is a singleton. 
-	 * If the class has not already been created a new one will be created and after that this method will 
+	 * Returns the instance of this (XMLReader) class as there can only be one as this class is a singleton.
+	 * If the class has not already been created a new one will be created and after that this method will
 	 * only return that single instance of the class.
 	 *
 	 * @return A singleton of the XMLReader class.
@@ -81,43 +81,43 @@ public final class XMLReader implements XMLInteractable {
 				Element e = (Element) node;
 
 				try {
-					BuilderBuilder builder = new BuilderBuilder("Player"); //Object
-					
+					BuilderBuilder builder = new BuilderBuilder("Object"); //Object
+
 					builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
 					builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
 					builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
 					builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
 					builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
 					builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
-					
+
 					ObjectModel object = (ObjectModel) builder.build().build();
 
 					map.put(object.getID(), object);
 				}
-				
+
 				catch (UnsupportedOperationException unOp) { //This was passed up the hierarchy.
 					Throwable thrown = unOp.getCause(); //Get the cause unOp.
-					
+
 					if(thrown == null) {
 						throw new NullPointerException();
 					}
-				
+
 					StackTraceElement[] stackEs = thrown.getStackTrace();
-					
+
 					for(StackTraceElement ele : stackEs) {
 						//System.out.println(ele);
 					}
-					
+
 					StackTraceElement stackEle = stackEs[2];
-					
+
 					String s = stackEle.getMethodName();
-					
+
 					System.out.println(s);
 				}
-				
+
 				catch (IllegalArgumentException ilArg) { //This was passed up the hierarchy.
 					ilArg.printStackTrace();
-				}		
+				}
 			}
 
 			return map;
@@ -165,16 +165,16 @@ public final class XMLReader implements XMLInteractable {
 				Element e = (Element) node; // This should be the base node of an item.
 
 				BuilderBuilder builder = new BuilderBuilder("Item");
-				
+
 				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
 				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
 				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
 				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
 				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
 				builder.addField("saleValue", e.getElementsByTagName("saleValue").item(0).getTextContent());
-						
+
 				Item item = (Item) builder.build().build(); // Build the item.
-				
+
 				map.put(item.getID(), item); // Put item in map with ID as key.
 			}
 
@@ -225,14 +225,14 @@ public final class XMLReader implements XMLInteractable {
 											// an item.
 
 				BuilderBuilder builder = new BuilderBuilder("Character");
-				
+
 				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
 				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
 				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
 				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
 				builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
 				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
-				
+
 				CharacterModel character = (CharacterModel) builder.build().build();
 
 				map.put(character.getID(), character); // Put char in map with
