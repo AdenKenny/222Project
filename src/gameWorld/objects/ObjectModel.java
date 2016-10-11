@@ -11,7 +11,7 @@ import util.Buildable;
  * A model representing an object in the game. An object is a piece of furniture or such
  * items that are mainly for decorative purposes.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public class ObjectModel implements Buildable {

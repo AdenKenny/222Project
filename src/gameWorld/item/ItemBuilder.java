@@ -6,7 +6,7 @@ import util.Logging;
 /**
  * A class to build an Item from input read from XML.
  *
- * @author Aden and Louis
+ * @author kennyaden - 300334300 and Louis
  */
 public final class ItemBuilder implements AbstractBuilder {
 	private String buildID;

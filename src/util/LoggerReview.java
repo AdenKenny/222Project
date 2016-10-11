@@ -7,38 +7,51 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * A class to represent logged events and to review them.
+ *
+ * @author kennyaden - 300334300
+ */
+
 public final class LoggerReview {
 
-	List<LogEvent> listOfEvents;
+	private static List<LogEvent> listOfEvents; //A list of all the events.
 
-	public LoggerReview() {
+	/**
+	 * This shouldn't ever be initialised.
+	 */
 
+	private LoggerReview() {
+		throw new AssertionError();
 	}
 
-	private void getEvents() {
 
-		File logFile = new File("logs/logs.log");
+	/**
+	 * Reads the logged events from the log file.
+	 */
+
+	private static void getEvents() {
+
+		File logFile = new File("logs/logs.log"); //File that the logs are stored in.
 
 		try {
 			Scanner scanner = new Scanner(logFile);
 
-			this.listOfEvents = new ArrayList<>();
+			listOfEvents = new ArrayList<>();
 
 			while(scanner.hasNextLine()) {
-				String fullLine = scanner.nextLine();
+				String fullLine = scanner.nextLine(); //Get the event.
 
-				String[] split1 = fullLine.split("-");
+				String[] split1 = fullLine.split("-"); //Dodgy splits.
 				String[] split2 = split1[1].trim().split(":");
 				String[] split3 = split2[0].split("in");
 
-				String time = split1[0].trim();
+				String time = split1[0].trim(); //Assign variables from splits.
 				String message = split2[1].trim();
 				String eventLevel = split3[0].trim();
 				String className = split3[1].trim();
 
-				LogEvent event = new LogEvent(className, eventLevel, message, time);
-
-				this.listOfEvents.add(new LogEvent(className, eventLevel, message, time));
+				listOfEvents.add(new LogEvent(className, eventLevel, message, time)); //Create event.
 			}
 		}
 
@@ -47,19 +60,21 @@ public final class LoggerReview {
 		}
 	}
 
-	private void orderEvents() {
-		Collections.sort(this.listOfEvents);
+	/**
+	 * Sorts the events that have been loaded. They will be sorted by event level.
+	 */
 
-		for(LogEvent e : this.listOfEvents) {
-			System.out.println(e.out());
-		}
+	public static void orderEvents() {
+		Collections.sort(listOfEvents);
 	}
 
-	public static void main(String[] args) {
-		LoggerReview rev = new LoggerReview();
+	/**
+	 * Returns a List<LogEvent> that contains all events that have been loaded in.
+	 *
+	 * @return A List<LogEvent>
+	 */
 
-		rev.getEvents();
-		rev.orderEvents();
+	public static List<LogEvent> getAllEvents() {
+		return listOfEvents;
 	}
-
 }

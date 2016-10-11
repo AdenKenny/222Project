@@ -11,7 +11,7 @@ import java.util.List;
  * Verifies to make sure all files exist. Will create them if they don't exist. There will still be errors even if it does create the files
  * as there will be no text to read from.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class FileVerifier {

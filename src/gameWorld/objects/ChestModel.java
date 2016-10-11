@@ -10,7 +10,7 @@ import util.Buildable;
 /**
  * A class representing a chest in the game. Uses the super class ObjectModel for all it's stuff.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public class ChestModel extends ObjectModel {

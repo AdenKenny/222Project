@@ -24,7 +24,7 @@ import util.Logging;
 /**
  * A class for reading XML input into the game, mainly regarding loading hardcoded items into the game.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class XMLReader implements XMLInteractable {

@@ -11,7 +11,7 @@ import util.Logging;
 /**
  * A class to build an instance of a room.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 public final class RoomBuilder {
 
