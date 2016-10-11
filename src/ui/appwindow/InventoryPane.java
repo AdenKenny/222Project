@@ -65,7 +65,6 @@ public class InventoryPane extends JPanel{
 			for(int j=1; j<=COLS; j++){
 				if(y<i*rowHeight && x<j*colWidth){
 					System.out.println("Item: " + (i-1) + " " + (j-1) + " Selected");
-					showOptions(items[i-1][j-1], x+getX(), y+getParent().getY()); //TODO: remove this
 					if(items[i-1][j-1] !=null){
 						//calculate position according to parent components and window bounds
 						showOptions(items[i-1][j-1], x+getX(), y+getParent().getY());
@@ -93,6 +92,7 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] == null){
 					items[i][j] = item;
+					this.repaint();
 					return;
 				}
 			}
@@ -125,7 +125,6 @@ public class InventoryPane extends JPanel{
 						Image icon = icons.getResource(items[i][j].getName());
 						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

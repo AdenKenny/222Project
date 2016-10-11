@@ -29,7 +29,7 @@ public class ServerSideGame implements Game {
 
 	public static final World world = new World();
 
-	private static final boolean debugMode = true;
+	private static final boolean debugMode = false;
 
 	private final Map<Long, Player> connectedPlayers;
 	private final List<String> textMessages;
@@ -38,12 +38,11 @@ public class ServerSideGame implements Game {
 
 	public ServerSideGame() {
 
-		if(!debugMode) {
+		if (!debugMode) {
 			for (Character c : LoadGame.getInstance().getPlayers()) {
 				players.put(c.getName(), c); // Loads players into game.
 			}
 		}
-
 		else {
 			SaveGame saveGame = new SaveGame();
 			saveGame.saveFile();
