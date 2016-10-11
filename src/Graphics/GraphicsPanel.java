@@ -188,7 +188,17 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
 	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
+	            //Record where the entity was rendered.
 	            entityScreenLocations.put(entity, location);
+		        //Render a health bar for characters.
+		        if (entity instanceof Character){
+		        	//Calculate width of the healthbar.
+		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
+		        	int healthbarWidth = (int) (relativeHealth * location.width);
+		        	//Draw the healthbar.
+		        	graphics.setColor(Color.green);
+		        	graphics.fillRect(location.x, location.y - 20, healthbarWidth, 20);
+		        }
 	        }
         }
     }
