@@ -2,6 +2,8 @@ package unitTests;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 import com.sun.javafx.scene.traversal.Direction;
@@ -15,7 +17,7 @@ import gameWorld.rooms.Room;
 public class GraphicsTests extends GraphicsPanel {
 
 	public GraphicsTests() {
-		super(null);
+		super();
 	}
 
 	@Test
@@ -216,6 +218,54 @@ public class GraphicsTests extends GraphicsPanel {
 	@Test
 	public void testDiagonalSWNorthNorth() {
 		assertEquals(calculateSide(World.Direction.NORTH, World.Direction.NORTH, new int[] {5, 6}, new int[] {4, 5}), Side.Back);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesNorth(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.NORTH, 5, 5, 1, 2);
+		assertTrue(absolute[0] == 3 && absolute[1] == 6);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesNorth2(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.NORTH, 5, 5, -2, 4);
+		assertTrue(absolute[0] == 1 && absolute[1] == 3);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesEast(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.EAST, 5, 5, 4, 8);
+		assertTrue(absolute[0] == 9 && absolute[1] == 13);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesEast2(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.EAST, 5, 5, -8, 16);
+		assertTrue(absolute[0] == -3 && absolute[1] == 21);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesSouth(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.SOUTH, 5, 5, 16, 32);
+		assertTrue(absolute[0] == 37 && absolute[1] == -11);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesSouth2(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.SOUTH, 5, 5, -1, 2);
+		assertTrue(absolute[0] == 7 && absolute[1] == 6);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesWest(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.WEST, 5, 5, 2, 4);
+		assertTrue(absolute[0] == 3 && absolute[1] == 1);
+	}
+	
+	@Test
+	public void testRelativeDeltaToCoordinatesWest2(){
+		int[] absolute = calculateCoordinatesFromRelativeDelta(World.Direction.WEST, 5, 5, -4, 8);
+		assertTrue(absolute[0] == 9 && absolute[1] == -3);
 	}
 	
 }
