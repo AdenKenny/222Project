@@ -3,24 +3,13 @@
   <players>
     <player>
       <username>Simon</username>
-      <UID>21</UID>
+      <UID>16</UID>
       <type>PLAYER</type>
-      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
-      <health>65</health>
-      <xp>52</xp>
-      <gold>8</gold>
-      <level>1</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-    </player>
-    <player>
-      <username>Test</username>
-      <UID>10</UID>
-      <type>PLAYER</type>
-      <items>3, 302, -1, -1, -1, -1, -1, -1</items>
-      <health>100</health>
-      <xp>52</xp>
-      <gold>528</gold>
-      <level>1</level>
+      <items>19, -1, -1, -1, -1, -1, -1, -1</items>
+      <health>60</health>
+      <xp>82</xp>
+      <gold>28</gold>
+      <level>2</level>
       <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
   </players>
