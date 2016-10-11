@@ -15,7 +15,7 @@ import gameWorld.objects.StationaryObject;
 
 /**
  * A class to represent Rooms which can spawn monster or vendor Characters.
- * 
+ *
  * @author Louis
  */
 public class NPCSpawn extends Room implements SpawnRoom {
@@ -52,7 +52,8 @@ public class NPCSpawn extends Room implements SpawnRoom {
 				} else {
 					if (this.deathTime + RESPAWN_TIME <= System.currentTimeMillis()) {
 						if (this.wasAlive) {
-							int x = this.npc.xPos(), y = this.npc.yPos();
+							int x = this.npc.xPos();
+							int y = this.npc.yPos();
 							if (this.entities[y][x] != null) {
 								if (this.entities[y][x] instanceof StationaryObject) {
 									// the drop hasn't been picked up yet, so
@@ -62,7 +63,8 @@ public class NPCSpawn extends Room implements SpawnRoom {
 							}
 						}
 
-						int x = this.width / 2, y = this.depth / 2;
+						int x = this.width / 2;
+						int y = this.depth / 2;
 						while (this.entities[y][x] != null) {
 							x = (int) (Math.random() * this.width);
 							y = (int) (Math.random() * this.depth);

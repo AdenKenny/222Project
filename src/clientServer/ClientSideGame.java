@@ -8,9 +8,11 @@ import java.util.Set;
 import gameWorld.Entity;
 import gameWorld.Sendable;
 import gameWorld.Sendable.Types;
+import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.CharacterModel;
+import gameWorld.objects.StationaryObject;
 import gameWorld.rooms.Room;
 
 public class ClientSideGame extends Thread implements Game {
@@ -97,16 +99,25 @@ public class ClientSideGame extends Thread implements Game {
 
 		//iterate through the map of IDs to see whether they've been received this tick or not
 		for (int key : this.receivedSendables.keySet()) {
+			//set the boolean for that key to false, and check if it was already false
 			if (this.receivedSendables.put(key, false) == false) {
+				/*
+				 * if it was already false, that means no information was received about it
+				 * this tick. That means it is no longer in the room. Add it to a list of
+				 * keys to be removed
+				 */
 				keysToRemove.add(key);
 			}
 		}
 
+		//iterate through all the keys to be removed, i.e. the ones that were false in receivedSendables
 		for (int key : keysToRemove) {
+			//remove the key from receivedSendables and sendables
 			this.receivedSendables.remove(key);
 			Sendable s = this.sendables.remove(key);
-			if (s instanceof Character) {
-				Character c = (Character) s;
+			if (s instanceof Entity) {
+				Entity c = (Entity) s;
+				//remove the item from the grid of entities in the room
 				this.room.entities()[c.yPos()][c.xPos()] = null;
 			}
 		}
@@ -120,9 +131,11 @@ public class ClientSideGame extends Thread implements Game {
 	 * @param received the details of the sendable, sent from the server
 	 */
 	public void addSendable(byte[] received) {
+		//check what type of sendable it is
 		Types type = Types.values()[received[1]];
 
 		if (type.equals(Types.MONSTER)) {
+			//parse its details from the packet
 			boolean isAlive = (received[2] == 1);
 			Direction facing = Direction.values()[received[3]];
 			int ID = Sendable.bytesToInt(received, 4);
@@ -131,27 +144,49 @@ public class ClientSideGame extends Thread implements Game {
 			int level = Sendable.bytesToInt(received, 16);
 			int xPos = Sendable.bytesToInt(received, 20);
 			int yPos = Sendable.bytesToInt(received, 24);
+
+			//get its character model from the map
 			CharacterModel model = mapOfCharacters.get(modelId);
+
+			//create the character and update its fields
 			Character toAdd = new Character(this.room, xPos, yPos, facing, level, model);
-			toAdd.setID(ID);
 			toAdd.setAlive(isAlive);
 			toAdd.setHealth(health);
+			//add it to the list of sendables
 			this.sendables.put(ID, toAdd);
+			//add the character to the grid of entities
 			this.room.entities()[yPos][xPos] = toAdd;
+			//set the character to hold the current room
+			toAdd.setRoom(this.room);
+			//set the character's id
+			toAdd.setID(ID);
 		}
+
 		else if (type.equals(Types.VENDOR)) {
+			//parse its details from the packet
 			Direction facing = Direction.values()[received[2]];
 			int ID = Sendable.bytesToInt(received, 4);
 			int modelId = Sendable.bytesToInt(received, 8);
 			int xPos = Sendable.bytesToInt(received, 12);
 			int yPos = Sendable.bytesToInt(received, 16);
+
+			//get its character model from the map
 			CharacterModel model = mapOfCharacters.get(modelId);
+
+			//create the character
 			Character toAdd = new Character(this.room, xPos, yPos, facing, -1, model);
-			toAdd.setID(ID);
+			//add it to the list of sendables
 			this.sendables.put(ID, toAdd);
+			//add the character to the grid of entities
 			this.room.entities()[yPos][xPos] = toAdd;
+			//set the character to hold the current room
+			toAdd.setRoom(this.room);
+			//set the character's id
+			toAdd.setID(ID);
 		}
+
 		else if (type.equals(Types.PLAYER)) {
+			//parse its details from the packet
 			boolean isAlive = (received[2] == 1);
 			Direction facing = Direction.values()[received[3]];
 			int ID = Sendable.bytesToInt(received, 4);
@@ -160,16 +195,23 @@ public class ClientSideGame extends Thread implements Game {
 			int level = Sendable.bytesToInt(received, 16);
 			int xPos = Sendable.bytesToInt(received, 20);
 			int yPos = Sendable.bytesToInt(received, 24);
+
+			//get the name from the packet
 			StringBuilder name = new StringBuilder();
 			for (int i = 28; i < received.length; i++) {
 				name.append((char) received[i]);
 			}
 			String username = name.toString();
+
+			//create the character
 			Character toAdd = new Character(username);
+			//check if this is the character for this player
 			if (this.player == null && username.equals(this.username)) {
 				this.player = toAdd;
 				this.characterID = ID;
 			}
+
+			//update the character's fields
 			toAdd.setAlive(isAlive);
 			toAdd.turn(facing);
 			toAdd.setHealth(health);
@@ -177,78 +219,101 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setLevel(level);
 			toAdd.setXPos(xPos);
 			toAdd.setYPos(yPos);
+			//add it to the list of sendables
+			this.sendables.put(ID, toAdd);
+			//add the character to the grid of entities
+			this.room.entities()[yPos][xPos] = toAdd;
+			//set the character to hold the current room
+			toAdd.setRoom(this.room);
+			//set the character's id
 			toAdd.setID(ID);
+		}
+
+		else if (type.equals(Types.DROP)) {
+			World.Direction facing = Direction.values()[received[2]];
+			int ID = Sendable.bytesToInt(received, 3);
+			int modelID = Sendable.bytesToInt(received, 7);
+			int xPos = Sendable.bytesToInt(received, 11);
+			int yPos = Sendable.bytesToInt(received, 15);
+			StationaryObject toAdd = new StationaryObject(mapOfObjects.get(modelID), this.room, xPos, yPos, facing);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
-			toAdd.setRoom(this.room);
+			toAdd.setID(ID);
 		}
 	}
 
+	/**
+	 * Whenever the slave receives a game information packet, this function is called.
+	 *
+	 * @param received a packet from the server containing the details of a sendable
+	 */
 	public void updateSendable(byte[] received) {
+		//get the id from the packet
 		int id = Sendable.bytesToInt(received, 4);
+		//list this id as having been updated this tick
 		this.receivedSendables.put(id, true);
+		//get the sendable this corresponds to from the map of sendables
 		Sendable toUpdate = this.sendables.get(id);
+		//if the sendable is not in the map
 		if (toUpdate == null) {
+			//create the sendable
 			addSendable(received);
 			return;
 		}
+
 		if (toUpdate instanceof Character) {
 			Character c = (Character) toUpdate;
 			Entity[][] entities = this.room.entities();
+			//remove the character from its old position on the grid
 			entities[c.yPos()][c.xPos()] = null;
+
+			//update shared fields, where type doesn't matter
+			c.setAlive(received[2] == 1);
+			c.turn(Direction.values()[received[3]]);
+			c.setXPos(Sendable.bytesToInt(received, 20));
+			c.setYPos(Sendable.bytesToInt(received, 24));
 
 			Character.Type type = Character.Type.values()[received[1]];
 
+			//change fields dependent on type
 			if (type.equals(Character.Type.MONSTER)) {
-				c.setAlive(received[2] == 1);
-				c.turn(Direction.values()[received[3]]);
 				c.setHealth(Sendable.bytesToInt(received, 12));
-				c.setLevel(Sendable.bytesToInt(received, 16));
-				c.setXPos(Sendable.bytesToInt(received, 20));
-				c.setYPos(Sendable.bytesToInt(received, 24));
 			}
 			else if (type.equals(Character.Type.PLAYER)) {
-				c.setAlive(received[2] == 1);
-				c.turn(Direction.values()[received[3]]);
 				c.setHealth(Sendable.bytesToInt(received, 8));
 				c.setXp(Sendable.bytesToInt(received, 12));
 				c.setLevel(Sendable.bytesToInt(received, 16));
-				c.setXPos(Sendable.bytesToInt(received, 20));
-				c.setYPos(Sendable.bytesToInt(received, 24));
 			}
 
+			//add the character to its new position on the grid
 			entities[c.yPos()][c.xPos()] = c;
 		}
 
 	}
 
-	public void removeSendable(byte[] received) {
-		int id = Sendable.bytesToInt(received, 1);
-		Sendable toRemove = null;
-		Set<Sendable> sendables = this.room.getSendables();
-		for (Sendable s : sendables) {
-			if (s instanceof Character) {
-				Character c = (Character)s;
-				if (c.getID() == id) {
-					toRemove = s;
-					this.room.entities()[c.yPos()][c.xPos()] = null;
-					break;
-				}
-			}
-		}
-		if (toRemove != null) {
-			sendables.remove(toRemove);
-		}
-	}
-
+	/**
+	 * Get the current room the player is in
+	 *
+	 * @return current room
+	 */
 	public Room getRoom() {
 		return this.room;
 	}
 
+	/**
+	 * Get the floor number the player is on
+	 *
+	 * @return floor number
+	 */
 	public int getFloor() {
 		return this.floor;
 	}
 
+	/**
+	 * Get the character of the player
+	 *
+	 * @return player character
+	 */
 	public synchronized Character getPlayer() {
 		return this.player;
 	}
