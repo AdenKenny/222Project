@@ -83,8 +83,11 @@ public class Master extends Thread {
 						else if (received[0] >= PackageCode.Codes.KEY_PRESS_W.value() && received[0] <= PackageCode.Codes.KEY_PRESS_E.value()) {
 							this.game.keyPress(this.uid, received[0]);
 						}
-						else if (received[0] == PackageCode.Codes.PERFORM_ACTION.value()) {
+						else if (received[0] == PackageCode.Codes.PERFORM_ACTION_ENTITY.value()) {
 							this.game.performActionOnEntity(this.uid, received);
+						}
+						else if (received[0] == PackageCode.Codes.PERFORM_ACTION_ITEM.value()) {
+							this.game.performActionOnItem(this.uid, received);
 						}
 					}
 

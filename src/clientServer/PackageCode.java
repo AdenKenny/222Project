@@ -37,7 +37,8 @@ public final class PackageCode {
 		KEY_PRESS_D,
 		KEY_PRESS_Q,
 		KEY_PRESS_E,
-		PERFORM_ACTION;
+		PERFORM_ACTION_ENTITY,
+		PERFORM_ACTION_ITEM;
 
 		public byte value() {
 			return (byte) ordinal();

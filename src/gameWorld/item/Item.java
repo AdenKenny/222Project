@@ -170,7 +170,7 @@ public class Item implements Buildable, Cloneable {
 			break;
 		}
 
-		this.actions.add(new Action() {
+		/*this.actions.add(new Action() {
 			@Override
 			public String name() {
 				return "Pick Up";
@@ -194,7 +194,7 @@ public class Item implements Buildable, Cloneable {
 			public boolean isClientAction() {
 				return false;
 			}
-		});
+		});*/
 
 	}
 
@@ -358,5 +358,13 @@ public class Item implements Buildable, Cloneable {
 		}
 
 		return null;
+	}
+
+	public void performAction(String actionName, Character c) {
+		for (Action a : this.actions) {
+			if (a.name().equals(actionName)) {
+				a.perform(c);
+			}
+		}
 	}
 }

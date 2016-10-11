@@ -121,8 +121,12 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			this.items[i] = -1;
 		}
 		this.itemIter = 0;
+		int i = 0;
 		for (int item : model.getSetOfItems()) {
-			this.items[this.itemIter++] = item;
+			this.items[i++] = item;
+		}
+		while (this.items[this.itemIter] >= 0) {
+			++this.itemIter;
 		}
 		this.type = model.getType();
 		this.baseXP = this.type.getBaseXP();
@@ -131,7 +135,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.xp = 0;
 		this.isAlive = this.type.equals(Type.VENDOR);
 		this.equipIndexes = new int[8];
-		for (int i = 0; i < this.equipIndexes.length; ++i) {
+		for (i = 0; i < this.equipIndexes.length; ++i) {
 			this.equipIndexes[i] = -1;
 		}
 		this.attackers = new HashSet<>();
@@ -154,20 +158,22 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.xp = builder.getXp();
 		this.type = builder.getType();
 		this.items = new int[8];
-		for (int i = 0; i < this.items.length; ++i) {
-			this.items[i] = -1;
-		}
 		this.itemIter = 0;
+		int i = 0;
 		for (int item : builder.getItems()) {
-			this.items[this.itemIter++] = item;
+			this.items[i++] = item;
+		}
+		while (this.items[this.itemIter] >= 0) {
+			++this.itemIter;
 		}
 		this.equipIndexes = new int[8];
-		for (int i = 0; i < this.equipIndexes.length; ++i) {
-			this.equipIndexes[i] = -1;
-		}
 		this.equipIter = 0;
+		i = 0;
 		for (int index : builder.getEquipIndexes()) {
-			this.equipIndexes[this.equipIter++] = index;
+			this.equipIndexes[i++] = index;
+		}
+		while (this.equipIndexes[this.equipIter] >= 0) {
+			++this.equipIter;
 		}
 
 		this.baseXP = this.type.getBaseXP();
@@ -189,6 +195,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		for (int i = 0; i < this.items.length; ++i) {
 			this.items[i] = -1;
 		}
+		this.itemIter = 0;
 		this.type = Type.PLAYER;
 		this.baseXP = this.type.getBaseXP();
 		this.rank = -1;
@@ -199,6 +206,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		for (int i = 0; i < this.items.length; ++i) {
 			this.equipIndexes[i] = -1;
 		}
+		this.equipIter = 0;
 		this.hasRespawned = false;
 
 		setFields();
@@ -505,6 +513,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public void pickUp(int item) {
 		if (itemIter < this.items.length) {
 			this.items[this.itemIter++] = item;
+			System.out.println(this.items[this.itemIter-1]);
 		}
 	}
 

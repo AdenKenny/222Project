@@ -5,10 +5,10 @@
       <username>Test</username>
       <UID>10</UID>
       <type>PLAYER</type>
-      <items>3, -1, -1, -1, -1, -1, -1, -1</items>
+      <items>3, 302, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>52</xp>
-      <gold>6</gold>
+      <gold>528</gold>
       <level>1</level>
       <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
