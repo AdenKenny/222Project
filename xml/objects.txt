@@ -1,3 +1,4 @@
+0 drop DROP -1 {-1} (A reward dropped by the monster you just killed.)
 231321 table FURNITURE -1 {-1} (A table.)
 321323 chest CHEST -1 {0} (A chest that contains loot.)
 231211 chair FURNITURE -1 {-1} (A wooden chair.)

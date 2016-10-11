@@ -9,6 +9,8 @@ import gameWorld.Floor;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 
+import gameWorld.characters.Character;
+
 /**
  * A class to represent a Room within a Floor. Each Room is made up of a grid of Entities.
  *
@@ -118,13 +120,17 @@ public class Room {
 	 */
 	public Set<Sendable> getSendables() {
 		Set<Sendable> sendables = new HashSet<>();
+		boolean b = false;
 		for (Entity[] es : this.entities) {
 			for (Entity e : es) {
 				if (e instanceof Sendable) {
+					System.out.println(((Character)e).getName());
+					b = true;
 					sendables.add((Sendable) e);
 				}
 			}
 		}
+		if (b) System.out.println(sendables.size());
 		return sendables;
 	}
 

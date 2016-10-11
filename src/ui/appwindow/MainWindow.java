@@ -160,6 +160,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	 */
 	public void updateStats(Character player) {
 		this.bottomPanel.updateStats(player);
+		this.updateGold(player.getGold());
 	}
 
 	@Override
@@ -178,8 +179,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void performActionOnEntity(int itemId, int actionId) {
-		// TODO Auto-generated method stub
+	public void performActionOnEntity(Entity entity, String actionName) {
+		this.slave.performActionOnEntity(entity, actionName);
 	}
 
 	/*
