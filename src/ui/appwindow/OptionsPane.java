@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import gameWorld.Action;
 import gameWorld.Entity;
+import gameWorld.item.Item;
 
 /**
  * Used as the glassPane for MainWindow, allowing for an options box to be drawn
@@ -31,13 +32,14 @@ public class OptionsPane extends JPanel  {
 	private Entity clickedEntity;
 	private List<Action> latestOptions;
 	private MouseListener clickListener;
+	private Item clickedItem;
 
 	public OptionsPane(MainWindow window) {
 		this.window = window;
 		this.setVisible(false);
 	}
 
-	public void displayAndDrawList(int x, int y, Entity entity) {
+	public void displayAndDrawEntityList(int x, int y, Entity entity) {
 		this.latestOptions = entity.actions();
 		// make sure bounds are within main window
 		if (x + OPTION_WIDTH > window.getWidth()) {
@@ -49,6 +51,30 @@ public class OptionsPane extends JPanel  {
 		this.x = x;
 		this.y = y;
 		this.clickedEntity = entity;
+		this.clickedItem = null;
+		this.removeMouseListener(clickListener);
+		this.clickListener = new OptionsListener(this);
+		this.addMouseListener(clickListener);
+		this.setBounds(new Rectangle(this.x, this.y, OPTION_WIDTH, OPTION_HEIGHT * this.latestOptions.size()));
+		this.revalidate();
+		this.setVisible(true);
+		repaint();
+
+	}
+
+	public void displayAndDrawItemList(int x, int y, Item item) {
+		this.latestOptions = item.getActions();
+		// make sure bounds are within main window
+		if (x + OPTION_WIDTH > window.getWidth()) {
+			x = window.getWidth() - OPTION_WIDTH;
+		}
+		if (y + OPTION_HEIGHT * this.latestOptions.size() + 40 > window.getHeight()) {
+			y = window.getHeight() - OPTION_HEIGHT * this.latestOptions.size() - 40;
+		}
+		this.x = x;
+		this.y = y;
+		this.clickedItem = item;
+		this.clickedEntity = null;
 		this.removeMouseListener(clickListener);
 		this.clickListener = new OptionsListener(this);
 		this.addMouseListener(clickListener);
@@ -83,7 +109,11 @@ public class OptionsPane extends JPanel  {
 			// perform Action
 			action.perform(window);
 		} else {
-			window.performActionOnEntity(clickedEntity, action.name());
+			if(clickedEntity!= null){
+				window.performActionOnEntity(clickedEntity, action.name());
+			}
+			else if(clickedItem !=null)
+			window.performActionOnItem(clickedItem, action.name());
 		}
 	}
 }

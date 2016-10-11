@@ -174,8 +174,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void displayItemOptions(Entity entity, int x, int y) {
-		optionsPane.displayAndDrawList(x, y, entity);
+	public void displayEntityOptions(Entity entity, int x, int y) {
+		optionsPane.displayAndDrawEntityList(x, y, entity);
+	}
+
+	@Override
+	public void displayItemOptions(Item item, int x, int y) {
+		optionsPane.displayAndDrawItemList(x, y, item);
 	}
 
 	@Override

@@ -23,8 +23,10 @@ public interface ClientUI {
 
 	public void updateGold(int amount);
 
-	public void displayItemOptions(Entity entity, int x, int y);
+	public void displayEntityOptions(Entity entity, int x, int y);
 
 	public void performActionOnEntity(Entity entity, String actionName);
+
+	void displayItemOptions(Item item, int x, int y);
 
 }
