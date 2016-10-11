@@ -119,7 +119,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		getLayeredPane().add(optionsPane, new Integer(300)); // Pop-up layer
 		getLayeredPane().add(compass, new Integer(200));
 		this.audioHandler = new AudioHandler();
-	
+
 		audioHandler.playMusic("login");
 	}
 
@@ -309,9 +309,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			} catch (InterruptedException e) {
 			}
 		}
-		
+
 		player.addListener(audioHandler);
-		
+
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
 		setRoom(this.game.getFloor(), this.game.getRoom());
@@ -379,7 +379,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	@Override
 	public void playMusic(String inMusicName) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
