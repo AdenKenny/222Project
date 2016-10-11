@@ -2,6 +2,7 @@ package clientServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -196,9 +197,16 @@ public class ClientSideGame extends Thread implements Game {
 			int xPos = Sendable.bytesToInt(received, 20);
 			int yPos = Sendable.bytesToInt(received, 24);
 
+			//get the items
+			int itemsSize = received[28];
+			List<Integer> items = new ArrayList<>();
+			for (int i = 0; i < itemsSize * 4; i+=4) {
+				items.add(Sendable.bytesToInt(received, 29 + i));
+			}
+
 			//get the name from the packet
 			StringBuilder name = new StringBuilder();
-			for (int i = 28; i < received.length; i++) {
+			for (int i = 29 + itemsSize * 4; i < received.length; i++) {
 				name.append((char) received[i]);
 			}
 			String username = name.toString();
@@ -219,6 +227,7 @@ public class ClientSideGame extends Thread implements Game {
 			toAdd.setLevel(level);
 			toAdd.setXPos(xPos);
 			toAdd.setYPos(yPos);
+			toAdd.setItems(items);
 			//add it to the list of sendables
 			this.sendables.put(ID, toAdd);
 			//add the character to the grid of entities
@@ -285,6 +294,12 @@ public class ClientSideGame extends Thread implements Game {
 				c.setHealth(Sendable.bytesToInt(received, 8));
 				c.setXp(Sendable.bytesToInt(received, 12));
 				c.setLevel(Sendable.bytesToInt(received, 16));
+				//get the items
+				List<Integer> items = new ArrayList<>();
+				int itemsSize = received[28];
+				for (int i = 0; i < itemsSize * 4; i+=4) {
+					items.add(Sendable.bytesToInt(received, 29 + i));
+				}
 			}
 
 			//add the character to its new position on the grid
