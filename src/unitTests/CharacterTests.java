@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gameWorld.Action;
-import gameWorld.Entity;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
 import gameWorld.characters.Character.Type;
@@ -86,11 +85,11 @@ public class CharacterTests {
 		assertEquals("Test Player", c.name());
 		assertEquals("A test player", c.description());
 		assertEquals(9, c.ID());
-		List<Integer> items = c.getItems();
-		assertEquals(1, (int) items.get(0));
-		assertEquals(2, (int) items.get(1));
-		assertEquals(3, (int) items.get(2));
-		assertEquals(1, (int) c.getEquips().get(0).getID());
+		int[] items = c.getItems();
+		assertEquals(1, (int) items[0]);
+		assertEquals(2, (int) items[1]);
+		assertEquals(3, (int) items[2]);
+		assertEquals(1, (int) c.getEquipIndexes()[0]);
 		assertEquals(12, c.getGold());
 		assertEquals(100, c.getHealth());
 		assertEquals(23, c.getXp());
@@ -393,6 +392,6 @@ public class CharacterTests {
 		room.entities()[2][2] = player;
 		room.entities()[0][0] = vendor;
 
-		Item sellItem = Game.mapOfItems.get(player.getItems().get(0));
+		Item sellItem = Game.mapOfItems.get(player.getItems()[0]);
 	}
 }

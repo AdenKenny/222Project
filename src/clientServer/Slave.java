@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import gameWorld.Entity;
 import gameWorld.Sendable;
 import gameWorld.characters.Character;
+import gameWorld.item.Item;
 import ui.appwindow.MainWindow;
 
 public class Slave extends Thread {
@@ -241,16 +242,29 @@ public class Slave extends Thread {
 	}
 
 	public void performActionOnEntity(Entity entity, String actionName) {
-		if (!(entity instanceof Sendable)) {
-			return;
-		}
-
 		byte[] toSend = new byte[actionName.length() + 5];
-		toSend[0] = PackageCode.Codes.PERFORM_ACTION.value();
+		toSend[0] = PackageCode.Codes.PERFORM_ACTION_ENTITY.value();
 
 		byte[] entityID = Sendable.intToBytes(entity.ID());
 		for (int i = 0; i < 4; ++i) {
 			toSend[i+1] = entityID[i];
+		}
+
+		int i = 5;
+		for (char c : actionName.toCharArray()) {
+			toSend[i++] = (byte) c;
+		}
+
+		send(toSend);
+	}
+
+	public void performActionOnItem(Item item, String actionName) {
+		byte[] toSend = new byte[actionName.length() + 5];
+		toSend[0] = PackageCode.Codes.PERFORM_ACTION_ITEM.value();
+
+		byte[] itemID = Sendable.intToBytes(item.getID());
+		for (int i = 0; i < 4; ++i) {
+			toSend[i+1] = itemID[i];
 		}
 
 		int i = 5;

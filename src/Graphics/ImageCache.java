@@ -10,7 +10,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 public class ImageCache extends AbstractCache<Image> {
-	
+
 	public ImageCache(){
 		super();
 	}
@@ -23,5 +23,5 @@ public class ImageCache extends AbstractCache<Image> {
 		}
 		return ImageIO.read(url);
 	}
-	
+
 }
