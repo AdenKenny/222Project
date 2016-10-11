@@ -73,6 +73,8 @@ public final class FileVerifier {
 
 		File[] listOfFiles = xmlFile.listFiles(); //Get the files in the existing directory.
 
+		assert(listOfFiles != null);
+
 		List<File> arrFiles = new ArrayList<>(Arrays.asList(listOfFiles)); //Convert to ArrayList.
 
 		if (arrFiles.size() > 0) { //See if any files already exist.

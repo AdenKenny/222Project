@@ -10,7 +10,7 @@ import gameWorld.characters.Character;
 /**
  * A class used to represent the world in which the game takes place. It
  * contains a number of Floors
- * 
+ *
  * @author Louis
  */
 public class World {
@@ -21,7 +21,7 @@ public class World {
 	 * as Forward, Back, Left and Right and relative, and should mainly be used
 	 * for user input, as they will act relative to the Player's absolute
 	 * Direction.
-	 * 
+	 *
 	 * @author Louis
 	 */
 	public enum Direction {
@@ -36,7 +36,7 @@ public class World {
 
 		/**
 		 * Returns the byte value of this Direction.
-		 * 
+		 *
 		 * @return this Direction as a byte
 		 */
 		public byte value() {
@@ -48,7 +48,7 @@ public class World {
 		 * absolute. Relative Directions will include Directions like FORWARD,
 		 * BACK, LEFT and RIGHT, while absolute Directions will include
 		 * Directions like NORTH, EAST, SOUTH and WEST.
-		 * 
+		 *
 		 * @return whether this Direction is relative
 		 */
 		public boolean isRelative() {
@@ -58,7 +58,7 @@ public class World {
 		/**
 		 * Gets the Direction to the left of this Direction. This only works
 		 * when called on an absolute Direction, otherwise it will return null.
-		 * 
+		 *
 		 * @return the Direction to the left of this one
 		 */
 		public Direction getLeft() {
@@ -77,7 +77,7 @@ public class World {
 		/**
 		 * Gets the Direction to the right of this Direction. This only works
 		 * when called on an absolute Direction, otherwise it will return null.
-		 * 
+		 *
 		 * @return the Direction to the right of this one
 		 */
 		public Direction getRight() {
@@ -140,7 +140,7 @@ public class World {
 	/**
 	 * Adds a Character to the World, meaning that they will from then on be
 	 * part of the game.
-	 * 
+	 *
 	 * @param c
 	 *            the Character to add
 	 */
@@ -150,7 +150,7 @@ public class World {
 
 	/**
 	 * Removes a Character from the World, taking them out of the game.
-	 * 
+	 *
 	 * @param c
 	 *            the Character to remove
 	 */
@@ -160,7 +160,7 @@ public class World {
 
 	/**
 	 * Returns the Set of Characters that are currently a part of the game.
-	 * 
+	 *
 	 * @return a Set of the Characters in the game
 	 */
 	public Set<Character> getPlayers() {
