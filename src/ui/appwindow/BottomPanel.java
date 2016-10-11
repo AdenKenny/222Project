@@ -18,9 +18,11 @@ import gameWorld.item.Item;
  * @author Clinton
  *
  */
+
 public class BottomPanel extends JPanel {
 	public static final float HEIGHT_RATIO = 0.2f; // height as proportion of window.
 	private MainWindow parent;
+
 	private ChatPane chatPane;
 	private StatsPane statPane;
 	private InventoryPane inventoryPane;
@@ -30,6 +32,7 @@ public class BottomPanel extends JPanel {
 		setLayout(new BorderLayout());
 		setVisible(true);
 	}
+
 
 	public void initComponents() {
 		this.chatPane = new ChatPane(this);
@@ -44,8 +47,7 @@ public class BottomPanel extends JPanel {
 		revalidate();
 	}
 
-	public void loadPlayerStats(Character currentPlayer) {
-
+	public void loadPlayerStats(Character currentPlayer){
 		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
 		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
 		setStat(StatsPane.EXP, currentPlayer.getXp());

@@ -189,7 +189,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		this.facing = facing;
 		this.isAlive = true;
 		this.health = this.maxHealth;
-		
+
 		if (this.type.equals(Type.PLAYER)) {
 			// no need to do this for monsters or vendors
 			this.hasRespawned = true;
@@ -993,10 +993,14 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	/**
 	 * Checks whether this Character has been respawned between the last time it
 	 * moved and the current time.
-	 * 
+	 *
 	 * @return Whether this Character has been respawned
 	 */
 	public boolean hasRespawned() {
 		return this.hasRespawned;
+	}
+
+	public void setRespawned(boolean hasRespawned) {
+		this.hasRespawned = hasRespawned;
 	}
 }
