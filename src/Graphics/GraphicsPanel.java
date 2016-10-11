@@ -78,7 +78,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     }
 
     /**
-     * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
+     * Create a new GraphicsPanel that displays the perspective of the given character.
      * @param inViewer
      * @param initRoom
      */
@@ -186,11 +186,19 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	graphics.fillRect(0, height - yScale, width, yScale);
     }
 
+    /**
+     * Draw the ceiling.
+     * @param graphics
+     */
     private void renderCeiling(Graphics graphics){
     	graphics.setColor(new Color(64, 64, 64));
 		graphics.fillRect( 0, 0, getWidth(), getHeight() / 2);
     }
 
+    /**
+     * Draw the floor.
+     * @param graphics
+     */
     private void renderFloor(Graphics graphics){
     	graphics.setColor(new Color(96, 96, 96));
         int height = getHeight() / 2;
@@ -199,6 +207,16 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
     private static final int healthBarHeight = 20;
 
+    /**
+     * Render the entity.
+     * @param viewerDirection
+     * @param viewerY
+     * @param viewerX
+     * @param sideDelta
+     * @param forwardDelta
+     * @param room
+     * @param graphics
+     */
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         if (isLocationDoor(absoluteTarget, room)){
@@ -267,7 +285,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     }
 
     /**
-     * RenderData
+     * Renders a healthbar above the given character.
      * @param character
      * @param data
      * @param graphics
@@ -286,6 +304,12 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	graphics.fillRect(depletedBarX, data.y - healthBarHeight, depletedBarWidth, healthBarHeight);
     }
 
+    /**
+     * Renders an item drop.
+     * @param drop
+     * @param data
+     * @param graphics
+     */
     private void renderDrop(StationaryObject drop, RenderData data, Graphics graphics){
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
@@ -300,7 +324,13 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
     }
-
+    
+    /** 
+     * Renders a chest.
+     * @param chest
+     * @param data
+     * @param graphics
+     */
     private void renderChest(StationaryObject chest, RenderData data, Graphics graphics){
     	//Render in lower half of sprite's space.
     	int y = (int) (data.y + data.height * 0.5);
@@ -309,7 +339,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(chest, new RenderData(y, data.x, height, data.width)));
     }
-
+    
     private Image loadItemImage(String resourceName){
     	try {
 			return cache.getResource(getItemImagePath(resourceName));
@@ -504,7 +534,14 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	private int[] sumDelta(int[] a, int[] b) {
 		return new int[] { a[0] + b[0], a[1] + b[1] };
 	}
-
+	
+	/**
+	 * Apply the delta to the given coordinates.
+	 * @param delta
+	 * @param y
+	 * @param x
+	 * @return
+	 */
 	private int[] applyDelta(int[] delta, int y, int x) {
 		return new int[] { y + delta[0], x + delta[1] };
 	}
