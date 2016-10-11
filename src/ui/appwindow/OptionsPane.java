@@ -37,7 +37,7 @@ public class OptionsPane extends JPanel  {
 		this.setVisible(false);
 	}
 
-	public void displayAndDrawEntityList(int x, int y, Entity entity) {
+	protected void displayAndDrawEntityList(int x, int y, Entity entity) {
 		this.latestOptions = entity.actions();
 		// make sure bounds are within main window
 		if (x + OPTION_WIDTH > window.getWidth()) {
@@ -60,7 +60,7 @@ public class OptionsPane extends JPanel  {
 
 	}
 
-	public void displayAndDrawItemList(int x, int y, Item item) {
+	protected void displayAndDrawItemList(int x, int y, Item item) {
 		this.latestOptions = item.actions();
 		// make sure bounds are within main window
 		if (x + OPTION_WIDTH > window.getWidth()) {
@@ -99,7 +99,7 @@ public class OptionsPane extends JPanel  {
 	/*
 	 * Calculates the option selected based on y position
 	 */
-	public void selectOption(int y) {
+	protected void selectOption(int y) {
 		int listItem = y / 20;
 
 		Action action = latestOptions.get(listItem);

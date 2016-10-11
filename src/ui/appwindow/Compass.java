@@ -7,15 +7,21 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * Displays the direction the current player is facing.
+ * Used by MainWindow by adding to LayeredPane.
+ *
+ * @author normanclin
+ *
+ */
 public class Compass extends JPanel {
-
 	private Image compass;
 	private String direction = "N";
 	private MainWindow parent;
+
 	public Compass(MainWindow parent) {
 		this.parent = parent;
 		this.setVisible(false);
@@ -26,7 +32,6 @@ public class Compass extends JPanel {
 		}
 		setOpaque(false);
 		setBackground(new Color(0,0,0,0));
-		//setBounds(new Rectangle(parent.getWidth()-55, 90, 50, 50));
 		setBounds(new Rectangle(parent.getWidth()-55, (int) (parent.getHeight()*0.7), 50, 50));
 	}
 
@@ -42,17 +47,17 @@ public class Compass extends JPanel {
 		else{
 			g.drawString(direction, getWidth()/2-5, getHeight()/2-5);
 		}
-
 	}
 
-	public void rotateRight(){
+	protected void rotateRight(){
 		if(direction.equals("N")) direction = "E";
 		else if(direction.equals("E")) direction = "S";
 		else if(direction.equals("S")) direction = "W";
 		else if(direction.equals("W")) direction = "N";
 		repaint();
 	}
-	public void rotateLeft(){
+
+	protected void rotateLeft(){
 		if(direction.equals("N")) direction = "W";
 		else if(direction.equals("E")) direction = "N";
 		else if(direction.equals("S")) direction = "E";
