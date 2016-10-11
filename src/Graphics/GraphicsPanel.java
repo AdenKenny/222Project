@@ -281,9 +281,9 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
     	int height = (int) (data.height * 0.25);
-    	Item item = Game.mapOfItems.get(drop.getItem());
+    	int itemID = drop.getItem();
+    	Item item = Game.mapOfItems.get(itemID);
     	if (item == null) {
-    		System.out.println("Item not found.");
     		return;
     	}
     	String nameOfItem = item.getName();
