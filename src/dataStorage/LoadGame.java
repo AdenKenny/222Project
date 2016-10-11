@@ -27,7 +27,7 @@ import util.Logging;
 /**
  * A class to load entities from XML.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class LoadGame implements XMLInteractable {

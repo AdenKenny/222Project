@@ -9,7 +9,7 @@ import util.Logging;
 /**
  * A class to build a 'CharacterModel' from input read from XML.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class CharacterBuilder implements AbstractBuilder {

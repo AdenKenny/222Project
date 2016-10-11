@@ -1,62 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
-  <players>
-    <player>
-      <username>Arthas</username>
-      <UID>9</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
-      <username>Aden</username>
-      <UID>307</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>52</xp>
-      <gold>8</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
-      <username>Test</username>
-      <UID>289</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>26</xp>
-      <gold>68</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
-      <username>Simon</username>
-      <UID>29</UID>
-      <type>PLAYER</type>
-      <items>1, 2</items>
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
-      <username>janef</username>
-      <UID>298</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>30</xp>
-      <gold>20</gold>
-      <level>2</level>
-      <equips/>
-    </player>
-  </players>
+  <players/>
   <monsters/>
   <vendors/>
 </game>

@@ -10,7 +10,7 @@ import util.Logging;
 /**
  * A builder to build Objects in the game. An object is a piece of furniture or a decoration.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public class ObjectBuilder implements AbstractBuilder {

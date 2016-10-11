@@ -9,7 +9,7 @@ import util.Buildable;
  * such as the unique ID and the name. An actual instance of this character uses this to build
  * itself.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 public final class CharacterModel implements Buildable {
 

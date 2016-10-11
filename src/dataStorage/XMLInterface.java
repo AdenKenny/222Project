@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
  * An interface representing a way we will interact with a .xml file such as
  * creating, reading or editing one.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public interface XMLInterface {

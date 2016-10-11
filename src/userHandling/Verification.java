@@ -6,7 +6,7 @@ import util.Logging.Levels;
 /**
  * A class dealing with a verifying a user's login details.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class Verification {

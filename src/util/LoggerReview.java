@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * A class to represent logged events and to review them.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class LoggerReview {
