@@ -334,11 +334,20 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		}, 0, 33, TimeUnit.MILLISECONDS);
 
 	}
-
+	/**
+	 * Sets the slave for connection to the server.
+	 * Slave must be initialized using this this instance of MainWindow.
+	 *
+	 * @param slave
+	 */
 	public void setSlave(Slave slave) {
 		this.slave = slave;
 	}
 
+	/**
+	 * Get the graphics panel of this Window if it has been set.
+	 * @return graphics panel
+	 */
 	public GraphicsPanel getGraphicsPanel() {
 		if (this.display instanceof GraphicsPanel) {
 			return (GraphicsPanel) this.display;

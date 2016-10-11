@@ -38,11 +38,11 @@
       <username>Simon</username>
       <UID>29</UID>
       <type>PLAYER</type>
-      <items>-1</items>
-      <health>60</health>
-      <xp>56</xp>
-      <gold>24</gold>
-      <level>2</level>
+      <items>1, 2</items>
+      <health>100</health>
+      <xp>0</xp>
+      <gold>0</gold>
+      <level>1</level>
       <equips/>
     </player>
     <player>
