@@ -27,7 +27,7 @@ public final class Logging {
 	 */
 
 	public enum Levels {
-		SEVERE(0), WARNING(1), EVENT(2), OTHER(3); // Is this needed?
+		SEVERE(3), WARNING(2), EVENT(1), OTHER(0); // Is this needed?
 
 		private final int value;
 
@@ -167,6 +167,13 @@ class LogEvent implements Comparable<LogEvent> {
 		this.className = className;
 		this.message = message;
 		this.timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+	}
+
+	LogEvent(String className, String levelEnumString, String message, String timeStamp) {
+		this.className = className;
+		this.message = message;
+		this.timeStamp = timeStamp;
+		this.level = Levels.valueOf(levelEnumString);
 	}
 
 	/**

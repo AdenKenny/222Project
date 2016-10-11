@@ -120,13 +120,12 @@ public class StationaryObject extends Entity implements Sendable {
 
 	@Override
 	public byte[] toSend() {
-		byte[] toSend = new byte[50];
+		byte[] toSend = new byte[23];
 		toSend[0] = PackageCode.Codes.GAME_SENDABLE.value();
 		toSend[1] = this.type.sendableType().value();
 		toSend[2] = this.facing.value();
-
 		int i = 3;
-		for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.xPos, this.yPos)) {
+		for (byte b : Sendable.intsToBytes(this.ID, this.modelID, this.xPos, this.yPos, this.item)) {
 			toSend[i++] = b;
 		}
 		return toSend;
@@ -145,6 +144,10 @@ public class StationaryObject extends Entity implements Sendable {
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	public void setItem(int item) {
+		this.item = item;
 	}
 
 }
