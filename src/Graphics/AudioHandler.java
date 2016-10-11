@@ -64,7 +64,7 @@ public class AudioHandler implements GameEventListener {
 	}
 	
 	public String calculateSoundPath(String soundName){
-		return String.format("/resources/audio/%s.wav", soundName);
+		return String.format("/resources/audio/%s.aiff", soundName);
 	}
 	
 }

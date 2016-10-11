@@ -18,8 +18,8 @@
       <type>PLAYER</type>
       <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
-      <xp>26</xp>
-      <gold>4</gold>
+      <xp>52</xp>
+      <gold>8</gold>
       <level>1</level>
       <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
     </player>
@@ -38,7 +38,11 @@
       <username>Simon</username>
       <UID>29</UID>
       <type>PLAYER</type>
+<<<<<<< HEAD
       <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
+=======
+      <items>1, 2</items>
+>>>>>>> refs/heads/master
       <health>100</health>
       <xp>0</xp>
       <gold>0</gold>
@@ -49,12 +53,21 @@
       <username>janef</username>
       <UID>298</UID>
       <type>PLAYER</type>
+<<<<<<< HEAD
       <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
       <xp>30</xp>
       <gold>20</gold>
       <level>2</level>
       <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
+=======
+      <items>-1</items>
+      <health>45</health>
+      <xp>81</xp>
+      <gold>43</gold>
+      <level>3</level>
+      <equips/>
+>>>>>>> refs/heads/master
     </player>
   </players>
   <monsters/>

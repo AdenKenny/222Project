@@ -46,8 +46,8 @@ public class OptionsPane extends JPanel  {
 		if (y + OPTION_HEIGHT * this.latestOptions.size() + 40 > window.getHeight()) {
 			y = window.getHeight() - OPTION_HEIGHT * this.latestOptions.size() - 40;
 		}
-		this.x = x;
-		this.y = y;
+		this.x = x-3;
+		this.y = y+3;
 		this.clickedEntity = entity;
 		this.clickedItem = null;
 		this.removeMouseListener(clickListener);

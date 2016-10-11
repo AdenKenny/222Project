@@ -21,6 +21,7 @@ import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.item.Item;
 import gameWorld.objects.StationaryObject;
 import gameWorld.rooms.Room;
 
@@ -90,6 +91,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         viewer = inViewer;
         viewer.addListener(this);
         addMouseListener(this);
+        inViewer.addListener(this);
         entityScreenLocations = new ArrayList<>();
     }
 
@@ -170,18 +172,18 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	graphics.setColor(Color.BLACK);
     	int width = getWidth();
     	int height = getHeight();
-    	int yScale = (int) (height * 0.025);
+    	int yScale = (int) (height * 0.04);
     	graphics.fillRect(0, 0 , width, yScale);
     	graphics.fillRect(0, height - yScale, width, yScale);
     }
 
     private void renderCeiling(Graphics graphics){
-    	graphics.setColor(new Color(32, 32, 32));
+    	graphics.setColor(new Color(64, 64, 64));
 		graphics.fillRect( 0, 0, getWidth(), getHeight() / 2);
     }
 
     private void renderFloor(Graphics graphics){
-    	graphics.setColor(new Color(16, 16, 16));
+    	graphics.setColor(new Color(96, 96, 96));
         int height = getHeight() / 2;
         graphics.fillRect(0, height, getWidth(), height);
     }
@@ -264,7 +266,6 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     private void renderHealthBar(Character character, RenderData data, Graphics graphics){
     	//Calculate width of the healthbar.
     	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
-    	//System.out.println(relativeHealth);
     	int healthBarWidth = (int) (relativeHealth * data.width);
     	//Draw the healthbar
     	graphics.setColor(Color.green);
@@ -280,8 +281,12 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
     	int height = (int) (data.height * 0.25);
-    	System.out.println(drop.getItem());
-    	String nameOfItem = Game.mapOfItems.get(drop.getItem()).getName();
+    	Item item = Game.mapOfItems.get(drop.getItem());
+    	if (item == null) {
+    		System.out.println("Item not found.");
+    		return;
+    	}
+    	String nameOfItem = item.getName();
     	graphics.drawImage(loadItemImage(nameOfItem), data.x, y, data.width, height, null);
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
@@ -298,10 +303,14 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
     private Image loadItemImage(String resourceName){
     	try {
-			return cache.getResource(resourceName);
+			return cache.getResource(getItemImagePath(resourceName));
 		} catch (IOException e) {
 			return null;
 		}
+    }
+
+    private String getItemImagePath(String resourceName){
+    	return String.format("/resources/graphics/%s.png", resourceName);
     }
 
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
@@ -329,10 +338,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	}
 
 	private void doFlash(String toFlash, Graphics graphics){
-		try {
-			graphics.drawImage(cache.getResource(toFlash), 0, 0, getWidth(), getHeight(), null);
-		} catch (IOException e) {
-		}
+		graphics.drawImage(loadItemImage(toFlash), 0, 0, getWidth(), getHeight(), null);
 	}
 
 	private Image loadImage(String name, Side side) {
@@ -522,7 +528,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		int invertForwardDelta = viewDistance - forwardDelta;
 		int height = getHeight();
 		// Items further away should
-		int yScale = (int) (height * 0.025);
+		int yScale = (int) (height * 0.04);
 		int yPixel = yScale * forwardDelta;
 		int spriteHeight = height - (2 * yScale * forwardDelta);
 		int width = getWidth();

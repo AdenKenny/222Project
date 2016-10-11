@@ -119,15 +119,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		getLayeredPane().add(optionsPane, new Integer(300)); // Pop-up layer
 		getLayeredPane().add(compass, new Integer(200));
 		this.audioHandler = new AudioHandler();
+
+		audioHandler.playMusic("login");
 	}
 
 	protected void setDisplay(JPanel display) {
 		this.display = display;
-	}
-
-	@Override
-	public void playMusic(String inMusicName) {
-		audioHandler.playMusic(inMusicName);
 	}
 
 	@Override
@@ -313,6 +310,8 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 			}
 		}
 
+		player.addListener(audioHandler);
+
 		bottomPanel.loadPlayerStats(player);
 		updateGold(this.game.getPlayer().getGold());
 		setRoom(this.game.getFloor(), this.game.getRoom());
@@ -332,13 +331,24 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 				gfx.repaint();
 			}
 		}, 0, 33, TimeUnit.MILLISECONDS);
+		//Start playing music to make the player feel that they are alone in a dark place in a different world, and they may never return.
+		audioHandler.playMusic("main");
 
 	}
-
+	/**
+	 * Sets the slave for connection to the server.
+	 * Slave must be initialized using this this instance of MainWindow.
+	 *
+	 * @param slave
+	 */
 	public void setSlave(Slave slave) {
 		this.slave = slave;
 	}
 
+	/**
+	 * Get the graphics panel of this Window if it has been set.
+	 * @return graphics panel
+	 */
 	public GraphicsPanel getGraphicsPanel() {
 		if (this.display instanceof GraphicsPanel) {
 			return (GraphicsPanel) this.display;
@@ -364,6 +374,12 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.setSlave(slave);
 		main.initComponents();
 		main.waitForGame();
+	}
+
+	@Override
+	public void playMusic(String inMusicName) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

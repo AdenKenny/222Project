@@ -71,7 +71,6 @@ public class StatsPane extends JPanel{
 			g.setFont(new Font("Damage: "+damage, Font.BOLD, 20));
 			g.drawString("Damage: " + damage, getWidth()/2-80, 60);
 
-
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(10));
             g2.setColor(new Color(23, 69, 40));

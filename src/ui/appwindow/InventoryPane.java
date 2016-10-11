@@ -8,13 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import Graphics.ImageCache;
 import gameWorld.item.Item;
 
@@ -88,6 +83,7 @@ public class InventoryPane extends JPanel{
 	 * If no free spaces, no item will be added, although this method should not be called in that case.
 	 */
 	public void addItem(Item item){
+		System.out.println("Adding Item in InventoryPane");
 		for(int i=0; i<ROWS; i++ ){
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] == null){
