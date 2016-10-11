@@ -98,7 +98,6 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] == null){
 					items[i][j] = item;
-					System.out.println("items["+i+"]["+j+"] = "+item.getName());
 					this.repaint();
 					return;
 				}
@@ -112,6 +111,7 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(itemIndex == position){
 					isEquippedItem[i][j] = true;
+					return;
 				}
 				position++;
 			}

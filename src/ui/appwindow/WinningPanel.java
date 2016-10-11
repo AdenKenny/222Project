@@ -7,10 +7,16 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * Displays an image to indicate Win.
+ * Added to MainWindow Layered pane.
+ *
+ * @author normanclin
+ *
+ */
 public class WinningPanel extends JPanel{
 
 	private MainWindow parent;
