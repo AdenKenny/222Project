@@ -10,7 +10,7 @@ import util.Logging;
 /**
  * A class to build an instance of Character that represents a player.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class PlayerBuilder implements AbstractBuilder {

@@ -24,4 +24,20 @@
     <items>2</items>
     <description>A dude who smiths stuff</description>
   </character>
+  <character>
+    <ID>1002</ID>
+    <name>darkAcolyte</name>
+    <type>MONSTER</type>
+    <value>4</value>
+    <items>14, 21, 220</items>
+    <description>A follower of an ancient cult)</description>
+  </character>
+  <character>
+    <ID>1003</ID>
+    <name>darkWarrior</name>
+    <type>MONSTER</type>
+    <value>4</value>
+    <items>404, 408, 400</items>
+    <description>A warrior of an ancient cult</description>
+  </character>
 </characters>

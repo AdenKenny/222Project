@@ -13,7 +13,7 @@ import javax.xml.bind.DatatypeConverter;
 /**
  * A class to handle the hashing of a users password. Returns the hash and salt of the password.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class Hashing {
@@ -21,7 +21,7 @@ public final class Hashing {
 	/**
 	 * Enums representing the sizes of values in the hash. These values can be increased for
 	 * potentially more secure hashes and decreased performance or decreased for potentially less
-	 * secure hashes and increased performance. 
+	 * secure hashes and increased performance.
 	 *
 	 * Note: These values can be safely modified without breaking existing hashes.
 	 */
@@ -39,8 +39,8 @@ public final class Hashing {
 
 	/**
 	 * Enums representing the position of certain elements in the hash. These should not be changed
-	 * or it will break existing hashes in the database. 
-	 * 
+	 * or it will break existing hashes in the database.
+	 *
 	 * Note: These values should not be modified as all existing hashes will break.
 	 */
 
@@ -48,7 +48,7 @@ public final class Hashing {
 		HASH_SECTIONS(5), // Number of sections in the hash string.
 		HASH_ALGORITHM_INDEX(0), // Indexes of various elements in the hash string.
 		HASH_SIZE_INDEX(2),
-		ITERATION_INDEX(1), 
+		ITERATION_INDEX(1),
 		PBKDF2_INDEX(4),
 		SALT_INDEX(3);
 
@@ -92,7 +92,7 @@ public final class Hashing {
 
 	/**
 	 * Takes the password, salt and various other properties to create the hash for the password.
-	 * 
+	 *
 	 * @param password
 	 *            A char[] of the password to hash.
 	 * @param salt

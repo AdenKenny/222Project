@@ -26,7 +26,7 @@ import util.Logging;
  * A class to save the game state of the World and entities in it.
  * They will be saved to XML.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class SaveGame implements XMLInteractable {

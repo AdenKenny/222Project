@@ -19,13 +19,48 @@ import gameWorld.characters.CharacterModel;
 import gameWorld.characters.PlayerBuilder;
 import gameWorld.item.Item;
 import gameWorld.rooms.Room;
+import util.AbstractBuilder;
+import util.Buildable;
+import util.BuilderBuilder;
 
 public class CharacterTests {
 
 	@Test
-	public void testBuilderBuilder() {
+	public void testBuilderBuilderCorrect() {
 
-		//Builder
+		BuilderBuilder builder = new BuilderBuilder("Item");
+
+		builder.addField("ID", String.valueOf(6));
+		builder.addField("name", "bronzeSabre");
+		builder.addField("type", "WEAPON");
+		builder.addField("value", String.valueOf(20));
+		builder.addField("saleValue", String.valueOf(39));
+		builder.addField("description", "lorem ipsum");
+
+		Item item = (Item) builder.build().build();
+
+		assertEquals(item.getID(), 6); //Make sure builder worked.
+		assertTrue(item != null);
+	}
+
+	@Test
+	public void testBuilderBuilderIncorrect() {
+
+		try {
+			BuilderBuilder builder = new BuilderBuilder("foobar");
+
+			Buildable built = builder.build().build();
+		}
+
+		catch (UnsupportedOperationException e) {
+			return;
+		}
+
+		fail();
+	}
+
+	@Test
+	public void testBuilderBuilderIncorrect2() {
 
 	}
 

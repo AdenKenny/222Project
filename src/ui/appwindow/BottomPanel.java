@@ -21,7 +21,7 @@ import gameWorld.item.Item;
 
 public class BottomPanel extends JPanel {
 	public static final float HEIGHT_RATIO = 0.2f; // height as proportion of window.
-	MainWindow parent;
+	protected MainWindow parent;
 
 	private ChatPane chatPane;
 	private StatsPane statPane;
@@ -34,7 +34,7 @@ public class BottomPanel extends JPanel {
 	}
 
 
-	public void initComponents() {
+	protected void initComponents() {
 		this.chatPane = new ChatPane(this);
 		chatPane.initComponents();
 		this.statPane = new StatsPane();
@@ -47,7 +47,7 @@ public class BottomPanel extends JPanel {
 		revalidate();
 	}
 
-	public void loadPlayerStats(Character currentPlayer){
+	protected void loadPlayerStats(Character currentPlayer){
 		setStat(StatsPane.HEALTH, currentPlayer.getHealth());
 		setStat(StatsPane.MAXHEALTH, currentPlayer.getMaxHealth());
 		setStat(StatsPane.EXP, currentPlayer.getXp());
@@ -71,7 +71,7 @@ public class BottomPanel extends JPanel {
 		return new Dimension(getParent().getWidth(), (int) (getParent().getHeight() * HEIGHT_RATIO));
 	}
 
-	public void addGameChat(String output) {
+	protected void addGameChat(String output) {
 		while (chatPane == null) {
 			try {
 				Thread.sleep(10);
@@ -82,12 +82,12 @@ public class BottomPanel extends JPanel {
 		chatPane.addGameChat(output);
 	}
 
-	public void addChat(String text) {
+	protected void addChat(String text) {
 		chatPane.addChat(text);
 
 	}
 
-	public void sendChat(String chatInput) {
+	protected void sendChat(String chatInput) {
 		parent.sendChat(chatInput);
 
 	}
@@ -97,11 +97,20 @@ public class BottomPanel extends JPanel {
 
 	}
 
+	/**
+	 * Adds an item to the player inventory.
+	 * @param item
+	 */
+
 	public void addToInventory(Item item) {
 		inventoryPane.addItem(item);
 
 	}
 
+	/**
+	 * Loads all the items in a player inventory into gui display.
+	 * @param player
+	 */
 	public void loadInventory(Character player) {
 		int[] itemIDs = player.getItems();
 		for (int id : itemIDs) {

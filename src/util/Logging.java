@@ -15,7 +15,7 @@ import util.Logging.Levels;
 /**
  * A class to log events in a .log file.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class Logging {

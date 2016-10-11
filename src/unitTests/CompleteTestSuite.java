@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    	unitTests.ClientServerTests.class,
+    	unitTests.CharacterTests.class,
         unitTests.DataTests.class,
         unitTests.GraphicsTests.class,
         unitTests.MiscTests.class,

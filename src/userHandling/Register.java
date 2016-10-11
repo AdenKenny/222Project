@@ -13,7 +13,7 @@ import util.Logging;
 /**
  * A class which handles registering a user and stores them in the database of users.
  *
- * @author Aden
+ * @author kennyaden - 300334300
  */
 
 public final class Register {
@@ -135,7 +135,7 @@ public final class Register {
 	 * doesn't exist.
 	 *
 	 * @param username The username of the user we're trying to get.
-	 * @return 
+	 * @return
 	 *			A User object with the username that was passed to this method.
 	 *			If the user does not exist null will be returned.
 	 */
