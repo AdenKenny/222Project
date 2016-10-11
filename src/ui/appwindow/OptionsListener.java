@@ -3,10 +3,13 @@ package ui.appwindow;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 
-/*
+/**
  * Mouse listener for selecting the correct list item
  * and hiding on mouse exit of the OptionsPane list.
  * An instance is created each time the OptionsPane is displayed.
+ *
+ * @author normanclin
+ *
  */
 
 public class OptionsListener implements MouseInputListener{

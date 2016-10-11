@@ -13,6 +13,13 @@ import javax.swing.JPanel;
 import Graphics.ImageCache;
 import gameWorld.item.Item;
 
+/**
+ * Pane for holding the images of a players inventory items.
+ * Responsible for responding to clicks.
+ *
+ * @author normanclin
+ *
+ */
 public class InventoryPane extends JPanel{
 	public static final float WIDTH_RATIO = 0.34f;
 	static int ROWS;
@@ -74,7 +81,7 @@ public class InventoryPane extends JPanel{
 	 * Uses the item clicked on to call for an options list to be displayed.
 	 */
 	private void showOptions(Item item, int x, int y) {
-		client.displayItemOptions(null, x, y); //TODO: fix to deal with Item instead of entity
+		client.displayItemOptions(item, x, y);
 	}
 
 	/*
@@ -118,7 +125,8 @@ public class InventoryPane extends JPanel{
 				if(items[i][j] != null){
 					//draw the item based on its name
 					try {
-						Image icon = icons.getResource("resources/graphics/"+ items[i][j].getName());
+						System.out.println("/resources/graphics/"+ items[i][j].getName()+".png");
+						Image icon = icons.getResource("/resources/graphics/"+ items[i][j].getName()+".png");
 						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 					} catch (IOException e) {
 						e.printStackTrace();
