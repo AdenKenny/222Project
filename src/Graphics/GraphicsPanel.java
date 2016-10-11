@@ -679,7 +679,6 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
 	@Override
 	public void event(String eventName) {
-		System.out.println("An event!");
 		toFlash = eventName;
 	}
 
