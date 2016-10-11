@@ -113,38 +113,38 @@ public class Slave extends Thread {
 		}
 	}
 
-	public void login(String username, String password) {
+	public void login(String username, char[] password) {
 		if (!this.connected) {
 			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
-		byte[] toSend = new byte[username.length() + password.length() + 2];
+		byte[] toSend = new byte[username.length() + password.length + 2];
 		toSend[0] = PackageCode.Codes.LOGIN_ATTEMPT.value();
 		int i = 1;
 		for (char c : username.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
 		toSend[i++] = PackageCode.Codes.BREAK.value();
-		for (char c : password.toCharArray()) {
+		for (char c : password) {
 			toSend[i++] = (byte) c;
 		}
 		this.username = username;
 		send(toSend);
 	}
 
-	public void newUser(String username, String password) {
+	public void newUser(String username, char[] password) {
 		if (!this.connected) {
 			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
-		byte[] toSend = new byte[username.length() + password.length() + 2];
+		byte[] toSend = new byte[username.length() + password.length + 2];
 		toSend[0] = PackageCode.Codes.NEW_USER_ATTEMPT.value();
 		int i = 1;
 		for (char c : username.toCharArray()) {
 			toSend[i++] = (byte) c;
 		}
 		toSend[i++] = PackageCode.Codes.BREAK.value();
-		for (char c : password.toCharArray()) {
+		for (char c : password) {
 			toSend[i++] = (byte) c;
 		}
 		this.username = username;

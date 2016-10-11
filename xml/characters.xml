@@ -5,7 +5,7 @@
     <name>goblin</name>
     <type>MONSTER</type>
     <value>2</value>
-    <items>32, 15</items>
+    <items>25, 19</items>
     <description>A small green creature</description>
   </character>
   <character>
@@ -13,7 +13,7 @@
     <name>spider</name>
     <type>MONSTER</type>
     <value>1</value>
-    <items>2, 50, 23</items>
+    <items>206, 3</items>
     <description>An eight legged creature</description>
   </character>
   <character>
