@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -19,6 +18,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+/**
+ * Panel for displaying and typing game and player chat.
+ *
+ * @author normanclin
+ *
+ */
 public class ChatPane extends JPanel{
 	public static final float WIDTH_RATIO = 0.33f; //fraction of display width used
 	private BottomPanel parent;
