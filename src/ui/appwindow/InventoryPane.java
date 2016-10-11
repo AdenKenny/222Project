@@ -112,6 +112,7 @@ public class InventoryPane extends JPanel{
 				if(itemIndex == position){
 					isEquippedItem[i][j] = true;
 				}
+				position++;
 			}
 		}
 	}

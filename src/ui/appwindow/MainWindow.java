@@ -414,4 +414,9 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.waitForGame();
 	}
 
+	public void gameWon() {
+		WinningPanel won = new WinningPanel(this);
+		this.getLayeredPane().add(won, new Integer(300));
+	}
+
 }
