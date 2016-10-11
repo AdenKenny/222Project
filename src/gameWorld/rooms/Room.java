@@ -120,16 +120,13 @@ public class Room {
 	 */
 	public Set<Sendable> getSendables() {
 		Set<Sendable> sendables = new HashSet<>();
-		boolean b = false;
 		for (Entity[] es : this.entities) {
 			for (Entity e : es) {
 				if (e instanceof Sendable) {
-					b = true;
 					sendables.add((Sendable) e);
 				}
 			}
 		}
-		//if (b) System.out.println(sendables.size());
 		return sendables;
 	}
 
