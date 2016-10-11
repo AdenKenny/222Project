@@ -18,6 +18,8 @@ public class ClientSideGame extends Thread implements Game {
 	private final Map<Integer, Sendable> sendables;
 	private final Map<Integer, Boolean> receivedSendables;
 	private Room room;
+	private int floor;
+	private int characterID;
 	private Character player;
 	private String username;
 
@@ -34,8 +36,17 @@ public class ClientSideGame extends Thread implements Game {
 
 	public void newRoom(byte[] received) {
 		this.sendables.clear();
-		this.player = null;
-		this.room = new Room(null, received[1], received[2], received[3], received[3]);
+		
+		// clean up room before moving to new room
+		if (this.room != null && this.player != null) {
+			this.room.entities()[this.player.yPos()][this.player.xPos()] = null;
+		}
+		this.room = new Room(null, received[1], received[2], received[3], received[4]);
+		if (this.player != null) {
+			this.sendables.put(this.characterID, this.player);
+			this.player.setRoom(this.room);
+		}
+
 		int doorCode = received[5];
 		this.room.setDoor(Direction.WEST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
@@ -44,7 +55,12 @@ public class ClientSideGame extends Thread implements Game {
 		this.room.setDoor(Direction.EAST, doorCode % 2 == 1);
 		doorCode = doorCode / 2;
 		this.room.setDoor(Direction.NORTH, doorCode % 2 == 1);
-		integrationGraphics.GraphicsPanel.moveRoom();
+		
+		this.floor = received[6];
+		
+		if (this.player != null) {
+			this.player.setRoom(this.room);
+		}
 	}
 
 	public void endSendables() {
@@ -60,6 +76,7 @@ public class ClientSideGame extends Thread implements Game {
 			this.receivedSendables.remove(key);
 			Sendable s = this.sendables.remove(key);
 			if (s instanceof Character) {
+				System.out.println("removing player");
 				Character c = (Character) s;
 				this.room.entities()[c.yPos()][c.xPos()] = null;
 			}
@@ -110,11 +127,12 @@ public class ClientSideGame extends Thread implements Game {
 			}
 			String username = name.toString();
 			Character toAdd = new Character(username);
-			if (username.equals(this.username)) {
+			if (this.player == null && username.equals(this.username)) {
 				this.player = toAdd;
+				this.characterID = ID;
 			}
 			toAdd.setAlive(isAlive);
-			toAdd.setFacing(facing);
+			toAdd.turn(facing);
 			toAdd.setHealth(health);
 			toAdd.setLevel(level);
 			toAdd.setXPos(xPos);
@@ -142,7 +160,7 @@ public class ClientSideGame extends Thread implements Game {
 
 			if (type.equals(Character.Type.MONSTER)) {
 				c.setAlive(received[2] == 1);
-				c.setFacing(Direction.values()[received[3]]);
+				c.turn(Direction.values()[received[3]]);
 				c.setHealth(Sendable.bytesToInt(received, 12));
 				c.setLevel(Sendable.bytesToInt(received, 16));
 				c.setXPos(Sendable.bytesToInt(received, 20));
@@ -150,7 +168,7 @@ public class ClientSideGame extends Thread implements Game {
 			}
 			else if (type.equals(Character.Type.PLAYER)) {
 				c.setAlive(received[2] == 1);
-				c.setFacing(Direction.values()[received[3]]);
+				c.turn(Direction.values()[received[3]]);
 				c.setHealth(Sendable.bytesToInt(received, 8));
 				c.setLevel(Sendable.bytesToInt(received, 12));
 				c.setXPos(Sendable.bytesToInt(received, 16));
@@ -183,6 +201,10 @@ public class ClientSideGame extends Thread implements Game {
 
 	public Room getRoom() {
 		return this.room;
+	}
+	
+	public int getFloor() {
+		return this.floor;
 	}
 
 	public synchronized Character getPlayer() {

@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+import gameWorld.characters.Character;
+
 /**
  * Displays players information
  *
@@ -20,23 +22,23 @@ public class StatsPane extends JPanel{
 	public static final int EXP = 3;
 	public static final int LEVEL = 4;
 	public static final int EXP_FOR_LEVEL = 5;
-
+	public static final int DAMAGE = 6;
+	
 	private int health= 70;
 	private int maxHealth= 100;
 	private int exp=20;
 	private int expForLevel=100;
 	private int level;
-
-	private boolean showStats = false;
+	private int damage;
+	
+	private boolean showStats = false;  //Tells paint() that there is relevant data loaded from player class.
 
 	public StatsPane(){
 		setVisible(true);
-
 	}
 
 	protected void initComponents() {
 		showStats = true;
-
 		revalidate();
 		repaint();
 	}
@@ -62,9 +64,12 @@ public class StatsPane extends JPanel{
 			g.fillRect(getWidth()/4, 140,getWidth()/2*(exp+1)/(expForLevel+1), 10);
 
 
+			//Level and damage text
 			g.setColor(Color.black);
-			g.setFont(new Font("Level "+level, Font.BOLD, 20));
-			g.drawString("Level "+level, getWidth()/2-40, 30);
+			g.setFont(new Font("Combat Level: "+level, Font.BOLD, 20));
+			g.drawString("Combat Level: "+level, getWidth()/2-80, 30);
+			g.setFont(new Font("Damage: "+damage, Font.BOLD, 15));
+			g.drawString("Damage: " + damage, getWidth()/2-40, 60);
 
 
             Graphics2D g2 = (Graphics2D) g;
@@ -96,9 +101,17 @@ public class StatsPane extends JPanel{
 		case EXP_FOR_LEVEL:
 			setTotalExp(value);
 			break;
+		case DAMAGE:
+			setDamage(value);
+			break;
 		default:
 			break;
 		}
+	}
+	
+	private void setDamage(int value) {
+		this.damage=value;
+		
 	}
 
 	protected void setHealth(int health) {
@@ -128,5 +141,22 @@ public class StatsPane extends JPanel{
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((int) (getParent().getWidth()*WIDTH_RATIO), (int) (getParent().getHeight()));
+	}
+
+	/**
+	 * Updates the stats pane to reflect any changes to the specified
+	 * Character's statistics.
+	 * 
+	 * @param player
+	 *            The Character whose stats are being displayed
+	 */
+	public void updateStats(Character player) {
+		this.setHealth(player.getHealth());
+		this.setMaxHealth(player.getMaxHealth());
+		this.setLevel(player.getLevel());
+		this.setExp(player.getXp());
+		this.setTotalExp(player.getXpForLevel());
+		this.setDamage(player.getAttack());
+		this.repaint();
 	}
 }
