@@ -79,6 +79,10 @@ public class ServerSideGame implements Game {
 		this.byteArrays.clear();
 		for (Room[] rooms : current.rooms()) {
 			for (Room room : rooms) {
+				if(room == null) {
+					continue;
+				}
+
 				Set<Sendable> sendables = room.getSendables();
 				byte[][] data = new byte[sendables.size() + 1][];
 				int i = 0;

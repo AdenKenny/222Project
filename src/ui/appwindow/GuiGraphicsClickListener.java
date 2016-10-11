@@ -13,7 +13,7 @@ public class GuiGraphicsClickListener implements GraphicsClickListener {
 
 	@Override
 	public void onClick(Entity entity, boolean alt, int x, int y) {
-		System.out.println("Got graphics Click");
+		//System.out.println("Got graphics Click");
 		client.displayItemOptions(entity, x, y);
 		if(entity==null) return;
 

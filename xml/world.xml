@@ -1,7 +1,7 @@
 <world>
 	<floor>
 		<level>1</level>
-		<width>1</width>
+		<width>2</width>
 		<depth>3</depth>
 		<room>
 			<playerSpawn>true</playerSpawn>
@@ -19,13 +19,25 @@
 			<playerSpawn>false</playerSpawn>
 			<npcSpawn>true</npcSpawn>
 			<targetRoom>false</targetRoom>
+			<modelID>1001</modelID>
+			<xPos>1</xPos>
+			<yPos>0</yPos>
+			<width>9</width>
+			<depth>9</depth>
+			<level>-1</level>
+			<entities>23000</entities>
+		</room>
+		<room>
+			<playerSpawn>false</playerSpawn>
+			<npcSpawn>true</npcSpawn>
+			<targetRoom>false</targetRoom>
 			<modelID>1000</modelID>
 			<xPos>0</xPos>
 			<yPos>1</yPos>
 			<width>9</width>
 			<depth>9</depth>
 			<level>-1</level>
-			<entities>23000, 2000</entities>
+			<entities>23000</entities>
 		</room>
 		<room>
 			<playerSpawn>false</playerSpawn>
