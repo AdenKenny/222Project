@@ -84,7 +84,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 	/**
 	 * Returns the Type of the Character being built.
-	 * 
+	 *
 	 * @return The Type of the Character being built.
 	 */
 	public Character.Type getType() {
@@ -99,7 +99,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 	/**
 	 * Returns a Set of Integers representing the Items that the Character being
 	 * built has.
-	 * 
+	 *
 	 * @return The Items of the Character being built.
 	 */
 	public Set<Integer> getSetOfItems() {
@@ -116,12 +116,18 @@ public final class CharacterBuilder implements AbstractBuilder {
 		return this.description;
 	}
 
+	/**
+	 * Builds a CharacterModel from the fields that were set by the BuilderBuilder.
+	 *
+	 *@return A CharacterModel with the fields that were given to the builder.
+	 */
+
 	@Override
 	public CharacterModel build() {
 
 		if (this.buildID == null || this.buildName == null || this.buildType == null || this.buildValue == null
 				|| this.buildItems == null || this.buildDescription == null) {
-			return null;
+			return null; //Make sure no fields are null.
 		}
 
 		try {
@@ -132,7 +138,7 @@ public final class CharacterBuilder implements AbstractBuilder {
 			setItems(this.buildItems);
 			this.description = this.buildDescription;
 
-			return new CharacterModel(this);
+			return new CharacterModel(this); //All okay CharacterModel.
 		}
 
 		catch (NumberFormatException e) {
@@ -141,12 +147,16 @@ public final class CharacterBuilder implements AbstractBuilder {
 
 		}
 
-		return null;
+		return null; //There was a problem.
 	}
 
+	/**
+	 * This should never be called. Not used for a character.
+	 */
+
 	@Override
+	@Deprecated
 	public void setSaleValue(String value) {
 		throw new AssertionError();
 	}
-
 }
