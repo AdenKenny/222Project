@@ -104,10 +104,11 @@ public class BottomPanel extends JPanel {
 
 	public void loadInventory(Character player) {
 		int[] itemIDs = player.getItems();
-		System.out.println("items size: " + itemIDs.length);
 		for (int id : itemIDs) {
-			System.out.println("Adding Item");
-			inventoryPane.addItem(Game.mapOfItems.get(id));
+			if (id > 0) {
+				System.out.println("Adding Item");
+				inventoryPane.addItem(Game.mapOfItems.get(id));
+			}
 		}
 	}
 

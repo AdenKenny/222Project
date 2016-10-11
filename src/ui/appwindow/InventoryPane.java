@@ -74,7 +74,7 @@ public class InventoryPane extends JPanel{
 	 * Uses the item clicked on to call for an options list to be displayed.
 	 */
 	private void showOptions(Item item, int x, int y) {
-		client.displayItemOptions(null, x, y); //TODO: fix to deal with Item instead of entity
+		client.displayItemOptions(item, x, y);
 	}
 
 	/*
@@ -88,6 +88,7 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] == null){
 					items[i][j] = item;
+					System.out.println("items["+i+"]["+j+"] = "+item.getName());
 					this.repaint();
 					return;
 				}

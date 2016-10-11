@@ -2,72 +2,15 @@
 <game>
   <players>
     <player>
-      <username>Arthas</username>
-      <UID>9</UID>
-      <type>PLAYER</type>
-      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-    </player>
-    <player>
-      <username>Aden</username>
-      <UID>307</UID>
-      <type>PLAYER</type>
-      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
-      <health>100</health>
-      <xp>52</xp>
-      <gold>8</gold>
-      <level>1</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-    </player>
-    <player>
       <username>Test</username>
-      <UID>289</UID>
+      <UID>10</UID>
       <type>PLAYER</type>
       <items>3, -1, -1, -1, -1, -1, -1, -1</items>
       <health>100</health>
-      <xp>26</xp>
-      <gold>66</gold>
+      <xp>52</xp>
+      <gold>6</gold>
       <level>1</level>
       <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-    </player>
-    <player>
-      <username>Simon</username>
-      <UID>29</UID>
-      <type>PLAYER</type>
-<<<<<<< HEAD
-      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
-=======
-      <items>1, 2</items>
->>>>>>> refs/heads/master
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-    </player>
-    <player>
-      <username>janef</username>
-      <UID>298</UID>
-      <type>PLAYER</type>
-<<<<<<< HEAD
-      <items>-1, -1, -1, -1, -1, -1, -1, -1</items>
-      <health>100</health>
-      <xp>30</xp>
-      <gold>20</gold>
-      <level>2</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-=======
-      <items>-1</items>
-      <health>45</health>
-      <xp>81</xp>
-      <gold>43</gold>
-      <level>3</level>
-      <equips/>
->>>>>>> refs/heads/master
     </player>
   </players>
   <monsters/>
