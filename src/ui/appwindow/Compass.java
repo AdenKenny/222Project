@@ -26,7 +26,8 @@ public class Compass extends JPanel {
 		}
 		setOpaque(false);
 		setBackground(new Color(0,0,0,0));
-		setBounds(new Rectangle(parent.getWidth()-55, 90, 50, 50));
+		//setBounds(new Rectangle(parent.getWidth()-55, 90, 50, 50));
+		setBounds(new Rectangle(parent.getWidth()-55, (int) (parent.getHeight()*0.7), 50, 50));
 	}
 
 	@Override
@@ -35,7 +36,12 @@ public class Compass extends JPanel {
 		g.drawImage(compass, 0, 0, getWidth(), getHeight(), null);
 		g.setColor(Color.black);
 		g.setFont(new Font(direction, Font.BOLD, 15));
-		g.drawString(direction, getWidth()/2-5, getHeight()/2-5);
+		if(direction.equals("W")){
+			g.drawString(direction, getWidth()/2-8, getHeight()/2-5);
+		}
+		else{
+			g.drawString(direction, getWidth()/2-5, getHeight()/2-5);
+		}
 
 	}
 
