@@ -70,9 +70,6 @@ public class CharacterTests {
 		assertEquals(-1, c.yPos());
 		assertEquals(100, c.getXpForLevel());
 		assertEquals(10, c.getDamage());
-
-		// and just another quick check to make sure ID's are working properly
-		assertEquals(10, Entity.getNewID());
 	}
 
 	@Test
@@ -142,9 +139,6 @@ public class CharacterTests {
 		assertEquals(3, c.getGold());
 		assertEquals(20, c.getXp());
 		assertFalse(c.isAlive());
-
-		// one last little check
-		assertEquals(Entity.getNewID(), c.ID() + 1);
 	}
 
 	@Test
@@ -212,9 +206,6 @@ public class CharacterTests {
 		assertEquals(-1, c.getGold());
 		assertEquals(-1, c.getXp());
 		assertFalse(c.isAlive());
-
-		// one last little check
-		assertEquals(Entity.getNewID(), c.ID() + 1);
 	}
 
 	@Test
