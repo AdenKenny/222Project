@@ -23,7 +23,6 @@ public class InfoPane extends JPanel {
 	private JButton logoutButton;
 	private JLabel floorLabel;
 	private JLabel goldLabel;
-
 	private SpringLayout layout;
 
 	public InfoPane() {
@@ -94,19 +93,19 @@ public class InfoPane extends JPanel {
 		return new Dimension(getParent().getWidth(), HEIGHT);
 	}
 
-	public void setRoom(int floor, Room room) {
+	protected void setRoom(int floor, Room room) {
 		floorLabel.setText("Floor " + floor + ", Room (" + room.xPos() + ", " + room.yPos() + ")");
 	}
 
-	public void updateGold(int amount) {
+	protected void updateGold(int amount) {
 		goldLabel.setText("Gold: " + amount);
 	}
 
-	public void showLogout() {
+	protected void showLogout() {
 		logoutButton.setVisible(true);
 	}
 
-	public void hideLogout() {
+	protected void hideLogout() {
 		logoutButton.setVisible(false);
 	}
 }

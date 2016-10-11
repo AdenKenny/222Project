@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import gameWorld.characters.Character;
 
 /**
- * Displays players information
- *
+ * Displays players information.
+ * @author normanclin
  */
 public class StatsPane extends JPanel{
 	public static final float WIDTH_RATIO = 0.33f;
@@ -30,7 +30,6 @@ public class StatsPane extends JPanel{
 	private int expForLevel=100;
 	private int level;
 	private int damage;
-
 	private boolean showStats = false;  //Tells paint() that there is relevant data loaded from player class.
 
 	public StatsPane(){
@@ -113,28 +112,24 @@ public class StatsPane extends JPanel{
 
 	}
 
-	protected void setHealth(int health) {
+	private void setHealth(int health) {
 		this.health = health;
 	}
 
-	protected void setMaxHealth(int maxHealth) {
+	private void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
 
-	protected void setExp(int exp) {
+	private void setExp(int exp) {
 		this.exp = exp;
 	}
 
-	protected void setTotalExp(int totalExp) {
+	private void setTotalExp(int totalExp) {
 		this.expForLevel = totalExp;
 	}
 
-	protected void setLevel(int level) {
+	private void setLevel(int level) {
 		this.level = level;
-	}
-
-	protected void setShowStats(boolean showStats) {
-		this.showStats = showStats;
 	}
 
 	@Override
@@ -147,9 +142,9 @@ public class StatsPane extends JPanel{
 	 * Character's statistics.
 	 *
 	 * @param player
-	 *            The Character whose stats are being displayed
+	 *     		The Character whose stats are being displayed
 	 */
-	public void updateStats(Character player) {
+	protected void updateStats(Character player) {
 		this.setHealth(player.getHealth());
 		this.setMaxHealth(player.getMaxHealth());
 		this.setLevel(player.getLevel());

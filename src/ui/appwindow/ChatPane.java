@@ -25,7 +25,6 @@ public class ChatPane extends JPanel{
 	protected JTextPane textArea;
 	protected JScrollPane scroll;
 	protected JTextArea inputBar;
-
 	private SpringLayout layout;
 
 	public ChatPane(BottomPanel parent){
@@ -50,7 +49,6 @@ public class ChatPane extends JPanel{
 		this.inputBar.setPreferredSize(new Dimension(550, 20));
 		this.textArea.setText("Welcome to RoomScape!\n");
 		this.inputBar.addKeyListener(new KeyListener() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
@@ -102,7 +100,7 @@ public class ChatPane extends JPanel{
 	 * Makes the JScrollPane scroll down to the bottom of the text area so
 	 * that the latest input is shown
 	 */
-	public void scrollToEnd() {
+	private void scrollToEnd() {
 		while (this.scroll == null) {
 			try {
 				Thread.sleep(10);
@@ -118,11 +116,11 @@ public class ChatPane extends JPanel{
 		return new Dimension((int) (getParent().getWidth()*WIDTH_RATIO), (int) (getParent().getHeight()));
 	}
 
-	void sendChat(String chatInput){
+	protected void sendChat(String chatInput){
 		this.parent.sendChat(chatInput);
 	}
 
-	public void addGameChat(String output){
+	protected void addGameChat(String output){
 		while (this.textArea == null) {
 			try {
 				Thread.sleep(10);
@@ -142,7 +140,7 @@ public class ChatPane extends JPanel{
 		scrollToEnd();
 	}
 
-	public void addChat(String text) {
+	protected void addChat(String text) {
 		StyledDocument current = this.textArea.getStyledDocument();
 		SimpleAttributeSet style = new SimpleAttributeSet();
 		StyleConstants.setItalic(style, true);
