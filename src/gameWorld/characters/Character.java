@@ -348,6 +348,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		int attack = attacker.getAttack(); // max ~1000
 		int defense = 0; // max 350
 		for (Item item : this.equips) {
+			if(item != null){
 			switch (item.getType()) {
 			case ARMOR:
 			case SHIELD:
@@ -357,6 +358,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			// $CASES-OMITTED$
 			default:
 				break;
+			}
 			}
 		}
 
