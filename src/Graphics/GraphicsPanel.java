@@ -172,18 +172,18 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	graphics.setColor(Color.BLACK);
     	int width = getWidth();
     	int height = getHeight();
-    	int yScale = (int) (height * 0.025);
+    	int yScale = (int) (height * 0.04);
     	graphics.fillRect(0, 0 , width, yScale);
     	graphics.fillRect(0, height - yScale, width, yScale);
     }
 
     private void renderCeiling(Graphics graphics){
-    	graphics.setColor(new Color(32, 32, 32));
+    	graphics.setColor(new Color(64, 64, 64));
 		graphics.fillRect( 0, 0, getWidth(), getHeight() / 2);
     }
 
     private void renderFloor(Graphics graphics){
-    	graphics.setColor(new Color(16, 16, 16));
+    	graphics.setColor(new Color(96, 96, 96));
         int height = getHeight() / 2;
         graphics.fillRect(0, height, getWidth(), height);
     }
@@ -303,10 +303,14 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
     private Image loadItemImage(String resourceName){
     	try {
-			return cache.getResource(resourceName);
+			return cache.getResource(getItemImagePath(resourceName));
 		} catch (IOException e) {
 			return null;
 		}
+    }
+    
+    private String getItemImagePath(String resourceName){
+    	return String.format("/resources/graphics/%s.png", resourceName);
     }
 
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
@@ -334,10 +338,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	}
 
 	private void doFlash(String toFlash, Graphics graphics){
-		try {
-			graphics.drawImage(cache.getResource(toFlash), 0, 0, getWidth(), getHeight(), null);
-		} catch (IOException e) {
-		}
+		graphics.drawImage(loadItemImage(toFlash), 0, 0, getWidth(), getHeight(), null);
 	}
 
 	private Image loadImage(String name, Side side) {
@@ -527,7 +528,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		int invertForwardDelta = viewDistance - forwardDelta;
 		int height = getHeight();
 		// Items further away should
-		int yScale = (int) (height * 0.025);
+		int yScale = (int) (height * 0.04);
 		int yPixel = yScale * forwardDelta;
 		int spriteHeight = height - (2 * yScale * forwardDelta);
 		int width = getWidth();
@@ -679,7 +680,6 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
 	@Override
 	public void event(String eventName) {
-		System.out.println("An event!");
 		toFlash = eventName;
 	}
 

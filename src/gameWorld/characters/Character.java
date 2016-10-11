@@ -900,7 +900,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			}
 			return bytes;
 		case PLAYER:
-			bytes = new byte[28 + this.name.length()];
+			byte itemsSize = (byte)this.items.size();
+			bytes = new byte[29 + itemsSize * 4 + this.name.length()];
 			bytes[0] = PackageCode.Codes.GAME_SENDABLE.value();
 			bytes[1] = this.type.sendableType().value();
 			bytes[2] = this.isAlive ? (byte) 1 : 0;
@@ -909,6 +910,14 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 			for (byte b : Sendable.intsToBytes(this.ID, this.health, this.xp, this.level, this.xPos, this.yPos)) {
 				bytes[i++] = b;
 			}
+			bytes[28] = itemsSize;
+			i = 29;
+			for (int item : items) {
+				for (byte b : Sendable.intToBytes(item)) {
+					bytes[i++] = b;
+				}
+			}
+			//add username
 			for (char c : this.name.toCharArray()) {
 				bytes[i++] = (byte) c;
 			}

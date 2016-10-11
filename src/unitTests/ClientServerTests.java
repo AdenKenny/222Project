@@ -26,7 +26,7 @@ public class ClientServerTests {
 		Slave slave = new Slave(main);
 		main.setSlave(slave);
 		slave.start();
-		slave.login("Simon", "hunter2");
+		slave.login("Simon", "hunter2".toCharArray());
 		ClientSideGame game = null;
 		while (game == null) {
 			game = slave.getGame();
