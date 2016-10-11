@@ -16,6 +16,12 @@ import gameWorld.characters.CharacterModel;
 import gameWorld.objects.StationaryObject;
 import gameWorld.rooms.Room;
 
+/**
+ * The game on the client
+ *
+ * @author popesimo
+ *
+ */
 public class ClientSideGame extends Thread implements Game {
 
 	//map of all items in the room sent by server: ID to object

@@ -7,6 +7,12 @@ import gameWorld.characters.CharacterModel;
 import gameWorld.item.Item;
 import gameWorld.objects.ObjectModel;
 
+/**
+ * The interface for client and server side games
+ *
+ * @author popesimo
+ *
+ */
 public interface Game {
 	public final static XMLReader reader = XMLReader.getInstance();
 	public final static Map<Integer, Item> mapOfItems = reader.getItems();
