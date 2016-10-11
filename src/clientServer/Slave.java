@@ -92,7 +92,7 @@ public class Slave extends Thread {
 					}
 
 					else if (data[0] == PackageCode.Codes.GAME_WON.value()) {
-						this.game.gameWon();
+						this.mainWindow.gameWon();
 					}
 				}
 
