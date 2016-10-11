@@ -239,6 +239,12 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         renderHealthBar((Character) player, data, graphics);
     }
     
+    /**
+     * RenderData
+     * @param character
+     * @param data
+     * @param graphics
+     */
     private void renderHealthBar(Character character, RenderData data, Graphics graphics){
     	//Calculate width of the healthbar.
     	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
@@ -258,7 +264,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
     	int height = (int) (data.height * 0.25);
-    	String nameOfItem = Game.mapOfItems.get(/*TODO: REPLACE */ 1).getName();
+    	String nameOfItem = Game.mapOfItems.get(drop.getItem()).getName();
     	graphics.drawImage(loadItemImage(nameOfItem), data.x, y, data.width, height, null);
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
