@@ -143,10 +143,11 @@ public final class RoomBuilder {
 	}
 
 	/**
-	 * Sets the entities which will spawn in the room. This could be a bush
-	 * or a something.
+	 * Sets the entities which will spawn in the room. This could be a bush or a
+	 * something.
 	 *
-	 * @param entities A string representing the entities.
+	 * @param entities
+	 *            A string representing the entities.
 	 */
 
 	public void setEntities(String entities) {
@@ -227,6 +228,15 @@ public final class RoomBuilder {
 		return this.level;
 	}
 
+	/**
+	 * Returns the IDs of the Entities that are spawned in the Room that is
+	 * being built by default.
+	 *
+	 * @return The Entities in the Room
+	 */
+	public Set<Integer> getEntity() {
+		return this.setOfEntities;
+	}
 
 	/**
 	 * Builds a Room given all the information that has been passed in. If not
@@ -240,8 +250,7 @@ public final class RoomBuilder {
 
 		if (this.buildPlayerSpawn == null || this.buildNpcSpawn == null || this.buildTargetRoom == null
 				|| this.buildModelID == null || this.buildXPos == null || this.buildYPos == null
-				|| this.buildWidth == null || this.buildDepth == null || this.buildLevel == null) {
-
+				|| this.buildWidth == null || this.buildDepth == null || this.buildLevel == null || this.buildEntities == null) {
 			return null;
 		}
 
@@ -255,6 +264,8 @@ public final class RoomBuilder {
 			this.width = Integer.parseInt(this.buildWidth);
 			this.depth = Integer.parseInt(this.buildDepth);
 			this.level = Integer.parseInt(this.buildLevel);
+			this.setOfEntities = new HashSet<>();
+			this.setOfEntities.add(Integer.parseInt(this.buildEntities));
 
 			if (this.playerSpawn) {
 				return new PlayerSpawn(this.floor, this);

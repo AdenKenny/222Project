@@ -4,15 +4,19 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import clientServer.Game;
 import gameWorld.Entity;
 import gameWorld.Floor;
 import gameWorld.Sendable;
 import gameWorld.World.Direction;
 
 import gameWorld.characters.Character;
+import gameWorld.objects.ObjectModel;
+import gameWorld.objects.StationaryObject;
 
 /**
- * A class to represent a Room within a Floor. Each Room is made up of a grid of Entities.
+ * A class to represent a Room within a Floor. Each Room is made up of a grid of
+ * Entities.
  *
  * @author Louis
  */
@@ -49,6 +53,33 @@ public class Room {
 		this.width = builder.getWidth();
 		this.depth = builder.getDepth();
 		this.entities = new Entity[this.depth][this.width];
+		for (Integer e : builder.getEntity()) {
+			int corner = (int) (Math.random() * 4);
+			ObjectModel model;
+			switch (corner) {
+			case 0:
+				model = Game.mapOfObjects.get(e);
+				this.entities[0][0] = new StationaryObject(model, this, 0, 0, Direction.NORTH);
+				break;
+			case 1:
+				model = Game.mapOfObjects.get(e);
+				this.entities[0][this.width - 1] = new StationaryObject(model, this, 0, this.width - 1,
+						Direction.NORTH);
+				break;
+			case 2:
+				model = Game.mapOfObjects.get(e);
+				this.entities[this.depth - 1][this.width - 1] = new StationaryObject(model, this, this.depth - 1,
+						this.width - 1, Direction.NORTH);
+				break;
+			case 3:
+				model = Game.mapOfObjects.get(e);
+				this.entities[this.depth - 1][0] = new StationaryObject(model, this, this.depth - 1, 0,
+						Direction.NORTH);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	/**
@@ -61,7 +92,8 @@ public class Room {
 	}
 
 	/**
-	 * Returns the Room immediately adjacent to this Room in the specified Direction.
+	 * Returns the Room immediately adjacent to this Room in the specified
+	 * Direction.
 	 *
 	 * @param direction
 	 * @return the Room in the Direction specified
@@ -93,7 +125,8 @@ public class Room {
 	}
 
 	/**
-	 * Sets whether this Room has a door on the wall in the given Direction or not.
+	 * Sets whether this Room has a door on the wall in the given Direction or
+	 * not.
 	 *
 	 * @param direction
 	 *            The Direction of the wall
@@ -105,7 +138,8 @@ public class Room {
 	}
 
 	/**
-	 * Returns the grid of Entities as a 2D array of Entities, with depth x width Entities.
+	 * Returns the grid of Entities as a 2D array of Entities, with depth x
+	 * width Entities.
 	 *
 	 * @return the Entities in this Room
 	 */
@@ -176,9 +210,10 @@ public class Room {
 	}
 
 	/**
-	 * Attempts to move the given Entity in the given Direction. If the given Direction is relative, moves the Entity relative to the
-	 * Direction it is currently facing, otherwise moves the Entity in the absolute Direction that is specified. Returns true if the move
-	 * succeeds, false otherwise.
+	 * Attempts to move the given Entity in the given Direction. If the given
+	 * Direction is relative, moves the Entity relative to the Direction it is
+	 * currently facing, otherwise moves the Entity in the absolute Direction
+	 * that is specified. Returns true if the move succeeds, false otherwise.
 	 *
 	 * @param entity
 	 *            The Entity to move
