@@ -23,174 +23,193 @@ import gameWorld.rooms.Room;
 /**
  * Created by kiwij on 22-Sep-16.
  */
-public class GraphicsPanel extends JPanel implements MouseListener {
+public class GraphicsPanel extends JPanel implements MouseListener, GameEventListener {
 
-	// The number of squares the character can see to either side.
-	private static final int viewWidth = 5;
-	// The number of squares the character can see ahead of them.
-	private static final int viewDistance = 10;
+    // The number of squares the character can see to either side.
+    private static final int viewWidth = 5;
+    // The number of squares the character can see ahead of them.
+    private static final int viewDistance = 10;
+    
+    private GraphicsClickListener clickListener;
 
-	private GraphicsClickListener clickListener;
+    public enum Side {
+        Front,
+        Right,
+        Back,
+        Left
+    }
 
-	public enum Side {
-		Front, Right, Back, Left
-	}
+    private enum Perspective {
+        North,
+        East,
+        South,
+        West
+    }
 
-	private enum Perspective {
-		North, East, South, West
-	}
+    // The size of each square to be displayed. Refreshed on each render.
+    int squarePixelHeight;
+    int squarePixelWidth;
 
-	// The size of each square to be displayed. Refreshed on each render.
-	int squarePixelHeight;
-	int squarePixelWidth;
+    private Character viewer;
+    
+    private ImageCache cache;
+    
+    private String toFlash;
+    
+    /**
+     * Records the onscreen positions of the entities.
+     */
+    private Map<Entity, RenderData> entityScreenLocations;
 
-	private Character viewer;
+    /**
+     * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
+     * @param inViewer
+     * @param initRoom
+     */
+    public GraphicsPanel(Character inViewer){
+        super();
+        cache = new ImageCache();
+        if (inViewer == null){
+        	throw new IllegalArgumentException("By passing this unacceptable null pointer, you have upset the dark ones, and they are now returning to enact vengeance upon humanity. You can only hope that Cthulthu eats you relatively quickly. \n \n (Just kidding, but null pointers are an unacceptable parameter for this constructor.)");
+        }
+        viewer = inViewer;
+        addMouseListener(this);
+        entityScreenLocations = new HashMap<Entity, RenderData>();
+    }
 
-	private ImageCache cache;
+    /**
+     * Set the object that the GraphicsPanel will notify if there is a click.
+     * @param input
+     */
+    public void setGraphicsClickListener(GraphicsClickListener input){
+        clickListener = input;
+    }
 
-	/**
-	 * Records the onscreen positions of the entities.
-	 */
-	private Map<Entity, RenderData> entityScreenLocations;
+    @Override
+    public void mouseClicked(MouseEvent event){
+        int x = event.getX();
+        int y = event.getY();
+        Entity entity = calculateClickedEntity(y, x);
+        if (entity != null){
+        	clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
+        }
+    }
+    
+    /**
+     * Calculates which entities has been clicked on.
+     * @param y
+     * @param x
+     * @return The entity that was clicked on, or null if not entity was clicked.
+     */
+    private Entity calculateClickedEntity(int y, int x){
+        // Calculate the upper most bound of all rendered items.
+        for (Entity entity : entityScreenLocations.keySet()){
+        	RenderData data = entityScreenLocations.get(entity);
+        	if (y >= data.y && y <= data.y + data.height && x >= data.x && x <= data.x + data.width){
+        		return entity;
+        	}
+        }
+        return null;
+    }
 
-	/**
-	 * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
-	 *
-	 * @param inViewer
-	 * @param initRoom
-	 */
-	public GraphicsPanel(Character inViewer) {
-		super();
-		this.cache = new ImageCache();
-		if (inViewer == null) {
-			throw new IllegalArgumentException("Null is an unacceptable parameter for inViewer!");
-		}
-		this.viewer = inViewer;
-		addMouseListener(this);
-		this.entityScreenLocations = new HashMap<Entity, RenderData>();
-	}
+    @Override
+    public void paintComponent(Graphics graphics) {
+    	if (toFlash != null){
+    		doFlash(toFlash, graphics);
+    		//Overwrite toFlash so the flash is not repeated.
+    		toFlash = null;
+    	} else {
+    		render(viewer,graphics);
+    	}
+    }
 
-	/**
-	 * Set the object that the GraphicsPanel will notify if there is a click.
-	 *
-	 * @param input
-	 */
-	public void setGraphicsClickListener(GraphicsClickListener input) {
-		this.clickListener = input;
-	}
+    private void render(Character character, Graphics graphics){
+    	Room room = character.room();
+        // Refresh the size of a square.
+        renderCeiling(graphics);
+        renderFloor(graphics);
+        drawCinematicBars(graphics);
+        int[] viewerLocation = locateViewer(character);
+        // If player is found, render.
+        if (viewerLocation[0] >= 0) {
+            for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta) {
+                for (int absSideDelta = viewWidth; absSideDelta >= 0; --absSideDelta) {
+                    //Render right
+                    renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta, room, graphics);
+                    //Render left
+                    renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta, room, graphics);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Draws two black bars on the top and bottom of the screen. These are cover up the floor and ceiling that is never covered
+     * up entity drawing routine.
+     * @param graphics
+     */
+    private void drawCinematicBars(Graphics graphics){
+    	graphics.setColor(Color.BLACK);
+    	int width = getWidth();
+    	int height = getHeight();
+    	int yScale = (int) (height * 0.025);
+    	graphics.fillRect(0, 0 , width, yScale);
+    	graphics.fillRect(0, height - yScale, width, yScale);
+    }
 
-	@Override
-	public void mouseClicked(MouseEvent event) {
-		int x = event.getX();
-		int y = event.getY();
-		Entity entity = calculateClickedEntity(y, x);
-		if (entity != null) {
-			this.clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
-		}
-	}
+    private void renderCeiling(Graphics graphics){
+    	graphics.setColor(new Color(32, 32, 32));
+		graphics.fillRect( 0, 0, getWidth(), getHeight() / 2);
+    }
 
-	/**
-	 * Calculates which entities has been clicked on.
-	 *
-	 * @param y
-	 * @param x
-	 * @return The entity that was clicked on, or null if not entity was clicked.
-	 */
-	private Entity calculateClickedEntity(int y, int x) {
-		// Calculate the upper most bound of all rendered items.
+    private void renderFloor(Graphics graphics){
+    	graphics.setColor(new Color(16, 16, 16));
+        int height = getHeight() / 2;
+        graphics.fillRect(0, height, getWidth(), height);
+    }
 
-		for (Entry<Entity, RenderData> entry : this.entityScreenLocations.entrySet()) {
-			RenderData data = entry.getValue();
-
-			if (y >= data.y && y <= data.y + data.height && x >= data.x && x <= data.x + data.width) {
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public void paintComponent(Graphics graphics) {
-		render(this.viewer, graphics);
-	}
-
-	private void render(Character character, Graphics graphics) {
-		Room room = character.room();
-		// Refresh the size of a square.
-		renderCeiling(graphics);
-		renderFloor(graphics);
-		drawCinematicBars(graphics);
-		int[] viewerLocation = locateViewer(character);
-		// If player is found, render.
-		if (viewerLocation[0] >= 0) {
-			for (int forwardDelta = viewDistance; forwardDelta > 0; --forwardDelta) {
-				for (int absSideDelta = viewWidth; absSideDelta >= 0; --absSideDelta) {
-					// Render right
-					renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], absSideDelta, forwardDelta,
-							room, graphics);
-					// Render left
-					renderEntity(character.facing(), viewerLocation[0], viewerLocation[1], -absSideDelta, forwardDelta,
-							room, graphics);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Draws two black bars on the top and bottom of the screen. These are cover up the floor and ceiling that is never covered up entity
-	 * drawing routine.
-	 *
-	 * @param graphics
-	 */
-	private void drawCinematicBars(Graphics graphics) {
-		graphics.setColor(Color.BLACK);
-		int width = getWidth();
-		int height = getHeight();
-		int yScale = (int) (height * 0.025);
-		graphics.fillRect(0, 0, width, yScale);
-		graphics.fillRect(0, height - yScale, width, yScale);
-	}
-
-	private void renderCeiling(Graphics graphics) {
-		graphics.setColor(new Color(32, 32, 32));
-		graphics.fillRect(0, 0, getWidth(), getHeight() / 2);
-	}
-
-	private void renderFloor(Graphics graphics) {
-		graphics.setColor(new Color(16, 16, 16));
-		int height = getHeight() / 2;
-		graphics.fillRect(0, height, getWidth(), height);
-	}
-
-	private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta,
-			int forwardDelta, Room room, Graphics graphics) {
-		int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta,
-				forwardDelta);
-		if (isLocationDoor(absoluteTarget, room)) {
-			renderDoor(sideDelta, forwardDelta, graphics);
-		} else if (isLocationWall(absoluteTarget, room)) {
-			renderWall(sideDelta, forwardDelta, graphics);
-		} else if (isLocationBlackSpace(absoluteTarget, room)) {
-			renderBlackSpace(sideDelta, forwardDelta, graphics);
-		} else {
-			Entity entity = getEntityAtLocation(room, absoluteTarget);
-			// Don't render null entities or the viewer.
-			if (entity != null && entity != this.viewer) {
-				String name;
-				if (entity.isPlayer()) {
-					name = "player";
-				} else {
-					name = entity.name();
-				}
-				RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
-				Side side = calculateSide(viewerDirection, entity.facing(), new int[] { viewerY, viewerX },
-						absoluteTarget);
-				graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height,
-						null);
-				this.entityScreenLocations.put(entity, location);
-			}
-		}
-	}
+    private static final int healthBarHeight = 20;
+    
+    private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
+        int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
+        if (isLocationDoor(absoluteTarget, room)){
+        	renderDoor(sideDelta, forwardDelta, graphics);
+        } else if (isLocationWall(absoluteTarget, room)){
+        	renderWall(sideDelta, forwardDelta, graphics);
+        } else if (isLocationBlackSpace(absoluteTarget, room)){
+        	renderBlackSpace(sideDelta, forwardDelta, graphics);
+        } else {
+	        Entity entity = getEntityAtLocation(room, absoluteTarget);
+	        //Don't render null entities or the viewer.
+	        if (entity != null && entity != viewer) {
+	        	String name;
+	        	if (entity.isPlayer()){
+	        		name = "player";
+	        	} else {
+	        		name = entity.name();
+	        	}
+	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
+	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
+	            //Record where the entity was rendered.
+	            entityScreenLocations.put(entity, location);
+		        //Render a health bar for characters.
+		        if (entity instanceof Character){
+		        	//Calculate width of the healthbar.
+		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
+		        	int healthBarWidth = (int) (relativeHealth * location.width);
+		        	//Draw the healthbar
+		        	graphics.setColor(Color.green);
+		        	graphics.fillRect(location.x, location.y - healthBarHeight, healthBarWidth, healthBarHeight);
+		        	//Calculate the location and width of the depleted section of the healthbar.
+		        	int depletedBarWidth = location.width - healthBarWidth;
+		        	int depletedBarX = location.x + healthBarWidth;
+		        	graphics.setColor(Color.red);
+		        	graphics.fillRect(depletedBarX, location.y - healthBarHeight, depletedBarWidth, healthBarHeight);
+		        }
+	        }
+        }
+    }
 
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
@@ -216,6 +235,10 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 		graphics.fillRect(location.x, location.y, location.width, location.height);
 	}
 
+	private void doFlash(String string, Graphics graphics){
+		
+	}
+	
 	private Image loadImage(String name, Side side) {
 		try {
 			return this.cache.getImage(resolveImageName(name, side));
@@ -551,6 +574,12 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent mouseEvent) {
 		// Do nothing
+	}
+
+	@Override
+	public void event(String eventName) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
