@@ -376,10 +376,4 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.waitForGame();
 	}
 
-	@Override
-	public void playMusic(String inMusicName) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

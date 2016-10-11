@@ -144,14 +144,14 @@ public class Login extends JPanel{
 		//username
 		userField.setSize(new Dimension(200, 20));
 		//layout.putConstraint(SpringLayout.WEST, userLabel, getWidth()/2-150, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.WEST, userLabel, getWidth()/2-170, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.WEST, userLabel, getWidth()/2-190, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, userLabel, 250, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.WEST, userField, 20, SpringLayout.EAST, userLabel);
 		layout.putConstraint(SpringLayout.NORTH, userField, 250, SpringLayout.NORTH, this);
 
 		//password
 		passField.setSize(new Dimension(200, 20));
-		layout.putConstraint(SpringLayout.WEST, passLabel, getWidth()/2-170, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.WEST, passLabel, getWidth()/2-190, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, passLabel, 290, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.WEST, passField, 20, SpringLayout.EAST, passLabel);
 		layout.putConstraint(SpringLayout.NORTH, passField, 290, SpringLayout.NORTH, this);
