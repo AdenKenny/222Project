@@ -39,7 +39,7 @@ public class ServerSideGame implements Game {
 			players.put(c.getName(), c); // Loads players into game.
 		}
 
-		FileVerifier.getInstance().checkFiles();
+		//FileVerifier.getInstance().checkFiles();
 
 		this.connectedPlayers = new HashMap<>();
 		this.textMessages = new ArrayList<>();
