@@ -125,7 +125,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		for (int item : model.getSetOfItems()) {
 			this.items[i++] = item;
 		}
-		while (this.items[this.itemIter] >= 0) {
+		while (this.items[this.itemIter] >= 0 && this.itemIter < this.items.length) {
 			++this.itemIter;
 		}
 		this.type = model.getType();
@@ -163,7 +163,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		for (int item : builder.getItems()) {
 			this.items[i++] = item;
 		}
-		while (this.items[this.itemIter] >= 0) {
+		while (this.items[this.itemIter] >= 0 && this.itemIter < this.items.length) {
 			++this.itemIter;
 		}
 		this.equipIndexes = new int[8];
@@ -172,7 +172,7 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 		for (int index : builder.getEquipIndexes()) {
 			this.equipIndexes[i++] = index;
 		}
-		while (this.equipIndexes[this.equipIter] >= 0) {
+		while (this.equipIndexes[this.equipIter] >= 0 && this.equipIter < this.equipIndexes.length) {
 			++this.equipIter;
 		}
 

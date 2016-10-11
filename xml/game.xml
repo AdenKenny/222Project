@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
-  <players>
-    <player>
-      <username>Test</username>
-      <UID>10</UID>
-      <type>PLAYER</type>
-      <items>3, 302, -1, -1, -1, -1, -1, -1</items>
-      <health>100</health>
-      <xp>52</xp>
-      <gold>528</gold>
-      <level>1</level>
-      <equips>-1, -1, -1, -1, -1, -1, -1, -1</equips>
-      <username>Aden</username>
-      <UID>16</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>50</health>
-      <xp>26</xp>
-      <gold>4</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-    <player>
-      <username>Simon</username>
-      <UID>29</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>90</health>
-      <xp>26</xp>
-      <gold>4</gold>
-      <level>1</level>
-      <equips/>
-    </player>
-  </players>
+  <players/>
   <monsters/>
   <vendors/>
 </game>
