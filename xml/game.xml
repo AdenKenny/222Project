@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
-<<<<<<< HEAD
-  <players>
-    <player>
-      <username>Arthas</username>
-      <UID>9</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
-    <player>
-      <username>Test</username>
-      <UID>45</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>100</health>
-      <xp>0</xp>
-      <gold>0</gold>
-      <level>1</level>
-      <equips>-1</equips>
-    </player>
-  </players>
-  <monsters/>
-  <vendors/>
-</game>
-=======
   <players/>
   <monsters/>
   <vendors/>
 </game>
->>>>>>> 36fb8d07de7c263744c018dac075df914fcd042e
