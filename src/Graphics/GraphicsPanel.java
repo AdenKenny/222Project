@@ -22,7 +22,7 @@ import gameWorld.rooms.Room;
 /**
  * Created by kiwij on 22-Sep-16.
  */
-public class GraphicsPanel extends JPanel implements MouseListener {
+public class GraphicsPanel extends JPanel implements MouseListener, GameEventListener {
 
     // The number of squares the character can see to either side.
     private static final int viewWidth = 5;
@@ -53,6 +53,8 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     
     private ImageCache cache;
     
+    private String toFlash;
+    
     /**
      * Records the onscreen positions of the entities.
      */
@@ -67,7 +69,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
         super();
         cache = new ImageCache();
         if (inViewer == null){
-        	throw new IllegalArgumentException("Null is an unacceptable parameter for inViewer!");
+        	throw new IllegalArgumentException("By passing this unacceptable null pointer, you have upset the dark ones, and they are now returning to enact vengeance upon humanity. You can only hope that Cthulthu eats you relatively quickly. \n \n (Just kidding, but null pointers are an unacceptable parameter for this constructor.)");
         }
         viewer = inViewer;
         addMouseListener(this);
@@ -111,7 +113,13 @@ public class GraphicsPanel extends JPanel implements MouseListener {
 
     @Override
     public void paintComponent(Graphics graphics) {
-        render(viewer,graphics);
+    	if (toFlash == null){
+    		doFlash(toFlash, graphics);
+    		//Overwrite toFlash so the flash is not repeated.
+    		toFlash = null;
+    	} else {
+    		render(viewer,graphics);
+    	}
     }
 
     private void render(Character character, Graphics graphics){
@@ -188,7 +196,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void renderWall(int sideDelta, int forwardDelta, Graphics graphics){
     	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/wall.png"), location.x, location.y, location.width, location.height, null);
+			graphics.drawImage(cache.getResource("/resources/graphics/wall.png"), location.x, location.y, location.width, location.height, null);
 		} catch (IOException e) {
 		}
     }
@@ -196,7 +204,7 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics){
     	RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
     	try {
-			graphics.drawImage(cache.getImage("/resources/graphics/door.png"), location.x, location.y, location.width, location.height, null);
+			graphics.drawImage(cache.getResource("/resources/graphics/door.png"), location.x, location.y, location.width, location.height, null);
 		} catch (IOException e) {
 		}
     }
@@ -207,9 +215,20 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     	graphics.fillRect(location.x, location.y, location.width, location.height);
     }
     
+    /**
+     * In effect, shows an image on the entire screen. This is used to flash over the screen.
+     */
+    private void doFlash(String resourceName, Graphics graphics){
+    	String resourceURL = String.format("/resources/graphics/%s.png", resourceName);
+    	try {
+			graphics.drawImage(cache.getResource(resourceURL), 0, 0, getWidth(), getHeight(), null);
+		} catch (IOException e) {
+		}
+    }
+    
     private Image loadImage(String name, Side side){
         try {
-            return cache.getImage(resolveImageName(name, side));
+            return cache.getResource(resolveImageName(name, side));
         } catch (IOException ioe){
             return null;
         }
@@ -573,5 +592,10 @@ public class GraphicsPanel extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent mouseEvent) {
         // Do nothing
     }
+
+	@Override
+	public void event(String eventName) {
+		toFlash = eventName;
+	}
 
 }
