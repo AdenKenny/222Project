@@ -6,7 +6,9 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -59,8 +61,19 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     /**
      * Records the onscreen positions of the entities.
      */
-    private Map<Entity, RenderData> entityScreenLocations;
+    private List<Bundle> entityScreenLocations;
 
+    private class Bundle {
+    	final Entity entity;
+    	final RenderData renderData;
+    	
+    	public Bundle(Entity inEntity, RenderData inRenderData){
+    		entity = inEntity;
+    		renderData = inRenderData;
+    	}
+    	
+    }
+    
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
      * @param inViewer
@@ -74,7 +87,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         }
         viewer = inViewer;
         addMouseListener(this);
-        entityScreenLocations = new HashMap<Entity, RenderData>();
+        entityScreenLocations = new ArrayList<>();
     }
 
     /**
@@ -103,10 +116,10 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
      */
     private Entity calculateClickedEntity(int y, int x){
         // Calculate the upper most bound of all rendered items.
-        for (Entity entity : entityScreenLocations.keySet()){
-        	RenderData data = entityScreenLocations.get(entity);
+        for (Bundle bundle : entityScreenLocations){
+        	RenderData data = bundle.renderData;
         	if (y >= data.y && y <= data.y + data.height && x >= data.x && x <= data.x + data.width){
-        		return entity;
+        		return bundle.entity;
         	}
         }
         return null;
@@ -124,6 +137,8 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     }
 
     private void render(Character character, Graphics graphics){
+    	//Refresh the entityScreenLocations list.
+    	entityScreenLocations = new ArrayList<>();
     	Room room = character.room();
         // Refresh the size of a square.
         renderCeiling(graphics);
@@ -192,11 +207,12 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
 	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
 	            //Record where the entity was rendered.
-	            entityScreenLocations.put(entity, location);
+	            entityScreenLocations.add(new Bundle(entity, location));
 		        //Render a health bar for characters.
 		        if (entity instanceof Character){
 		        	//Calculate width of the healthbar.
-		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
+		        	double relativeHealth = (double) ((Character) entity).getHealth() / (double) ((Character) entity).getMaxHealth();
+		        	System.out.println(relativeHealth);
 		        	int healthBarWidth = (int) (relativeHealth * location.width);
 		        	//Draw the healthbar
 		        	graphics.setColor(Color.green);
