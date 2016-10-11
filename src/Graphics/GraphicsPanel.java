@@ -214,7 +214,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {
-			graphics.drawImage(this.cache.getImage("/resources/graphics/wall.png"), location.x, location.y,
+			graphics.drawImage(this.cache.getResource("/resources/graphics/wall.png"), location.x, location.y,
 					location.width, location.height, null);
 		} catch (IOException e) {
 		}
@@ -223,25 +223,28 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	private void renderDoor(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {
-			graphics.drawImage(this.cache.getImage("/resources/graphics/door.png"), location.x, location.y,
+			graphics.drawImage(this.cache.getResource("/resources/graphics/door.png"), location.x, location.y,
 					location.width, location.height, null);
 		} catch (IOException e) {
 		}
 	}
-
+	
 	private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		graphics.setColor(Color.BLACK);
 		graphics.fillRect(location.x, location.y, location.width, location.height);
 	}
 
-	private void doFlash(String string, Graphics graphics){
-		
+	private void doFlash(String toFlash, Graphics graphics){
+		try {
+			graphics.drawImage(cache.getResource(toFlash), 0, 0, getWidth(), getHeight(), null);
+		} catch (IOException e) {
+		}
 	}
 	
 	private Image loadImage(String name, Side side) {
 		try {
-			return this.cache.getImage(resolveImageName(name, side));
+			return this.cache.getResource(resolveImageName(name, side));
 		} catch (IOException ioe) {
 			return null;
 		}
