@@ -84,7 +84,6 @@ public class Master extends Thread {
 							this.game.keyPress(this.uid, received[0]);
 						}
 						else if (received[0] == PackageCode.Codes.PERFORM_ACTION.value()) {
-							System.out.println("received action packet");
 							this.game.performActionOnEntity(this.uid, received);
 						}
 					}

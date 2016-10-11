@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import Graphics.GameEventListener;
 import clientServer.Game;
 import clientServer.PackageCode;
 import gameWorld.Action;
@@ -77,6 +78,9 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	// Would prefer not to have this hard-coded, but for now this is simplest
 	private static final int ATTACK_SPEED = 1000; // ms
 
+	/* Listeners */
+	private ArrayList<GameEventListener> listeners;
+
 	/* Fields for all characters */
 	private Type type; // ?
 	private List<Integer> items;
@@ -109,6 +113,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	public Character(Room room, int xPos, int yPos, Direction facing, int level, CharacterModel model) {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
 
+		this.listeners = new ArrayList<>(2);
+
 		this.modelID = model.getID();
 		this.items = new ArrayList<>(model.getSetOfItems());
 		this.type = model.getType();
@@ -127,6 +133,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	public Character(PlayerBuilder builder) {
 		super(null, -1, -1, builder.getName(), builder.getDescription(), null);
+
+		this.listeners = new ArrayList<>(2);
 
 		this.ID = builder.getID();
 		adjustIDCount(this.ID);
@@ -152,6 +160,8 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 
 	public Character(String username) {
 		super(null, -1, -1, username, "A player, just like you!", null);
+
+		this.listeners = new ArrayList<>(2);
 
 		this.modelID = -1;
 		this.items = new ArrayList<>();
@@ -334,7 +344,6 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 *            The Character that is attacking this one
 	 */
 	public void tryAttack(Character attacker) {
-		System.out.println(attacker.name + " is attacking " + this.name);
 		if (attacker.room().equals(this.room)) {
 			if ((attacker.xPos == this.xPos - 1 || attacker.xPos == this.xPos + 1) && attacker.yPos == this.yPos
 					|| (attacker.yPos == this.yPos - 1 || attacker.yPos == this.yPos + 1)
@@ -391,6 +400,29 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 					c.setGold(c.getGold() + goldAmount);
 				}
 			}
+		}
+
+		if (this.isAlive) {
+			event("damage");
+		} else {
+			event("death");
+		}
+	}
+
+	/**
+	 * Adds the provided GameEventListener to listen to the events happening to
+	 * this Character.
+	 *
+	 * @param listener
+	 *            The listener to add
+	 */
+	public void addListener(GameEventListener listener) {
+		this.listeners.add(listener);
+	}
+
+	private void event(String event) {
+		for (GameEventListener listener : this.listeners) {
+			listener.event(event);
 		}
 	}
 

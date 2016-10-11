@@ -31,7 +31,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     private static final int viewWidth = 5;
     // The number of squares the character can see ahead of them.
     private static final int viewDistance = 10;
-    
+
     private GraphicsClickListener clickListener;
 
     public enum Side {
@@ -53,11 +53,11 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     int squarePixelWidth;
 
     private Character viewer;
-    
+
     private ImageCache cache;
-    
+
     private String toFlash;
-    
+
     /**
      * Records the onscreen positions of the entities.
      */
@@ -66,14 +66,14 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     private class Bundle {
     	final Entity entity;
     	final RenderData renderData;
-    	
+
     	public Bundle(Entity inEntity, RenderData inRenderData){
     		entity = inEntity;
     		renderData = inRenderData;
     	}
-    	
+
     }
-    
+
     /**
      * Create a new GraphicsPanel that displays the given room from the perspective of the given character.
      * @param inViewer
@@ -86,6 +86,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	throw new IllegalArgumentException("By passing this unacceptable null pointer, you have upset the dark ones, and they are now returning to enact vengeance upon humanity. You can only hope that Cthulthu eats you relatively quickly. \n \n (Just kidding, but null pointers are an unacceptable parameter for this constructor.)");
         }
         viewer = inViewer;
+        viewer.addListener(this);
         addMouseListener(this);
         entityScreenLocations = new ArrayList<>();
     }
@@ -107,7 +108,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	clickListener.onClick(entity, SwingUtilities.isRightMouseButton(event), x, y);
         }
     }
-    
+
     /**
      * Calculates which entities has been clicked on.
      * @param y
@@ -157,7 +158,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
             }
         }
     }
-    
+
     /**
      * Draws two black bars on the top and bottom of the screen. These are cover up the floor and ceiling that is never covered
      * up entity drawing routine.
@@ -184,7 +185,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     }
 
     private static final int healthBarHeight = 20;
-    
+
     private void renderEntity(World.Direction viewerDirection, int viewerY, int viewerX, int sideDelta, int forwardDelta, Room room, Graphics graphics){
         int[] absoluteTarget = calculateCoordinatesFromRelativeDelta(viewerDirection, viewerY, viewerX, sideDelta, forwardDelta);
         if (isLocationDoor(absoluteTarget, room)){
@@ -244,7 +245,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		} catch (IOException e) {
 		}
 	}
-	
+
 	private void renderBlackSpace(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		graphics.setColor(Color.BLACK);
@@ -257,7 +258,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		} catch (IOException e) {
 		}
 	}
-	
+
 	private Image loadImage(String name, Side side) {
 		try {
 			return this.cache.getResource(resolveImageName(name, side));
@@ -597,8 +598,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 
 	@Override
 	public void event(String eventName) {
-		// TODO Auto-generated method stub
-		
+		toFlash = eventName;
 	}
 
 }

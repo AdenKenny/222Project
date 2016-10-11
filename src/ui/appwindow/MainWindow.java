@@ -323,6 +323,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.slave = slave;
 	}
 
+	public GraphicsPanel getGraphicsPanel() {
+		if (this.display instanceof GraphicsPanel) {
+			return (GraphicsPanel) this.display;
+		}
+		return null;
+	}
+
 	public void waitForGame() {
 		while (!this.enterGame) {
 			// wait for user to login
