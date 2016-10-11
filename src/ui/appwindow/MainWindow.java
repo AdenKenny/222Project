@@ -143,6 +143,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void addGameChat(String output) {
+		while (bottomPanel == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		bottomPanel.addGameChat(output);
 
 	}
@@ -194,6 +201,7 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.slave.performActionOnEntity(entity, actionName);
 	}
 
+	@Override
 	public void performActionOnItem(Item clickedItem, String name) {
 		// this.slave.performActionOnItem(clickedItem, name); //TODO: implement
 	}

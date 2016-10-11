@@ -1,6 +1,7 @@
 package dataStorage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,11 +40,19 @@ public final class LoadGame implements XMLInteractable {
 
 	private LoadGame() {
 		this.setOfCharacters = readPlayers();
-		readRooms();
+
+		try {
+			readRooms();
+		}
+
+		catch (FileNotFoundException e) {
+			Logging.logEvent(LoadGame.class.getName(), Logging.Levels.SEVERE, "Failed to find world.xml");
+			e.printStackTrace();
+		}
 	}
 
 	public static synchronized LoadGame getInstance() { // Singleton.
-		if (INSTANCE == null) {
+		if (INSTANCE == null) { //Lazy.
 			INSTANCE = new LoadGame();
 		}
 
@@ -64,16 +73,17 @@ public final class LoadGame implements XMLInteractable {
 	 * Reads the rooms from file to create floors that the game is played on.
 	 */
 
-	private synchronized void readRooms() {
+	private synchronized void readRooms() throws FileNotFoundException {
 		File file = new File("xml/world.xml"); // We will read the floors from
 												// this file.
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder(); // Builders.
+
 			this.doc = docBuilder.parse(file); // Parse the file to a document.
 
-			this.doc.getDocumentElement().normalize();
+			this.doc.getDocumentElement().normalize(); //This is apparently important.
 
 			NodeList list = getNodes("floor"); // Get a list of the floors.
 
@@ -89,11 +99,11 @@ public final class LoadGame implements XMLInteractable {
 
 				ServerSideGame.world.addFloor(floor);
 
-				NodeList rooms = e.getElementsByTagName("room");
+				NodeList rooms = e.getElementsByTagName("room"); //Get all the rooms.
 
-				for (int j = 0, length = rooms.getLength(); j < length; ++j) {
+				for (int j = 0, length = rooms.getLength(); j < length; ++j) { //Iterate through rooms in rooms.
 
-					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) {
+					if (rooms.item(j).getNodeType() == Node.ELEMENT_NODE) { //Check cast.
 						Element child = (Element) rooms.item(j);
 
 						RoomBuilder build = new RoomBuilder(floor);
@@ -128,14 +138,17 @@ public final class LoadGame implements XMLInteractable {
 						String entities = child.getElementsByTagName("entities").item(0).getTextContent();
 						build.setEntities(entities);
 
-						Room room = build.build();
+						Room room = build.build(); //Build room with fields.
 
-						floor.addRoom(room, room.xPos(), room.yPos());
+						floor.addRoom(room, room.xPos(), room.yPos()); //Add the room to the floor.
 					}
 
+					else {
+						Logging.logEvent(LoadGame.class.getName(), Logging.Levels.SEVERE, "Improperly formated XML nodes in rooms");
+					}
 				}
 
-				floor.setupNeighbours();
+				floor.setupNeighbours(); //Calculate neighbours for floor.
 			}
 		}
 
@@ -249,10 +262,6 @@ public final class LoadGame implements XMLInteractable {
 
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
-	}
-
-	public static void main(String[] args) {
-		new LoadGame();
 	}
 
 }

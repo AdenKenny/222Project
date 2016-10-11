@@ -25,7 +25,7 @@ public class Slave extends Thread {
 	public Slave(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 		try {
-			this.socket = new Socket("127.0.0.1", 5000);
+			this.socket = new Socket("127.0.0.1", Server.PORT);
 			this.output = new DataOutputStream(this.socket.getOutputStream());
 			this.connected = true;
 		}
@@ -33,7 +33,7 @@ public class Slave extends Thread {
 			e.printStackTrace();
 		}
 		catch (ConnectException e) {
-			this.mainWindow.addGameChat("Unable to connect to server.");
+			this.connected = false;
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -43,6 +43,7 @@ public class Slave extends Thread {
 	@Override
 	public void run() {
 		if (!this.connected) {
+			this.mainWindow.addGameChat("Unable to connect to server.");
 			return;
 		}
 		try(DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
@@ -152,6 +153,9 @@ public class Slave extends Thread {
 
 	public synchronized void send(byte[] toSend) {
 		try {
+			if (this.output == null) {
+				return;
+			}
 			this.output.writeInt(toSend.length);
 			this.output.write(toSend);
 		}
@@ -203,6 +207,9 @@ public class Slave extends Thread {
 			byte[] disconnect = new byte[1];
 			disconnect[0] = PackageCode.Codes.DISCONNECT.value();
 			send(disconnect);
+			if (this.socket == null) {
+				return;
+			}
 			this.socket.close();
 		}
 		catch (SocketException e) {
@@ -241,9 +248,5 @@ public class Slave extends Thread {
 		}
 
 		send(toSend);
-	}
-
-	public static void main(String[] args) {
-		new Slave(null);
 	}
 }

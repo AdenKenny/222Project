@@ -37,11 +37,11 @@ public interface XMLInterface {
 	 * @param root
 	 *            The node which the element will be appended to.
 	 * @return The element that we created.
-	 *//*
+	 */
 
 	Element appendNode(String tagName, Element root);
 
-	*//**
+	/**
 	 * Appends an Element with an attribute to the tree. This method returns the
 	 * element that is created as other nodes may need to be appended to this
 	 * one.
@@ -55,9 +55,9 @@ public interface XMLInterface {
 	 * @param root
 	 *            The node which the element will be appended to.
 	 * @return The element that we created.
-	 *//*
+	 */
 
-	Element appendNode(String tagName, String attName, String attVal, Element root);*/
+	Element appendNode(String tagName, String attName, String attVal, Element root);
 
 	/**
 	 * Outputs the tree structure to a .xml file.

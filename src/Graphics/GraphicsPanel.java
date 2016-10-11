@@ -16,10 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import Graphics.GraphicsPanel.RenderData;
+import clientServer.Game;
 import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.objects.StationaryObject;
 import gameWorld.rooms.Room;
 
 /**
@@ -198,36 +200,110 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	        Entity entity = getEntityAtLocation(room, absoluteTarget);
 	        //Don't render null entities or the viewer.
 	        if (entity != null && entity != viewer) {
-	        	String name;
-	        	if (entity.isPlayer()){
-	        		name = "player";
-	        	} else {
-	        		name = entity.name();
-	        	}
-	            RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
+	            RenderData data = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 	            Side side = calculateSide(viewerDirection, entity.facing(), new int[] {viewerY, viewerX}, absoluteTarget);
-	            graphics.drawImage(loadImage(name, side), location.x, location.y, location.width, location.height, null);
-	            //Record where the entity was rendered.
-	            entityScreenLocations.add(new Bundle(entity, location));
-		        //Render a health bar for characters.
-		        if (entity instanceof Character){
-		        	//Calculate width of the healthbar.
-		        	double relativeHealth = (double) ((Character) entity).getHealth() / (double) ((Character) entity).getMaxHealth();
-		        	System.out.println(relativeHealth);
-		        	int healthBarWidth = (int) (relativeHealth * location.width);
-		        	//Draw the healthbar
-		        	graphics.setColor(Color.green);
-		        	graphics.fillRect(location.x, location.y - healthBarHeight, healthBarWidth, healthBarHeight);
-		        	//Calculate the location and width of the depleted section of the healthbar.
-		        	int depletedBarWidth = location.width - healthBarWidth;
-		        	int depletedBarX = location.x + healthBarWidth;
-		        	graphics.setColor(Color.red);
-		        	graphics.fillRect(depletedBarX, location.y - healthBarHeight, depletedBarWidth, healthBarHeight);
-		        }
+	            if (entity.isPlayer()){
+	            	renderPlayerEntity(entity, data, side, graphics);
+	            } else if (entity instanceof StationaryObject)  {
+	            	StationaryObject object = (StationaryObject) entity;
+	            	switch (object.getType()){
+	            		case DROP:
+	            			renderDrop(object, data, graphics);
+	            			break;
+	            		case CHEST:
+	            			renderChest(object, data, graphics);
+	            			break;
+	            		default:
+	            			renderStandardEntity(entity, data, side, graphics);
+	            	}
+	            } else {
+	            	renderStandardEntity(entity, data, side, graphics);
+	            }
 	        }
         }
     }
+    
+    /**
+     * Default entity rendering method.
+     * @param entity
+     * @param data
+     * @param side
+     * @param graphics
+     */
+    private void renderStandardEntity(Entity entity, RenderData data, Side side, Graphics graphics){
+    	graphics.drawImage(loadImage(entity.name(), side), data.x, data.y, data.width, data.height, null);
+        //Record where the entity was rendered.
+        entityScreenLocations.add(new Bundle(entity, data));
+        //Render a health bar for characters.
+        if (entity instanceof Character){
+        	renderHealthBar((Character) entity, data, graphics);
+        }
+    }
+    
+    /**
+     * Rendering method for players.
+     * @param player
+     * @param data
+     * @param side
+     * @param graphics
+     */
+    private void renderPlayerEntity(Entity player, RenderData data, Side side, Graphics graphics){
+    	graphics.drawImage(loadImage("player", side), data.x, data.y, data.width, data.height, null);
+        //Record where the player was rendered.
+        entityScreenLocations.add(new Bundle(player, data));
+        //Render a health bar.
+        renderHealthBar((Character) player, data, graphics);
+    }
+    
+    /**
+     * RenderData
+     * @param character
+     * @param data
+     * @param graphics
+     */
+    private void renderHealthBar(Character character, RenderData data, Graphics graphics){
+    	//Calculate width of the healthbar.
+    	double relativeHealth = (double) character.getHealth() / (double) character.getMaxHealth();
+    	System.out.println(relativeHealth);
+    	int healthBarWidth = (int) (relativeHealth * data.width);
+    	//Draw the healthbar
+    	graphics.setColor(Color.green);
+    	graphics.fillRect(data.x, data.y - healthBarHeight, healthBarWidth, healthBarHeight);
+    	//Calculate the location and width of the depleted section of the healthbar.
+    	int depletedBarWidth = data.width - healthBarWidth;
+    	int depletedBarX = data.x + healthBarWidth;
+    	graphics.setColor(Color.red);
+    	graphics.fillRect(depletedBarX, data.y - healthBarHeight, depletedBarWidth, healthBarHeight);
+    }
 
+    private void renderDrop(StationaryObject drop, RenderData data, Graphics graphics){
+    	//Render in lower fourth of sprite's space.
+    	int y = (int) (data.y + data.height * 0.75);
+    	int height = (int) (data.height * 0.25);
+    	System.out.println(drop.getItem());
+    	String nameOfItem = Game.mapOfItems.get(drop.getItem()).getName();
+    	graphics.drawImage(loadItemImage(nameOfItem), data.x, y, data.width, height, null);
+    	// Create new RenderData to reflect the peculiar rendering of drops.
+    	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
+    }
+    
+    private void renderChest(StationaryObject chest, RenderData data, Graphics graphics){
+    	//Render in lower half of sprite's space.
+    	int y = (int) (data.y + data.height * 0.5);
+    	int height = (int) (data.height * 0.5);
+    	graphics.drawImage(loadItemImage("chest"), data.x, y, data.width, height, null);
+    	// Create new RenderData to reflect the peculiar rendering of drops.
+    	entityScreenLocations.add(new Bundle(chest, new RenderData(y, data.x, height, data.width)));
+    }
+    
+    private Image loadItemImage(String resourceName){
+    	try {
+			return cache.getResource(resourceName);
+		} catch (IOException e) {
+			return null;
+		}
+    }
+    
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {

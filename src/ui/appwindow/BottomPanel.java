@@ -72,6 +72,13 @@ public class BottomPanel extends JPanel {
 	}
 
 	public void addGameChat(String output) {
+		while (chatPane == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		chatPane.addGameChat(output);
 	}
 
