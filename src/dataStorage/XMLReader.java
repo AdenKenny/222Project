@@ -77,7 +77,7 @@ public final class XMLReader implements XMLInteractable {
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("Room"); // Get all objects.
+			NodeList list = getNodes("object"); // Get all objects.
 
 			HashMap<Integer, ObjectModel> map = new HashMap<>();
 
