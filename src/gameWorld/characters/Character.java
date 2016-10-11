@@ -334,7 +334,6 @@ public class Character extends Entity implements Buildable, Sendable, Cloneable 
 	 *            The Character that is attacking this one
 	 */
 	public void tryAttack(Character attacker) {
-		System.out.println(attacker.name + " is attacking " + this.name);
 		if (attacker.room().equals(this.room)) {
 			if ((attacker.xPos == this.xPos - 1 || attacker.xPos == this.xPos + 1) && attacker.yPos == this.yPos
 					|| (attacker.yPos == this.yPos - 1 || attacker.yPos == this.yPos + 1)
