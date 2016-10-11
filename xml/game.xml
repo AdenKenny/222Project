@@ -50,13 +50,13 @@
       <UID>298</UID>
       <type>PLAYER</type>
       <items>-1</items>
-      <health>65</health>
+      <health>100</health>
       <xp>30</xp>
       <gold>20</gold>
       <level>2</level>
       <equips/>
     </player>
-</players>
+  </players>
   <monsters/>
   <vendors/>
 </game>

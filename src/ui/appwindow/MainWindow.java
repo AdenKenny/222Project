@@ -143,6 +143,13 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 
 	@Override
 	public void addGameChat(String output) {
+		while (bottomPanel == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		bottomPanel.addGameChat(output);
 
 	}

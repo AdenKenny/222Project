@@ -11,6 +11,8 @@ import util.Logging;
 
 public class Server {
 
+	public static final int PORT = 5000;
+
 	private ServerSideGame game;
 
 	public Server() {
@@ -25,7 +27,7 @@ public class Server {
 	public void run() {
 
 		//Connect to port 5000
-		try(ServerSocket ss = new ServerSocket(5000)) {
+		try(ServerSocket ss = new ServerSocket(PORT)) {
 			Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "The server was started.");
 
 			//start the game tick
