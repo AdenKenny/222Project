@@ -71,7 +71,7 @@ public class InfoPane extends JPanel {
 		layout.putConstraint(SpringLayout.WEST, floorLabel, 0, SpringLayout.HORIZONTAL_CENTER, this);
 		layout.putConstraint(SpringLayout.NORTH, floorLabel, 10, SpringLayout.NORTH, this);
 
-		layout.putConstraint(SpringLayout.EAST, goldLabel, 0, SpringLayout.EAST, this);
+		layout.putConstraint(SpringLayout.EAST, goldLabel, -30, SpringLayout.EAST, this);
 		layout.putConstraint(SpringLayout.NORTH, goldLabel, 10, SpringLayout.NORTH, this);
 
 	}

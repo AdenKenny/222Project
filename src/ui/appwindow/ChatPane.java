@@ -39,10 +39,10 @@ public class ChatPane extends JPanel{
 		this.textArea = new JTextPane();
 		this.scroll = new JScrollPane(this.textArea);
 		this.inputBar = new JTextArea();
-		this.layout.putConstraint(SpringLayout.WEST, this.scroll, 15, SpringLayout.WEST, this);
+		this.layout.putConstraint(SpringLayout.WEST, this.scroll, 25, SpringLayout.WEST, this);
 		this.layout.putConstraint(SpringLayout.NORTH, this.scroll, 15, SpringLayout.NORTH, this);
 		this.layout.putConstraint(SpringLayout.NORTH, this.inputBar, 3, SpringLayout.SOUTH, this.scroll);
-		this.layout.putConstraint(SpringLayout.WEST, this.inputBar, 15, SpringLayout.WEST, this);
+		this.layout.putConstraint(SpringLayout.WEST, this.inputBar, 25, SpringLayout.WEST, this);
 		this.textArea.setEditable(false);
 		this.inputBar.setEditable(true);
 		this.inputBar.setLineWrap(true);
@@ -80,6 +80,8 @@ public class ChatPane extends JPanel{
 
 	@Override
 	public void paint(Graphics g) {
+		this.scroll.setPreferredSize(new Dimension(getWidth()-80, getHeight()-60));
+		this.inputBar.setPreferredSize(new Dimension(getWidth()-80, 20));
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0,0,getWidth(),getHeight());
 		if(this.scroll!=null ){
@@ -101,6 +103,13 @@ public class ChatPane extends JPanel{
 	 * that the latest input is shown
 	 */
 	public void scrollToEnd() {
+		while (this.scroll == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		this.scroll.getVerticalScrollBar().setValue(this.scroll.getVerticalScrollBar().getMaximum());
 	}
 
@@ -114,6 +123,13 @@ public class ChatPane extends JPanel{
 	}
 
 	public void addGameChat(String output){
+		while (this.textArea == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		StyledDocument current = this.textArea.getStyledDocument();
 		SimpleAttributeSet style = new SimpleAttributeSet();
 		StyleConstants.setForeground(style, Color.RED);

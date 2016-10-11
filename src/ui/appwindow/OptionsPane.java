@@ -5,10 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.util.List;
-
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.item.Item;
@@ -117,4 +114,5 @@ public class OptionsPane extends JPanel  {
 				window.performActionOnItem(clickedItem, action.name());
 		}
 	}
+
 }
