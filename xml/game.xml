@@ -13,6 +13,7 @@
       <equips>-1</equips>
     </player>
     <player>
+<<<<<<< HEAD
       <username>Aden</username>
       <UID>30</UID>
       <type>PLAYER</type>
@@ -26,6 +27,10 @@
     <player>
       <username>Simon</username>
       <UID>29</UID>
+=======
+      <username>Simon</username>
+      <UID>54</UID>
+>>>>>>> 2a0e797b72426aee869ee4aeb2ef2ce1bfa9a500
       <type>PLAYER</type>
       <items>-1</items>
       <health>100</health>
