@@ -311,13 +311,6 @@ public class ClientSideGame extends Thread implements Game {
 	}
 
 	/**
-	 * Called by slave when the game is won
-	 */
-	public void gameWon() {
-		//TODO game won
-	}
-
-	/**
 	 * Get the current room the player is in
 	 *
 	 * @return current room
