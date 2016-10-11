@@ -40,14 +40,13 @@ public final class XMLReader implements XMLInteractable {
 	private XMLReader() { // Singleton pattern.
 
 		this.mapOfItems = readItems(); // Get items.
-		this.mapOfCharacters = readCharacters(); //Characters.
-		this.mapOfObjects = readObjects(); //Objects.
+		this.mapOfCharacters = readCharacters(); // Characters.
+		this.mapOfObjects = readObjects(); // Objects.
 	}
 
 	/**
-	 * Returns the instance of this (XMLReader) class as there can only be one as this class is a singleton.
-	 * If the class has not already been created a new one will be created and after that this method will
-	 * only return that single instance of the class.
+	 * Returns the instance of this (XMLReader) class as there can only be one as this class is a singleton. If the class has not already
+	 * been created a new one will be created and after that this method will only return that single instance of the class.
 	 *
 	 * @return A singleton of the XMLReader class.
 	 */
@@ -77,7 +76,7 @@ public final class XMLReader implements XMLInteractable {
 
 			this.doc.getDocumentElement().normalize();
 
-			NodeList list = getNodes("Room"); // Get all objects.
+			NodeList list = getNodes("object"); // Get all objects.
 
 			HashMap<Integer, ObjectModel> map = new HashMap<>();
 
@@ -87,7 +86,7 @@ public final class XMLReader implements XMLInteractable {
 				Element e = (Element) node;
 
 				try {
-					BuilderBuilder builder = new BuilderBuilder("Object"); //Object
+					BuilderBuilder builder = new BuilderBuilder("Object"); // Object
 
 					builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
 					builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
@@ -96,33 +95,26 @@ public final class XMLReader implements XMLInteractable {
 					builder.addField("items", e.getElementsByTagName("items").item(0).getTextContent());
 					builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
 
-					ObjectModel object = (ObjectModel) builder.build().build(); //Build the builder that builds the builder that builds the item.
+					ObjectModel object = (ObjectModel) builder.build().build(); // Build the builder that builds the builder that builds the
+																				// item.
 
 					map.put(object.getID(), object);
 				}
 
-				catch (UnsupportedOperationException unOp) { //This was passed up the hierarchy.
-					Throwable thrown = unOp.getCause(); //Get the cause unOp.
+				catch (UnsupportedOperationException unOp) { // This was passed up the hierarchy.
 
-					if(thrown == null) {
-						throw new NullPointerException();
-					}
+					String exMes = unOp.getMessage();
 
-					StackTraceElement[] stackEs = thrown.getStackTrace();
-
-					for(StackTraceElement ele : stackEs) {
-						//System.out.println(ele);
-					}
-
-					StackTraceElement stackEle = stackEs[2];
-
-					String s = stackEle.getMethodName();
-
-					System.out.println(s);
+					Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE,
+							"Wrong builder (type \"" + exMes + "\" is not appropriate).");
 				}
 
-				catch (IllegalArgumentException ilArg) { //This was passed up the hierarchy.
-					ilArg.printStackTrace();
+				catch (IllegalArgumentException ilArg) { // This was passed up the hierarchy.
+					String exMes = ilArg.getMessage();
+
+					Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE,
+							"Bad field (field \"" + exMes + "\" is not appropriate).");
+
 				}
 			}
 
@@ -170,18 +162,36 @@ public final class XMLReader implements XMLInteractable {
 
 				Element e = (Element) node; // This should be the base node of an item.
 
-				BuilderBuilder builder = new BuilderBuilder("Item");
+				try {
+					BuilderBuilder builder = new BuilderBuilder("Item");
 
-				builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
-				builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
-				builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
-				builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
-				builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
-				builder.addField("saleValue", e.getElementsByTagName("saleValue").item(0).getTextContent());
+					builder.addField("ID", e.getElementsByTagName("ID").item(0).getTextContent());
+					builder.addField("name", e.getElementsByTagName("name").item(0).getTextContent());
+					builder.addField("type", e.getElementsByTagName("type").item(0).getTextContent());
+					builder.addField("value", e.getElementsByTagName("value").item(0).getTextContent());
+					builder.addField("description", e.getElementsByTagName("description").item(0).getTextContent());
+					builder.addField("saleValue", e.getElementsByTagName("saleValue").item(0).getTextContent());
 
-				Item item = (Item) builder.build().build(); // Build the item.
+					Item item = (Item) builder.build().build(); // Build the item.
 
-				map.put(item.getID(), item); // Put item in map with ID as key.
+					map.put(item.getID(), item); // Put item in map with ID as key.
+				}
+
+				catch (UnsupportedOperationException unOp) { // This was passed up the hierarchy.
+
+					String exMes = unOp.getMessage();
+
+					Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE,
+							"Wrong builder (type \"" + exMes + "\" is not appropriate).");
+				}
+
+				catch (IllegalArgumentException ilArg) { // This was passed up the hierarchy.
+					String exMes = ilArg.getMessage();
+
+					Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE,
+							"Bad field (field \"" + exMes + "\" is not appropriate).");
+				}
+
 			}
 
 			return map;
@@ -203,7 +213,8 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a HashMap<Integer, CharacterModel> with the characters loaded in from XML mapped to their unique ID that was also got from the file.
+	 * Returns a HashMap<Integer, CharacterModel> with the characters loaded in from XML mapped to their unique ID that was also got from
+	 * the file.
 	 *
 	 * @return A map of <Integer, CharacterModel> representing all the characters loaded in.
 	 */
@@ -282,7 +293,7 @@ public final class XMLReader implements XMLInteractable {
 	}
 
 	/**
-	 * Returns a Map<Integer, Character of the characters that were loaded from XML. A character is mapped to ID.
+	 * Returns a Map<Integer, Character> of the characters that were loaded from XML. A character is mapped to ID.
 	 *
 	 * @return A Map<Integer, Character>.
 	 */
@@ -299,6 +310,12 @@ public final class XMLReader implements XMLInteractable {
 		return new HashMap<>();
 	}
 
+	/**
+	 * Returns a Map<Integer, ObjectModel> of the objects that were loaded from XML. An object is mapped to an ID.
+	 *
+	 * @return A Map<Integer, ObjectModel>.
+	 */
+
 	public Map<Integer, ObjectModel> getObjects() {
 		if (this.mapOfObjects.size() > 0) {
 			return this.mapOfObjects;
@@ -306,7 +323,7 @@ public final class XMLReader implements XMLInteractable {
 
 		Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE, "Failed to load objects from .xml file");
 
-		return new HashMap<>();
+		return new HashMap<>(); // Empty Map
 	}
 
 	/**
@@ -319,47 +336,5 @@ public final class XMLReader implements XMLInteractable {
 
 	private NodeList getNodes(String tagName) {
 		return this.doc.getElementsByTagName(tagName);
-	}
-
-	// TODO Implement this after integration day.
-	private static final class PosEnums {
-		private enum Position {
-			ID(0, "ID"), NAME(1, "name"), TYPE(2, "type"), VALUE(3, "value"), SALE_VALUE(4, "saleValue"), DESCRIPTION(5, "description");
-
-			private final int pos;
-			private final String name;
-
-			Position(int pos, String name) {
-				this.pos = pos;
-				this.name = name;
-			}
-
-			public int getPos() {
-				return this.pos;
-			}
-
-			public String getName() {
-				return this.name;
-			}
-
-			static Position getPos(int i) {
-				switch (i) {
-				case 0:
-					return Position.ID;
-				case 1:
-					return Position.NAME;
-				case 2:
-					return Position.TYPE;
-				case 3:
-					return Position.VALUE;
-				case 4:
-					return Position.SALE_VALUE;
-				case 5:
-					return Position.DESCRIPTION;
-				default:
-					return null;
-				}
-			}
-		}
 	}
 }

@@ -7,6 +7,13 @@ import java.util.Set;
 import gameWorld.objects.StationaryObject.Type;
 import util.Buildable;
 
+/**
+ * A model representing an object in the game. An object is a piece of furniture or such
+ * items that are mainly for decorative purposes.
+ *
+ * @author Aden
+ */
+
 public class ObjectModel implements Buildable {
 
 	private String name;
@@ -55,14 +62,17 @@ public class ObjectModel implements Buildable {
 	}
 
 	/**
-	 * Returns the IDs of the Items in the StationaryObject that this model represents.
-	 * DO NOT USE THIS METHOD, USE getItems() INSTEAD!
+	 * Returns the item contained in this object mode.
 	 *
-	 * @return The IDs of the Items in the StationaryObject that this model represents.
+	 * @return An int representing the ID of an object or 0 if there are no items.
 	 */
-	public Set<Integer> getItems() {
-		return null;
-	}
+
+	 /*"This is only ever going to return the first one right?"
+	 * "Yes."
+	 * "Is that ok?"
+	 * "Yes."
+	 * "K."
+	 */
 
 	public int getItem() {
 		for (int i : this.items) {
@@ -81,5 +91,4 @@ public class ObjectModel implements Buildable {
 		this.items = new HashSet<>();
 		this.items.add(item);
 	}
-
 }

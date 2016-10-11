@@ -63,15 +63,15 @@ public final class BuilderBuilder {
 		case "Object":
 			return new ObjectBuilder();
 		case "Player":
-			throw new UnsupportedOperationException(new Throwable()); // Can't do. Send error up hierarchy.
+			throw new UnsupportedOperationException(this.type); // Can't do. Send error up hierarchy.
 		case "Room":
-			throw new UnsupportedOperationException(new Throwable()); // Can't do. Send error up hierarchy.
+			throw new UnsupportedOperationException(this.type); // Can't do. Send error up hierarchy.
 		case "Item":
 			return new ItemBuilder();
 		case "Character":
 			return new CharacterBuilder();
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(this.type);
 		}
 	}
 
@@ -115,13 +115,13 @@ public final class BuilderBuilder {
 					break;
 				case "items":
 					if(builder instanceof ItemBuilder) { //Items aren't relevant to an item.
-						throw new IllegalArgumentException();
+						throw new IllegalArgumentException("items");
 					}
 					builder.setItems(this.fields.get(s));
 					break;
 				case "saleValue":
 					if(!(builder instanceof ItemBuilder)) { //Sale value is only relevant to items.
-						throw new IllegalArgumentException();
+						throw new IllegalArgumentException("saleValue");
 					}
 					builder.setSaleValue(this.fields.get(s));
 					break;
