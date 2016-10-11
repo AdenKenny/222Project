@@ -38,12 +38,12 @@ public class Master extends Thread {
 	@Override
 	public void run() {
 		Logging.logEvent(Server.class.getName(), Logging.Levels.EVENT, "User " + this.uid + " connected.");
+		//time since last response from client
 		int noResponse = 0;
-		try {
-			DataInputStream input = new DataInputStream(this.socket.getInputStream());
 
-			boolean exit = false;
-			while (!exit) {
+		try(DataInputStream input = new DataInputStream(this.socket.getInputStream())) {
+
+			while (true) {
 				//if data has not been received
 				if (input.available() == 0) {
 					noResponse++;
@@ -76,6 +76,7 @@ public class Master extends Thread {
 						break;
 					}
 
+					//if the user has logged in
 					if (this.inGame) {
 						if (received[0] == PackageCode.Codes.TEXT_MESSAGE.value()) {
 							textMessage(received);
@@ -91,6 +92,7 @@ public class Master extends Thread {
 						}
 					}
 
+					//if the user hasn't logged in
 					else {
 						if (received[0] == PackageCode.Codes.LOGIN_ATTEMPT.value()) {
 							login(received);
@@ -103,6 +105,7 @@ public class Master extends Thread {
 				//sending data
 				if (this.inGame) {
 					int gameCounter = this.game.getTickCounter();
+					//check that you haven't already gotten the game information this game tick
 					if (gameCounter != this.tickCounter) {
 						byte[] roomEntry = this.game.checkNewlyEntered(this.uid);
 						if (roomEntry != null) {

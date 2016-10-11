@@ -69,6 +69,25 @@ public class ServerSideGame implements Game {
 
 		//do spawn ticks
 		Floor current = world.getCurrentFloor();
+
+		if (world.getHasWon()) {
+			this.byteArrays.clear();
+			for (Room[] rooms : current.rooms()) {
+				for (Room room : rooms) {
+					if(room == null) {
+						continue;
+					}
+					byte[][] data = new byte[1][];
+					data[0] = new byte[1];
+					data[0][0] = PackageCode.Codes.GAME_WON.value();
+					this.byteArrays.put(room, data);
+				}
+			}
+			this.tickCounter++;
+			//TODO game winning code
+			return;
+		}
+
 		if (current.getSpawns() != null) {
 			for (SpawnRoom spawn : current.getSpawns()) {
 				spawn.tick();

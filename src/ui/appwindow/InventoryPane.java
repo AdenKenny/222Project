@@ -13,6 +13,13 @@ import javax.swing.JPanel;
 import Graphics.ImageCache;
 import gameWorld.item.Item;
 
+/**
+ * Pane for holding the images of a players inventory items.
+ * Responsible for responding to clicks.
+ *
+ * @author normanclin
+ *
+ */
 public class InventoryPane extends JPanel{
 	public static final float WIDTH_RATIO = 0.34f;
 	static int ROWS;

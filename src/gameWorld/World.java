@@ -97,6 +97,8 @@ public class World {
 	private ArrayList<Floor> floors;
 	private int currentFloor;
 
+	private boolean hasWon = false;
+
 	private Set<Character> players;
 
 	public World() {
@@ -129,10 +131,18 @@ public class World {
 	 * Moves the game to the next Floor.
 	 */
 	public void goUpFloor() {
+
 		++this.currentFloor;
+
+		if(this.currentFloor > this.floors.size()) {
+			--this.currentFloor;
+			this.hasWon = true;
+
+			System.out.println("YOU WIN!");
+		}
 		// Slay all players so that they get respawned in the new Floor's spawn
 		// room.
-		for (Character c : players) {
+		for (Character c : this.players) {
 			c.slay();
 		}
 	}
@@ -165,5 +175,9 @@ public class World {
 	 */
 	public Set<Character> getPlayers() {
 		return this.players;
+	}
+
+	public boolean getHasWon() {
+		return this.hasWon;
 	}
 }
