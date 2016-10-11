@@ -21,6 +21,7 @@ import gameWorld.Entity;
 import gameWorld.World;
 import gameWorld.World.Direction;
 import gameWorld.characters.Character;
+import gameWorld.item.Item;
 import gameWorld.objects.StationaryObject;
 import gameWorld.rooms.Room;
 
@@ -222,7 +223,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 	        }
         }
     }
-    
+
     /**
      * Default entity rendering method.
      * @param entity
@@ -239,7 +240,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         	renderHealthBar((Character) entity, data, graphics);
         }
     }
-    
+
     /**
      * Rendering method for players.
      * @param player
@@ -254,7 +255,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
         //Render a health bar.
         renderHealthBar((Character) player, data, graphics);
     }
-    
+
     /**
      * RenderData
      * @param character
@@ -280,13 +281,17 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	//Render in lower fourth of sprite's space.
     	int y = (int) (data.y + data.height * 0.75);
     	int height = (int) (data.height * 0.25);
-    	System.out.println(drop.getItem());
-    	String nameOfItem = Game.mapOfItems.get(drop.getItem()).getName();
+    	Item item = Game.mapOfItems.get(drop.getItem());
+    	if (item == null) {
+    		System.out.println("Item not found.");
+    		return;
+    	}
+    	String nameOfItem = item.getName();
     	graphics.drawImage(loadItemImage(nameOfItem), data.x, y, data.width, height, null);
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(drop, new RenderData(y, data.x, height, data.width)));
     }
-    
+
     private void renderChest(StationaryObject chest, RenderData data, Graphics graphics){
     	//Render in lower half of sprite's space.
     	int y = (int) (data.y + data.height * 0.5);
@@ -295,7 +300,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
     	// Create new RenderData to reflect the peculiar rendering of drops.
     	entityScreenLocations.add(new Bundle(chest, new RenderData(y, data.x, height, data.width)));
     }
-    
+
     private Image loadItemImage(String resourceName){
     	try {
 			return cache.getResource(resourceName);
@@ -303,7 +308,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 			return null;
 		}
     }
-    
+
 	private void renderWall(int sideDelta, int forwardDelta, Graphics graphics) {
 		RenderData location = calculateRenderDataFromRelativeDelta(sideDelta, forwardDelta);
 		try {

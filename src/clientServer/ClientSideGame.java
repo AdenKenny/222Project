@@ -235,7 +235,9 @@ public class ClientSideGame extends Thread implements Game {
 			int modelID = Sendable.bytesToInt(received, 7);
 			int xPos = Sendable.bytesToInt(received, 11);
 			int yPos = Sendable.bytesToInt(received, 15);
+			int item = Sendable.bytesToInt(received, 19);
 			StationaryObject toAdd = new StationaryObject(mapOfObjects.get(modelID), this.room, xPos, yPos, facing);
+			toAdd.setItem(item);
 			this.sendables.put(ID, toAdd);
 			this.room.entities()[yPos][xPos] = toAdd;
 			toAdd.setID(ID);
