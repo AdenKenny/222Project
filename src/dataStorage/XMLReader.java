@@ -114,7 +114,6 @@ public final class XMLReader implements XMLInteractable {
 
 					Logging.logEvent(XMLReader.class.getName(), Logging.Levels.SEVERE,
 							"Bad field (field \"" + exMes + "\" is not appropriate).");
-
 				}
 			}
 
