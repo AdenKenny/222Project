@@ -81,7 +81,7 @@ public class Floor {
 	 *
 	 * @return the previous Floor
 	 */
-	public Floor previousFloor() {
+	public Floor previousFloor() { //TODO this is never set.
 		return this.previousFloor;
 	}
 

@@ -25,7 +25,7 @@
 			<width>9</width>
 			<depth>9</depth>
 			<level>-1</level>
-			<entities>23000</entities>
+			<entities>23000, 2000</entities>
 		</room>
 		<room>
 			<playerSpawn>false</playerSpawn>

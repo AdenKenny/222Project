@@ -10,8 +10,7 @@ import gameWorld.Sendable;
 import gameWorld.World.Direction;
 
 /**
- * A class to represent a Room within a Floor. Each Room is made up of a grid of
- * Entities.
+ * A class to represent a Room within a Floor. Each Room is made up of a grid of Entities.
  *
  * @author Louis
  */
@@ -60,8 +59,7 @@ public class Room {
 	}
 
 	/**
-	 * Returns the Room immediately adjacent to this Room in the specified
-	 * Direction.
+	 * Returns the Room immediately adjacent to this Room in the specified Direction.
 	 *
 	 * @param direction
 	 * @return the Room in the Direction specified
@@ -93,8 +91,7 @@ public class Room {
 	}
 
 	/**
-	 * Sets whether this Room has a door on the wall in the given Direction or
-	 * not.
+	 * Sets whether this Room has a door on the wall in the given Direction or not.
 	 *
 	 * @param direction
 	 *            The Direction of the wall
@@ -106,8 +103,7 @@ public class Room {
 	}
 
 	/**
-	 * Returns the grid of Entities as a 2D array of Entities, with depth x
-	 * width Entities.
+	 * Returns the grid of Entities as a 2D array of Entities, with depth x width Entities.
 	 *
 	 * @return the Entities in this Room
 	 */
@@ -178,10 +174,9 @@ public class Room {
 	}
 
 	/**
-	 * Attempts to move the given Entity in the given Direction. If the given
-	 * Direction is relative, moves the Entity relative to the Direction it is
-	 * currently facing, otherwise moves the Entity in the absolute Direction
-	 * that is specified. Returns true if the move succeeds, false otherwise.
+	 * Attempts to move the given Entity in the given Direction. If the given Direction is relative, moves the Entity relative to the
+	 * Direction it is currently facing, otherwise moves the Entity in the absolute Direction that is specified. Returns true if the move
+	 * succeeds, false otherwise.
 	 *
 	 * @param entity
 	 *            The Entity to move
@@ -260,11 +255,12 @@ public class Room {
 		int targetY = entity.yPos() + changeY;
 		// movement between rooms
 		if (targetX < 0) {
-			if (targetY == depth / 2) {
+			if (targetY == this.depth / 2) {
 				Room targetRoom = this.neighbours.get(Direction.WEST);
+
 				if (targetRoom != null) {
-					if (targetRoom.entities[this.yPos][targetRoom.width - 1] == null) {
-						targetRoom.entities[this.yPos][targetRoom.width - 1] = entity;
+					if (targetRoom.entities[targetY][targetRoom.width - 1] == null) {
+						targetRoom.entities[targetY][targetRoom.width - 1] = entity;
 						this.entities[entity.yPos()][entity.xPos()] = null;
 						entity.setRoom(targetRoom);
 						entity.setXPos(targetRoom.width - 1);
@@ -274,11 +270,12 @@ public class Room {
 			}
 			return false;
 		} else if (targetX >= this.width) {
-			if (targetY == depth / 2) {
+			if (targetY == this.depth / 2) {
 				Room targetRoom = this.neighbours.get(Direction.EAST);
+
 				if (targetRoom != null) {
-					if (targetRoom.entities[this.yPos][0] == null) {
-						targetRoom.entities[this.yPos][0] = entity;
+					if (targetRoom.entities[targetY][0] == null) {
+						targetRoom.entities[targetY][0] = entity;
 						this.entities[entity.yPos()][entity.xPos()] = null;
 						entity.setRoom(targetRoom);
 						entity.setXPos(0);
@@ -288,11 +285,13 @@ public class Room {
 			}
 			return false;
 		} else if (targetY < 0) {
-			if (targetX == width / 2) {
+			if (targetX == this.width / 2) {
+
 				Room targetRoom = this.neighbours.get(Direction.NORTH);
+
 				if (targetRoom != null) {
-					if (targetRoom.entities[targetRoom.depth - 1][this.xPos] == null) {
-						targetRoom.entities[targetRoom.depth - 1][this.xPos] = entity;
+					if (targetRoom.entities[targetRoom.depth - 1][targetX] == null) {
+						targetRoom.entities[targetRoom.depth - 1][targetX] = entity;
 						this.entities[entity.yPos()][entity.xPos()] = null;
 						entity.setRoom(targetRoom);
 						entity.setYPos(targetRoom.depth - 1);
@@ -302,11 +301,13 @@ public class Room {
 			}
 			return false;
 		} else if (targetY >= this.depth) {
-			if (targetX == width / 2) {
+			if (targetX == this.width / 2) {
+
 				Room targetRoom = this.neighbours.get(Direction.SOUTH);
+
 				if (targetRoom != null) {
-					if (targetRoom.entities[0][this.xPos] == null) {
-						targetRoom.entities[0][this.xPos] = entity;
+					if (targetRoom.entities[0][targetX] == null) {
+						targetRoom.entities[0][targetX] = entity;
 						this.entities[entity.yPos()][entity.xPos()] = null;
 						entity.setRoom(targetRoom);
 						entity.setYPos(0);

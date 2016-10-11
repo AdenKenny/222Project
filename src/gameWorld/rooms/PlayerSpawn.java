@@ -10,7 +10,7 @@ import util.Buildable;
 
 /**
  * A class to represent Rooms which can spawn player Characters.
- * 
+ *
  * @author Louis
  */
 public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
@@ -42,6 +42,10 @@ public class PlayerSpawn extends Room implements SpawnRoom, Buildable {
 				}
 
 				this.entities[y][x] = player;
+
+				if (player.room() != null) {
+					player.room().entities[player.yPos()][player.xPos()] = null;
+				}
 
 				player.respawn(this, x, y, facing);
 			}

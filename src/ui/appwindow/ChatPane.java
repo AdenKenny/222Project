@@ -20,7 +20,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class ChatPane extends JPanel{
-	public static float WIDTH_RATIO = 0.33f; //fraction of display width used
+	public static final float WIDTH_RATIO = 0.33f; //fraction of display width used
 	private BottomPanel parent;
 	protected JTextPane textArea;
 	protected JScrollPane scroll;

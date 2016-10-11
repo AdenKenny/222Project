@@ -19,11 +19,11 @@ import Graphics.ImageCache;
 import gameWorld.item.Item;
 
 public class InventoryPane extends JPanel{
-	public static float WIDTH_RATIO = 0.34f;
-	public static int ROWS;
-	public static int COLS;
+	public static final float WIDTH_RATIO = 0.34f;
+	static int ROWS;
+	static int COLS;
 	private MainWindow client;
-	
+
 	private Item[][] items;
 	private ImageCache icons;
 	int colWidth;
@@ -84,7 +84,7 @@ public class InventoryPane extends JPanel{
 	}
 
 	/*
-	 * Add an item to the players inventory. 
+	 * Add an item to the players inventory.
 	 * Fills the first free space starting from top left to bottom right, moving left to right.
 	 * If no free spaces, no item will be added, although this method should not be called in that case.
 	 */

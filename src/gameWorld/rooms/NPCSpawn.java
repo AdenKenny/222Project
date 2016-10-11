@@ -26,7 +26,7 @@ public class NPCSpawn extends Room implements SpawnRoom {
 
 	public NPCSpawn(Floor floor, RoomBuilder builder) {
 		super(floor, builder);
-		CharacterModel model = ServerSideGame.mapOfCharacters.get(builder.getmodelID());
+		CharacterModel model = ServerSideGame.mapOfCharacters.get(builder.getModelID());
 		this.npc = new Character(null, -1, -1, Direction.NORTH, builder.getLevel(), model);
 		this.deathTime = -1;
 		this.wasAlive = false;

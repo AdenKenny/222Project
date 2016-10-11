@@ -177,7 +177,7 @@ public final class RoomBuilder {
 	 *
 	 * @return The ID of the NPC model
 	 */
-	public int getmodelID() {
+	public int getModelID() {
 		return this.modelID;
 	}
 
