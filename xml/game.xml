@@ -2,16 +2,6 @@
 <game>
   <players>
     <player>
-      <username>Aden</username>
-      <UID>12</UID>
-      <type>PLAYER</type>
-      <items>-1</items>
-      <health>28</health>
-      <xp>64</xp>
-      <gold>10</gold>
-      <level>1</level>
-      <equips/>
-    </player>
       <username>Arthas</username>
       <UID>9</UID>
       <type>PLAYER</type>
@@ -59,11 +49,11 @@
       <username>janef</username>
       <UID>298</UID>
       <type>PLAYER</type>
-      <items>-1</items>
-      <health>45</health>
-      <xp>81</xp>
-      <gold>43</gold>
-      <level>3</level>
+      <items>-1, 19</items>
+      <health>100</health>
+      <xp>76</xp>
+      <gold>27</gold>
+      <level>2</level>
       <equips/>
     </player>
   </players>
