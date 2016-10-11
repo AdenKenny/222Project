@@ -19,7 +19,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import dataStorage.XMLInteractable;
-import dataStorage.XMLInterface;
 import dataStorage.XMLReader;
 
 /**
@@ -49,12 +48,7 @@ public final class XMLWriter implements XMLInteractable {
 		String getName() {
 			return this.name;
 		}
-
-		/*
-		 * TODO This is really bad and needs to be changed. This uses ordinility.
-		 * This is really really bad and will be changed. //First noted on 21/9/16.
-		 * Seen again 28/9/16. Once again on the 06/10/16.
-		*/
+		
 		static Position getPos(int i) {
 			switch (i) {
 			case 0:
@@ -74,6 +68,8 @@ public final class XMLWriter implements XMLInteractable {
 	}
 
 	private Document doc;
+	
+	private static final boolean shouldLog = false; //If we should log creating xml.
 
 	public XMLWriter(String itemsFile, String itemsRead, String charsFile, String charsRead, String objectsFile, String objectsRead) {
 		writeItems(itemsFile, itemsRead);
@@ -138,14 +134,19 @@ public final class XMLWriter implements XMLInteractable {
 					character.appendChild(description);
 
 					String name = character.getElementsByTagName("name").item(0).getTextContent();
-					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
+					
+					if(shouldLog) {
+						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
 
+					}
+					
 					root.appendChild(character); // Append the new char to the root.
 
 				}
 			}
 
 			catch (IOException e) {
+				e.printStackTrace();
 			}
 
 			finally {
@@ -206,11 +207,18 @@ public final class XMLWriter implements XMLInteractable {
 					item.appendChild(desc);
 
 					String name = item.getElementsByTagName("name").item(0).getTextContent();
-					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
+				
+					if(shouldLog) {
+						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of item: " + name);
 
+					}
+					
 					root.appendChild(item); // Append the new item to the root.
 				}
-			} catch (IOException e) {
+			} 
+			
+			catch (IOException e) {
+				e.printStackTrace();
 			}
 
 			finally {
@@ -283,10 +291,12 @@ public final class XMLWriter implements XMLInteractable {
 					character.appendChild(description);
 
 					String name = character.getElementsByTagName("name").item(0).getTextContent();
-					Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
-
+					
+					if(shouldLog) {
+						Logging.logEvent(XMLWriter.class.getName(), Logging.Levels.EVENT, "Created XML of char: " + name);
+					}
+					
 					root.appendChild(character); // Append the new char to the root.
-
 				}
 			}
 
