@@ -13,7 +13,6 @@ import java.util.List;
 import gameWorld.Action;
 import gameWorld.Entity;
 import gameWorld.World.Direction;
-import gameWorld.characters.*;
 import gameWorld.characters.Character;
 import gameWorld.characters.Character.Type;
 import gameWorld.item.Item;
@@ -21,6 +20,13 @@ import gameWorld.rooms.Room;
 
 public class CharacterTests {
 
+	@Test
+	public void testBuilderBuilder() {
+		
+		//Builder
+		
+	}
+	
 	@Test
 	public void testPlayerBuilder() {
 		PlayerBuilder builder = new PlayerBuilder();
@@ -360,4 +366,4 @@ public class CharacterTests {
 
 		Item sellItem = Game.mapOfItems.get(player.getItems().get(0));
 	}
-}
+}

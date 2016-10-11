@@ -29,9 +29,9 @@ public final class Logging {
 	 */
 
 	public enum Levels {
-		SEVERE(0), 
-		WARNING(1), 
-		EVENT(2), 
+		SEVERE(0),
+		WARNING(1),
+		EVENT(2),
 		OTHER(3); // Is this needed?
 
 		private final int value;
@@ -57,20 +57,43 @@ public final class Logging {
 	public static void checkFile() {
 		File logFile = new File("logs/logs.log");
 
+		File logFolder = new File("logs");
+
+
+
 		Path path = logFile.toPath();
 
-		if (logFile.isFile()) { // Check to see if it already exists.
-			return;
+		if(logFolder.isDirectory()) {
+
+			if (logFile.isFile()) { // Check to see if it already exists.
+				return;
+			}
+
+			try {
+				Files.createFile(path); //Create the logging file.
+			}
+
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
-		try {
-			Files.createFile(path); //Create the logging file.
-		}
+		else {
+			logFolder.mkdir(); //Create directory.
 
-		catch (IOException e) {
-			e.printStackTrace();
-		}
 
+			if (logFile.isFile()) { // Check to see if it already exists.
+				return;
+			}
+
+			try {
+				Files.createFile(path); //Create the logging file.
+			}
+
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private static final File LOG_FILE = new File("logs/logs.log"); // The file
@@ -167,7 +190,7 @@ class LogEvent implements Comparable<LogEvent> {
 	 * the greater the priority. Note: (this.compareTo(LogEvent o) == 0) does
 	 * not imply that this and o are equal, nor does it imply that
 	 * (this.equals(o) == true). It only means that (this.level.equals(o.level).
-	 * 
+	 *
 	 * SEVERE > WARNING > EVENT > OTHER
 	 */
 

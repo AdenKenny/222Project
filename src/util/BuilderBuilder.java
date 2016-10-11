@@ -59,18 +59,16 @@ public final class BuilderBuilder {
 		case "Object":
 			return new ObjectBuilder();
 		case "Player":
-			throw new UnsupportedOperationException(); //Can't do. Send error up hierarchy.
+			throw new UnsupportedOperationException(new Throwable()); //Can't do. Send error up hierarchy.
 		case "Room":
-			throw new UnsupportedOperationException(); //Can't do. Send error up hierarchy.
+			throw new UnsupportedOperationException(new Throwable()); //Can't do. Send error up hierarchy.
 		case "Item":
 			return new ItemBuilder();
 		case "Character":
 			return new CharacterBuilder();
 		default:
-			break;
-		}
-		
-		return null;
+			throw new UnsupportedOperationException();
+		}	
 	}
 	
 	/**
