@@ -1,6 +1,6 @@
 package clientServer;
 
-public final class PackageCode {
+public abstract class PackageCode {
 
 	private PackageCode() { //This shouldn't be initialised.
 		throw new AssertionError();

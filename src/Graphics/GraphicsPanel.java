@@ -195,7 +195,7 @@ public class GraphicsPanel extends JPanel implements MouseListener, GameEventLis
 		        	//Calculate width of the healthbar.
 		        	int relativeHealth = ((Character) entity).getHealth() / ((Character) entity).getMaxHealth();
 		        	int healthbarWidth = (int) (relativeHealth * location.width);
-		        	//Draw the healthbar.
+		        	//Draw the healthbar
 		        	graphics.setColor(Color.green);
 		        	graphics.fillRect(location.x, location.y - 20, healthbarWidth, 20);
 		        }

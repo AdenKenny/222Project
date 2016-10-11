@@ -21,18 +21,13 @@ import util.Logging.Levels;
 public final class Logging {
 
 	/**
-	 * Enums representing the levels of events being sent to the server. SEVERE
-	 * should represent an error that we cannot recover from. WARNING should
-	 * represent an error that we can recover from. EVENT should represent any
-	 * other event such as user joining. OTHER should represent miscellaneous
-	 * events.
+	 * Enums representing the levels of events being sent to the server. SEVERE should represent an error that we cannot recover from.
+	 * WARNING should represent an error that we can recover from. EVENT should represent any other event such as user joining. OTHER should
+	 * represent miscellaneous events.
 	 */
 
 	public enum Levels {
-		SEVERE(0),
-		WARNING(1),
-		EVENT(2),
-		OTHER(3); // Is this needed?
+		SEVERE(0), WARNING(1), EVENT(2), OTHER(3); // Is this needed?
 
 		private final int value;
 
@@ -50,8 +45,7 @@ public final class Logging {
 	}
 
 	/**
-	 * Checks to see if the logging file actually exists, if it doesn't
-	 * create the logging file.
+	 * Checks to see if the logging file actually exists, if it doesn't create the logging file.
 	 */
 
 	public static void checkFile() {
@@ -59,18 +53,16 @@ public final class Logging {
 
 		File logFolder = new File("logs");
 
-
-
 		Path path = logFile.toPath();
 
-		if(logFolder.isDirectory()) {
+		if (logFolder.isDirectory()) {
 
 			if (logFile.isFile()) { // Check to see if it already exists.
 				return;
 			}
 
 			try {
-				Files.createFile(path); //Create the logging file.
+				Files.createFile(path); // Create the logging file.
 			}
 
 			catch (IOException e) {
@@ -79,15 +71,21 @@ public final class Logging {
 		}
 
 		else {
-			logFolder.mkdir(); //Create directory.
 
+			try {
+				assert(logFolder.mkdir()); // Create directory.
+			}
+
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
 
 			if (logFile.isFile()) { // Check to see if it already exists.
 				return;
 			}
 
 			try {
-				Files.createFile(path); //Create the logging file.
+				Files.createFile(path); // Create the logging file.
 			}
 
 			catch (IOException e) {
@@ -101,13 +99,11 @@ public final class Logging {
 																	// log to.
 
 	/**
-	 * Logs an event to the log file, this event will contain the time it was
-	 * logged at, the severity of the event, the class that the event was logged
-	 * in, and a message that can be specified.
+	 * Logs an event to the log file, this event will contain the time it was logged at, the severity of the event, the class that the event
+	 * was logged in, and a message that can be specified.
 	 *
 	 * @param className
-	 *            A string representing the name of the class that even was
-	 *            logged in.
+	 *            A string representing the name of the class that even was logged in.
 	 * @param level
 	 *            An enum representing the severity of an event.
 	 * @param message
@@ -138,8 +134,8 @@ public final class Logging {
 }
 
 /**
- * A class representing an event that will be logged to the output file. Note:
- * this class has a natural ordering that is inconsistent with equals.
+ * A class representing an event that will be logged to the output file. Note: this class has a natural ordering that is inconsistent with
+ * equals.
  *
  * @author Aden
  */
@@ -152,10 +148,8 @@ class LogEvent implements Comparable<LogEvent> {
 	private String className;
 
 	/**
-	 * Creates a LogEvent that can be outputed to the logging file. This
-	 * LogEvent will contain the time that the event was logged, the severity of
-	 * the event, the name of the class that the event was logged in, and a
-	 * message that is specified.
+	 * Creates a LogEvent that can be outputed to the logging file. This LogEvent will contain the time that the event was logged, the
+	 * severity of the event, the name of the class that the event was logged in, and a message that is specified.
 	 *
 	 * @param levelEnum
 	 *            The severity of the event.
@@ -174,8 +168,7 @@ class LogEvent implements Comparable<LogEvent> {
 	}
 
 	/**
-	 * Concatenates all the information and returns a full string that can then
-	 * be logged.
+	 * Concatenates all the information and returns a full string that can then be logged.
 	 *
 	 * @return A string representing a LogEvent with all relevant information.
 	 */
@@ -186,10 +179,9 @@ class LogEvent implements Comparable<LogEvent> {
 	}
 
 	/**
-	 * Compares a log event to another by severity. The more severe an event,
-	 * the greater the priority. Note: (this.compareTo(LogEvent o) == 0) does
-	 * not imply that this and o are equal, nor does it imply that
-	 * (this.equals(o) == true). It only means that (this.level.equals(o.level).
+	 * Compares a log event to another by severity. The more severe an event, the greater the priority. Note: (this.compareTo(LogEvent o) ==
+	 * 0) does not imply that this and o are equal, nor does it imply that (this.equals(o) == true). It only means that
+	 * (this.level.equals(o.level).
 	 *
 	 * SEVERE > WARNING > EVENT > OTHER
 	 */

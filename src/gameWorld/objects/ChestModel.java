@@ -9,11 +9,11 @@ import util.Buildable;
 
 /**
  * A class representing a chest in the game. Uses the super class ObjectModel for all it's stuff.
- * 
+ *
  * @author Aden
  */
 
-public class ChestModel extends ObjectModel implements Buildable {
+public class ChestModel extends ObjectModel {
 
 	public ChestModel(ObjectBuilder builder) {
 		super(builder);
@@ -33,9 +33,7 @@ public class ChestModel extends ObjectModel implements Buildable {
 
 	@Override
 	public int getValue() {
-
 		return super.getValue();
-
 	}
 
 	@Override
@@ -47,12 +45,12 @@ public class ChestModel extends ObjectModel implements Buildable {
 	public Type getType() {
 		return super.getType();
 	}
-	
+
 	@Override
 	public Set<Integer> getItems() {
 		return super.getItems();
 	}
-	
+
 	@Override
 	public void setItems(List<Integer> items) {
 		super.setItems(items);

@@ -19,9 +19,10 @@ import gameWorld.item.Item;
  *
  */
 
-public class BottomPanel extends JPanel{
-	public static float HEIGHT_RATIO = 0.2f; //height as proportion of window.
+public class BottomPanel extends JPanel {
+	public static final float HEIGHT_RATIO = 0.2f; // height as proportion of window.
 	protected MainWindow parent;
+
 	private ChatPane chatPane;
 	private StatsPane statPane;
 	private InventoryPane inventoryPane;

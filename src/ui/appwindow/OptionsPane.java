@@ -22,7 +22,7 @@ import gameWorld.Entity;
  */
 
 public class OptionsPane extends JPanel  {
-	public static int OPTION_HEIGHT = 20;
+	public static final int OPTION_HEIGHT = 20;
 	private static int OPTION_WIDTH = 150;
 	private MainWindow window;
 	private int x;
@@ -55,7 +55,7 @@ public class OptionsPane extends JPanel  {
 		this.revalidate();
 		this.setVisible(true);
 		repaint();
-		
+
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class OptionsPane extends JPanel  {
 
 		g.drawLine(0, 80, 150, 80);
 		g.drawLine(0, 100, 150, 100);
-		
+
 		//TODO: Once get actions works uncomment
 //		for(int i=0; i< latestOptions.size(); i++){
 //			g.drawLine(0, OPTION_HEIGHT*(i+1), 150, OPTION_HEIGHT*(i+1));
@@ -87,7 +87,7 @@ public class OptionsPane extends JPanel  {
 	public void selectOption(int y) {
 		int listItem = y/20;
 		System.out.println("Selected List item: " + listItem);
-		
+
 		//TODO: Once get actions works uncomment
 //		Action action = latestOptions.get(listItem);
 //		if(action.isClientAction()){
@@ -97,6 +97,6 @@ public class OptionsPane extends JPanel  {
 //		else{
 //			window.performActionOnEntity(clickedEntity.ID(), action.getID());
 //		}
-		
+
 	}
 }

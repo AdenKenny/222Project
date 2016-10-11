@@ -2,96 +2,102 @@ package util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import gameWorld.characters.CharacterBuilder;
 import gameWorld.item.ItemBuilder;
 import gameWorld.objects.ObjectBuilder;
 
 /**
- * A class to build a builder that builds other items.
- * The builder that we build here must implement 'AbstractBuilder'. No other builders are supported.
- * 
+ * A class to build a builder that builds other items. The builder that we build here must implement 'AbstractBuilder'. No other builders
+ * are supported.
+ *
  * That's a lot of builders.
- * 
+ *
  * @author Aden
  */
 
 public final class BuilderBuilder {
-	
-	private Map<String, String> fields; //A map representing the fields in the builder that will be built.
-	private String type; //The type of the builder we will build with this class.
-	
+
+	private Map<String, String> fields; // A map representing the fields in the builder that will be built.
+	private String type; // The type of the builder we will build with this class.
+
 	/**
-	 * Creates a BuilderBuilder, an object that will create a Builder that implements 'AbstractBuilder'.
-	 * Requires a string representing the type of object we want to build i.e "Character" for a 'CharacterBuilder'.
-	 * 
-	 * @param type The type of object we want to build.
+	 * Creates a BuilderBuilder, an object that will create a Builder that implements 'AbstractBuilder'. Requires a string representing the
+	 * type of object we want to build i.e "Character" for a 'CharacterBuilder'.
+	 *
+	 * @param type
+	 *            The type of object we want to build.
 	 */
-	
+
 	public BuilderBuilder(String type) {
 		this.fields = new HashMap<>();
 		this.type = type;
 	}
-	
+
 	/**
-	 * Adds a field to our builder that we will build with this builder that we are building.
-	 * That's a bit of a mouthful.
-	 * 
-	 * @param key A string representing the name of the field. I.e. "ID" or "name".
-	 * @param value A string representing the value of the field we are building.
+	 * Adds a field to our builder that we will build with this builder that we are building. That's a bit of a mouthful.
+	 *
+	 * @param key
+	 *            A string representing the name of the field. I.e. "ID" or "name".
+	 * @param value
+	 *            A string representing the value of the field we are building.
 	 */
-	
+
 	public void addField(String key, String value) {
 		this.fields.put(key, value);
 	}
-	
+
 	/**
-	 * Gets the type of builder we want to build. This is got from the type that was specified
-	 * when we created the instance of this class (BuilderBuilder).
-	 * 
+	 * Gets the type of builder we want to build. This is got from the type that was specified when we created the instance of this class
+	 * (BuilderBuilder).
+	 *
 	 * @return A builder of the required type.
-	 * @throws UnsupportedOperationException Thrown if the type is Room or Player. Neither of these can be
-	 * 										 built this way. Should be caught by a method calling this method.
+	 * @throws UnsupportedOperationException
+	 *             Thrown if the type is Room or Player. Neither of these can be built this way. Should be caught by a method calling this
+	 *             method.
 	 */
-	
+
 	public AbstractBuilder getType() throws UnsupportedOperationException {
-		switch(this.type) { 
+		switch (this.type) {
 		case "Object":
 			return new ObjectBuilder();
 		case "Player":
-			throw new UnsupportedOperationException(new Throwable()); //Can't do. Send error up hierarchy.
+			throw new UnsupportedOperationException(new Throwable()); // Can't do. Send error up hierarchy.
 		case "Room":
-			throw new UnsupportedOperationException(new Throwable()); //Can't do. Send error up hierarchy.
+			throw new UnsupportedOperationException(new Throwable()); // Can't do. Send error up hierarchy.
 		case "Item":
 			return new ItemBuilder();
 		case "Character":
 			return new CharacterBuilder();
 		default:
 			throw new UnsupportedOperationException();
-		}	
+		}
 	}
-	
+
 	/**
 	 * Builds a builder of the type specified when the BuilderBuilder was created. The builder
 	 * will build with the fields that we passed to it using the the 'addField()' method.
-	 * 
+	 *
 	 * This method should catch lower level exceptions and then throw higher level exceptions that should be caught
-	 * in the XML classes. 
-	 * 
+	 * in the XML classes.
+	 *
 	 * @return A builder with which we can use to build the object (that should implement 'Buildable') that we want to build.
-	 * 
+	 *
 	 * @throws UnsupportedOperationException Thrown if we're using BuilderBuilder to create unsupported builders.
 	 * @throws IllegalArgumentException Thrown if we try to add fields that should not be added to a specific builder.
 	 */
-	
+
 	public AbstractBuilder build() throws UnsupportedOperationException, IllegalArgumentException {
-		
+
 		try {
 			AbstractBuilder builder = getType(); //Get the builder that we will work on.
-			
-			for(String s : this.fields.keySet()) { //Go through the fields.
+
+			for(Entry<String, String> entry : this.fields.entrySet()) { //Go through the fields.
+
+				String s = entry.getKey();
+
 				switch(s) {
-				
 				case "ID":
 					builder.setID(this.fields.get(s));
 					break;
@@ -123,14 +129,14 @@ public final class BuilderBuilder {
 					break;
 				}
 			}
-			
+
 			return builder; //Return our builder.
 		}
-		
-		catch (UnsupportedOperationException e) { //RoomBuilder or PlayerBuilder should not be built this way. 
+
+		catch (UnsupportedOperationException e) { //RoomBuilder or PlayerBuilder should not be built this way.
 			throw e;
 		}
-		
+
 		catch (IllegalArgumentException e) { //This is an irrelevant field for this builder.
 			throw e;
 		}

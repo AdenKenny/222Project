@@ -18,7 +18,7 @@ import gameWorld.rooms.Room;
  *
  */
 public class InfoPane extends JPanel {
-	public static int HEIGHT = 40;
+	public static final int HEIGHT = 40;
 
 	private JButton logoutButton;
 	private JLabel floorLabel;

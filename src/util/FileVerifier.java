@@ -11,7 +11,7 @@ import java.util.List;
  * Verifies to make sure all files exist. Will create them if they don't exist.
  * There will still be errors even if it does create the files as there will be
  * no text to read from.
- * 
+ *
  * @author Aden
  */
 
@@ -20,7 +20,7 @@ public final class FileVerifier {
 	private static FileVerifier INSTANCE = null;
 
 	private FileVerifier() {
-		
+
 	}
 
 	public static synchronized FileVerifier getInstance() { // Singleton.
@@ -34,7 +34,7 @@ public final class FileVerifier {
 	/**
 	 * Checks to make sure all needed files for the game to run exist.
 	 */
-	
+
 	public void checkFiles() {
 		String xmlPath = "xml"; //The name of the xml file.
 
@@ -45,16 +45,24 @@ public final class FileVerifier {
 		}
 
 		else { // Create a folder.
-			xmlFile.mkdir();
+
+			try {
+				assert(xmlFile.mkdir());
+			}
+
+			catch(SecurityException e) {
+				e.printStackTrace();
+			}
+
 			makeFiles(); //Now check for stuff in folder.
 		}
 	}
-	
+
 	/**
 	 * Checks for the needed files inside of the xml file. If they don't exist they will be created.
 	 */
 
-	private void makeFiles() { 
+	private void makeFiles() {
 		String xmlPath = "xml";
 		String xmlPath2 = "xml/";
 
@@ -84,21 +92,21 @@ public final class FileVerifier {
 						Files.createFile(temp.toPath()); //Create the new file we need.
 					}
 
-					catch (IOException e) { 
+					catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		}
-		
+
 		else {
 			for(String temp : fileNames) { //No files exist.
 				File tmpFile = new File(xmlPath2 + "/" + temp);
-				
+
 				try {
 					Files.createFile(tmpFile.toPath()); //Create the file.
 				}
-				
+
 				catch (IOException e) {
 					e.printStackTrace();
 				}
