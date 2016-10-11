@@ -93,6 +93,7 @@ public class InventoryPane extends JPanel{
 			for(int j=0; j<COLS; j++){
 				if(items[i][j] == null){
 					items[i][j] = item;
+					this.repaint();
 					return;
 				}
 			}
@@ -125,7 +126,6 @@ public class InventoryPane extends JPanel{
 						Image icon = icons.getImage(items[i][j].getName());
 						g.drawImage(icon, colWidth*j, rowHeight*i, colWidth, rowHeight, null);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
