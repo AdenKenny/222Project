@@ -23,6 +23,12 @@ import userHandling.User;
 import util.FileVerifier;
 import util.Logging;
 
+/**
+ * The server side version of the game
+ *
+ * @author popesimo
+ *
+ */
 public class ServerSideGame implements Game {
 
 	private static final Map<String, Character> players = new HashMap<>();

@@ -9,6 +9,12 @@ import java.util.Set;
 
 import util.Logging;
 
+/**
+ * The main class for the server, which most things are run off
+ *
+ * @author popesimo
+ *
+ */
 public class Server {
 
 	public static final int PORT = 32700;

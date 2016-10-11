@@ -3,7 +3,7 @@ package clientServer;
 /**
  * A class holding enums that are used for identifying packages and their contents.
  *
- * @author kennyaden - 300334300
+ * @author popesimo and kennyaden - 300334300
  */
 
 public final class PackageCode {
