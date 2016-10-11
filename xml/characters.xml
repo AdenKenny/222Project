@@ -5,7 +5,7 @@
     <name>goblin</name>
     <type>MONSTER</type>
     <value>2</value>
-    <items>32, 15, 51, 52</items>
+    <items>32, 15</items>
     <description>A small green creature</description>
   </character>
   <character>
