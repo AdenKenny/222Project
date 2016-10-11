@@ -118,7 +118,7 @@ public class Login extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Run registration for user
-				slave.newUser(userField.getText().trim(), new String(passField.getPassword()));
+				slave.newUser(userField.getText().trim(), passField.getPassword());
 				passField.setText("");
 			}
 		});
@@ -130,7 +130,7 @@ public class Login extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Attempt Login
-				slave.login(userField.getText().trim(), new String(passField.getPassword()));
+				slave.login(userField.getText().trim(), passField.getPassword());
 				passField.setText("");
 			}
 		});
