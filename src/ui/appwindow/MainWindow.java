@@ -174,13 +174,22 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 	}
 
 	@Override
-	public void displayItemOptions(Entity entity, int x, int y) {
-		optionsPane.displayAndDrawList(x, y, entity);
+	public void displayEntityOptions(Entity entity, int x, int y) {
+		optionsPane.displayAndDrawEntityList(x, y, entity);
+	}
+
+	@Override
+	public void displayItemOptions(Item item, int x, int y) {
+		optionsPane.displayAndDrawItemList(x, y, item);
 	}
 
 	@Override
 	public void performActionOnEntity(Entity entity, String actionName) {
 		this.slave.performActionOnEntity(entity, actionName);
+	}
+
+	public void performActionOnItem(Item clickedItem, String name) {
+		//this.slave.performActionOnItem(clickedItem, name); //TODO: implement
 	}
 
 	/*
@@ -333,4 +342,5 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.initComponents();
 		main.waitForGame();
 	}
+
 }

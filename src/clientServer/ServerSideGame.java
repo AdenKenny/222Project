@@ -53,6 +53,7 @@ public class ServerSideGame implements Game {
 			}
 		}
 
+
 		//FileVerifier.getInstance().checkFiles();
 
 		this.connectedPlayers = new HashMap<>();

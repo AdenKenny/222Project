@@ -23,14 +23,14 @@ public class StatsPane extends JPanel{
 	public static final int LEVEL = 4;
 	public static final int EXP_FOR_LEVEL = 5;
 	public static final int DAMAGE = 6;
-	
+
 	private int health= 70;
 	private int maxHealth= 100;
 	private int exp=20;
 	private int expForLevel=100;
 	private int level;
 	private int damage;
-	
+
 	private boolean showStats = false;  //Tells paint() that there is relevant data loaded from player class.
 
 	public StatsPane(){
@@ -67,9 +67,9 @@ public class StatsPane extends JPanel{
 			//Level and damage text
 			g.setColor(Color.black);
 			g.setFont(new Font("Combat Level: "+level, Font.BOLD, 20));
-			g.drawString("Combat Level: "+level, getWidth()/2-80, 30);
-			g.setFont(new Font("Damage: "+damage, Font.BOLD, 15));
-			g.drawString("Damage: " + damage, getWidth()/2-40, 60);
+			g.drawString("Combat Level: "+level, getWidth()/2-100, 30);
+			g.setFont(new Font("Damage: "+damage, Font.BOLD, 20));
+			g.drawString("Damage: " + damage, getWidth()/2-80, 60);
 
 
             Graphics2D g2 = (Graphics2D) g;
@@ -108,10 +108,10 @@ public class StatsPane extends JPanel{
 			break;
 		}
 	}
-	
+
 	private void setDamage(int value) {
 		this.damage=value;
-		
+
 	}
 
 	protected void setHealth(int health) {
@@ -146,7 +146,7 @@ public class StatsPane extends JPanel{
 	/**
 	 * Updates the stats pane to reflect any changes to the specified
 	 * Character's statistics.
-	 * 
+	 *
 	 * @param player
 	 *            The Character whose stats are being displayed
 	 */
