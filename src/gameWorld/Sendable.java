@@ -2,6 +2,8 @@ package gameWorld;
 
 import java.nio.ByteBuffer;
 
+import gameWorld.rooms.Room;
+
 /**
  * An interface which allows Objects to be translated into byte arrays which can
  * be sent along a network, then parsed back from the bytes.
@@ -11,13 +13,13 @@ import java.nio.ByteBuffer;
 public interface Sendable {
 
 	/**
-	 * An enumeration which represents the different types of Characters which
+	 * An enumeration which represents the different types of sendables which
 	 * may be sent across the network.
 	 *
 	 * @author Simon & Louis
 	 */
 	public static enum Types {
-		MONSTER, VENDOR, PLAYER;
+		MONSTER, VENDOR, PLAYER, FURNITURE, CHEST, DOOR, DROP;
 
 		public byte value() {
 			return (byte) ordinal();
@@ -83,5 +85,13 @@ public interface Sendable {
 
 	public int getID();
 
+	public void setID(int id);
+
 	public String getName();
+
+	public void setXPos(int xPos);
+
+	public void setYPos(int yPos);
+
+	public void setRoom(Room room);
 }

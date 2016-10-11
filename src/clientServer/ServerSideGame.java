@@ -62,10 +62,12 @@ public class ServerSideGame implements Game {
 
 	@Override
 	public synchronized void tick() {
+		//do any movement commands for players
 		for (Player player : this.connectedPlayers.values()) {
 			player.doMovement();
 		}
 
+		//do spawn ticks
 		Floor current = world.getCurrentFloor();
 		if (current.getSpawns() != null) {
 			for (SpawnRoom spawn : current.getSpawns()) {

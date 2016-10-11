@@ -15,8 +15,10 @@ public class Tick extends Thread {
 		while(true) {
 			// Loop forever
 			try {
-				Thread.sleep(delay);
+				long start = System.currentTimeMillis();
 				this.game.tick();
+				long end = System.currentTimeMillis();
+				Thread.sleep(delay - (int)(end - start));
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}
