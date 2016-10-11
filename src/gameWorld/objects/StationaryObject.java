@@ -16,7 +16,7 @@ public class StationaryObject extends Entity {
 	}
 
 	private Type type;
-	private Set<Integer> items;
+	private int item;
 	private int modelID;
 
 	// private boolean isOpen;
@@ -26,7 +26,7 @@ public class StationaryObject extends Entity {
 		super(room, xPos, yPos, model.getName(), model.getDescription(), facing);
 
 		this.type = model.getType();
-		this.items = model.getItems();
+		this.item = model.getItem();
 		this.modelID = model.getID();
 
 		// this.isOpen = false;
@@ -65,17 +65,17 @@ public class StationaryObject extends Entity {
 	 * Opens this StationaryObject and removes it from the game, then returns
 	 * the ID of an Item that was contained within it. Should only be called on
 	 * StationaryObjects of Types CHEST or DROP.
-	 * 
+	 *
 	 * @return The ID of the Item in this StationaryObject
 	 */
-	public Integer open() {
+	public int open() {
 		this.room.entities()[this.yPos][this.xPos] = null;
-		return this.items.toArray(new Integer[this.items.size()])[0];
+		return this.item;
 	}
 
 	/**
 	 * Returns the Type of this StationaryObject.
-	 * 
+	 *
 	 * @return This StationaryObject's Type.
 	 */
 	public Type getType() {
@@ -83,18 +83,17 @@ public class StationaryObject extends Entity {
 	}
 
 	/**
-	 * Returns the Set of Integer containing all the IDs representing the Items
-	 * in this StationaryObject.
-	 * 
+	 * Returns the integer representing the Item in this StationaryObject.
+	 *
 	 * @return This StationaryObject's Items.
 	 */
-	public Set<Integer> getItems() {
-		return this.items;
+	public int getItem() {
+		return this.item;
 	}
 
 	/**
 	 * Returns the ID of the model that this StationaryObject is based on.
-	 * 
+	 *
 	 * @return This StationaryObject's model's ID.
 	 */
 	public int getModelID() {
