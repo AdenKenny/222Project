@@ -29,10 +29,11 @@ public class OptionsPane extends JPanel  {
 	private MainWindow window;
 	private int x;
 	private int y;
-	private Entity clickedEntity;
+	private Entity clickedEntity; //clicked item or clicked entity must be null.
+	private Item clickedItem;
 	private List<Action> latestOptions;
 	private MouseListener clickListener;
-	private Item clickedItem;
+
 
 	public OptionsPane(MainWindow window) {
 		this.window = window;
@@ -63,7 +64,7 @@ public class OptionsPane extends JPanel  {
 	}
 
 	public void displayAndDrawItemList(int x, int y, Item item) {
-		this.latestOptions = item.getActions();
+		this.latestOptions = item.actions();
 		// make sure bounds are within main window
 		if (x + OPTION_WIDTH > window.getWidth()) {
 			x = window.getWidth() - OPTION_WIDTH;
@@ -113,7 +114,7 @@ public class OptionsPane extends JPanel  {
 				window.performActionOnEntity(clickedEntity, action.name());
 			}
 			else if(clickedItem !=null)
-			window.performActionOnItem(clickedItem, action.name());
+				window.performActionOnItem(clickedItem, action.name());
 		}
 	}
 }

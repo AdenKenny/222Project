@@ -188,6 +188,10 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		this.slave.performActionOnEntity(entity, actionName);
 	}
 
+	public void performActionOnItem(Item clickedItem, String name) {
+		//this.slave.performActionOnItem(clickedItem, name); //TODO: implement
+	}
+
 	/*
 	 * Methods for implementing key listener for game movement.
 	 */
@@ -338,4 +342,5 @@ public class MainWindow extends JFrame implements ClientUI, KeyListener {
 		main.initComponents();
 		main.waitForGame();
 	}
+
 }

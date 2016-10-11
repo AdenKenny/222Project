@@ -27,6 +27,8 @@ public interface ClientUI {
 
 	public void performActionOnEntity(Entity entity, String actionName);
 
+	public void performActionOnItem(Item clickedItem, String name);
+
 	void displayItemOptions(Item item, int x, int y);
 
 }
